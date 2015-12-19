@@ -1,5 +1,5 @@
 'use strict';
-var componentsPath = "app/components";
+var componentsPath = "../../components";
 var path = require('path');
 
 var buildComponentPath = function (url) {
@@ -18,9 +18,9 @@ module.exports = function(app) {
     var locale = res.locals.locale;
 
     var componentPath = buildComponentPath(req.originalUrl);
-    var component = require(componentPath)(locale);
+    var component = require(componentPath);
 
-    component.render(function(renderedComponent){
+    component.render(locale, function(renderedComponent){
       res.send(renderedComponent);
     });
   });
