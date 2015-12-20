@@ -1,22 +1,15 @@
 'use strict';
-var _ = require('lodash');
 var componentPath = __dirname;
-var componentLoader = require('component-loader');
-var templateRender = require('renderers').renderTemplate
+var renderComponent = require('renderers').renderComponent;
 
-var config = {};
-
-var renderComponent = function (locale, callback){
-  componentLoader.load(componentPath, locale, function(template, translations){
-    var templateData = {};
-
-    _.merge(templateData, translations);
-
-    var renderedComponent = templateRender(template, templateData);
-    callback(renderedComponent);
+var loadData = function (callback) {
+  callback(null, {
+    "USER_NAME": "Chris"
   });
 };
 
-module.exports =  {
-  render: renderComponent
+module.exports = {
+  render: function(locale, callback){
+    renderComponent(componentPath, locale, loadData, callback);
+  }
 };

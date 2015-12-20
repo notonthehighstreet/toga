@@ -1,29 +1,15 @@
 'use strict';
-var _ = require('lodash');
 var componentPath = __dirname;
-var componentLoader = require('component-loader');
-var templateRender = require('renderers').renderTemplate
+var renderComponent = require('renderers').renderComponent;
 
-var config = {};
-
-var renderComponent = function (locale, callback){
-  componentLoader.load(componentPath, locale, function(template, translations){
-    var templateData = {};
-
-    _.merge(templateData, getData());
-    _.merge(templateData, translations);
-
-    var renderedComponent = templateRender(template, templateData);
-    callback(renderedComponent);
+var loadData = function (callback) {
+  callback(null, {
+    "CURRENT_YEAR": new Date().getUTCFullYear()
   });
 };
 
-var getData = function (callback) {
-  return {
-    "CURRENT_YEAR": new Date().getUTCFullYear()
-  }
-};
-
 module.exports = {
-  render: renderComponent
+  render: function(locale, callback){
+    renderComponent(componentPath, locale, loadData, callback);
+  }
 };

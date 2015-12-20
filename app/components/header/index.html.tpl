@@ -1,1 +1,1 @@
-<h1>{{CONTENT}}</h1>
+<h1>{{HEADER_TEXT}}{{USER_NAME}}</h1>
