@@ -15,5 +15,8 @@
     "express": "^4.13.3",
     "handlebars": "^4.0.5",
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3"
   }
 }
