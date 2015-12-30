@@ -1,10 +1,10 @@
 'use strict';
+
 var componentPath = __dirname;
 var renderComponent = require('renderers').renderComponent;
-
 var loadData = function (callback) {
   callback(null, {
-    "USER_NAME": "Chris"
+    'USER_NAME': 'Chris'
   });
 };
 
