@@ -1,8 +1,6 @@
-'use strict';
+const express = require('express');
+const router = express.Router();
 
-var express = require('express');
+router.use(express.static('public'));
 
-module.exports = function(app) {
-  app.use(express.static('public'));
-  return app;
-};
+module.exports = router;

@@ -1,8 +1,9 @@
-'use strict';
+const express = require('express');
+const appRouter = express.Router();
+const publicRouter = require('./public');
+const componentsRouter = require('./components');
 
-module.exports = function(app) {
-  require('./public')(app);
-  require('./components')(app);
+appRouter.use(publicRouter);
+appRouter.use(componentsRouter);
 
-  return app;
-};
+module.exports = appRouter;

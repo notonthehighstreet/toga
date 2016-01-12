@@ -1,18 +1,16 @@
-'use strict';
+require('babel-core/register');
+const express = require('express');
+const app = express();
 
-var express = require('express');
-var app = express();
-
-var i18n = require('i18n');
+const i18n = require('i18n');
 app.use(i18n.middleware);
-
-var routes = require('./app/routes')(app);
+app.use(require('./app/routes'));
 
 app.set('views', './public');
 
-var server = app.listen(8888, function () {
-  var host = server.address().address;
-  var port = server.address().port;
+const server = app.listen(8888, () => {
+  const host = server.address().address;
+  const port = server.address().port;
 
   console.log('Example app listening at http://%s:%s', host, port);
 });
