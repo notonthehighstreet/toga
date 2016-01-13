@@ -2,4 +2,4 @@
   {{{componentDOM}}}
 </div>
 
-<link rel="stylesheet" type="text/css" href="{{componentPath}}/styles.css?scopeId={{scopeId}}"/>
+<link rel="stylesheet" type="text/css" href="{{componentPath}}/styles.css?scopeid={{scopeId}}"/>

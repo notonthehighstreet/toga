@@ -1,10 +1,8 @@
-var webpack = require("webpack");
-
 module.exports = {
   entry: {
-    "footer-copyright":     ["./app/components/footer/copyright/index.js"],
+    'footer-copyright': ['./app/components/footer/copyright/index.js']
   },
   output: {
-    filename: "./public/[name]/component-bundle.js"
+    filename: './public/[name]/component-bundle.js'
   }
 };
