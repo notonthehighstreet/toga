@@ -1,5 +1,5 @@
-<div id="react-main-mount">
+<div id="comp-{{scopeId}}">
   {{{componentDOM}}}
 </div>
 
-<link rel="stylesheet" type="text/css" href="{{componentPath}}/styles.css"/>
+<link rel="stylesheet" type="text/css" href="{{componentPath}}/styles.css?scopeId={{scopeId}}"/>
