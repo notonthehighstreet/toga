@@ -8,7 +8,7 @@ app.use(require('./app/routes'));
 
 app.set('views', './public');
 
-const server = app.listen(8888, () => {
+const server = app.listen(8080, "0.0.0.0", () => {
   const host = server.address().address;
   const port = server.address().port;
 
