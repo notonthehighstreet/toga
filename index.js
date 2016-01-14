@@ -1,10 +1,8 @@
 require('babel-core/register');
 const express = require('express');
 const app = express();
-const i18n = require('i18n');
 const debug = require('debug')('toga');
 
-app.use(i18n.middleware);
 app.use(require('./lib/routes'));
 app.set('views', './public');
 

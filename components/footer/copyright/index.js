@@ -1,21 +1,31 @@
 const React = require('react');
-const ReactDom = require('react-dom/server');
-const Polyglot = require('node-polyglot');
-const phrases = require('./i18n.json');
 const Copyright = React.createClass({
-  render: function() { //TODO include the `t` function more like in a React way plx
+  render() { //TODO include the `t` function more like in a React way plx
     return (
-      <div className="copyright">&copy; 2016 - {this.props.t('THANKS')}</div>
+      <div
+        className={`copyright ${this.state.BOOM ? 'boom' : ''}`}
+        onMouseOver={this.onMouseOver}
+        onMouseOut={this.onMouseOut}
+      >
+        &copy; 2016 - {this.props.t('THANKS')}
+      </div>
     );
+  },
+  getInitialState() {
+    return {
+      'BOOM': false
+    };
+  },
+  onMouseOver() {
+    this.setState({
+      'BOOM': true
+    });
+  },
+  onMouseOut() {
+    this.setState({
+      'BOOM': false
+    });
   }
 });
 
-exports.render = (options, callback) => {
-  const polyglot = new Polyglot({
-    phrases: phrases[options.locale]
-  });
-  const t = polyglot.t.bind(polyglot);
-  const html = ReactDom.renderToString(<Copyright t={t}/>);
-
-  callback(html);
-};
+module.exports = Copyright;
