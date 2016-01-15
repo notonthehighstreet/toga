@@ -4,6 +4,7 @@
   "description": "A modular set of components and pages for the Notonthehighstreet frontend which are exposed as either raw assets or pre-rendered.",
   "main": "index.js",
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
+  "engine": "node >= 4.2.3",
   "scripts": {
     "start": "node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
