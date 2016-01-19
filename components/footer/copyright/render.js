@@ -1,6 +1,6 @@
 const Copyright = require('./');
 const phrases = require('./i18n.json');
-const render = require('toga-component/render-react');
+const render = require('toga-component').renderReact;
 
 module.exports = ({locale}, callback) => {
   const html = render({

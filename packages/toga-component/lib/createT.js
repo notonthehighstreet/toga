@@ -1,7 +1,11 @@
-const Polyglot = require('node-polyglot');
+'use strict';
 
-module.exports = ({phrases}) => {
-  const polyglot = new Polyglot({phrases});
+var Polyglot = require('node-polyglot');
+
+module.exports = function (_ref) {
+  var phrases = _ref.phrases;
+
+  var polyglot = new Polyglot({ phrases: phrases });
 
   return polyglot.t.bind(polyglot);
-}
+};
