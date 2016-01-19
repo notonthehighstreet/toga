@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/babel-cli/bin/babel.js -d lib src"
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.4.0"
+  },
   "dependencies": {
     "node-polyglot": "^1.0.0"
   }

@@ -1,4 +1,4 @@
-const bootstrap = require('toga-component/bootstrap-react');
+const bootstrap = require('toga-component').bootstrapReact;
 
 bootstrap({
   phrases: require('./i18n.json')[BUNDLE_LOCALE],

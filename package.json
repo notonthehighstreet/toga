@@ -40,6 +40,7 @@
     "webpack": "^1.12.11"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
     "mocha": "^2.3.4",
