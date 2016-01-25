@@ -2,6 +2,6 @@ const bootstrap = require('toga-component').bootstrapReact;
 
 bootstrap({
   phrases: require('./i18n.json')[BUNDLE_LOCALE],
-  component: require('./'),
+  component: require('./index'),
   scopeId: SCOPE_ID
 });

@@ -1,1 +1,0 @@
-<h1>{{HEADER_TEXT}}{{USER_NAME}}</h1>

@@ -1,4 +1,4 @@
-const Copyright = require('./');
+const Copyright = require('./index');
 const phrases = require('./i18n.json');
 const render = require('toga-component').renderReact;
 
