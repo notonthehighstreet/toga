@@ -9,6 +9,7 @@ var glob = '**/*\.spec.js';
 
 var mochaArgs = [
   'spec/' + glob,
+  'components/' + glob,
   '--compilers', 'js:babel-core/register',
   '--reporter', argv.reporter,
   '--require', './spec/specHelper.js'
