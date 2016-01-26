@@ -12,6 +12,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js ."
   },
   "babel": {
+    "sourceMaps": "inline",
     "plugins": [
       "transform-react-jsx"
     ],
