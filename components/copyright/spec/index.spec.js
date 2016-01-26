@@ -6,19 +6,16 @@ const expect = require('chai').expect;
 describe('copyright component', () => {
   let Copyright;
   let sandbox;
-  let t;
   let renderedComponent;
   let componentDOM;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    t = sandbox.stub();
-    t.returns('translated text');
   });
 
   beforeEach(() => {
-    Copyright = require('../');
-    renderedComponent = TestUtils.renderIntoDocument(<Copyright t={t} />);
+    Copyright = require('../')();
+    renderedComponent = TestUtils.renderIntoDocument(<Copyright/>);
     componentDOM = TestUtils.findRenderedDOMComponentWithTag(renderedComponent, 'div');
   });
 

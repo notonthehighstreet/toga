@@ -1,0 +1,10 @@
+{
+  "javascripts": [
+    "http://localhost:8080/footer/bootstrap.js",
+    "http://localhost:8080/component-vendor-bundle.js"
+  ],
+  "styles": [
+    "http://localhost:8080/footer/styles.css"
+  ],
+  "html": "http://localhost:8080/footer/index.html"
+}
