@@ -3,7 +3,7 @@ const Copyright = React.createClass({
   render() { //TODO include the `t` function more like in a React way plx
     return (
       <div
-        className={`copyright ${this.state.BOOM ? 'boom' : ''}`}
+        className={`copyright${this.state.BOOM ? ' boom' : ''}`}
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
       >
