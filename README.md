@@ -4,4 +4,4 @@
 
 Run all the Tests `npm test`
 
-Run the tests and watch for changes `npm test -- --watch=true`
+Run the tests and watch for changes `npm test -- --watch`
