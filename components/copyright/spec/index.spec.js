@@ -37,7 +37,7 @@ describe('copyright component', () => {
       beforeEach(() => {
         TestUtils.Simulate.mouseOut(componentDOM);
       });
-      it('renders without a boom class', () => {        
+      it('renders without a boom class', () => {
         expect(componentDOM.className).to.equal('copyright');
       });
     });
