@@ -1,6 +1,7 @@
-.copyright {
+.toga-copyright {
   border: 1px solid #ddd;
-}
-.boom {
-  background: red;
+
+  &.boom {
+    background: red;
+  }
 }
