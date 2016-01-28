@@ -1,4 +1,5 @@
 {
+  "name": "copyright",
   "javascripts": [
     "http://localhost:8080/copyright/bootstrap.js",
     "http://localhost:8080/component-vendor-bundle.js"
@@ -6,5 +7,6 @@
   "styles": [
     "http://localhost:8080/copyright/styles.css"
   ],
-  "html": "http://localhost:8080/copyright/index.html"
+  "html": "http://localhost:8080/copyright/index.html",
+  "children": []
 }

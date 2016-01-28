@@ -8,7 +8,7 @@ module.exports = ({locale} = {locale: 'en'}) => {
     render() {
       return (
         <div
-          className={`copyright${this.state.BOOM ? ' boom' : ''}`}
+          className={`toga-copyright${this.state.BOOM ? ' boom' : ''}`}
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
         >

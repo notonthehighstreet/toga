@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.4.0"
+    "babel-cli": "^6.4.0",
+    "lodash": "^4.0.1"
   },
   "dependencies": {
     "node-polyglot": "^1.0.0"
