@@ -1,0 +1,12 @@
+'use strict';
+
+var _ = require('lodash');
+
+module.exports = function (_ref) {
+  var phrases = _ref.phrases;
+
+  var polyglot = new Polyglot({ phrases: phrases });
+
+  return polyglot.t.bind(polyglot);
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9kZXBlbmRlbmN5QW5hbHl6ZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFNLENBQUMsR0FBRyxPQUFPLENBQUMsUUFBUSxDQUFDLENBQUM7O0FBRTVCLE1BQU0sQ0FBQyxPQUFPLEdBQUcsZ0JBQWU7TUFBYixPQUFPLFFBQVAsT0FBTzs7QUFDeEIsTUFBTSxRQUFRLEdBQUcsSUFBSSxRQUFRLENBQUMsRUFBQyxPQUFPLEVBQVAsT0FBTyxFQUFDLENBQUMsQ0FBQzs7QUFFekMsU0FBTyxRQUFRLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztDQUNsQyxDQUFDIiwiZmlsZSI6ImRlcGVuZGVuY3lBbmFseXplci5qcyIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IF8gPSByZXF1aXJlKCdsb2Rhc2gnKTtcblxubW9kdWxlLmV4cG9ydHMgPSAoe3BocmFzZXN9KSA9PiB7XG4gIGNvbnN0IHBvbHlnbG90ID0gbmV3IFBvbHlnbG90KHtwaHJhc2VzfSk7XG5cbiAgcmV0dXJuIHBvbHlnbG90LnQuYmluZChwb2x5Z2xvdCk7XG59O1xuIl19

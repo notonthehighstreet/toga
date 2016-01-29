@@ -1,9 +1,9 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-module.exports = ({component, mountNodeId}) => {
+module.exports = ({component}) => {
   ReactDOM.render(
     React.createElement(component),
-    document.querySelector(`#${mountNodeId}`)
+    document.querySelector('%%%#${mountNodeId}%%%')
   );
 };
