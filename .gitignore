@@ -8,3 +8,4 @@ public/build
 webpack-ids.json
 tmp
 /logs/
+*.rdb
