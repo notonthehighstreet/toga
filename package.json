@@ -21,6 +21,9 @@
       "es2015"
     ]
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -35,6 +38,7 @@
     "lodash": "^3.10.1",
     "memory-fs": "latest",
     "node-sass": "^3.4.2",
+    "pre-commit": "1.1.2",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "shelljs": "^0.5.3",
