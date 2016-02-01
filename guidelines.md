@@ -1,27 +1,14 @@
-# Toga Guidelines
+# Toga Coding Guidelines
 
-These aim to achieve a consistent domain language and coding practices throughout the project.
-
-## Domain concepts
-
-These are concepts specific to Toga.
-
-| concept | description |
-| ------- | ----------- |
-| component, <br>Toga component | A front-end component, as they would be developed for Toga consumers. |
-| consumer | A client requesting Toga components, eg. as a static HTML page with a couple of `<script>` and `<link rel="stylesheet">` tags. |
-| scope id, <br>`scopeId` | The unique identifier for a component instance, used for eg. mounting of React components, scoping CSS, etc. |
-| components bundle | A bundle containing code of multiple components. |
-| components vendor bundle | A bundle containing a set of shared 3rd party dependencies. |
-| component context | Data to bootstrap a component with. Think of it as options rather than data. |
+These aim to achieve consistent coding practices throughout the project.
 
 ## Convention related concepts
 
 | concept | description |
 | ------- | ----------- |
-| module | a CommonJS module |
-| bundle | a single file containing Webpack wrapped CommonJS modules |
-| package | a self-contained NPM compatible module stored in `/packages` |
+| module | A CommonJS module. |
+| bundle | A single file containing Webpack wrapped CommonJS modules. |
+| package | A self-contained NPM compatible module stored in `/packages`. |
 
 ## Code structure
 
@@ -32,6 +19,8 @@ These are concepts specific to Toga.
 | `/components` | contains Toga components |
 | `/lib` | contains code of the Toga server itself |
 | `/packages` | constains packages to use throughout Toga components |
+| `/script` | support scripts for running tests, starting Toga in a Docker container etc. |
+| `/spec` | tests for the Toga server itself |
 
 ### Modules
 
@@ -68,6 +57,7 @@ module.exports = {
 You can then include it in your other module:
 
 ```js
+// myModule.js
 const registry = require('./registry');
 const myData = require('./data.json');
 
