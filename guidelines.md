@@ -105,7 +105,3 @@ module.exports = (...args) => {
 ```
 
 This way there's a single point of dependency on a third party tool. Switching to another one if needed becomes trivial, as opposed to changing the usage in all cache client modules.
-
-## Promises
-
-Use promises for asynchrounous operations. Utilise promise chaining to control
