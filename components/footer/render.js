@@ -1,9 +1,10 @@
 const buildComponent = require('./');
 const render = require('toga-component').renderReact;
 
-module.exports = ({locale}, callback) => {
+module.exports = ({locale, context}, callback) => {
   const html = render({
-    component: buildComponent({locale})
+    component: buildComponent({locale}),
+    context
   });
 
   callback(html);
