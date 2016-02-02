@@ -76,3 +76,36 @@ With "one function per module" and "no side effects" principles in mind, the sta
 ### Creation, instantiating
 
 When coding a function that returns an object (think factory), use `create` as the prefix, and then the subject, eg. `createWebpackConfig`.
+
+## Indirection
+
+When picking a tool for a specific job, use a layer of indirection. For example, let's suppose you need to implement caching. From the perspective of the client modules, which will be interested in storing/retrieving information, you could need 2 functions, `getCache` and `setCache`. Let's look at this piece of middleware using `getCache`:
+
+```js
+// retrieveCachedResponse.js
+const getCache = require('./lib/cache/getCache');
+const retrieveCachedResponse = (req, res, next) => {
+  getCache(req.url)
+    .then(res.send.bind(res))
+    .catch(() => {
+      next();
+    });
+};
+```
+
+To supply the needed `getCache` function, create a module which will become the said indirection:
+
+```js
+// /lib/cache/getCache.js
+const thirdPartyCacheProviderClient = require('thirdPartyCacheProviderClient');
+
+module.exports = (...args) => {
+  return thirdPartyCacheProviderClient.get.apply(thirdPartyCacheProviderClient, args);
+};
+```
+
+This way there's a single point of dependency on a third party tool. Switching to another one if needed becomes trivial, as opposed to changing the usage in all cache client modules.
+
+## Promises
+
+Use promises for asynchrounous operations. Utilise promise chaining to control
