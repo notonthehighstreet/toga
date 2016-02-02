@@ -7,3 +7,5 @@ node_modules/*
 public/build
 webpack-ids.json
 tmp
+/logs/
+*.rdb
