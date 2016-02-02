@@ -21,6 +21,9 @@
       "es2015"
     ]
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -51,6 +54,7 @@
     "glob": "^6.0.4",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",
+    "pre-commit": "1.1.2",
     "react-addons-test-utils": "^0.14.6",
     "rewire": "^2.5.1",
     "sinon": "^1.17.2",
