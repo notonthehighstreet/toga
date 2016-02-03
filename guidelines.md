@@ -105,3 +105,52 @@ module.exports = (...args) => {
 ```
 
 This way there's a single point of dependency on a third party tool. Switching to another one if needed becomes trivial, as opposed to changing the usage in all cache client modules.
+
+## Promises
+
+Use promises for asynchrounous operations. 
+
+Utilise promise chaining to create success/error routines instead of wrapping promises with other promises.
+This module has an extraneous promise wrapping an already existing chain:
+
+```js
+// myModule.js
+
+const thirdPartyLib = require('thirdPartyLib');
+
+module.exports = function myExportedFn(someArgForTheLib) {
+  return new Promise((resolve, reject) => {
+    return thirdPartyLib({someArgForTheLib}).then(resolve).catch(reject);
+  });
+};
+```
+
+This module is returning the existing chain:
+```js
+// myModule.js
+
+const thirdPartyLib = require('thirdPartyLib');
+
+module.exports = function myExportedFn(someArgForTheLib) {
+    return thirdPartyLib({someArgForTheLib});
+};
+```
+
+If you need to rescue a promise, ie. revert from an error to a success path again in certain conditions, use `return` and `throw`:
+
+```js
+// myModule.js
+
+const thirdPartyLib = require('thirdPartyLib');
+
+module.exports = function myExportedFn(someArgForTheLib) {
+    return thirdPartyLib({someArgForTheLib}).catch((reason) => {
+      if (canWeRescue(reason)) {
+        return computeExpectedData(reason); // this return value will be picked up by the next onResolve, ie. then handler in the chain
+      }
+      else {
+        throw reason; // this return value will be picked up by the next onReject, ie. catch handler in the chain
+      }
+    });
+};
+```
