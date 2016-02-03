@@ -25,17 +25,16 @@ These aim to achieve consistent coding practices throughout the project.
 ### Modules
 
 #### One function per module
-Include one function per module, AKA the Substack pattern. In other words, your module should end with this:
+Include one function per module, AKA the Substack pattern. Also, give the function a name so that profiling and debugging becomes less cryptic.
+In other words, your module should end with this:
 
 ```js
-module.exports = function(/*my args*/) {
+// myThingy.js
+module.exports = function myThingy(/*my args*/) {
   // my code
 }
 ```
-or
-```js
-module.exports = varNamePointingToMyFunction;
-```
+
 To organise functions around specific concepts, use the file system, ie. create your own directory structure.
 
 #### No side effects
