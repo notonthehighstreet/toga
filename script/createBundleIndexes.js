@@ -3,7 +3,7 @@
 require('babel-core/register');
 const glob = require('glob');
 const webpack = require('webpack');
-const createWebpackConfig = require('../lib/helpers/createWebpackConfig');
+const createWebpackConfig = require('../lib/lib/jsBundler/webpack/createConfig');
 const debug = require('debug')('toga:bundleIndexes');
 const error = require('debug')('toga:bundleIndexes:error');
 const shell = require('shelljs');
