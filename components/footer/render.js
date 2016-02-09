@@ -7,5 +7,5 @@ module.exports = ({locale, context}, callback) => {
     context
   });
 
-  callback(html);
+  callback(null, html);
 };
