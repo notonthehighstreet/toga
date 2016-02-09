@@ -1,8 +1,9 @@
 const React = require('react');
+const togaComponent = require('toga-component');
 
 module.exports = ({locale} = {locale: 'en'}) => {
   const phrases = require('./i18n.json')[locale];
-  const t = require('toga-component').createT({phrases});
+  const t = togaComponent.createT({phrases});
 
   return React.createClass({
     render() {
@@ -12,7 +13,7 @@ module.exports = ({locale} = {locale: 'en'}) => {
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
         >
-          &copy; 2016 - {t('THANKS')}
+          &copy; 2016 - {t('THANKS')} {this.props.one}
         </div>
       );
     },
