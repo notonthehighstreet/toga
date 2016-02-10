@@ -1,6 +1,11 @@
 # noths-frontend
 
-# Installation
+## Prerequisites
+
+* Node.js v4.3.0
+* npm v3.7.1
+
+## Installation
 
 Install node module dependencies
 
@@ -10,7 +15,7 @@ Create webpack module mappings (must be re-run when modules change)
 
 `npm run create-bundle-indexes`
 
-# Run the server
+## Run the server
 
 `npm start`
 
@@ -18,7 +23,7 @@ Development mode with auto-reloading
 
 `npm run dev`
 
-# Tests
+## Tests
 
 Run all the Tests 
 
