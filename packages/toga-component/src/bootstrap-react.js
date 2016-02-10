@@ -3,7 +3,7 @@ const ReactDOM = require('react-dom');
 const _ = require('lodash');
 
 module.exports = ({component, componentName}) => {
-  const elems = document.querySelectorAll('[toga=' + componentName + ']');
+  const elems = document.querySelectorAll(`[toga=${componentName}]`);
 
   _.forEach(elems, (elem) => {
     let prop;
