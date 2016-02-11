@@ -14,7 +14,6 @@
     "lodash": "^4.0.1"
   },
   "dependencies": {
-    "node-polyglot": "^1.0.0",
-    "normalize-scss": "git+https://github.com/appleboy/normalize.scss.git"
+    "node-polyglot": "^1.0.0"
   }
 }
