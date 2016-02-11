@@ -4,19 +4,19 @@ const _ = require('lodash');
 
 module.exports = ({component, componentName}) => {
   const elems = document.querySelectorAll(`[toga=${componentName}]`);
+  const Component = component;
 
   _.forEach(elems, (elem) => {
-    let prop;
+    let props;
 
     try {
-      prop = JSON.parse(elem.getAttribute('prop'));
+      props = JSON.parse(elem.getAttribute('props'));
     }
     catch (e) {
-      prop = {};
+      props = {};
     }
-
-    const reactElem = React.createElement(component, prop);
-
-    ReactDOM.render(reactElem, elem);
+    elem.classList.add(`toga-component`);
+    elem.classList.add(`toga-${componentName}`);
+    ReactDOM.render(<Component {...props}/>, elem);
   });
 };
