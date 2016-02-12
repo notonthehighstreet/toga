@@ -11,8 +11,8 @@ module.exports = ({locale} = {locale: 'en'}) => {
         <div>
           <p className="slogan">{t('UNIQUE_INSPIRING')}</p>
           <p className="cta">{t('SIGN_UP')}</p>
-          <form action="post" action="/communication-preference">
-            <input type="text" placeholder={t('ENTER_EMAIL')}/>
+          <form className="form" action="post" action="/communication-preference">
+            <input className="input" type="text" placeholder={t('ENTER_EMAIL')}/>
             <button className="button primary medium" type="submit">{t('SUBSCRIBE')}</button>
           </form>
         </div>
