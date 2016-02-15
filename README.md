@@ -19,7 +19,8 @@ Create webpack module mappings (must be re-run when modules change)
 
 `npm start`
 
-Development mode with auto-reloading
+## Development server
+Spins up an extra server under the default port of 3001, which proxies directly to the Toga server. All the routes remain the same, but get bonus auto reloading on style changes
 
 `npm run dev`
 
