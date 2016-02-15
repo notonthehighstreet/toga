@@ -6,10 +6,10 @@
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
   "engine": "node >= 4.2.3",
   "scripts": {
-    "start": "node ./index.js",
+    "dev": "env DEBUG=toga,toga:* node_modules/nodemon/bin/nodemon.js --debug ./script/startDev.js",
+    "start": "./script/start.js",
     "test": "./script/test.js",
     "create-bundle-indexes": "env DEBUG=toga:* node ./script/createBundleIndexes.js",
-    "dev": "env DEBUG=toga,toga:* node_modules/nodemon/bin/nodemon.js --debug index.js",
     "lint": "./node_modules/eslint/bin/eslint.js ."
   },
   "babel": {
@@ -51,11 +51,12 @@
     "webpack": "^1.12.11"
   },
   "devDependencies": {
+    "browser-sync": "2.11.1",
     "chai": "^3.4.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
-    "jsdom": "^7.2.2",
     "glob": "^6.0.4",
+    "jsdom": "^7.2.2",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",
     "pre-commit": "1.1.2",
