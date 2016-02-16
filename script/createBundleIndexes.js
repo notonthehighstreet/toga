@@ -9,7 +9,7 @@ const error = require('debug')('toga:bundleIndexes:error');
 const shell = require('shelljs');
 const webpackBundleIndexesRecordPath = require('../lib/constants').webpackBundleIndexesRecordPath;
 
-glob('./components/**/bootstrap.js', (err, files) => {
+glob('./components/**/index.js', (err, files) => {
   let compiler;
   let webpackConfig;
 

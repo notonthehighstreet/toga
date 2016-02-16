@@ -5,6 +5,8 @@
   "globals": {
     "SCOPE_ID": true,
     "MOUNT_NODE_ID": true,
-    "BUNDLE_LOCALE": true
+    "BUNDLE_LOCALE": true,
+    "togaComponentSource": false,
+    "togaComponentName": false
   }
 }
