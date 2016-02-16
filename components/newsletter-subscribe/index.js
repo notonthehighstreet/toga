@@ -2,7 +2,7 @@ const React = require('react');
 const translations = require('./i18n.json');
 const createT = require('toga-component').createT;
 
-module.exports = ({locale} = {locale: 'en'}) => {
+module.exports = ({locale}) => {
   const t = createT({phrases: translations[locale]});
 
   return React.createClass({

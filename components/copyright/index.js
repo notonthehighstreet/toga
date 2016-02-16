@@ -1,7 +1,7 @@
 const React = require('react');
 const togaComponent = require('toga-component');
 
-module.exports = ({locale} = {locale: 'en'}) => {
+module.exports = ({locale}) => {
   const phrases = require('./i18n.json')[locale];
   const t = togaComponent.createT({phrases});
 
