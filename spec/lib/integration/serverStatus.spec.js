@@ -1,12 +1,12 @@
 const expect = require('chai').expect;
 const supertest = require('supertest');
-let marathonRouter;
+let app;
 let agent;
 
 describe('/health', () => {
     beforeEach(() => {
-      marathonRouter = require('../../../lib/app');
-      agent = supertest.agent(marathonRouter);
+      app = require('../../../lib/app');
+      agent = supertest.agent(app);
     });
     it('responds with 200', (done) => {
       agent.get('/health')
