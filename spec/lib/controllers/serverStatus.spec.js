@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const controller = require('../../../lib/controllers/marathon');
+const serverStatusController = require('../../../lib/controllers/serverStatus');
 
-describe('marathon controller', () => {
+describe('server status controller', () => {
   let sandbox;
   let req;
   let res;
@@ -16,7 +16,7 @@ describe('marathon controller', () => {
       }
     });
     beforeEach(() => {
-      controller.health(req, res);
+      serverStatusController.health(req, res);
     });
     it('responds with a json payload', () => {
       const expectedJSONPayload = {'status': 'HEALTHY'};
