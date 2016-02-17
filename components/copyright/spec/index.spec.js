@@ -21,7 +21,7 @@ describe('copyright component', () => {
 
   describe('initial state', () => {
     it('renders with a copyright class', () => {
-      expect(componentDOM.className).to.equal('toga-copyright');
+      expect(componentDOM.className).to.equal('copyright-text');
     });
   });
   describe('hover state', () => {
@@ -29,16 +29,16 @@ describe('copyright component', () => {
       TestUtils.Simulate.mouseOver(componentDOM);
     });
 
-    it('renders with a boom class', () => {
-      expect(componentDOM.className).to.equal('toga-copyright boom');
+    it('renders with a highlighted class', () => {
+      expect(componentDOM.className).to.equal('copyright-text highlighted');
     });
 
     describe('hover state is removed', () => {
       beforeEach(() => {
         TestUtils.Simulate.mouseOut(componentDOM);
       });
-      it('renders without a boom class', () => {
-        expect(componentDOM.className).to.equal('toga-copyright');
+      it('renders without a highlighted class', () => {
+        expect(componentDOM.className).to.equal('copyright-text');
       });
     });
   });
