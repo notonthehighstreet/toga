@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const bootstrapper = fs.readFileSync(path.join(__dirname, 'bootstrapper.js'));
-const wrapper = fs.readFileSync(path.join(__dirname, 'wrapper.js'));
 const getComponentName = (componentPath) => {
   const componentPathSegments = componentPath.split('/');
 
@@ -42,19 +41,8 @@ module.exports = function(source) {
       return source;
     }
   }
-  else {
-    try {
-      togaComponentSource = `
-        ${source.replace('module.exports', 'let togaComponentSource')}
-        let togaComponentName=\"${componentName}\";
-        ${wrapper.toString()}
-      `;
-    }
-    catch (e) {
-      return source;
-    }
-  }
   this.value = togaComponentSource;
 
+  //console.log(sourcey);
   return togaComponentSource;
 };

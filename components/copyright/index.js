@@ -4,8 +4,7 @@ const togaComponent = require('toga-component');
 module.exports = ({locale}) => {
   const phrases = require('./i18n.json')[locale];
   const t = togaComponent.createT({phrases});
-
-  return React.createClass({
+  const Copyright = React.createClass({
     render() {
       return (
         <div
@@ -33,4 +32,6 @@ module.exports = ({locale}) => {
       });
     }
   });
+
+  return togaComponent.wrapComponent(Copyright, 'copyright');
 };
