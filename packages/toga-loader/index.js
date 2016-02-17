@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const bootstrapper = fs.readFileSync(path.join(__dirname, 'bootstrapper.js'));
+const wrapper = fs.readFileSync(path.join(__dirname, 'wrapper.js'));
 const getComponentName = (componentPath) => {
   const componentPathSegments = componentPath.split('/');
 
@@ -17,9 +18,9 @@ module.exports = function(source) {
   let componentName;
   let entryComponentName;
   let isComponentNested;
-  let bootstrappedComponentSource = source;
+  let togaComponentSource = source;
 
-  this.value = bootstrappedComponentSource;
+  this.value = togaComponentSource;
   this.cacheable && this.cacheable();
   try {
     componentName = getComponentName(loaderUtils.getRemainingRequest(this));
@@ -28,11 +29,10 @@ module.exports = function(source) {
   catch (e) {
     return source;
   }
-  
   isComponentNested = entryComponentName !== componentName;
   if (typeof source === 'string' && !isComponentNested) {
     try {
-      bootstrappedComponentSource = `
+      togaComponentSource = `
         ${source.replace('module.exports', 'let togaComponentSource')}
         let togaComponentName=\"${entryComponentName}\";
         ${bootstrapper.toString()}
@@ -42,7 +42,19 @@ module.exports = function(source) {
       return source;
     }
   }
-  this.value = bootstrappedComponentSource;
+  else {
+    try {
+      togaComponentSource = `
+        ${source.replace('module.exports', 'let togaComponentSource')}
+        let togaComponentName=\"${componentName}\";
+        ${wrapper.toString()}
+      `;
+    }
+    catch (e) {
+      return source;
+    }
+  }
+  this.value = togaComponentSource;
 
-  return bootstrappedComponentSource;
+  return togaComponentSource;
 };
