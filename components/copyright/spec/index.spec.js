@@ -1,17 +1,11 @@
 const TestUtils = require('react-addons-test-utils');
 const React = require('react');
-const sinon = require('sinon');
 const expect = require('chai').expect;
 
 describe('copyright component', () => {
   let Copyright;
-  let sandbox;
   let renderedComponent;
   let componentDOM;
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
 
   beforeEach(() => {
     Copyright = require('../')({ locale: 'en' });

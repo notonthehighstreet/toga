@@ -13,7 +13,7 @@ describe('server status controller', () => {
       req = {};
       res = {
         json: sandbox.spy()
-      }
+      };
     });
     beforeEach(() => {
       serverStatusController.health(req, res);

@@ -1,26 +1,24 @@
 #!/usr/bin/env node
+/*eslint no-process-exit: 0*/
+
 'use strict';
 
-var argv = require('yargs').default('reporter', 'dot').argv;
-var spawn = require('child_process').spawn;
-var path = require('path');
-var mochaPath = path.join(__dirname, '../node_modules/.bin/mocha');
-var glob = '**/*\.spec.js';
-
-var mochaArgs = [
-  'spec/' + glob,
-  'components/' + glob,
+const argv = require('yargs').default('reporter', 'dot').argv;
+const spawn = require('child_process').spawn;
+const path = require('path');
+const mochaPath = path.join(__dirname, '../node_modules/.bin/mocha');
+const mochaArgs = [
+  '{spec,components}/**/*.spec.js',
   '--compilers', 'js:babel-core/register',
   '--reporter', argv.reporter,
-  '--require', './spec/specHelper.js'
+  '--require', './spec/specHelper.js',
+  '--delay'
 ];
+let testProcess;
 
 if (argv.watch) {
   mochaArgs.push('--watch');
 }
-
-var testProcess;
-
 testProcess = spawn(
   mochaPath,
   mochaArgs,
@@ -28,7 +26,4 @@ testProcess = spawn(
     stdio: 'inherit'
   }
 );
-
-testProcess.on('close', function(code) {
-  process.exit(code);
-});
+testProcess.on('close', process.exit);
