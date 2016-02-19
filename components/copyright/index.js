@@ -4,12 +4,11 @@ const togaComponent = require('toga-component');
 module.exports = ({locale}) => {
   const phrases = require('./i18n.json')[locale];
   const t = togaComponent.createT({phrases});
-
-  return React.createClass({
+  const Copyright = React.createClass({
     render() {
       return (
         <div
-          className={`toga-copyright${this.state.BOOM ? ' boom' : ''}`}
+          className={`copyright-text${this.state.BOOM ? ' highlighted' : ''}`}
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
         >
@@ -33,4 +32,6 @@ module.exports = ({locale}) => {
       });
     }
   });
+
+  return togaComponent.wrapComponent(Copyright, 'copyright');
 };

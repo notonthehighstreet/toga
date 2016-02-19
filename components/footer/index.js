@@ -8,7 +8,7 @@ module.exports = ({locale}) => {
   return React.createClass({
     render() {
       return (
-        <div className="toga-footer">
+        <div className="footer">
           {t('WELCOME_TO_FOOTER')}
           <Copyright/>
         </div>

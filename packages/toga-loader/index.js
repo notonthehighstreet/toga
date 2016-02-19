@@ -14,13 +14,13 @@ const getEntryComponentName = (entryComponentPath) => {
 };
 
 module.exports = function(source) {
-  this.cacheable && this.cacheable();
-
   let componentName;
   let entryComponentName;
-  let bootstrappedComponentSource = source;
-  this.value = bootstrappedComponentSource;
+  let isComponentNested;
+  let togaComponentSource = source;
 
+  this.value = togaComponentSource;
+  this.cacheable && this.cacheable();
   try {
     componentName = getComponentName(loaderUtils.getRemainingRequest(this));
     entryComponentName = getEntryComponentName(this.options.entry.components[0]);
@@ -28,12 +28,10 @@ module.exports = function(source) {
   catch (e) {
     return source;
   }
-
-  const isComponentNested = entryComponentName !== componentName;
-
+  isComponentNested = entryComponentName !== componentName;
   if (typeof source === 'string' && !isComponentNested) {
     try {
-      bootstrappedComponentSource = `
+      togaComponentSource = `
         ${source.replace('module.exports', 'let togaComponentSource')}
         let togaComponentName=\"${entryComponentName}\";
         ${bootstrapper.toString()}
@@ -43,7 +41,8 @@ module.exports = function(source) {
       return source;
     }
   }
+  this.value = togaComponentSource;
 
-  this.value = bootstrappedComponentSource;
-  return bootstrappedComponentSource;
+  //console.log(sourcey);
+  return togaComponentSource;
 };
