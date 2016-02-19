@@ -7,7 +7,7 @@ module.exports = (Component, componentName) => {
 
       return (
         <div className={className}>
-          <Component/>
+          <Component {...this.props}/>
         </div>
       );
     }
