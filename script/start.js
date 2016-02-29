@@ -4,7 +4,7 @@ require('babel-core/register');
 const argv = require('yargs')
   .default('dev', false)
   .argv;
-const debugError = require('debug')('toga:error');
+const logError = require('../lib/lib/logger').error;
 const preCacheComponentBundle = require('../lib/lib/jsBundler/preCacheComponentBundle');
 const startAppServer = require('../lib/startAppServer');
 const startDevSyncServer = require('../lib/startDevSyncServer');
@@ -15,4 +15,4 @@ preCacheComponentBundle().then(() => {
   }
 
   return startAppServer();
-}, (err) => debugError(err));
+}, (err) => logError(err));
