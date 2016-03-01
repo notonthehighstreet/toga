@@ -1,2 +1,4 @@
 **/node_modules
 packages/**/lib
+packages/toga-loader/index.js
+packages/toga-loader/bootstrapper.js
