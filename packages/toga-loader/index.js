@@ -43,6 +43,5 @@ module.exports = function(source) {
   }
   this.value = togaComponentSource;
 
-  //console.log(sourcey);
   return togaComponentSource;
 };
