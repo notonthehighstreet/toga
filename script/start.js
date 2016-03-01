@@ -7,10 +7,10 @@ const argv = require('yargs')
 const logError = require('../lib/lib/logger').error;
 const preCacheComponentBundle = require('../lib/lib/jsBundler/preCacheComponentBundle');
 const startAppServer = require('../lib/startAppServer');
-const startDevSyncServer = require('../lib/startDevSyncServer');
 
 preCacheComponentBundle().then(() => {
   if (argv.dev) {
+    const startDevSyncServer = require('../lib/startDevSyncServer');
     startDevSyncServer();
   }
 
