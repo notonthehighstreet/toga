@@ -4,8 +4,7 @@ require('babel-core/register');
 const glob = require('glob');
 const webpack = require('webpack');
 const createWebpackConfig = require('../lib/lib/jsBundler/webpack/createConfig');
-const debug = require('debug')('toga:bundleIndexes');
-const error = require('debug')('toga:bundleIndexes:error');
+const logger = require('../lib/lib/logger');
 const shell = require('shelljs');
 const webpackBundleIndexesRecordPath = require('../lib/constants').webpackBundleIndexesRecordPath;
 
@@ -26,10 +25,10 @@ glob('./components/**/index.js', (err, files) => {
   compiler = webpack(webpackConfig);
   compiler.run((compilerErr) => {
     if (compilerErr) {
-      return error(compilerErr);
+      return logger.error(compilerErr);
     }
     shell.rm('-rf', './tmp');
-    debug('Created bundle indexes');
+    logger.info('Created bundle indexes');
     // @TODO watch components and rebuild
   });
 });

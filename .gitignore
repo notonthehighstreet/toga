@@ -1,4 +1,6 @@
 node_modules/*
+packages/toga-loader/node_modules
+packages/toga-component/node_modules
 !node_modules/component-loader
 !node_modules/i18n
 !node_modules/renderers
@@ -7,5 +9,5 @@ node_modules/*
 public/build
 webpack-ids.json
 tmp
-/logs/
+/logs/*.json
 *.rdb

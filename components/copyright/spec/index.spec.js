@@ -10,7 +10,7 @@ describe('copyright component', () => {
   beforeEach(() => {
     Copyright = require('../')({ locale: 'en' });
     renderedComponent = TestUtils.renderIntoDocument(<Copyright/>);
-    componentDOM = TestUtils.findRenderedDOMComponentWithTag(renderedComponent, 'div');
+    componentDOM = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'copyright-text');
   });
 
   describe('initial state', () => {
