@@ -9,4 +9,5 @@ COPY . $HOME/
 
 EXPOSE 8080
 
-RUN npm install --production
+RUN npm install --production && \
+    ln -sfn /config/newrelic.js $HOME/newrelic.js

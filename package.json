@@ -43,6 +43,7 @@
     "lodash": "^3.10.1",
     "memjs": "^0.9.0",
     "memory-fs": "latest",
+    "newrelic": "^1.25.4",
     "node-sass": "^3.4.2",
     "postcss": "5.0.16",
     "react": "^0.14.6",

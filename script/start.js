@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-
 require('babel-core/register');
+
+require('../lib/startNewRelic');
 const argv = require('yargs')
   .default('dev', false)
   .argv;
