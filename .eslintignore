@@ -1,4 +1,7 @@
-**/node_modules
+**/node_modules/
+node_modules/breadboard/**
+coverage/
+.nyc_output
 packages/**/lib
 packages/toga-loader/index.js
 packages/toga-loader/bootstrapper.js
