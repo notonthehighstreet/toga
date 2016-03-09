@@ -6,8 +6,8 @@
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
   "engine": "node >= 4.2.3",
   "scripts": {
-    "dev": "env DEBUG=toga,toga:* node_modules/nodemon/bin/nodemon.js --debug ./script/start.js -- --dev",
-    "start": "./script/start.js",
+    "dev": "env DEBUG=toga,toga:*,breadboard,breadboard:* node_modules/nodemon/bin/nodemon.js --debug ./script/start/index.js -- --dev",
+    "start": "./script/start/index.js",
     "test": "./script/test.js",
     "create-bundle-indexes": "env DEBUG=toga:* node ./script/createBundleIndexes.js",
     "lint": "./node_modules/eslint/bin/eslint.js ."

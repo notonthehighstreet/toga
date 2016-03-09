@@ -153,3 +153,29 @@ module.exports = function myExportedFn(someArgForTheLib) {
     });
 };
 ```
+
+## Writing tests
+
+TDD is strongly encouraged
+
+### Feature tests
+
+* Very few tests
+* Happy path, sad path
+* Business driven
+* Full application execution
+
+### Integration tests
+
+* e.g. controllers
+* [Mock or stub](http://martinfowler.com/articles/mocksArentStubs.html) controller dependencies using Breadboard
+* Compose scenarios using pre-canned, reusable, injectable mock dependencies, where appropriate 
+
+### Unit tests
+
+* Anything that can be tested in isolation, to achieve 100% coverage
+* Branch coverage rather than line coverage
+* Test public functions only
+* Test interface, not implementation
+* In general, mock or stub dependencies to help drive different scenarios
+* Don't mock or stub third part dependencies if the functionality they provide is trivial (e.g. some lodash functions)
