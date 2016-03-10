@@ -1,10 +1,13 @@
 module.exports = () => {
-  return function setComponentPath(req, res, next) {
-    const buildPath = (requestPath) => {
-      return requestPath.replace(/\.html$|\.raw\.html$|\.js$|\.css$|\.json$/, '');
-    };
+  const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css$|\.json$/;
+  const buildPath = (requestPath) => {
+    return requestPath.replace(componentMatcher, '');
+  };
 
-    req.componentPath = buildPath(req.path);
+  return function setComponentPath(req, res, next) {
+    if (componentMatcher.test(req.path)) {
+      req.componentPath = buildPath(req.path);
+    }
     next();
   };
 };
