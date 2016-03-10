@@ -60,6 +60,7 @@
   "devDependencies": {
     "browser-sync": "2.11.1",
     "chai": "^3.4.1",
+    "chai-as-promised": "^5.2.0",
     "codeclimate-test-reporter": "^0.3.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
