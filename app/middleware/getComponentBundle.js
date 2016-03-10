@@ -8,7 +8,7 @@ module.exports = (deps) => {
       locale: req.locale || 'en'
     };
 
-    getComponentBundleContent(options)
+    return getComponentBundleContent(options)
       .then(
         (bundleContent) => {
           res.set('Content-Type', 'application/javascript').send(bundleContent);
