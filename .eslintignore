@@ -5,3 +5,4 @@ coverage/
 packages/**/lib
 packages/toga-loader/index.js
 packages/toga-loader/bootstrapper.js
+coverage/
