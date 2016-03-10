@@ -4,19 +4,21 @@ module.exports = (deps) => {
   return function getLogger() {
     const {
       '/lib/getAppConfig': getAppConfig,
-      'bunyan': bunyan
+      '/lib/createHoneybadgerStream': createHoneybadgerStream,
+      bunyan
       } = deps;
     const config = getAppConfig();
 
-    function createFileSystemLogStreamConfig() {
-      return {
-        path: config.logFile
-      };
-    }
-
     function createDefaultLogStreamsConfig() {
       return [
-        createFileSystemLogStreamConfig()
+        {
+          path: config.logFile
+        },
+        {
+          type: 'stream',
+          stream: createHoneybadgerStream(),
+          level: 'error'
+        }
       ];
     }
 

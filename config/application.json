@@ -11,5 +11,9 @@
     "port": 6379
   },
   "newRelicEnabled": false,
-  "logFile": "./logs/application.logstash.json"
+  "logFile": "./logs/application.logstash.json",
+  "honeybadger": {
+    "environment": "development",
+    "apiKey": "it's a secret!"
+  }
 }
