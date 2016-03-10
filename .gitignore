@@ -9,3 +9,5 @@ webpack-ids.json
 tmp
 /logs/*.json
 *.rdb
+coverage
+.nyc_output
