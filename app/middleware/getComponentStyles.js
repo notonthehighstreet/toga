@@ -5,7 +5,7 @@ module.exports = (deps) => {
       } = deps;
     const componentNames = req.componentsContext;
 
-    getStylesBundle({componentNames}).then((cssContent) => {
+    return getStylesBundle({componentNames}).then((cssContent) => {
       res.set('Content-Type', 'text/css').send(cssContent);
     }).catch(next);
   };
