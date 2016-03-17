@@ -15,7 +15,7 @@ module.exports = ({component, componentName}) => {
     catch (e) {
       props = {};
     }
-    elem.classList.add(`toga-component`);
+    elem.classList.add('toga-component');
     ReactDOM.render(<Component {...props}/>, elem);
   });
 };

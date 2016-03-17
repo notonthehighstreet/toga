@@ -3,14 +3,15 @@ module.exports = (deps) => {
     const {
       '/cache/redis/get': redisGet,
       'lodash': _
-    } = deps;
+      } = deps;
 
-    return redisGet(key).then((data) => {
-      if (_.isNull(data)) {
-        throw new Error(`No value under key ${key}`);
-      }
+    return redisGet(key)
+      .then((data) => {
+        if (_.isNull(data)) {
+          throw new Error(`No value under key ${key}`);
+        }
 
-      return data;
-    });
+        return data;
+      });
   };
 };

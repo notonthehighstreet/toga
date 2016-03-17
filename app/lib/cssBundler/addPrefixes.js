@@ -5,6 +5,7 @@ module.exports = (deps) => {
       autoprefixer
     } = deps;
 
-    return postcss([autoprefixer]).process(cssContent).then((result) => result.css);
+    return postcss([autoprefixer]).process(cssContent)
+      .then((result) => result.css);
   };
 };

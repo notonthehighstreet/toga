@@ -1,15 +1,19 @@
-const client = require('./client');
-const lifetime = 3600 * 24 * 30; // future dev do not exceed 30 days otherwise you will blame yourselft
+module.exports = (deps) => {
+  return function set(key, value) {
+    const {
+      '/cache/memjs/client': client
+    } = deps;
+    const lifetime = 3600 * 24 * 30;
 
-module.exports = (key, value) => {
-  return new Promise((resolve, reject) => {
-    client.set(key, value, function(err, val) {
-      if (err) {
-        reject(err);
-      }
-      else {
-        resolve(val);
-      }
-    }, lifetime);
-  });
+    return new Promise((resolve, reject) => {
+      client.set(key, value, function(err, val) {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(val);
+        }
+      }, lifetime);
+    });
+  };
 };

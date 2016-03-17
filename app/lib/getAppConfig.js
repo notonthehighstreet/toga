@@ -9,28 +9,35 @@ module.exports = (deps) => {
       yargs,
       path,
       semver
-    } = deps;
-
+      } = deps;
+    let {
+      '/config/dev.json': devConfig,
+      '/config/application.json': applicationConfig
+      } = deps;
     const getAbsolutePath = (filePath) => {
       return path.resolve('.', filePath);
     };
     const argv = yargs
-      .default('config', './config/application.json')
       .default('dev', false)
       .argv;
-    const applicationConfig = require(getAbsolutePath(argv.config));
-    const config = Object.assign({
-      apiVersion: semver.major(packageVersion),
-      appName
-    }, applicationConfig);
-    let devConfig = require('../../config/dev.json');
+    let config;
 
+    if (argv.config) {
+      applicationConfig = require(getAbsolutePath(argv.config));
+    }
     if (argv.dev) {
       if (typeof argv.dev === 'string') {
         devConfig = require(getAbsolutePath(argv.dev));
       }
-      Object.assign(config, devConfig);
     }
+    config = Object.assign(
+      {
+        apiVersion: semver.major(packageVersion),
+        appName
+      },
+      applicationConfig,
+      argv.dev ? devConfig : {}
+    );
 
     return Object.freeze(config);
   };

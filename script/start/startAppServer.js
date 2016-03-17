@@ -1,7 +1,9 @@
 const getAppConfig = require('../../app/lib/getAppConfig')({
   yargs: require('yargs'),
   path: require('path'),
-  semver: require('semver')
+  semver: require('semver'),
+  '/config/application.json': require('../../app/config/application.json'),
+  '/config/dev.json': require('../../app/config/dev.json')
 });
 const bootstrapApp = require('../../');
 

@@ -5,8 +5,10 @@ module.exports = (deps) => {
       } = deps;
     const componentNames = req.componentsContext;
 
-    return getStylesBundle({componentNames}).then((cssContent) => {
-      res.set('Content-Type', 'text/css').send(cssContent);
-    }).catch(next);
+    return getStylesBundle({componentNames})
+      .then((cssContent) => {
+        res.set('Content-Type', 'text/css').send(cssContent);
+      })
+      .catch(next);
   };
 };

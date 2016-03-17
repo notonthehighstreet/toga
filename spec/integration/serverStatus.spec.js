@@ -1,13 +1,35 @@
 const expect = require('chai').expect;
 const supertest = require('supertest');
+const breadboard = require('breadboard');
 let app;
 
 describe('/health', () => {
   beforeEach(() => {
-    app = require('../../script/start/startAppServer')();
+    app = breadboard({
+      containerRoot: 'app',
+      entry: (deps) => {
+        return () => {
+          return Promise.resolve(deps['/createServer']());
+        };
+      },
+      blacklist: ['newrelic'],
+      substitutes: {
+        ioredis: () => {
+          return {
+            get(key, cb) {
+              cb();
+            },
+            set(key, value, cb) {
+              cb();
+            },
+            on() {}
+          };
+        }
+      }
+    });
   });
   it('responds with 200', (done) => {
-    app.then((server) => {
+    app.then(([server]) => {
       const agent = supertest.agent(server);
 
       agent.get('/health')

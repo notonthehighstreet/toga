@@ -4,9 +4,6 @@ const builder = require('../../../app/middleware/getVendorBundle');
 
 describe('getVendorBundle', () => {
   const sandbox = sinon.sandbox.create();
-  const syntaxErrorMatcher = (o) => {
-    return o.constructor === SyntaxError;
-  };
   const nextSpy = sandbox.spy();
   const loggerMock = () => {
     return {
@@ -17,26 +14,10 @@ describe('getVendorBundle', () => {
     set: sandbox.stub(),
     send: sandbox.stub()
   };
-  fakeResponse.set.returns(fakeResponse);
 
+  fakeResponse.set.returns(fakeResponse);
   afterEach(() => {
     sandbox.reset();
-  });
-
-  describe('when component names are invalid JSON', () => {
-    const fakeRequest = {
-      query: {
-        components: 'I can\'t be JS{}N parsed'
-      }
-    };
-    it('logs the error and propogates it', () => {
-      const subject = builder({
-        '/logger': loggerMock,
-        '/lib/jsBundler/getVendorBundle': {}
-      });
-      subject(fakeRequest, fakeResponse, nextSpy);
-      expect(nextSpy).to.have.been.calledWithMatch(syntaxErrorMatcher);
-    });
   });
   describe('when component names are valid JSON', () => {
     const validEncodedComponents = JSON.stringify(['component1', 'component2']);
@@ -45,15 +26,15 @@ describe('getVendorBundle', () => {
         components: validEncodedComponents
       }
     };
-    describe('when the bundle is retrieved', () => {
-      const javascriptBundle = 'a javascript bundle';
-      const getVendorBundleMock = () => {
-        return Promise.resolve(javascriptBundle);
-      };
+    const javascriptBundle = 'a javascript bundle';
+    describe('when the vendor bundle is cached', () => {
+      const getCachedVendorBundleMock = sandbox.stub().returns(Promise.resolve(javascriptBundle));
       const subject = builder({
         '/logger': loggerMock,
-        '/lib/jsBundler/getVendorBundle': getVendorBundleMock
+        '/lib/jsBundler/getVendorBundle': {},
+        '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
       });
+
       it('returns the vendor bundle', () => {
         const result = subject(fakeRequest, fakeResponse, nextSpy);
         return result.then(() => {
@@ -64,19 +45,43 @@ describe('getVendorBundle', () => {
         });
       });
     });
-    describe('when the bundle is not retrieved', () => {
-      const error = {};
-      const getVendorBundleMock = () => {
-        return Promise.reject(error);
-      };
-      const subject = builder({
-        '/logger': loggerMock,
-        '/lib/jsBundler/getVendorBundle': getVendorBundleMock
+    describe('when the vendor bundle is not cached', () => {
+      const getCachedVendorBundleMock = sandbox.stub().returns(Promise.reject());
+
+      describe('when the bundle is retrieved', () => {
+        const getVendorBundleMock = () => {
+          return Promise.resolve(javascriptBundle);
+        };
+        const subject = builder({
+          '/logger': loggerMock,
+          '/lib/jsBundler/getVendorBundle': getVendorBundleMock,
+          '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
+        });
+        it('returns the vendor bundle', () => {
+          const result = subject(fakeRequest, fakeResponse, nextSpy);
+          return result.then(() => {
+            return [
+              expect(fakeResponse.send).to.be.calledWith(javascriptBundle),
+              expect(fakeResponse.set).to.be.calledWith('Content-Type', 'application/javascript')
+            ];
+          });
+        });
       });
-      it('propogates the error', () => {
-        const result = subject(fakeRequest, fakeResponse, nextSpy);
-        return result.then(() => {
-          return expect(nextSpy).to.have.been.calledWith(error);
+      describe('when the bundle is not retrieved', () => {
+        const error = {};
+        const getVendorBundleMock = () => {
+          return Promise.reject(error);
+        };
+        const subject = builder({
+          '/logger': loggerMock,
+          '/lib/jsBundler/getVendorBundle': getVendorBundleMock,
+          '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
+        });
+        it('propogates the error', () => {
+          const result = subject(fakeRequest, fakeResponse, nextSpy);
+          return result.then(() => {
+            return expect(nextSpy).to.have.been.calledWith(error);
+          });
         });
       });
     });

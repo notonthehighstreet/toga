@@ -5,6 +5,7 @@ const builder = require('../../../app/middleware/getComponentBundle');
 describe('getComponentBundle', () => {
   const sandbox = sinon.sandbox.create();
   const getComponentBundleStub = sandbox.stub();
+  const getCachedComponentBundleStub = sandbox.stub();
   const fakeReq = {
     componentsContext: 'fakeComponentContext',
     locale: 'fakeLocale'
@@ -15,40 +16,58 @@ describe('getComponentBundle', () => {
   };
   const nextSpy = sandbox.spy();
   const subject = builder({
-    '/lib/jsBundler/getComponentBundle': getComponentBundleStub
+    '/lib/jsBundler/getComponentBundle': getComponentBundleStub,
+    '/lib/getComponentBundleFromCache': getCachedComponentBundleStub
   });
 
+  beforeEach(() => {
+    fakeRes.set.returns(fakeRes);
+  });
   afterEach(() => {
     sandbox.reset();
   });
-  it('responds with bundled content if bundling was successful', () => {
-    const bundleContent = {};
-    const bundleContentPromise = new Promise((resolve) => {
-      resolve(bundleContent);
-    });
-    let result;
+  describe('cached bundle was found', () => {
+    it('responds with bundled content', () => {
+      const bundleContent = {};
+      const getCachedBundleContentPromise = Promise.resolve(bundleContent);
+      let result;
 
-    fakeRes.set.returns(fakeRes);
-    getComponentBundleStub.returns(bundleContentPromise);
-    result = subject(fakeReq, fakeRes, nextSpy);
+      getCachedComponentBundleStub.returns(getCachedBundleContentPromise);
+      result = subject(fakeReq, fakeRes, nextSpy);
 
-    return result.then(() => {
-      return expect(fakeRes.send.calledWith(bundleContent)).to.be.true;
+      return result.then(() => {
+        return expect(fakeRes.send.calledWith(bundleContent)).to.be.true;
+      });
     });
   });
-  it('propagates error bundled content if bundling was unsuccessful', () => {
-    const err = {};
-    const bundleContentPromise = new Promise((resolve, reject) => {
-      reject(err);
+  describe('cached bundle was not found', () => {
+    it('bundles content and responds with that content', () => {
+      const bundleContent = {};
+      const getCachedBundleContentPromise = Promise.reject();
+      const bundleContentPromise = Promise.resolve(bundleContent);
+      let result;
+
+      getCachedComponentBundleStub.returns(getCachedBundleContentPromise);
+      getComponentBundleStub.returns(bundleContentPromise);
+      result = subject(fakeReq, fakeRes, nextSpy);
+
+      return result.then(() => {
+        return expect(fakeRes.send.calledWith(bundleContent)).to.be.true;
+      });
     });
-    let result;
+    it('propagates error if bundling was unsuccessful', () => {
+      const err = {};
+      const getCachedBundleContentPromise = Promise.reject();
+      const bundleContentPromise = Promise.reject(err);
+      let result;
 
-    fakeRes.set.returns(fakeRes);
-    getComponentBundleStub.returns(bundleContentPromise);
-    result = subject(fakeReq, fakeRes, nextSpy);
+      getCachedComponentBundleStub.returns(getCachedBundleContentPromise);
+      getComponentBundleStub.returns(bundleContentPromise);
+      result = subject(fakeReq, fakeRes, nextSpy);
 
-    return result.then(() => {
-      return expect(nextSpy.calledWith(err)).to.be.true;
+      return result.then(() => {
+        return expect(nextSpy.calledWith(err)).to.be.true;
+      });
     });
   });
 });

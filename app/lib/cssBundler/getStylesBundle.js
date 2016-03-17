@@ -16,21 +16,19 @@ module.exports = (deps) => {
         return cssContent;
       };
     };
+    const bundleId = componentNames.join('-');
 
     if (!_.isArray(componentNames)) {
       return Promise.reject('getStylesBundle `components` parameter needs to be an Array');
     }
-    const bundleId = componentNames.join('-');
 
     return getCache(`styles-${bundleId}`)
       .catch(()=> {
-        let requiredComponents = [];// Requested components + their children
-
-        componentNames.forEach((componentName) => {
-          const manifest = getComponentManifest(componentName);
-          requiredComponents = getComponentDependencies(manifest).concat(requiredComponents);
-        });
-        requiredComponents = _.uniq(requiredComponents);
+        let requiredComponents = _.chain(componentNames)
+          .map(componentName => getComponentDependencies(getComponentManifest(componentName)))
+          .flatten()
+          .uniq()
+          .value();
 
         return compileBundle({componentNames: requiredComponents})
           .then(addPrefixes)

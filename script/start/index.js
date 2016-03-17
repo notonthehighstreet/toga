@@ -11,6 +11,5 @@ preCacheComponentBundle().then(() => {
   if (argv.dev) {
     require('./startDevSyncServer')();
   }
-
   return startAppServer();
 });

@@ -1,30 +1,16 @@
 module.exports = (deps) => {
   return function getVendorBundle(req, res, next) {
     const {
-      '/logger': getLogger,
+      '/lib/getVendorBundleFromCache': getCachedVendorBundleContent,
       '/lib/jsBundler/getVendorBundle': getVendorBundleContent
       } = deps;
     let componentNames;
-    const logger = getLogger();
 
-    try { // TODO extract reading components from query into separate middleware
-      componentNames = JSON.parse(req.query.components);
-      logger.info('Vendor Bundle requested with components: ', componentNames);
-
-      return getVendorBundleContent({componentNames})
-        .then(
-          (bundleContent) => {
-            logger.info('Vendor Bundle retreived for: ', componentNames);
-            res.set('Content-Type', 'application/javascript').send(bundleContent);
-          },
-          (error) => {
-            next(error);
-          }
-        );
-    }
-    catch (error) {
-      logger.info('Failed to parse component names', req.query.components);
-      next(error);
-    }
+    return getCachedVendorBundleContent({componentNames: req.componentNames})
+      .catch(() => getVendorBundleContent({componentNames}))
+      .then((bundleContent) => {
+        res.set('Content-Type', 'application/javascript').send(bundleContent);
+      })
+      .catch(next);
   };
 };
