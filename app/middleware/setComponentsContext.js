@@ -8,18 +8,18 @@ module.exports = (deps) => {
         return {};
       }
       else {
-        try {
-          return JSON.parse(decodeURIComponent(encodedConfig));
-        }
-        catch(e) {
-          return {};
-        }
+        return JSON.parse(decodeURIComponent(encodedConfig));
       }
     };
 
     return (req, res, next) => {
-      req.componentsContext = componentsContext(req.query[paramName]);
-      next();
+      try {
+        req.componentsContext = componentsContext(req.query[paramName]);
+        next();
+      }
+      catch(error) {
+        next(error);
+      }
     };
   };
 };
