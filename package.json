@@ -62,6 +62,7 @@
     "browser-sync": "2.11.1",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
+    "chance": "1.0.1",
     "codeclimate-test-reporter": "^0.3.1",
     "eslint": "^2.4.0",
     "eslint-plugin-mocha": "2.0.0",
