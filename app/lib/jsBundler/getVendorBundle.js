@@ -7,6 +7,10 @@ module.exports = (deps) => {
       '/logger': getLogger
     } = deps;
 
+    if (componentNames.length === 0) {
+      return Promise.reject(new Error('A bundle without components can not be created'));
+    }
+
     const logger = getLogger();
     const bootstrapFileName = 'index.js';
     const componentsPath = './components';
@@ -30,4 +34,3 @@ module.exports = (deps) => {
       });
   };
 };
-
