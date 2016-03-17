@@ -2,9 +2,11 @@
 
 require('babel-core/register');
 const breadboard = require('breadboard');
+const debug = require('debug')('toga:createBundleIndexes');
+const debugError = require('debug')('toga:createBundleIndexes:error');
 const createBundleIndexes = (deps) => {
-  return function() {
-    return new Promise((resolve) => {
+  return () => {
+    return new Promise((resolve, reject) => {
       const glob = deps.glob;
       const webpack = deps.webpack;
       const path = deps.path;
@@ -31,12 +33,11 @@ const createBundleIndexes = (deps) => {
         compiler = webpack(webpackConfig);
         compiler.run((compilerErr) => {
           if (compilerErr) {
-            return logger.error(compilerErr);
+            logger.error(compilerErr);
+            return reject(compilerErr);
           }
           shell.rm('-rf', './tmp');
-          logger.info('Created bundle indexes');
-          // @TODO watch components and rebuild
-          resolve(0);
+          resolve();
         });
       });
     });
@@ -44,8 +45,16 @@ const createBundleIndexes = (deps) => {
 };
 const breadboardOptions = {
   entry: createBundleIndexes,
-  containerRoot: 'lib/toga'
+  containerRoot: 'app',
+  blacklist: ['newrelic']
 };
 
 breadboard(breadboardOptions)
-  .then(process.exit);
+  .then(() => {
+    debug('Bundle indexes created');
+    process.exit(0);
+  })
+  .catch((err) => {
+    debugError(err);
+    process.exit(1);
+  });

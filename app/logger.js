@@ -10,7 +10,7 @@ module.exports = (deps) => {
     const config = getAppConfig();
 
     function createDefaultLogStreamsConfig() {
-      return [
+      const streams = [
         {
           path: config.logFile
         },
@@ -20,6 +20,13 @@ module.exports = (deps) => {
           level: 'error'
         }
       ];
+
+      streams.push({
+        type: 'stream',
+        stream: process.stdout
+      });
+
+      return streams;
     }
 
     if (!logger) {

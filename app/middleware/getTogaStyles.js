@@ -5,13 +5,9 @@ module.exports = (deps) => {
       } = deps;
 
     return getTogaStylesLib()
-      .then(
-        (cssContent)=>{
-          res.set('Content-Type', 'text/css').send(cssContent);
-        },
-        (error) => {
-          next(error);
-        }
-    );
+      .then((cssContent)=>{
+        res.set('Content-Type', 'text/css').send(cssContent);
+      })
+      .catch(next);
   };
 };

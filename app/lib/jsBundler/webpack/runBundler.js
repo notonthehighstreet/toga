@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function runBundler({modulePaths, definitions}) { //TODO rename
+  return function runBundler({modulePaths, definitions}) {
     const {
       'fs': fs,
       'es6-promisify': promisify,
@@ -18,8 +18,6 @@ module.exports = (deps) => {
       return stat(modulePath);
     });
 
-    logger.info('Generating webpack bundle for : ', modulePaths);
-
     return Promise.all(promises)
       .then(() => {
         const webpackConfig = createWebpackConfig({
@@ -32,7 +30,6 @@ module.exports = (deps) => {
 
         compiler.outputFileSystem = memoryFS;
         return run().then(() => {
-          logger.info('Webpack compiler executed');
           const readFilePromises = [];
 
           readFilePromises.push(mFSReadfile(`/${componentBundleFileName}`, 'utf8'));
@@ -47,7 +44,7 @@ module.exports = (deps) => {
         });
       })
       .catch((statErr) => {
-        logger.error('Failed to create webpack bundle: ', statErr);
+        logger.error('Failed to create webpack bundle:', statErr);
         throw statErr;
       });
   };

@@ -1,17 +1,11 @@
 module.exports = (deps) => {
   return function startApp({port, host}) {
     const {
-      'express': express,
-      '/routes/index': getRoutes
+      '/createServer': createServer
       } = deps;
 
-    const app = express();
-
-    app.use(getRoutes());
-    app.use('/public', express.static('public'));
-
     return new Promise((resolve) => {
-      const server = app.listen(port, host, () => {
+      const server = createServer().listen(port, host, () => {
         resolve(server);
       });
     });

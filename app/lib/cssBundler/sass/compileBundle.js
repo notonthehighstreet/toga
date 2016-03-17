@@ -21,13 +21,14 @@ module.exports = (deps) => {
         });
     });
 
-    return Promise.all(readScssFilesContents).then((wrappedSCSSFilesContents) => {
-      return compile({
-        stylesheetContent: wrappedSCSSFilesContents.join('\n'),
-        includePaths: componentNames
-          .map(getComponentPath)
-          .concat('node_modules')
+    return Promise.all(readScssFilesContents)
+      .then((wrappedSCSSFilesContents) => {
+        return compile({
+          stylesheetContent: wrappedSCSSFilesContents.join('\n'),
+          includePaths: componentNames
+            .map(getComponentPath)
+            .concat('node_modules')
+        });
       });
-    });
   };
 };

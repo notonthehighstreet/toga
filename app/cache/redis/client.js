@@ -12,6 +12,17 @@ module.exports = (deps) => {
     // Promises do not resolve when using the OfflineQueue
     enableOfflineQueue: false
   };
+  const client = Redis(redisConfig.port, redisConfig.host, clientConfig);
 
-  return Redis(redisConfig.port, redisConfig.host, clientConfig);
+  client.on('error', (err) => {
+    const e = new Error('Connection to Redis failed');
+
+    e.originalError = err;
+    throw e;
+  });
+  client.on('close', () => {
+    throw new Error('Connection to Redis closed');
+  });
+
+  return client;
 };

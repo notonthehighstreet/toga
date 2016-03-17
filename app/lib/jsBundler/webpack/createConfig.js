@@ -1,13 +1,10 @@
 module.exports = (deps) => {
   return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName}) {
     const {
-      '/logger': getLogger,
       '/constants': {webpackBundleIndexesRecordPath},
       webpack
       } = deps;
-    const logger = getLogger();
 
-    logger.info('Creating webpack config');
     let config = {
       entry: {
         components: modulePaths,

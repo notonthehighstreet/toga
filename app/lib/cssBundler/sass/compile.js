@@ -3,7 +3,7 @@ module.exports = (deps) => {
     const {
       'node-sass': sass,
       'es6-promisify': promisify
-    } = deps;
+      } = deps;
     const render = promisify(sass.render);
 
     return render({

@@ -5,6 +5,7 @@ module.exports = (deps) => {
     } = deps;
     const component = require(`../../components/${componentName}/`)({locale});
     const renderedComponent = renderReact({component, componentName, context: componentsContext});
+
     return cb({
       componentDOM: renderedComponent,
       componentName,
