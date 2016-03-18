@@ -1,10 +1,14 @@
 module.exports = (deps) => {
-  return function getComponentBundle({components, locale = 'en'}) {
+  return function getComponentBundle({components, locale}) {
     const {
       '/cache/set': setCache,
       '/lib/jsBundler/webpack/runBundler': bundle,
       '/lib/buildModulePaths': buildModulePaths
       } = deps;
+
+    if (components.length === 0) {
+      return Promise.reject(new Error('A bundle without components can not be created'));
+    }
 
     const definitions = {
       BUNDLE_LOCALE: `"${locale}"`

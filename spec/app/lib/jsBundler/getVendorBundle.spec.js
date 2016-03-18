@@ -44,6 +44,10 @@ describe('getVendorBundle', () => {
     subject = builder(deps);
   });
 
+  afterEach(() => {
+    sandbox.reset();
+  });
+
   describe('when multiple components are requested', () => {
     const componentNames = ['component1', 'component2'];
     describe('and the bundle is cached', () => {
