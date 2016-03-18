@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../../app/lib/cssBundler/getStylesBundle');
 
-describe('getVendorBundle', () => {
+describe('getStylesBundle', () => {
   const sandbox = sinon.sandbox.create();
   const getCachedValue = chance.word();
   const getCacheHitMock = () => {
@@ -76,7 +76,6 @@ describe('getVendorBundle', () => {
       });
       it('returns the bundle', () => {
         const result = subject({componentNames});
-
         return result.then((stylesBundle) => {
           return expect(stylesBundle).to.be.eq(cssContent);
         });
