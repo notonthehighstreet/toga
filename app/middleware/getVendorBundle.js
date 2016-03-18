@@ -4,10 +4,10 @@ module.exports = (deps) => {
       '/lib/getVendorBundleFromCache': getCachedVendorBundleContent,
       '/lib/jsBundler/getVendorBundle': getVendorBundleContent
       } = deps;
-    let componentNames;
-
     return getCachedVendorBundleContent({componentNames: req.componentNames})
-      .catch(() => getVendorBundleContent({componentNames}))
+      .catch(() => {
+        return getVendorBundleContent({componentNames: req.componentNames});
+      })
       .then((bundleContent) => {
         res.set('Content-Type', 'application/javascript').send(bundleContent);
       })
