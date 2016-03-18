@@ -16,11 +16,12 @@ module.exports = (deps) => {
         return cssContent;
       };
     };
-    const bundleId = componentNames.join('-');
+    let bundleId;
 
     if (!_.isArray(componentNames)) {
       return Promise.reject('getStylesBundle `components` parameter needs to be an Array');
     }
+    bundleId = componentNames.join('-');
 
     return getCache(`styles-${bundleId}`)
       .catch(()=> {
