@@ -69,6 +69,7 @@
     "eslint-plugin-react": "^4.2.3",
     "jsdom": "^7.2.2",
     "mocha": "^2.2.5",
+    "mockery": "1.4.1",
     "nodemon": "^1.8.1",
     "nyc": "^6.0.0",
     "pre-commit": "1.1.2",
