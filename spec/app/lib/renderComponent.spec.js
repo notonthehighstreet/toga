@@ -18,26 +18,31 @@ let fakeComponentsContext = {
 };
 let callbackArguments;
 
-mockery.registerMock(`../../components/${fakeComponentName}/`, () => {});
-beforeEach(() => {
-  mockery.enable();
-  subject = builder({
-    'toga-component': {
-      renderReact: renderReactStub
-    }
-  });
-  actualSubjectReturnValue = subject({
-    locale: fakeLocale,
-    componentName: fakeComponentName,
-    componentsContext: fakeComponentsContext
-  }, callbackStub);
-  callbackArguments = callbackStub.args[0][0];
-});
-afterEach(() => {
-  sandbox.reset();
-  mockery.disable();
-});
 describe('renderComponent', () => {
+  before(() => {
+    mockery.registerMock(`../../components/${fakeComponentName}/`, () => {});
+    mockery.enable();
+  });
+  after(() => {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
+  beforeEach(() => {
+    subject = builder({
+      'toga-component': {
+        renderReact: renderReactStub
+      }
+    });
+    actualSubjectReturnValue = subject({
+      locale: fakeLocale,
+      componentName: fakeComponentName,
+      componentsContext: fakeComponentsContext
+    }, callbackStub);
+    callbackArguments = callbackStub.args[0][0];
+  });
+  afterEach(() => {
+    sandbox.reset();
+  });
   describe('calls the callback', () => {
     it('with the rendered component\'s DOM', () => {
       expect(callbackArguments.componentDOM).to.eq(fakeRenderedComponent);
