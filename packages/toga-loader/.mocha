@@ -1,0 +1,5 @@
+{spec,components}/**/*.spec.js
+-u exports
+-R spec
+--reporter dot
+--compilers js:babel-core/register

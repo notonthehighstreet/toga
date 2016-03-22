@@ -5,18 +5,20 @@ const bootstrapper = fs.readFileSync(path.join(__dirname, 'bootstrapper.js'));
 const getComponentName = (componentPath) => {
   const componentPathSegments = componentPath.split('/');
 
+  //return the second-to-last segment
   return componentPathSegments.slice(-2, -1)[0];
 };
 const getEntryComponentName = (entryComponentPath) => {
   const entryComponentPathSegments = entryComponentPath.split('/');
 
+  //return the third segment
   return entryComponentPathSegments.slice(2, 3)[0];
 };
 
 module.exports = function(source) {
   let componentName;
   let entryComponentName;
-  let isComponentNested;
+  let componentIsNested;
   let togaComponentSource = source;
 
   this.value = togaComponentSource;
@@ -28,14 +30,12 @@ module.exports = function(source) {
   catch (e) {
     return source;
   }
-  isComponentNested = entryComponentName !== componentName;
-  if (typeof source === 'string' && !isComponentNested) {
+  componentIsNested = entryComponentName !== componentName;
+  if (typeof source === 'string' && !componentIsNested) {
     try {
-      togaComponentSource = `
-        ${source.replace('module.exports', 'let togaComponentSource')}
+      togaComponentSource = `${source.replace('module.exports', 'let togaComponentSource')}
         let togaComponentName=\"${entryComponentName}\";
-        ${bootstrapper.toString()}
-      `;
+        ${bootstrapper.toString()}`;
     }
     catch (e) {
       return source;
