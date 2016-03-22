@@ -40,18 +40,22 @@ describe('Toga Loader', () => {
     mock.stopAll();
     sandbox.reset();
   });
-  it('returns pristine source if source component is nested inside another component', () => {
-    const source = chance.word();
-    context.options.entry.components[0] = '1/2/anotherComponentName';
-    const result = subject.call(context, source);
+  describe('when source component is nested inside another component', () => {
+    it('returns pristine source', () => {
+      const source = chance.word();
+      context.options.entry.components[0] = '1/2/anotherComponentName';
+      const result = subject.call(context, source);
 
-    expect(result).to.be.eq(source);
+      expect(result).to.be.eq(source);
+    });
   });
-  it('returns pristine source if source is not a string', () => {
-    const source = chance.integer();
-    const result = subject.call(context, source);
+  describe('when source is not a string', () =>{
+    it('returns pristine source', () => {
+      const source = chance.integer();
+      const result = subject.call(context, source);
 
-    expect(result).to.be.eq(source);
+      expect(result).to.be.eq(source);
+    });
   });
   describe('source is not a nested component and is a string', () => {
     const source = `module.exports = ${chance.word()}`;
