@@ -10,13 +10,13 @@ let sandbox = sinon.sandbox.create();
 let nextSpy = sandbox.spy();
 let fakeRes = {};
 
-beforeEach(() => {
-  subject = builder();
-});
-afterEach(() => {
-  sandbox.reset();
-});
 describe('setComponentNames middleware', () => {
+  beforeEach(() => {
+    subject = builder();
+  });
+  afterEach(() => {
+    sandbox.reset();
+  });
   describe('when valid JSON included in request query', () => {
     let fakeComponentsList = chance.pickset([
       chance.word(),
