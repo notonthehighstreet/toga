@@ -8,6 +8,3 @@ require('./setupComponentEnv');
 chai.config.includeStack = true;
 chai.expect();
 chai.use(sinonChai);
-setImmediate(function() {
-  run();
-});
