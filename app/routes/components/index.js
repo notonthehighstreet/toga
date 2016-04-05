@@ -6,6 +6,7 @@ module.exports = (deps) => {
       '/routes/components/styles': createStylesRouter,
       '/routes/components/js': createBundlingRouter,
       '/routes/components/manifest': createManifestRouter,
+      '/routes/components/assets': createAssetsRouter,
       '/middleware/setComponentPath': setComponentPath,
       '/middleware/setLocale': setLocale
       } = deps;
@@ -14,7 +15,8 @@ module.exports = (deps) => {
       createHtmlRouter,
       createStylesRouter,
       createBundlingRouter,
-      createManifestRouter
+      createManifestRouter,
+      createAssetsRouter
     ];
 
     router.use(
