@@ -23,6 +23,15 @@
   }
 }
 
+.form-wrapper {
+  background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  padding-top: 22px;
+  min-height: 114px;
+  height: 100%;
+}
+
 .form {
   display: flex;
 }
