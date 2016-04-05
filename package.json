@@ -6,7 +6,7 @@
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
   "engine": "node >= 4.2.3",
   "scripts": {
-    "dev": "env DEBUG=toga,toga:* node_modules/nodemon/bin/nodemon.js --debug ./script/start/index.js -- --dev",
+    "dev": "env DEBUG=toga,toga:* node_modules/nodemon/bin/nodemon.js ./script/start/index.js -- --dev",
     "start": "./script/start/index.js",
     "test": "./node_modules/mocha/bin/_mocha --opts ./.mocha",
     "coverage": "./node_modules/.bin/nyc --require babel-core/register --all npm test",
