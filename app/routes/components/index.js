@@ -6,7 +6,6 @@ module.exports = (deps) => {
       '/routes/components/styles': createStylesRouter,
       '/routes/components/js': createBundlingRouter,
       '/routes/components/manifest': createManifestRouter,
-      '/middleware/setMountNodeId': setMountNodeId,
       '/middleware/setComponentPath': setComponentPath,
       '/middleware/setLocale': setLocale
       } = deps;
@@ -20,8 +19,7 @@ module.exports = (deps) => {
 
     router.use(
       setLocale,
-      setComponentPath,
-      setMountNodeId
+      setComponentPath
     );
     subRouters.forEach(factory => router.use(factory()));
 
