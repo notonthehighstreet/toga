@@ -7,18 +7,26 @@ const fakeWebpack = {
   optimize: {
     CommonsChunkPlugin: function() {},
     DedupePlugin: function() {},
-    OccurrenceOrderPlugin: function() {}
+    OccurrenceOrderPlugin: function() {},
+    UglifyJsPlugin: function() {}
   },
   DefinePlugin: function() {}
 };
+const fakeGetAppConfig = sandbox.stub();
+
 describe('Create Webpack Config', () => {
   let subject;
   const definePluginSpy = sandbox.spy(fakeWebpack, 'DefinePlugin');
+  const uglifyJsPluginSpy = sandbox.spy(fakeWebpack.optimize, 'UglifyJsPlugin');
 
   beforeEach(() => {
     subject = builder({
       '/constants': chance.word(),
-      webpack: fakeWebpack
+      webpack: fakeWebpack,
+      '/lib/getAppConfig': fakeGetAppConfig
+    });
+    fakeGetAppConfig.returns({
+      minify: false
     });
   });
   afterEach(() => {
@@ -27,24 +35,50 @@ describe('Create Webpack Config', () => {
   after(() => {
     sandbox.restore();
   });
-  it('when definitions are passed, creates config object with definitions', () => {
-    const fakeDefinitions = {
-      [chance.word()]: chance.word()
-    };
-    const result = subject({
-      modulePaths: [],
-      definitions: fakeDefinitions,
-      vendorBundleFileName: chance.word()
-    });
+  describe('when definitions are passed', () => {
+    it('creates config object with definitions', () => {
+      const fakeDefinitions = {
+        [chance.word()]: chance.word()
+      };
+      const result = subject({
+        modulePaths: [],
+        definitions: fakeDefinitions,
+        vendorBundleFileName: chance.word()
+      });
 
-    expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
-    expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
-  });
-  it('when definitions are not passed, creates config object without definitions', () => {
-    subject({
-      modulePaths: [],
-      vendorBundleFileName: chance.word()
+      expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
+      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
     });
-    expect(definePluginSpy).not.to.have.been.called;
+  });
+  describe('when definitions are not passed', () => {
+    it('creates config object without definitions', () => {
+      subject({
+        modulePaths: [],
+        vendorBundleFileName: chance.word()
+      });
+      expect(definePluginSpy).not.to.have.been.called;
+    });
+  });
+  describe('when in non-minify mode', () => {
+    it('creates config without UglifyJs plugin', () => {
+      subject({
+        modulePaths: [],
+        vendorBundleFileName: chance.word()
+      });
+      expect(uglifyJsPluginSpy).not.to.have.been.called;
+    });
+  });
+  describe('when in minify mode', () => {
+    it('creates config with UglifyJs plugin', () => {
+      fakeGetAppConfig.returns({
+        minify: true
+      });
+      const result = subject({
+        modulePaths: [],
+        vendorBundleFileName: chance.word()
+      });
+      expect(uglifyJsPluginSpy).to.have.been.calledOnce;
+      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+    });
   });
 });
