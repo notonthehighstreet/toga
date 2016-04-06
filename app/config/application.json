@@ -15,5 +15,6 @@
   "honeybadger": {
     "environment": "development",
     "apiKey": "it's a secret!"
-  }
+  },
+  "minify": true
 }

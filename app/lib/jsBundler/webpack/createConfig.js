@@ -2,8 +2,10 @@ module.exports = (deps) => {
   return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName}) {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
+      '/lib/getAppConfig': getAppConfig,
       webpack
       } = deps;
+    const { minify } = getAppConfig();
 
     let config = {
       entry: {
@@ -42,6 +44,9 @@ module.exports = (deps) => {
       ]
     };
 
+    if (minify) {
+      config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    }
     if (definitions) {
       config.plugins.push(new webpack.DefinePlugin(definitions));
     }
