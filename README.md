@@ -4,8 +4,9 @@
 
 ## Prerequisites
 
-* Node.js v4.3.0
+* Node.js v4.3.2 - Recommend using NVM
 * npm v3.7.1
+* Redis i.e. `brew install redis`
 
 ## Installation
 
@@ -16,6 +17,10 @@ Install node module dependencies
 Create webpack module mappings (must be re-run when modules change)
 
 `npm run create-bundle-indexes`
+
+## Ensure Redis is running
+
+`redis-server`
 
 ## Run the server
 
@@ -28,10 +33,10 @@ Spins up an extra server under the default port of 3001, which proxies directly 
 
 ## Tests
 
-Run all the Tests 
+Run all the Tests
 
 `npm test`
 
-Run the tests and watch for changes 
+Run the tests and watch for changes
 
 `npm test -- --watch`
