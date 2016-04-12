@@ -1,7 +1,8 @@
 module.exports = (deps) => {
   return function setComponentsContext({paramName}) {
     const {
-      'lodash': _
+      'lodash': _,
+      '/middleware/errors/badRequestError': BadRequestError
       } = deps;
     const componentsContext = (encodedConfig) => {
       if (_.isUndefined(encodedConfig)) {
@@ -18,7 +19,7 @@ module.exports = (deps) => {
         next();
       }
       catch(error) {
-        next(error);
+        next(new BadRequestError('Context is not valid JSON'));
       }
     };
   };

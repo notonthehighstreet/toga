@@ -2,8 +2,9 @@ module.exports = (deps) => {
   return function getComponentBundle(req, res, next) {
     const {
       '/lib/jsBundler/getComponentBundle': getComponentBundleContent,
-      '/lib/getComponentBundleFromCache': getCachedComponentBundleContent
-      } = deps;
+      '/lib/getComponentBundleFromCache': getCachedComponentBundleContent,
+      '/middleware/errors/notFoundError': NotFoundError
+    } = deps;
     const options = {
       components: req.componentsContext,
       locale: req.locale || 'en'
@@ -14,6 +15,8 @@ module.exports = (deps) => {
       .then((bundleContent) => {
         res.set('Content-Type', 'application/javascript').send(bundleContent);
       })
-      .catch(next);
+      .catch(() => {
+        next(new NotFoundError('Component is not found'));
+      });
   };
 };

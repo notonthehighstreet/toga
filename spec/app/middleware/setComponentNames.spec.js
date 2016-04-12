@@ -2,17 +2,18 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../app/middleware/setComponentNames');
-const syntaxErrorMatcher = (o) => {
-  return o.constructor === SyntaxError;
-};
 let subject;
 let sandbox = sinon.sandbox.create();
 let nextSpy = sandbox.spy();
 let fakeRes = {};
 
+function BadRequestError() { }
+
 describe('setComponentNames middleware', () => {
   beforeEach(() => {
-    subject = builder();
+    subject = builder({
+      '/middleware/errors/badRequestError': BadRequestError
+    });
   });
   afterEach(() => {
     sandbox.reset();
@@ -51,7 +52,8 @@ describe('setComponentNames middleware', () => {
     });
     it('calls next with an error', () => {
       expect(nextSpy).to.have.been.calledOnce;
-      expect(nextSpy).to.have.been.calledWithMatch(syntaxErrorMatcher);
+      let firstCallArguments = nextSpy.args[0];
+      return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
     });
   });
   describe('when no components field included in request query', () => {
@@ -63,7 +65,8 @@ describe('setComponentNames middleware', () => {
     });
     it('calls next with an error', () => {
       expect(nextSpy).to.have.been.calledOnce;
-      expect(nextSpy).to.have.been.calledWithMatch(syntaxErrorMatcher);
+      let firstCallArguments = nextSpy.args[0];
+      return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
     });
   });
 });
