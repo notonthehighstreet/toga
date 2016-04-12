@@ -10,5 +10,4 @@ tmp
 *.rdb
 coverage
 .nyc_output
-.idea
 *.iml
