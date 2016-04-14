@@ -1,7 +1,10 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const builder = require('../../../app/middleware/setComponentsContext');
+function BadRequestError() { }
+
 const subject = builder({
+  '/middleware/errors/badRequestError': BadRequestError,
   'lodash': require('lodash')
 });
 
@@ -9,9 +12,6 @@ describe('setComponentsContext', () => {
   const sandbox = sinon.sandbox.create();
   const fakeResponse = {};
   const nextSpy = sandbox.spy();
-  const syntaxErrorMatcher = (o) => {
-    return o.constructor === SyntaxError;
-  };
 
   afterEach(() => {
     sandbox.reset();
@@ -44,7 +44,8 @@ describe('setComponentsContext', () => {
         let middleware = subject({paramName: contextParam});
         middleware(fakeRequest, fakeResponse, nextSpy);
         expect(fakeRequest.componentsContext).to.be.undefined;
-        expect(nextSpy).to.have.been.calledWithMatch(syntaxErrorMatcher);
+        let firstCallArguments = nextSpy.args[0];
+        return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
       });
     });
   });

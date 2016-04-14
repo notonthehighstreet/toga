@@ -14,10 +14,13 @@ describe('getComponentBundle', () => {
     set: sandbox.stub(),
     send: sandbox.stub()
   };
+  function NotFoundError() { }
+
   const nextSpy = sandbox.spy();
   const subject = builder({
     '/lib/jsBundler/getComponentBundle': getComponentBundleStub,
-    '/lib/getComponentBundleFromCache': getCachedComponentBundleStub
+    '/lib/getComponentBundleFromCache': getCachedComponentBundleStub,
+    '/middleware/errors/notFoundError': NotFoundError
   });
 
   beforeEach(() => {
@@ -66,7 +69,9 @@ describe('getComponentBundle', () => {
       result = subject(fakeReq, fakeRes, nextSpy);
 
       return result.then(() => {
-        return expect(nextSpy.calledWith(err)).to.be.true;
+        expect(nextSpy.calledOnce).to.be.true;
+        let firstCallArguments = nextSpy.args[0];
+        return expect(firstCallArguments[0] instanceof NotFoundError).to.be.true;
       });
     });
   });
