@@ -3,3 +3,4 @@
 --reporter dot
 --require ./spec/specHelper.js
 --compilers js:babel-core/register
+-t 20000
