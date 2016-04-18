@@ -29,10 +29,13 @@ function startApp() {
 describe('preCacheBundle', () => {
   beforeEach((done) => {
     const client = Redis(6379, 'localhost', redisClientConfig);
-
-    client.flushall(() => {
+    client.on('error', (err) => {
       client.disconnect();
-      done();
+      done(err);
+    });
+    client.flushall((err) => {
+      client.disconnect();
+      done(err);
     });
   });
 
