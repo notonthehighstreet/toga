@@ -1,11 +1,11 @@
 module.exports = (deps) => {
   return function getComponentStyles(req, res, next) {
     const {
-      '/lib/cssBundler/getStylesBundle': getStylesBundle
+      '/lib/getComponentStyleFromCache': getComponentStyleFromCache
       } = deps;
-    const componentNames = req.componentsContext;
+    const components = req.componentsContext;
 
-    return getStylesBundle({componentNames})
+    return getComponentStyleFromCache({components})
       .then((cssContent) => {
         res.set('Content-Type', 'text/css').send(cssContent);
       })

@@ -26,12 +26,12 @@ function startApp() {
   });
 }
 
-describe('preCacheBundle', () => {
+describe('preCache', () => {
   beforeEach((done) => {
     const client = Redis(6379, 'localhost', redisClientConfig);
     client.on('error', (err) => {
-      client.disconnect();
-      done(err);
+     client.disconnect();
+     done(err);
     });
     client.flushall((err) => {
       client.disconnect();
@@ -39,9 +39,10 @@ describe('preCacheBundle', () => {
     });
   });
 
-  it('should cache the test component in redis', (done) => {
+  it('should cache the test component bundle in redis', (done) => {
     app = startApp();
-    app.then(() => {
+    app.then(([server]) => {
+      server.close();
       const client = Redis(6379, 'localhost', redisClientConfig);
       client.on('error', (err) => {
         client.disconnect();
@@ -63,6 +64,31 @@ describe('preCacheBundle', () => {
         expect(values[1]).to.contain('React');
         done();
       });
+    }, (err) => {
+      done(err);
+    });
+  });
+
+  it('should cache the test component styles in redis', (done) => {
+    app = startApp();
+    app.then(([server]) => {
+      server.close();
+      const client = Redis(6379, 'localhost', redisClientConfig);
+      client.on('error', (err) => {
+        done(err);
+      });
+      const redisGet = promisify(client.get.bind(client));
+
+      redisGet('styles-test').then((value) => {
+          if (value === null) {
+            done(new Error('Styles bundle is missing'));
+          }
+          expect(value).to.contain('.toga-test');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
     }, (err) => {
       done(err);
     });

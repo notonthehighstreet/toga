@@ -21,11 +21,11 @@ describe('getComponentStyles', () => {
   });
 
   describe('when the components css is successfully returned', () => {
-    const getStylesBundleMock = () => {
+    const getComponentStyleFromCacheMock = () => {
       return Promise.resolve(fakeCss);
     };
     const subject = builder({
-      '/lib/cssBundler/getStylesBundle': getStylesBundleMock
+      '/lib/getComponentStyleFromCache': getComponentStyleFromCacheMock
     });
     it('returns the components css', () => {
       const result = subject(fakeRequest, fakeResponse, nextSpy);
@@ -39,11 +39,11 @@ describe('getComponentStyles', () => {
   });
   describe('when the components css is not successfully returned', () => {
     const error = {};
-    const getStylesBundleMock = () => {
+    const getComponentStyleFromCacheMock = () => {
       return Promise.reject(error);
     };
     const subject = builder({
-      '/lib/cssBundler/getStylesBundle': getStylesBundleMock
+      '/lib/getComponentStyleFromCache': getComponentStyleFromCacheMock
     });
     it('propogates the error', () => {
       const result = subject(fakeRequest, fakeResponse, nextSpy);
