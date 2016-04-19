@@ -30,8 +30,8 @@ describe('preCache', () => {
   beforeEach((done) => {
     const client = Redis(6379, 'localhost', redisClientConfig);
     client.on('error', (err) => {
-     client.disconnect();
-     done(err);
+      client.disconnect();
+      done(err);
     });
     client.flushall((err) => {
       client.disconnect();
@@ -80,15 +80,15 @@ describe('preCache', () => {
       const redisGet = promisify(client.get.bind(client));
 
       redisGet('styles-test').then((value) => {
-          if (value === null) {
-            done(new Error('Styles bundle is missing'));
-          }
-          expect(value).to.contain('.toga-test');
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
+        if (value === null) {
+          done(new Error('Styles bundle is missing'));
+        }
+        expect(value).to.contain('.toga-test');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
     }, (err) => {
       done(err);
     });
