@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-* Node.js v4.3.2 - Recommend using NVM
+* Node.js v4.4.3 - Recommend using NVM
 * npm v3.7.1
 * Redis i.e. `brew install redis`
 
