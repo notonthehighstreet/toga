@@ -1,7 +1,6 @@
 module.exports = (deps) => {
   return function getStylesBundle({componentNames}) {
     const {
-      '/cache/get': getCache,
       '/cache/set': setCache,
       '/lib/cssBundler/sass/compileBundle': compileBundle,
       '/lib/cssBundler/addPrefixes': addPrefixes,
@@ -23,17 +22,15 @@ module.exports = (deps) => {
     }
     bundleId = componentNames.join('-');
 
-    return getCache(`styles-${bundleId}`)
-      .catch(()=> {
-        let requiredComponents = _.chain(componentNames)
-          .map(componentName => getComponentDependencies(getComponentManifest(componentName)))
-          .flatten()
-          .uniq()
-          .value();
+    let requiredComponents = _.chain(componentNames)
+      .map(componentName => getComponentDependencies(getComponentManifest(componentName)))
+      .flatten()
+      .uniq()
+      .value();
 
-        return compileBundle({componentNames: requiredComponents})
-          .then(addPrefixes)
-          .then(cacheStyles(bundleId));
-      });
+    return compileBundle({componentNames: requiredComponents})
+      .then(addPrefixes)
+      .then(cacheStyles(bundleId));
+
   };
 };
