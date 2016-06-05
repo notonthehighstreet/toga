@@ -1,0 +1,11 @@
+version: '2'
+services:
+  toga:
+    image: toga
+    ports:
+      - 8080:8080
+    links:
+      - redis
+    command: npm start
+  redis:
+    image: redis
