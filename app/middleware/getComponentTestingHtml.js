@@ -6,8 +6,7 @@ module.exports = (deps) => {
       } = deps;
     const { componentsContext } = req;
     const componentName = req.componentPath.slice(1);
-    const locale = req.locale;
-    const renderedComponent = renderComponent({locale, componentName, componentsContext}, renderTestMarkup);
+    const renderedComponent = renderComponent({componentName, componentsContext}, renderTestMarkup);
 
     res.set('Content-Type', 'text/html').send(renderedComponent);
   };

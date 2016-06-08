@@ -3,7 +3,7 @@
 /* global BUNDLE_LOCALE: true */
 const bootstrap = require('toga-component').bootstrapReact;
 const wrapComponent = require('toga-component').wrapComponent;
-const TogaComponent = wrapComponent(togaComponentSource({locale:BUNDLE_LOCALE}), togaComponentName);
+const TogaComponent = wrapComponent(togaComponentSource, togaComponentName);
 
 bootstrap({
   component: TogaComponent,
