@@ -1,6 +1,6 @@
-const React = require('react');
-const i18n = require('./i18n.json');
-const createT = require('toga-component').createT;
+import React from 'react';
+import { createT } from 'toga-component';
+import i18n from './i18n.json';
 
 module.exports = React.createClass({
   render() {

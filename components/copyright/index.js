@@ -1,12 +1,12 @@
-const React = require('react');
-const togaComponent = require('toga-component');
-const i18n = require('./i18n.json');
+import React from 'react';
+import { createT } from 'toga-component';
+import i18n from './i18n.json';
 
 module.exports = React.createClass({
   render() {
     const { locale } = this.props;
     const phrases = i18n[locale];
-    const t = togaComponent.createT({phrases});
+    const t = createT({phrases});
     return (
       <div
         className={`copyright-text${this.state.BOOM ? ' highlighted' : ''}`}

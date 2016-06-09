@@ -10,4 +10,5 @@ const startAppServer = require('./startAppServer');
 if (argv.dev) {
   require('./startDevSyncServer')();
 }
-return startAppServer();
+
+startAppServer();
