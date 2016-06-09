@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return ({componentDOM, componentName, locale, context}) => {
+  return ({componentDOM, componentName, context}) => {
     const config = deps['/lib/getAppConfig']();
     const apiVersionPrefix = `/v${config.apiVersion}`;
 
@@ -15,7 +15,7 @@ module.exports = (deps) => {
     <body>
     <div toga="${componentName}" props='${JSON.stringify(context)}'>${componentDOM}</div>
     <script src='${apiVersionPrefix}/components-vendor-bundle.js?components=["${componentName}"]'></script>
-    <script src='${apiVersionPrefix}/components.js?components=[{"name": "${componentName}"}]&locale=${locale}'></script>
+    <script src='${apiVersionPrefix}/components.js?components=[{"name": "${componentName}"}]&locale=${context.locale}'></script>
     </body>
     </html>
     `;

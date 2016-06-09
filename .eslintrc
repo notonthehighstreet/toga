@@ -2,7 +2,8 @@
   "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "experimentalObjectRestSpread": true
     }
   },
   "env": {

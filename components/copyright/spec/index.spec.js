@@ -8,7 +8,7 @@ describe('copyright component', () => {
   let componentDOM;
 
   beforeEach(() => {
-    Copyright = require('../')({ locale: 'en' });
+    Copyright = require('../');
     renderedComponent = TestUtils.renderIntoDocument(<Copyright/>);
     componentDOM = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'copyright-text');
   });
