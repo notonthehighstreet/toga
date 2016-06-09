@@ -15,7 +15,7 @@ module.exports = (deps) => {
     <body>
     <div toga="${componentName}" props='${JSON.stringify(context)}'>${componentDOM}</div>
     <script src='${apiVersionPrefix}/components-vendor-bundle.js?components=["${componentName}"]'></script>
-    <script src='${apiVersionPrefix}/components.js?components=[{"name": "${componentName}"}]&locale=${context.locale}'></script>
+    <script src='${apiVersionPrefix}/components.js?components=[{"name": "${componentName}"}]'></script>
     </body>
     </html>
     `;
