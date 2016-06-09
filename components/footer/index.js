@@ -3,7 +3,7 @@ import toga from 'toga-component';
 import i18n from './i18n.json';
 import Copyright from '../copyright';
 
-const Footer = React.createClass({
+class Footer extends React.Component {
   render() {
     const { locale } = this.props;
     const phrases = i18n[locale];
@@ -15,6 +15,6 @@ const Footer = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = toga.wrapComponent(Footer, 'footer');

@@ -2,36 +2,34 @@ import React from 'react';
 import toga from 'toga-component';
 import i18n from './i18n.json';
 
-const Copyright = React.createClass({
+class Copyright extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      'BOOM': false
+    };
+    this.onMouseOver = this.onMouseOver.bind(this);
+  }
+  onMouseOver(boom) {
+    this.setState({
+      'BOOM': boom
+    });
+  }
   render() {
-    const { locale } = this.props;
+    const { locale, one } = this.props;
+    const { BOOM } = this.state;
     const phrases = i18n[locale];
     const t = toga.createT({phrases});
     return (
       <div
-        className={`copyright-text${this.state.BOOM ? ' highlighted' : ''}`}
-        onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}
+        className={`copyright-text${BOOM ? ' highlighted' : ''}`}
+        onMouseOver={() => this.onMouseOver(true)}
+        onMouseOut={() => this.onMouseOver(false)}
       >
-        &copy; 2016 - {t('THANKS')} {this.props.one}
+        &copy; 2016 - {t('THANKS')} {one}
       </div>
     );
-  },
-  getInitialState() {
-    return {
-      'BOOM': false
-    };
-  },
-  onMouseOver() {
-    this.setState({
-      'BOOM': true
-    });
-  },
-  onMouseOut() {
-    this.setState({
-      'BOOM': false
-    });
   }
-});
+}
 
 module.exports = toga.wrapComponent(Copyright, 'copyright');
