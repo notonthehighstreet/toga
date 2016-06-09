@@ -2,10 +2,10 @@
   "name": "toga-loader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha --opts ./.mocha",
-    "build": "./node_modules/babel-cli/bin/babel.js -d ./ src"
+    "test": "_mocha --opts ./.mocha",
+    "build": "babel -d ./ src"
   },
   "dependencies": {
     "babel-cli": "^6.4.0",

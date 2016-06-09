@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha --opts ./.mocha",
-    "build": "./node_modules/babel-cli/bin/babel.js -d lib src"
+    "test": "_mocha --opts ./.mocha",
+    "build": "babel -d lib src"
   },
   "author": "",
   "license": "ISC",

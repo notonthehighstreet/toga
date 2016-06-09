@@ -3,10 +3,10 @@ const React = require('react');
 module.exports = (Component, componentName) => {
   return React.createClass({
     render() {
-      const className = `toga-${componentName}`;
+      const className = `whoopsies-${componentName}`;
 
       return (
-        <div className={className}>
+        <div className={className} >
           <Component {...this.props}/>
         </div>
       );
