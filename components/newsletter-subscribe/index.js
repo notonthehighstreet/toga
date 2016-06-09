@@ -1,11 +1,11 @@
 import React from 'react';
-import { createT } from 'toga-component';
+import toga from 'toga-component';
 import i18n from './i18n.json';
 
-module.exports = React.createClass({
+const NewsletterSubscribe = React.createClass({
   render() {
     const { locale } = this.props;
-    const t = createT({phrases: i18n[locale]});
+    const t = toga.createT({phrases: i18n[locale]});
     return (
       <div>
         <p className="slogan">{t('UNIQUE_INSPIRING')}</p>
@@ -20,3 +20,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+module.exports = toga.wrapComponent(NewsletterSubscribe, 'newsletter-subscribe');

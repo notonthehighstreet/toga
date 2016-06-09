@@ -1,13 +1,13 @@
 import React from 'react';
-import { createT } from 'toga-component';
+import toga from 'toga-component';
 import i18n from './i18n.json';
 import Copyright from '../copyright';
 
-module.exports = React.createClass({
+const Footer = React.createClass({
   render() {
     const { locale } = this.props;
     const phrases = i18n[locale];
-    const t = createT({phrases});
+    const t = toga.createT({phrases});
     return (
       <div className="footer">
         {t('WELCOME_TO_FOOTER')}
@@ -16,3 +16,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+module.exports = toga.wrapComponent(Footer, 'footer');

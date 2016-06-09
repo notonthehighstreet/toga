@@ -1,12 +1,12 @@
 import React from 'react';
-import { createT } from 'toga-component';
+import toga from 'toga-component';
 import i18n from './i18n.json';
 
-module.exports = React.createClass({
+const Copyright = React.createClass({
   render() {
     const { locale } = this.props;
     const phrases = i18n[locale];
-    const t = createT({phrases});
+    const t = toga.createT({phrases});
     return (
       <div
         className={`copyright-text${this.state.BOOM ? ' highlighted' : ''}`}
@@ -33,3 +33,5 @@ module.exports = React.createClass({
     });
   }
 });
+
+module.exports = toga.wrapComponent(Copyright, 'copyright');
