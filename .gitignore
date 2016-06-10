@@ -1,6 +1,4 @@
 node_modules/*
-packages/toga-loader/node_modules
-packages/toga-component/node_modules
 .tags*
 *.log
 public/build

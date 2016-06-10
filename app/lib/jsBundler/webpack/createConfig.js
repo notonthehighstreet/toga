@@ -3,8 +3,10 @@ module.exports = (deps) => {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
       '/lib/getAppConfig': getAppConfig,
+      'extract-text-webpack-plugin':ExtractTextPlugin,
+      autoprefixer,
       webpack
-      } = deps;
+    } = deps;
     const { minify } = getAppConfig();
 
     let config = {
@@ -31,6 +33,14 @@ module.exports = (deps) => {
             loaders: ['json']
           },
           {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            loader: ExtractTextPlugin.extract('style', [
+              'css?sourceMap',
+              'postcss',
+              'sass?sourceMap&outputStyle=expanded'].join('!'))
+          },
+          {
             test: /.*components\/.*\/index\.js$/,
             loaders: ['toga']
           }
@@ -38,10 +48,12 @@ module.exports = (deps) => {
       },
       devtool: 'source-map',
       plugins: [
+        new ExtractTextPlugin('[name].css'),
         new webpack.optimize.CommonsChunkPlugin(vendorBundleFileName, ['components', 'vendor']),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(true)
-      ]
+      ],
+      postcss: [autoprefixer]
     };
 
     if (minify) {

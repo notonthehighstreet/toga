@@ -2,7 +2,9 @@ import React from 'react';
 import toga from 'toga-component';
 import i18n from './i18n.json';
 
-class Copyright extends React.Component {
+import './styles.scss';
+
+module.exports = class Copyright extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +24,7 @@ class Copyright extends React.Component {
     const t = toga.createT({phrases});
     return (
       <div
-        className={`copyright-text${BOOM ? ' highlighted' : ''}`}
+        className={`toga-copyright${BOOM ? ' highlighted' : ''}`}
         onMouseOver={() => this.onMouseOver(true)}
         onMouseOut={() => this.onMouseOver(false)}
       >
@@ -30,6 +32,5 @@ class Copyright extends React.Component {
       </div>
     );
   }
-}
+};
 
-module.exports = toga.wrapComponent(Copyright, 'copyright');
