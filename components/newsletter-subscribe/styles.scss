@@ -1,50 +1,55 @@
 @import 'toga-component/styles/breakpoint';
 
-@include breakpoint(large) {
-  .cta {
-    display: none;
+.toga-newsletter-subscribe{
+
+  @include breakpoint(large) {
+    .cta {
+      display: none;
+    }
+    .input {
+      width: 400px;
+    }
+    .form {
+      border: solid 1px rgba(0, 0, 0, .56);
+      width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      padding: 16px;
+    }
   }
-  .input {
-    width: 400px;
+
+  @include breakpoint(small) {
+    .slogan {
+      display: none;
+    }
   }
+
+  .form-wrapper {
+    background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    padding-top: 22px;
+    min-height: 114px;
+    height: 100%;
+  }
+
   .form {
-    border: solid 1px rgba(0, 0, 0, .56);
-    width: 580px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: white;
-    padding: 16px;
+    display: flex;
   }
-}
 
-@include breakpoint(small) {
+  .input {
+    color: #000;
+    border: 1px solid #000;
+  }
+
+  .input::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, .56);
+  }
+
   .slogan {
-    display: none;
+    text-align: center;
   }
+
 }
 
-.form-wrapper {
-  background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
-  background-repeat: no-repeat;
-  background-position-x: center;
-  padding-top: 22px;
-  min-height: 114px;
-  height: 100%;
-}
-
-.form {
-  display: flex;
-}
-
-.input {
-  color: #000;
-  border: 1px solid #000;
-}
-
-.input::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, .56);
-}
-
-.slogan {
-  text-align: center;
-}

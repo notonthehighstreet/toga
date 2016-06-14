@@ -8,14 +8,14 @@ describe('copyright component', () => {
   let componentDOM;
 
   beforeEach(() => {
-    Copyright = require('../')({ locale: 'en' });
+    Copyright = require('../');
     renderedComponent = TestUtils.renderIntoDocument(<Copyright/>);
-    componentDOM = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'copyright-text');
+    componentDOM = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'toga-copyright');
   });
 
   describe('initial state', () => {
     it('renders with a copyright class', () => {
-      expect(componentDOM.className).to.equal('copyright-text');
+      expect(componentDOM.className).to.equal('toga-copyright');
     });
   });
   describe('hover state', () => {
@@ -24,7 +24,7 @@ describe('copyright component', () => {
     });
 
     it('renders with a highlighted class', () => {
-      expect(componentDOM.className).to.equal('copyright-text highlighted');
+      expect(componentDOM.className).to.equal('toga-copyright highlighted');
     });
 
     describe('hover state is removed', () => {
@@ -32,7 +32,7 @@ describe('copyright component', () => {
         TestUtils.Simulate.mouseOut(componentDOM);
       });
       it('renders without a highlighted class', () => {
-        expect(componentDOM.className).to.equal('copyright-text');
+        expect(componentDOM.className).to.equal('toga-copyright');
       });
     });
   });

@@ -1,18 +1,21 @@
-const React = require('react');
+import React from 'react';
+import toga from 'toga-component';
+import i18n from './i18n.json';
+import Copyright from '../copyright';
 
-module.exports = ({locale}) => {
-  const phrases = require('./i18n.json')[locale];
-  const t = require('toga-component').createT({phrases});
-  const Copyright = require('../copyright')({locale});
+import './styles.scss';
 
-  return React.createClass({
-    render() {
-      return (
-        <div className="footer">
-          {t('WELCOME_TO_FOOTER')}
-          <Copyright/>
-        </div>
-      );
-    }
-  });
+module.exports = class Footer extends React.Component {
+  render() {
+    const { locale, one } = this.props;
+    const phrases = i18n[locale];
+    const t = toga.createT({phrases});
+    return (
+      <div className="toga-footer">
+        {t('WELCOME_TO_FOOTER')}
+        <Copyright locale={locale} one={one} />
+      </div>
+    );
+  }
 };
+

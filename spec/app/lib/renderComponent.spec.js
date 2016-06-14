@@ -10,7 +10,6 @@ const sandbox = sinon.sandbox.create();
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 const callbackStub = sandbox.stub().returns(expectedSubjectReturnValue);
 let subject;
-let fakeLocale = chance.word();
 let fakeComponentName = chance.word();
 let fakeComponentsContext = {
   [chance.word()]: chance.word(),
@@ -34,9 +33,8 @@ describe('renderComponent', () => {
       }
     });
     actualSubjectReturnValue = subject({
-      locale: fakeLocale,
       componentName: fakeComponentName,
-      componentsContext: fakeComponentsContext
+      context: fakeComponentsContext
     }, callbackStub);
     callbackArguments = callbackStub.args[0][0];
   });
@@ -49,9 +47,6 @@ describe('renderComponent', () => {
     });
     it('with the component\'s name', () => {
       expect(callbackArguments.componentName).to.eq(fakeComponentName);
-    });
-    it('with the locale', () => {
-      expect(callbackArguments.locale).to.eq(fakeLocale);
     });
     it('with the component\'s context', () => {
       expect(callbackArguments.context).to.deep.eq(fakeComponentsContext);

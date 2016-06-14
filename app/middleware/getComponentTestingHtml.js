@@ -3,11 +3,11 @@ module.exports = (deps) => {
     const {
       '/lib/renderComponent': renderComponent,
       '/views/component-test': renderTestMarkup
-      } = deps;
-    const { componentsContext } = req;
+    } = deps;
+    const { componentsContext, locale } = req;
     const componentName = req.componentPath.slice(1);
-    const locale = req.locale;
-    const renderedComponent = renderComponent({locale, componentName, componentsContext}, renderTestMarkup);
+    const context = { locale, ...componentsContext };
+    const renderedComponent = renderComponent({componentName, context}, renderTestMarkup);
 
     res.set('Content-Type', 'text/html').send(renderedComponent);
   };

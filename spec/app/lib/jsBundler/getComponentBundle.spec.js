@@ -32,7 +32,8 @@ describe('getComponentBundle', () => {
   beforeEach(() => {
     deps = {
       '/cache/set': setCacheMock,
-      '/lib/buildModulePaths': buildModulePathsMock
+      '/lib/buildModulePaths': buildModulePathsMock,
+      'debug': () => () => {}
     };
     subject = builder(deps);
     fakeComponentsList = chance.pickset([

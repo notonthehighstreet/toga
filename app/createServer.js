@@ -4,10 +4,12 @@ module.exports = (deps) => {
       'express': express,
       'express-domain-middleware': domainMiddleware,
       '/routes/index': getRoutes,
+      'node-hook': hook,
       '/middleware/errorHandler': errorHandler
     } = deps;
     const app = express();
 
+    hook.hook('.scss', (source, filename) => `console.log("${filename}");`);
     app.use(domainMiddleware);
     app.use(getRoutes());
     app.use('/public', express.static('public'));

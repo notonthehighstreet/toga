@@ -13,6 +13,8 @@ const fakeWebpack = {
   DefinePlugin: function() {}
 };
 const fakeGetAppConfig = sandbox.stub();
+const fakeExtractTextPluging = () => {};
+fakeExtractTextPluging.extract = () => {};
 
 describe('Create Webpack Config', () => {
   let subject;
@@ -23,6 +25,7 @@ describe('Create Webpack Config', () => {
     subject = builder({
       '/constants': chance.word(),
       webpack: fakeWebpack,
+      'extract-text-webpack-plugin': fakeExtractTextPluging,
       '/lib/getAppConfig': fakeGetAppConfig
     });
     fakeGetAppConfig.returns({
@@ -35,7 +38,8 @@ describe('Create Webpack Config', () => {
   after(() => {
     sandbox.restore();
   });
-  describe('when definitions are passed', () => {
+
+  context('when definitions are passed', () => {
     it('creates config object with definitions', () => {
       const fakeDefinitions = {
         [chance.word()]: chance.word()
@@ -47,10 +51,11 @@ describe('Create Webpack Config', () => {
       });
 
       expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
-      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
     });
   });
-  describe('when definitions are not passed', () => {
+
+  context('when definitions are not passed', () => {
     it('creates config object without definitions', () => {
       subject({
         modulePaths: [],
@@ -59,7 +64,8 @@ describe('Create Webpack Config', () => {
       expect(definePluginSpy).not.to.have.been.called;
     });
   });
-  describe('when in non-minify mode', () => {
+  
+  context('when in non-minify mode', () => {
     it('creates config without UglifyJs plugin', () => {
       subject({
         modulePaths: [],
@@ -68,7 +74,8 @@ describe('Create Webpack Config', () => {
       expect(uglifyJsPluginSpy).not.to.have.been.called;
     });
   });
-  describe('when in minify mode', () => {
+
+  context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
       fakeGetAppConfig.returns({
         minify: true
@@ -78,7 +85,7 @@ describe('Create Webpack Config', () => {
         vendorBundleFileName: chance.word()
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
-      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
   });
 });

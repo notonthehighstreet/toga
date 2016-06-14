@@ -6,7 +6,7 @@ describe('footer component', () => {
   let renderedOutput;
 
   beforeEach(() => {
-    Footer = require('../')({ locale: 'en' });
+    Footer = require('../');
     renderedOutput = shallowRender(Footer);
   });
   describe('initial state', () => {

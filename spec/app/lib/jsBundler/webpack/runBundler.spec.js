@@ -16,11 +16,15 @@ describe('runBundler', () => {
   };
   const componentBundle = 'component bundle';
   const vendorBundle = 'vendor bundle';
+  const stylesBundle = 'styles bundle';
   const readFileStub = sandbox.stub();
+  const existsSyncStub = sandbox.stub();
   readFileStub.withArgs('/vendor.bundle.js', 'utf8').returns(Promise.resolve(vendorBundle));
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
+  readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
   const memoryFsMock = function() {
     this.readFile = readFileStub;
+    this.existsSync = existsSyncStub;
   };
   const webpackSuccessMock = () => {
     return {
@@ -53,24 +57,43 @@ describe('runBundler', () => {
       'es6-promisify': promisifyMock,
       'memory-fs': memoryFsMock,
       '/logger': loggerMock,
+      'debug': () => () => {},
       '/lib/jsBundler/webpack/createConfig': createConfigMock
     };
     subject = builder(deps);
   });
   describe('when the bundle is successful', () => {
-    beforeEach(() => {
-      deps['webpack'] = webpackSuccessMock;
-      result = subject({modulePaths: fakeModulePaths, definitions: fakeDefinitions});
+    
+    context('when styles do NOT exist', () => {
+      it('returns a bundle object with 2 bundles', () => {
+        existsSyncStub.withArgs('/components.css').returns(false);
+        deps['webpack'] = webpackSuccessMock;
+        result = subject({modulePaths: fakeModulePaths, definitions: fakeDefinitions});
+        return result.then((bundle) => {
+          return expect(bundle).to.be.deep.eq({
+            component: componentBundle,
+            vendor: vendorBundle,
+            styles: undefined
+          });
+        });
+      });
     });
-    it('returns a bundle object', () => {
-      return result.then((bundle) => {
-        return expect(bundle).to.be.deep.eq({
-          component: componentBundle,
-          vendor: vendorBundle
+    context('when styles exist', () => {
+      it('returns a bundle object with 3 bundles', () => {
+        existsSyncStub.withArgs('/components.css').returns(true);
+        deps['webpack'] = webpackSuccessMock;
+        result = subject({modulePaths: fakeModulePaths, definitions: fakeDefinitions});
+        return result.then((bundle) => {
+          return expect(bundle).to.be.deep.eq({
+            component: componentBundle,
+            vendor: vendorBundle,
+            styles: stylesBundle
+          });
         });
       });
     });
   });
+
   describe('when the bundle is not successful', () => {
     beforeEach(() => {
       deps['webpack'] = webpackFailureMock;

@@ -1,6 +1,0 @@
-'use strict';
-
-module.exports = function () {
-  return JSON.parse('%%%#${componentContext}%%%');
-};
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9nZXRDb250ZXh0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBTyxPQUFQLEdBQWlCLFlBQU07QUFDckIsU0FBTyxLQUFLLEtBQUwsQ0FBVyw0QkFBWCxDQUFQLENBRHFCO0NBQU4iLCJmaWxlIjoiZ2V0Q29udGV4dC5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gKCkgPT4ge1xuICByZXR1cm4gSlNPTi5wYXJzZSgnJSUlIyR7Y29tcG9uZW50Q29udGV4dH0lJSUnKTtcbn07XG4iXX0=
