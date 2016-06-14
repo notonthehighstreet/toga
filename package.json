@@ -6,6 +6,7 @@
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
   "engine": "node >= 4.2.3",
   "scripts": {
+    "example": "node ./example",
     "dev": "env DEBUG=toga,toga:* nodemon ./script/start/index.js -- --dev",
     "start": "./script/start/index.js",
     "test": "_mocha --require ./spec/specHelper.js --opts ./.mocha '{spec,components}/**/*.spec.js'",
