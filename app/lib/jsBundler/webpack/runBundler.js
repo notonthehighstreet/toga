@@ -36,7 +36,6 @@ module.exports = (deps) => {
         return run().then(() => {
           const cssExists = memoryFS.existsSync(`/${cssBundleFileName}`);
           const readFilePromises = [];
-
           readFilePromises.push(mFSReadfile(`/${componentBundleFileName}`, 'utf8'));
           readFilePromises.push(mFSReadfile(`/${vendorBundleFileName}`, 'utf8'));
 
