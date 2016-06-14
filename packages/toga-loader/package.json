@@ -2,19 +2,20 @@
   "name": "toga-loader",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "_mocha --opts ./.mocha",
-    "build": "babel -d ./ src"
-  },
-  "dependencies": {
-    "babel-cli": "^6.4.0",
-    "loader-utils": "^0.2.12"
+    "build": "babel -d lib src",
+    "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "babel-core": "^6.7.2",
+    "babel-cli": "^6.4.0",
+    "loader-utils": "^0.2.12"
+  },
+  "devDependencies": {
     "chai": "^3.5.0",
     "chance": "^1.0.1",
     "eslint": "^2.4.0",

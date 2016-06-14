@@ -39,7 +39,10 @@ module.exports = (deps) => {
 
           readFilePromises.push(mFSReadfile(`/${componentBundleFileName}`, 'utf8'));
           readFilePromises.push(mFSReadfile(`/${vendorBundleFileName}`, 'utf8'));
-          cssExists && readFilePromises.push(mFSReadfile(`/${cssBundleFileName}`, 'utf8'));
+
+          if (cssExists) {
+            readFilePromises.push(mFSReadfile(`/${cssBundleFileName}`, 'utf8'));
+          } 
 
           return Promise.all(readFilePromises).then((data) => {
             return {
