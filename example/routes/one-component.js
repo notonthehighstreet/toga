@@ -12,7 +12,9 @@ module.exports = function one(req, res) {
   ])
     .then(function(htmlStrings) {
       res.send(html({
+        id: 'one',
         footer: htmlStrings[0],
+        body: '<a href=\'/multiple\'>multiple</a>',
         scripts: scripts,
         styles: styles
       }));

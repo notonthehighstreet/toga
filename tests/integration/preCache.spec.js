@@ -53,7 +53,7 @@ describe('preCache', () => {
 
       promises.push(redisGet('component-./components/test/index.js=en'));
       promises.push(redisGet('vendor-./components/test/index.js=en'));
-
+      
       return Promise.all(promises).then((values) => {
         _.forEach(values, function(item) {
           if (item === null) {

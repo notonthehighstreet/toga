@@ -1,35 +1,44 @@
-const React = require('react');
-const togaComponent = require('toga-component');
-const i18n = require('./i18n.json');
+import React from 'react';
 
-module.exports = React.createClass({
-  render() {
-    const { locale } = this.props;
-    const phrases = i18n[locale];
-    const t = togaComponent.createT({phrases});
-    return (
-      <div
-        className={`test-text${this.state.BOOM ? ' highlighted' : ''}`}
-        onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}
-      >
-        &copy; 2016 - {t('THANKS')} {this.props.one}
-      </div>
-    );
-  },
-  getInitialState() {
-    return {
-      'BOOM': false
+import './styles.scss';
+
+module.exports = class Test extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      'BOOM': false,
+      clicked: false
     };
-  },
-  onMouseOver() {
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+  onMouseOver(boom) {
     this.setState({
-      'BOOM': true
-    });
-  },
-  onMouseOut() {
-    this.setState({
-      'BOOM': false
+      'BOOM': boom
     });
   }
-});
+  onClick() {
+    this.setState({
+      clicked: true
+    });
+  }
+  render() {
+    const { locale, one } = this.props;
+    const { BOOM, clicked } = this.state;
+    return (
+      <div
+        className={`toga-test${BOOM ? ' highlighted' : ''}${clicked ? ' clicked' : ''}`}
+        onMouseOver={() => this.onMouseOver(true)}
+        onMouseOut={() => this.onMouseOver(false)}
+        onClick={() => this.onClick()}
+      >
+        Test Component: 
+        <div id="locale">locale : {locale}</div>
+        <div id="context">context (one) : {one}</div>
+        <div id="clicked">clicked : {clicked.toString()}</div>
+        <div id="highlighted">highlighted : {BOOM.toString()}</div>
+      </div>
+    );
+  }
+};
+

@@ -1,7 +1,7 @@
 const {
   name: appName,
   version: packageVersion
-  } = require('../../package.json');
+} = require('../../package.json');
 
 module.exports = (deps) => {
   return function getAppConfig() {
@@ -9,11 +9,11 @@ module.exports = (deps) => {
       yargs,
       path,
       semver
-      } = deps;
+    } = deps;
     let {
       '/config/dev.json': devConfig,
       '/config/application.json': applicationConfig
-      } = deps;
+    } = deps;
     const getAbsolutePath = (filePath) => {
       return path.resolve('.', filePath);
     };
