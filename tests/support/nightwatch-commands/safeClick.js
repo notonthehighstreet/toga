@@ -8,7 +8,7 @@ exports.command = function safeClick(selector, callback) {
         callback.call(browser);
       }
     })
-    .pause(600);
+    .pause(10);
 
   return this;
 };

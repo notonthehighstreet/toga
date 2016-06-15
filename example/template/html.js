@@ -9,9 +9,6 @@ module.exports = (opts) => {
       </head>
       <body id="${opts.id}">
       <div id="body"  >${opts.body || ''}</div>
-      <div id="footer"  >${opts.footer || ''}</div>
-      <div id="newsletter"  >${opts.newsletter || ''}</div>
-      <div id="test"  >${opts.test || ''}</div>
       ${opts.scripts.map(script => `<script src=${script} ></script>`).join('')}
       </body>
       </html>

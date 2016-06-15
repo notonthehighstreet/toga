@@ -5,7 +5,7 @@ module.exports = (deps) => {
       '/lib/jsBundler/webpack/runBundler': bundle,
       '/lib/buildModulePaths': buildModulePaths,
       debug
-      } = deps;
+    } = deps;
 
     if (components.length === 0) {
       return Promise.reject(new Error('A bundle without components can not be created'));
@@ -15,14 +15,15 @@ module.exports = (deps) => {
     const definitions = { };
     const modulePaths = buildModulePaths(components);
     const bundleId = `${modulePaths.join('-')}=${locale}`;
+    const cssBundleId = components.map(c => c.name).join('-');
 
     return bundle({modulePaths, definitions})
       .then((bundles) => {
-        log('saving into cache: ', bundleId.split('/')[2]);
+        log('saving into cache: ', cssBundleId);
         return Promise.all([
           setCache(`component-${bundleId}`, bundles['component']),
           setCache(`vendor-${bundleId}`, bundles['vendor']),
-          setCache(`styles-${bundleId.split('/')[2]}`, bundles['styles'])
+          setCache(`styles-${cssBundleId}`, bundles['styles'])
         ])
           .then(() => bundles.component);
       });

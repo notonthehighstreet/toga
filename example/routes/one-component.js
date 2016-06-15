@@ -3,18 +3,17 @@ var rp = require('request-promise');
 
 module.exports = function one(req, res) {
   const scripts = [
-    'http://localhost:8080/v1/components-vendor-bundle.js?components=["footer"]',
-    'http://localhost:8080/v1/components.js?components=[{"name":"footer"}]'
+    'http://localhost:8080/v1/components-vendor-bundle.js?components=["test"]',
+    'http://localhost:8080/v1/components.js?components=[{"name":"test"}]'
   ];
-  const styles = ['http://localhost:8080/v1/styles.css?components=["footer"]'];
+  const styles = ['http://localhost:8080/v1/styles.css?components=["test"]'];
   Promise.all([
-    rp('http://localhost:8080/v1/footer.raw.html?context={"one":"toe"}&locale=de')
+    rp('http://localhost:8080/v1/test.raw.html?context={"one":"toe"}')
   ])
     .then(function(htmlStrings) {
       res.send(html({
         id: 'one',
-        footer: htmlStrings[0],
-        body: '<a href=\'/multiple\'>multiple</a>',
+        body: htmlStrings.join('<hr/>'),
         scripts: scripts,
         styles: styles
       }));

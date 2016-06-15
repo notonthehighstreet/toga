@@ -30,11 +30,11 @@ module.exports = function(source) {
   catch (e) {
     return source;
   }
-  componentIsNested = entryComponentName !== componentName;
+  componentIsNested = this.options.entry.components.length === 1 && entryComponentName !== componentName;
   if (typeof source === 'string' && !componentIsNested) {
     try {
       togaComponentSource = `${source.replace('module.exports', 'let togaComponentSource')}
-        let togaComponentName=\"${entryComponentName}\";
+        let togaComponentName=\"${componentName}\";
         ${bootstrapper.toString()}`;
     }
     catch (e) {

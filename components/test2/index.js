@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.scss';
 
-module.exports = class Test extends React.Component {
+module.exports = class Test2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,16 +27,16 @@ module.exports = class Test extends React.Component {
     const { BOOM, clicked } = this.state;
     return (
       <div
-        className={`toga-test${BOOM ? ' highlighted' : ''}${clicked ? ' clicked' : ''}`}
+        className={`toga-test2${BOOM ? ' highlighted' : ''}${clicked ? ' clicked' : ''}`}
         onMouseOver={() => this.onMouseOver(true)}
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
         Test Component: 
-        <div id="test-locale">locale : {locale}</div>
-        <div id="test-context">context (one) : {one}</div>
-        <div id="test-clicked">clicked : {clicked.toString()}</div>
-        <div id="test-highlighted">highlighted : {BOOM.toString()}</div>
+        <div id="test2-locale">locale : {locale}</div>
+        <div id="test2-context">context (one) : {one}</div>
+        <div id="test2-clicked">clicked : {clicked.toString()}</div>
+        <div id="test2-highlighted">highlighted : {BOOM.toString()}</div>
       </div>
     );
   }
