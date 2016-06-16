@@ -4,7 +4,8 @@ module.exports = (deps) => {
       '/cache/get': getCache,
       '/cache/set': setCache,
       '/lib/jsBundler/webpack/runBundler': bundle,
-      '/logger': getLogger
+      '/logger': getLogger,
+      '/lib/getAppConfig': getAppConfig
     } = deps;
 
     if (componentNames.length === 0) {
@@ -13,7 +14,7 @@ module.exports = (deps) => {
 
     const logger = getLogger();
     const bootstrapFileName = 'index.js';
-    const componentsPath = './components';
+    const { componentsPath } = getAppConfig();
     const modulePaths = componentNames.map((compPath) => `${componentsPath}/${compPath}/${bootstrapFileName}`);
     const definitions = {};
     const bundleId = modulePaths.join('-');
