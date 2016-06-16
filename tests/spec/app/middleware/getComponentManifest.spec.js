@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
+const chance = new require('chance')();
 const builder = require('../../../../app/middleware/getComponentManifest');
 
 describe('getComponentManifest middleware', () => {
@@ -16,8 +17,10 @@ describe('getComponentManifest middleware', () => {
     send: sandbox.stub()
   };
   const nextSpy = sandbox.spy();
+  const fakeComponentsPath = chance.word();
   const subject = builder({
-    'fs': fakeFs
+    'fs': fakeFs,
+    '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: fakeComponentsPath })
   });
 
   afterEach(() => {
@@ -25,7 +28,7 @@ describe('getComponentManifest middleware', () => {
   });
   it('reads the manifest file in the component directory specified in the request', () => {
     subject(fakeReq, fakeRes, nextSpy);
-    expect(fakeFs.readFile).to.have.been.calledWith(`./components${fakeReq.componentPath}/manifest.json`);
+    expect(fakeFs.readFile).to.have.been.calledWith(`${fakeComponentsPath}${fakeReq.componentPath}/manifest.json`);
   });
   it('responds with manifest file contents if manifest file can be read', () => {
     const fakeManifestData = '{"foo": "bar"}';

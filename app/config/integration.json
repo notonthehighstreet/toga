@@ -6,16 +6,16 @@
     "port": 8080,
     "host": "0.0.0.0"
   },
+  "newRelicEnabled": false,
+  "minify": true,
   "redis": {
-    "host": "redis",
+    "host": "127.0.0.1",
     "port": 6379
   },
-  "newRelicEnabled": false,
   "logFile": "./logs/application.logstash.json",
   "honeybadger": {
     "environment": "development",
     "apiKey": "it's a secret!"
   },
-  "minify": true,
-  "componentsPath": "./components"
+  "componentsPath": "./tests/integration/components"
 }

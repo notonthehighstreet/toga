@@ -1,7 +1,13 @@
-module.exports = () => {
-  return function getComponentManifest(componentName, componentsPath = '../../components') {
+module.exports = (deps) => {
+  return function getComponentManifest(componentName, componentsPath) {
+    const {
+      '/lib/getAppConfig': getAppConfig,
+      path
+    } = deps;
+    componentsPath = componentsPath || getAppConfig().componentsPath;
+    const relativeComponentsPath = path.join('../../', componentsPath);
     const manifestFileName = 'manifest.json';
-    const componentsManifestPath = `${componentsPath}/${componentName}/${manifestFileName}`;
+    const componentsManifestPath = `${relativeComponentsPath}/${componentName}/${manifestFileName}`;
 
     return require(componentsManifestPath);
   };

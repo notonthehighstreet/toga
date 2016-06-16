@@ -1,9 +1,11 @@
 module.exports = (deps) => {
   return function getComponentManifest(req, res, next) {
     const {
-      'fs': fs
+      'fs': fs,
+      '/lib/getAppConfig': getAppConfig
       } = deps;
-    const manifestPath = `./components${req.componentPath}/manifest.json`;
+    const { componentsPath } = getAppConfig();
+    const manifestPath = `${componentsPath}${req.componentPath}/manifest.json`;
 
     fs.readFile(manifestPath, 'utf8', (err, data) => {
       if (err) {
