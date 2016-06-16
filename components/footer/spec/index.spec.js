@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const shallowRender = require('../../../spec/shallowRender');
+const shallowRender = require('../../../tests/spec/shallowRender');
 
 describe('footer component', () => {
   let Footer;

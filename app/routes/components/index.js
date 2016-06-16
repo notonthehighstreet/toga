@@ -11,19 +11,16 @@ module.exports = (deps) => {
       '/middleware/setLocale': setLocale
       } = deps;
     const router = express.Router();
-    const subRouters = [
-      createHtmlRouter,
-      createStylesRouter,
-      createBundlingRouter,
-      createManifestRouter,
-      createAssetsRouter
-    ];
-
+    
     router.use(
       setLocale,
-      setComponentPath
+      setComponentPath,
+      createHtmlRouter(),
+      createStylesRouter(),
+      createBundlingRouter(),
+      createManifestRouter(),
+      createAssetsRouter()
     );
-    subRouters.forEach(factory => router.use(factory()));
 
     return router;
   };
