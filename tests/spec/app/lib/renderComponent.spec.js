@@ -15,11 +15,12 @@ let fakeComponentsContext = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
+const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 let callbackArguments;
 
 describe('renderComponent', () => {
   before(() => {
-    mockery.registerMock(`../../components/${fakeComponentName}/`, () => {});
+    mockery.registerMock(`${fakeRelativeComponentPath}/`, () => {});
     mockery.enable();
   });
   after(() => {
@@ -30,6 +31,10 @@ describe('renderComponent', () => {
     subject = builder({
       'toga-component': {
         renderReact: renderReactStub
+      },
+      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
+      path: {
+        join: sandbox.stub().returns(fakeRelativeComponentPath)
       }
     });
     actualSubjectReturnValue = subject({

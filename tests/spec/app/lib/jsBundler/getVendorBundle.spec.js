@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
+const chance = new require('chance')();
 const builder = require('../../../../../app/lib/jsBundler/getVendorBundle');
 
 describe('getVendorBundle', () => {
@@ -39,7 +40,8 @@ describe('getVendorBundle', () => {
       '/cache/get': {},
       '/cache/set': setCacheMock,
       '/lib/jsBundler/webpack/runBundler': {},
-      '/logger': loggerMock
+      '/logger': loggerMock,
+      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() })
     };
     subject = builder(deps);
   });

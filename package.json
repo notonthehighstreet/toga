@@ -10,7 +10,7 @@
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --dev",
     "start": "./script/start/index.js",
     "test": "_mocha --require ./tests/spec/specHelper.js --opts ./tests/config/mocha.opts '{tests/spec,components}/**/*.spec.js'",
-    "test-integration": "_mocha -t 40000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js'",
+    "test-integration": "_mocha -t 40000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config './app/config/integration.json'",
     "coverage": "nyc --require babel-core/register --all npm test",
     "codeclimate": "npm run coverage -- --reporter=lcov --reporter=text-lcov | CODECLIMATE_REPO_TOKEN=7072dea161cbd60d39bea5b16f7e0f5c502f16da4627893def96b2efebe0b9e3 ./node_modules/codeclimate-test-reporter/bin/codeclimate.js",
     "create-bundle-indexes": "env DEBUG=toga:*,toga:createBundleIndexes:*,toga:createBundleIndexes:error node ./script/createBundleIndexes.js",
