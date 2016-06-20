@@ -23,7 +23,6 @@ module.exports = (deps) => {
             log('saving into cache: ', bundleId);
             return Promise.all([
               setCache(`component-${bundleId}`, bundles['component']),
-              setCache(`vendor-${bundleId}`, bundles['vendor']),
               setCache(`styles-${bundleId}`, bundles['styles'])
             ]).then(() => bundles[assetType]);
           });

@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName, minify}) {
+  return function createWebpackConfig({modulePaths, definitions, minify}) {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
       'extract-text-webpack-plugin':ExtractTextPlugin,
@@ -9,9 +9,9 @@ module.exports = (deps) => {
 
     let config = {
       entry: {
-        components: modulePaths,
-        vendor: ['react', 'lodash']
+        components: modulePaths
       },
+      externals: ['react'],
       recordsInputPath: webpackBundleIndexesRecordPath,
       output: {
         filename: '[name].js',
@@ -47,7 +47,6 @@ module.exports = (deps) => {
       devtool: 'source-map',
       plugins: [
         new ExtractTextPlugin('[name].css'),
-        new webpack.optimize.CommonsChunkPlugin(vendorBundleFileName, ['components', 'vendor']),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(true)
       ],

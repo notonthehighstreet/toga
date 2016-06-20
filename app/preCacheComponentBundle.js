@@ -10,6 +10,9 @@ module.exports = (deps) => {
     const readdir = promisify(fs.readdir);
     const { componentsPath } = getAppConfig();
 
+    // todo : require and read react.js file into redisCache
+    // setCache(`vendor-${bundleId}`, bundles['vendor']),
+
     return readdir(componentsPath)
       .then((components) => {
         const promises = components
