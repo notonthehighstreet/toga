@@ -32,7 +32,7 @@ module.exports = class Test extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
-        Test Component: 
+        Test Component:
         <div id="test-locale">locale : {locale}</div>
         <div id="test-context">context (one) : {one}</div>
         <div id="test-clicked">clicked : {clicked.toString()}</div>
