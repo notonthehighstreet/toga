@@ -6,9 +6,9 @@ const fakeCss = 'some fake css';
 describe('getComponentStyles', () => {
   const sandbox = sinon.sandbox.create();
   const getComponentBundleStub = sandbox.stub();
-  const componentsContext =  ['a', 'b', 'c'];
+  const componentContext =  ['a', 'b', 'c'];
   const fakeRequest = {
-    componentsContext: componentsContext
+    componentContext: componentContext
   };
   const fakeResponse = {
     set: sandbox.stub(),

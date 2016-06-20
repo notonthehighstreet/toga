@@ -5,7 +5,7 @@ module.exports = (deps) => {
       '/middleware/errors/notFoundError': NotFoundError
     } = deps;
 
-    return getComponentBundle(req.componentsContext, 'styles')
+    return getComponentBundle(req.components, 'styles')
       .then((cssContent) => {
         res.set('Content-Type', 'text/css').send(cssContent);
       })

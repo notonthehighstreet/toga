@@ -7,7 +7,7 @@ describe('getComponentJs', () => {
   const getComponentBundleStub = sandbox.stub();
   const getCachedComponentBundleStub = sandbox.stub();
   const fakeRequest = {
-    componentsContext: 'fakeComponentContext',
+    componentContext: 'fakeComponentContext',
     locale: 'fakeLocale'
   };
   const fakeResponse = {
