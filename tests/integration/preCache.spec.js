@@ -33,8 +33,8 @@ describe('preCache', () => {
         client.disconnect();
         done(err);
       });
-      promises.push(redisGet('component-./tests/integration/components/test/index.js=en'));
-      promises.push(redisGet('vendor-./tests/integration/components/test/index.js=en'));
+      promises.push(redisGet('component-test'));
+      promises.push(redisGet('vendor-test'));
 
       return Promise.all(promises).then((values) => {
         values.forEach((item) => {
