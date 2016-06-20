@@ -33,12 +33,12 @@ module.exports = class TestNested extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
-        Test Nested Components: 
+        Test Nested Components:
         <div id="test-nested-locale">locale : {locale}</div>
         <div id="test-nested-context">context (one) : {one}</div>
         <div id="test-nested-clicked">clicked : {clicked.toString()}</div>
         <div id="test-nested-highlighted">highlighted : {BOOM.toString()}</div>
-        
+
          This is nested '&lt;Test />':
         <div style={{ padding: '15px', background: 'grey'}}>
           <Test />
