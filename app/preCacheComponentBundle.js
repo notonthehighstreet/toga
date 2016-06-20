@@ -14,9 +14,7 @@ module.exports = (deps) => {
       .then((components) => {
         const promises = components
           .filter((componentName) => fs.statSync(`${componentsPath}/${componentName}`).isDirectory())
-          .map((componentName) => {
-            return getComponentBundle({components: [{name: componentName}], locale: 'en'});
-          });
+          .map(getComponentBundle);
         return Promise.all(promises);
       });
   };

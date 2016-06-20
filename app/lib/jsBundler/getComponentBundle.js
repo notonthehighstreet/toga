@@ -1,9 +1,10 @@
 module.exports = (deps) => {
-  return function getComponentBundle({components, locale}) {
+  return function getComponentBundle(components, assetType) {
     const {
       '/cache/set': setCache,
+      '/cache/get': getCache,
       '/lib/jsBundler/webpack/runBundler': bundle,
-      '/lib/buildModulePaths': buildModulePaths,
+      '/lib/buildBundleId': buildBundleId,
       debug
     } = deps;
 
@@ -13,19 +14,19 @@ module.exports = (deps) => {
 
     const log = debug('toga:getComponentBundle');
     const definitions = { };
-    const modulePaths = buildModulePaths(components);
-    const bundleId = `${modulePaths.join('-')}=${locale}`;
-    const cssBundleId = components.map(c => c.name).join('-');
+    const { modulePaths, bundleId } = buildBundleId(components);
 
-    return bundle({modulePaths, definitions})
-      .then((bundles) => {
-        log('saving into cache: ', cssBundleId);
-        return Promise.all([
-          setCache(`component-${bundleId}`, bundles['component']),
-          setCache(`vendor-${bundleId}`, bundles['vendor']),
-          setCache(`styles-${cssBundleId}`, bundles['styles'])
-        ])
-          .then(() => bundles.component);
+    return getCache(`${assetType}-${bundleId}`)
+      .catch(()=> {
+        return bundle({ modulePaths, definitions })
+          .then((bundles) => {
+            log('saving into cache: ', bundleId);
+            return Promise.all([
+              setCache(`component-${bundleId}`, bundles['component']),
+              setCache(`vendor-${bundleId}`, bundles['vendor']),
+              setCache(`styles-${bundleId}`, bundles['styles'])
+            ]).then(() => bundles[assetType]);
+          });
       });
   };
 };

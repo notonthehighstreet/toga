@@ -4,6 +4,6 @@ module.exports = (deps) => {
     const bootstrapFileName = 'index.js';
     const { componentsPath } = getAppConfig();
 
-    return components.map(component => `${componentsPath}/${component.name}/${bootstrapFileName}`);
+    return [].concat(components).map(component => `${componentsPath}/${component}/${bootstrapFileName}`);
   };
 };

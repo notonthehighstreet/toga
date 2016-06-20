@@ -12,8 +12,16 @@ describe('getComponentBundle', () => {
   const setCacheMock = sandbox.spy(() => {
     return Promise.resolve();
   });
-  const buildModulePathsMock = (componentNames) => {
-    return componentNames;
+  const buildBundleIdMock = (componentNames) => {
+    return { bundleId : componentNames, cssBundleId : componentNames, bundlePaths: componentNames };
+  };
+  const getCachedValue = 'cached value';
+  const getCacheHitMock = () => {
+    return Promise.resolve(getCachedValue);
+  };
+  const cacheMissError = {};
+  const getCacheMissMock = () => {
+    return Promise.reject(cacheMissError);
   };
   const bundleSuccessData = {
     component: 'freshly bundled component',
@@ -26,13 +34,13 @@ describe('getComponentBundle', () => {
   const bundleFailureMock = () => {
     return Promise.reject(bundleFailureError);
   };
-  const locale = 'eng';
-  const bundleIdMatcher = sinon.match(new RegExp(`(component|vendor)(-\\w*)*=${locale}`, 'g'));
+  const bundleIdMatcher = sinon.match(new RegExp('(component|vendor)(-\\w*)', 'g'));
 
   beforeEach(() => {
     deps = {
+      '/cache/get': getCacheHitMock,
       '/cache/set': setCacheMock,
-      '/lib/buildModulePaths': buildModulePathsMock,
+      '/lib/buildBundleId': buildBundleIdMock,
       'debug': () => () => {}
     };
     subject = builder(deps);
@@ -49,33 +57,50 @@ describe('getComponentBundle', () => {
   });
 
   describe('when multiple components are requested', () => {
-    describe('and the bundle is successful', () => {
+    const componentNames = ['component1', 'component2'];
+    describe('and the bundle is cached', () => {
       beforeEach(() => {
-        deps['/lib/jsBundler/webpack/runBundler'] = bundleSuccessMock;
-        result = subject({components: fakeComponentsList, locale: locale});
+        deps['/cache/get'] = getCacheHitMock;
       });
       it('returns the bundle', () => {
-        return result.then((componentBundle) => {
-          return expect(componentBundle).to.be.eq(bundleSuccessData.component);
-        });
-      });
-      it('adds the bundles to the cache', () => {
-        return result.then(() => {
-          return [
-            expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.component),
-            expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.vendor)
-          ];
+        result = subject({componentNames});
+        return result.then((freshVendorBundle) => {
+          return expect(freshVendorBundle).to.be.eq(getCachedValue);
         });
       });
     });
-    describe('and the bundle is not successful', () => {
+    describe('and the bundle is not cached', () => {
       beforeEach(() => {
-        deps['/lib/jsBundler/webpack/runBundler'] = bundleFailureMock;
-        result = subject({components: fakeComponentsList, locale: locale});
+        deps['/cache/get'] = getCacheMissMock;
       });
-      it('returns an error', () => {
-        return result.catch((error) => {
-          expect(error).to.be.eq(bundleFailureError);
+      describe('and the bundle is successful', () => {
+        beforeEach(() => {
+          deps['/lib/jsBundler/webpack/runBundler'] = bundleSuccessMock;
+          result = subject(fakeComponentsList, 'component');
+        });
+        it('returns the bundle', () => {
+          return result.then((componentBundle) => {
+            return expect(componentBundle).to.be.eq(bundleSuccessData.component);
+          });
+        });
+        it('adds the bundles to the cache', () => {
+          return result.then(() => {
+            return [
+              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.component),
+              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.vendor)
+            ];
+          });
+        });
+      });
+      describe('and the bundle is not successful', () => {
+        beforeEach(() => {
+          deps['/lib/jsBundler/webpack/runBundler'] = bundleFailureMock;
+          result = subject(fakeComponentsList);
+        });
+        it('returns an error', () => {
+          return result.catch((error) => {
+            expect(error).to.be.eq(bundleFailureError);
+          });
         });
       });
     });
@@ -85,7 +110,7 @@ describe('getComponentBundle', () => {
     const noComponentsErrorMessage = 'A bundle without components can not be created';
     beforeEach(() => {
       fakeComponentsList = [];
-      result = subject({components: fakeComponentsList, locale: locale});
+      result = subject(fakeComponentsList);
     });
     it('returns an error', () => {
       return result.catch((error) => {

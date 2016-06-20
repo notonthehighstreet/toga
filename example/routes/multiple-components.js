@@ -4,7 +4,7 @@ var rp = require('request-promise');
 module.exports = function multiple(req, res) {
   const scripts = [
     'http://localhost:8080/v1/components-vendor-bundle.js?components=["test","test2"]',
-    'http://localhost:8080/v1/components.js?components=[{"name":"test"},{"name":"test2"}]'
+    'http://localhost:8080/v1/components.js?components=["test","test2"]'
   ];
   const styles = ['http://localhost:8080/v1/styles.css?components=["test","test2"]'];
   Promise.all([

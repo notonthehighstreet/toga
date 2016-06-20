@@ -11,7 +11,7 @@ const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 const callbackStub = sandbox.stub().returns(expectedSubjectReturnValue);
 let subject;
 let fakeComponentName = chance.word();
-let fakeComponentsContext = {
+let fakeComponentContext = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
@@ -39,7 +39,7 @@ describe('renderComponent', () => {
     });
     actualSubjectReturnValue = subject({
       componentName: fakeComponentName,
-      context: fakeComponentsContext
+      context: fakeComponentContext
     }, callbackStub);
     callbackArguments = callbackStub.args[0][0];
   });
@@ -54,7 +54,7 @@ describe('renderComponent', () => {
       expect(callbackArguments.componentName).to.eq(fakeComponentName);
     });
     it('with the component\'s context', () => {
-      expect(callbackArguments.context).to.deep.eq(fakeComponentsContext);
+      expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
     });
     it('and returns its return value', () => {
       expect(actualSubjectReturnValue).to.eq(expectedSubjectReturnValue);

@@ -1,7 +1,13 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const _ = require('lodash');
-const subject = require('../../../../app/middleware/setComponentPath')();
+const builder = require('../../../../app/middleware/setComponentContext');
+function BadRequestError() { }
+
+const subject = builder({
+  '/middleware/errors/badRequestError': BadRequestError,
+  'lodash': require('lodash')
+});
 
 describe('setComponentPath', () => {
   const sandbox = sinon.sandbox.create();
@@ -17,7 +23,8 @@ describe('setComponentPath', () => {
   _.each(componentFileTypes, (fileType) => {
     describe(`when the file type request is ${fileType}`, () => {
       const requestMock = {
-        path: `${componentPath}.${fileType}`
+        path: `${componentPath}.${fileType}`,
+        query: {}
       };
 
       it('detects it as a component and sets the componentPath ', () => {
