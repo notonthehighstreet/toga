@@ -8,17 +8,16 @@ module.exports = (deps) => {
       '/middleware/getComponentStyles': getComponentStyles,
       '/middleware/getComponentRawHtml': getComponentRawHtml,
       '/middleware/getComponentTestingHtml': getComponentTestingHtml,
-      '/middleware/getComponentManifest': getComponentManifest,
       '/middleware/setLocale': setLocale
     } = deps;
 
     const router = express.Router();
-    
+
     const serveStatic = (req, res, next) => {
       const { component, path } = req.params;
       return express.static(`components/${component}/assets/${path}`)(req, res, next);
     };
-    
+
     router.use(
       setLocale,
       setComponentContext
@@ -29,8 +28,7 @@ module.exports = (deps) => {
       .get(/^\/components-vendor-bundle\.js$/, getVendorJs)
       .get(/.*\.raw\.html$/, getComponentRawHtml)
       .get(/.*\.html$/, getComponentTestingHtml)
-      .get(/^\/components\.js$/, getComponentJs)
-      .get(/.*\.json$/, getComponentManifest);
+      .get(/^\/components\.js$/, getComponentJs);
 
     router.use('/:component/assets/:path', serveStatic);
 

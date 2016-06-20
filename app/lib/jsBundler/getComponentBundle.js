@@ -17,10 +17,6 @@ module.exports = (deps) => {
     const { modulePaths, bundleId } = buildBundleId(components);
 
     return getCache(`${assetType}-${bundleId}`)
-      .then((cachedVendorBundle) => {
-        // logger.info('Vendor Bundle retrieved for: ', bundleId);
-        return cachedVendorBundle;
-      })
       .catch(()=> {
         return bundle({ modulePaths, definitions })
           .then((bundles) => {
