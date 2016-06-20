@@ -1,19 +1,15 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const builder = require('../../../../app/middleware/getVendorBundle');
+const builder = require('../../../../app/middleware/getVendorJs');
 
-describe('getVendorBundle', () => {
+describe('getVendorJs', () => {
   const sandbox = sinon.sandbox.create();
   const nextSpy = sandbox.spy();
-  const loggerMock = () => {
-    return {
-      info: sandbox.spy()
-    };
-  };
   const fakeResponse = {
     set: sandbox.stub(),
     send: sandbox.stub()
   };
+  function NotFoundError() { }
 
   fakeResponse.set.returns(fakeResponse);
   afterEach(() => {
@@ -28,11 +24,10 @@ describe('getVendorBundle', () => {
     };
     const javascriptBundle = 'a javascript bundle';
     describe('when the vendor bundle is cached', () => {
-      const getCachedVendorBundleMock = sandbox.stub().returns(Promise.resolve(javascriptBundle));
+      const getComponentBundleStub = sandbox.stub().returns(Promise.resolve(javascriptBundle));
       const subject = builder({
-        '/logger': loggerMock,
-        '/lib/jsBundler/getVendorBundle': {},
-        '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
+        '/lib/jsBundler/getComponentBundle': getComponentBundleStub,
+        '/middleware/errors/notFoundError': NotFoundError
       });
 
       it('returns the vendor bundle', () => {
@@ -46,16 +41,11 @@ describe('getVendorBundle', () => {
       });
     });
     describe('when the vendor bundle is not cached', () => {
-      const getCachedVendorBundleMock = sandbox.stub().returns(Promise.reject());
-
       describe('when the bundle is retrieved', () => {
-        const getVendorBundleMock = () => {
-          return Promise.resolve(javascriptBundle);
-        };
+        const getVendorBundleMock = () => Promise.resolve(javascriptBundle);
         const subject = builder({
-          '/logger': loggerMock,
-          '/lib/jsBundler/getVendorBundle': getVendorBundleMock,
-          '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
+          '/lib/jsBundler/getComponentBundle': getVendorBundleMock,
+          '/middleware/errors/notFoundError': NotFoundError
         });
         it('returns the vendor bundle', () => {
           const result = subject(fakeRequest, fakeResponse, nextSpy);
@@ -69,13 +59,10 @@ describe('getVendorBundle', () => {
       });
       describe('when the bundle is not retrieved', () => {
         const error = {};
-        const getVendorBundleMock = () => {
-          return Promise.reject(error);
-        };
+        const getVendorBundleMock = () => Promise.reject(error);
         const subject = builder({
-          '/logger': loggerMock,
-          '/lib/jsBundler/getVendorBundle': getVendorBundleMock,
-          '/lib/getVendorBundleFromCache': getCachedVendorBundleMock
+          '/lib/jsBundler/getComponentBundle': getVendorBundleMock,
+          '/middleware/errors/notFoundError': NotFoundError
         });
         it('propogates the error', () => {
           const result = subject(fakeRequest, fakeResponse, nextSpy);

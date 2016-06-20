@@ -5,6 +5,7 @@ const fakeCss = 'some fake css';
 
 describe('getComponentStyles', () => {
   const sandbox = sinon.sandbox.create();
+  const getComponentBundleStub = sandbox.stub();
   const componentsContext =  ['a', 'b', 'c'];
   const fakeRequest = {
     componentsContext: componentsContext
@@ -14,20 +15,21 @@ describe('getComponentStyles', () => {
     send: sandbox.stub()
   };
   fakeResponse.set.returns(fakeResponse);
+  let bundleContentPromise = Promise.resolve(fakeCss);
   const nextSpy = sinon.spy();
+  function NotFoundError() { }
 
   afterEach(() => {
     sandbox.reset();
   });
 
   describe('when the components css is successfully returned', () => {
-    const getComponentStyleFromCacheMock = () => {
-      return Promise.resolve(fakeCss);
-    };
     const subject = builder({
-      '/lib/getComponentStyleFromCache': getComponentStyleFromCacheMock
+      '/lib/jsBundler/getComponentBundle': getComponentBundleStub,
+      '/middleware/errors/notFoundError': NotFoundError
     });
     it('returns the components css', () => {
+      getComponentBundleStub.returns(bundleContentPromise);
       const result = subject(fakeRequest, fakeResponse, nextSpy);
       return result.then(() => {
         return [
@@ -38,17 +40,22 @@ describe('getComponentStyles', () => {
     });
   });
   describe('when the components css is not successfully returned', () => {
-    const error = {};
-    const getComponentStyleFromCacheMock = () => {
-      return Promise.reject(error);
-    };
     const subject = builder({
-      '/lib/getComponentStyleFromCache': getComponentStyleFromCacheMock
+      '/lib/jsBundler/getComponentBundle': getComponentBundleStub,
+      '/middleware/errors/notFoundError': NotFoundError
     });
-    it('propogates the error', () => {
-      const result = subject(fakeRequest, fakeResponse, nextSpy);
+    it('propagates error if bundling was unsuccessful', () => {
+      const err = {};
+      bundleContentPromise = Promise.reject(err);
+      let result;
+
+      getComponentBundleStub.returns(bundleContentPromise);
+      result = subject(fakeRequest, fakeResponse, nextSpy);
+
       return result.then(() => {
-        return expect(nextSpy).to.have.been.calledWith(error);
+        expect(nextSpy.calledOnce).to.be.true;
+        let firstCallArguments = nextSpy.args[0];
+        return expect(firstCallArguments[0] instanceof NotFoundError).to.be.true;
       });
     });
   });

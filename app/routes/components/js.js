@@ -3,19 +3,18 @@ module.exports = (deps) => {
     const {
       'express': express,
       '/middleware/setComponentsContext': setComponentsContext,
-      '/middleware/getVendorBundle': getVendorBundle,
-      '/middleware/getComponentBundle': getComponentBundle,
-      '/middleware/setComponentNames': setComponentNames
+      '/middleware/getVendorJs': getVendorJs,
+      '/middleware/getComponentJs': getComponentJs
       } = deps;
     const router = express.Router();
 
     router.get(/^\/components-vendor-bundle\.js$/,
-      setComponentNames,
-      getVendorBundle
+      setComponentsContext({paramName: 'components'}),
+      getVendorJs
     );
     router.get(/^\/components\.js$/,
       setComponentsContext({paramName: 'components'}),
-      getComponentBundle
+      getComponentJs
     );
 
     return router;
