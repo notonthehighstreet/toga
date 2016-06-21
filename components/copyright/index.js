@@ -1,5 +1,4 @@
 import React from 'react';
-import toga from 'toga-component';
 import i18n from './i18n.json';
 
 import './styles.scss';
@@ -20,8 +19,7 @@ module.exports = class Copyright extends React.Component {
   render() {
     const { locale, one } = this.props;
     const { BOOM } = this.state;
-    const phrases = i18n[locale];
-    const t = toga.createT({phrases});
+    const t = (key) => i18n[locale] && i18n[locale][key] || key;
     return (
       <div
         className={`toga-copyright${BOOM ? ' highlighted' : ''}`}
