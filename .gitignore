@@ -11,3 +11,4 @@ tmp
 coverage
 .nyc_output
 *.iml
+tests_output

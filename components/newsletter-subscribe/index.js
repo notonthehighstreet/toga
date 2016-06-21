@@ -1,5 +1,4 @@
 import React from 'react';
-import toga from 'toga-component';
 import i18n from './i18n.json';
 
 import './styles.scss';
@@ -7,7 +6,7 @@ import './styles.scss';
 module.exports = class NewsletterSubscribe extends React.Component {
   render() {
     const { locale } = this.props;
-    const t = toga.createT({phrases: i18n[locale]});
+    const t = (key) => i18n[locale] && i18n[locale][key] || key;
     return (
       <div className="toga-newsletter-subscribe">
         <p className="slogan">{t('UNIQUE_INSPIRING')}</p>
