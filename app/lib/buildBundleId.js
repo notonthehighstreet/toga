@@ -4,7 +4,7 @@ module.exports = (deps) => {
       '/lib/buildModulePaths': buildModulePaths
     } = deps;
     const modulePaths = buildModulePaths(components);
-    const bundleId = [].concat(components).join('-');
+    const bundleId = [].concat(components).join('__');
     return { bundleId, modulePaths };
   };
 };
