@@ -4,15 +4,15 @@ module.exports = (deps) => {
       'es6-promisify': promisify,
       'fs': fs,
       '/lib/jsBundler/getComponentBundle': getComponentBundle,
+      '/lib/jsBundler/getVendorBundle': getVendorBundle,
       '/lib/getAppConfig': getAppConfig
       } = deps;
 
     const readdir = promisify(fs.readdir);
     const { componentsPath } = getAppConfig();
 
-    // todo : require and read react.js file into redisCache
-    // setCache(`vendor-${bundleId}`, bundles['vendor']),
-
+    getVendorBundle();
+    
     return readdir(componentsPath)
       .then((components) => {
         const promises = components

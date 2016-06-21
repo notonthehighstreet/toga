@@ -15,11 +15,9 @@ describe('runBundler', () => {
     return promise;
   };
   const componentBundle = 'component bundle';
-  const vendorBundle = 'vendor bundle';
   const stylesBundle = 'styles bundle';
   const readFileStub = sandbox.stub();
   const existsSyncStub = sandbox.stub();
-  readFileStub.withArgs('/vendor.bundle.js', 'utf8').returns(Promise.resolve(vendorBundle));
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
   readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
   const memoryFsMock = function() {
@@ -72,7 +70,6 @@ describe('runBundler', () => {
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             component: componentBundle,
-            vendor: vendorBundle,
             styles: undefined
           });
         });
@@ -86,7 +83,6 @@ describe('runBundler', () => {
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             component: componentBundle,
-            vendor: vendorBundle,
             styles: stylesBundle
           });
         });

@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function runBundler({modulePaths, definitions, minify}) {
+  return function runBundler({modulePaths, definitions, vendorFiles = [], minify}) {
     const {
       'fs': fs,
       'es6-promisify': promisify,
@@ -17,7 +17,7 @@ module.exports = (deps) => {
     const cssBundleFileName = 'components.css';
     const logger = getLogger();
     const promises = modulePaths.map((modulePath) => {
-      return stat(modulePath);
+      return modulePath.indexOf('/')>-1 && stat(modulePath);
     });
 
     return Promise.all(promises)
@@ -25,11 +25,11 @@ module.exports = (deps) => {
         const webpackConfig = createWebpackConfig({
           modulePaths: modulePaths,
           definitions,
+          externals: vendorFiles,
           minify
         });
         const compiler = webpack(webpackConfig);
         const run = promisify(compiler.run.bind(compiler));
-        log('Run Webpack...');
         
         compiler.outputFileSystem = memoryFS;
         return run().then(() => {

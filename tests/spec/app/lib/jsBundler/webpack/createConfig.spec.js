@@ -5,7 +5,6 @@ const chance = new require('chance')();
 const sandbox = sinon.sandbox.create();
 const fakeWebpack = {
   optimize: {
-    CommonsChunkPlugin: function() {},
     DedupePlugin: function() {},
     OccurrenceOrderPlugin: function() {},
     UglifyJsPlugin: function() {}
@@ -46,20 +45,18 @@ describe('Create Webpack Config', () => {
       };
       const result = subject({
         modulePaths: [],
-        definitions: fakeDefinitions,
-        vendorBundleFileName: chance.word()
+        definitions: fakeDefinitions
       });
 
       expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
-      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
     });
   });
 
   context('when definitions are not passed', () => {
     it('creates config object without definitions', () => {
       subject({
-        modulePaths: [],
-        vendorBundleFileName: chance.word()
+        modulePaths: []
       });
       expect(definePluginSpy).not.to.have.been.called;
     });
@@ -78,12 +75,11 @@ describe('Create Webpack Config', () => {
   context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
       const result = subject({
-        modulePaths: [],
-        vendorBundleFileName: chance.word(),
+        modulePaths: [], 
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
-      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
   });
 });

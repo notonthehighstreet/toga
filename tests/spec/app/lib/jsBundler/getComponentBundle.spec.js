@@ -24,8 +24,7 @@ describe('getComponentBundle', () => {
     return Promise.reject(cacheMissError);
   };
   const bundleSuccessData = {
-    component: 'freshly bundled component',
-    vendor: 'freshly bundled vendor'
+    component: 'freshly bundled component'
   };
   const bundleSuccessMock = () => {
     return Promise.resolve(bundleSuccessData);
@@ -34,7 +33,7 @@ describe('getComponentBundle', () => {
   const bundleFailureMock = () => {
     return Promise.reject(bundleFailureError);
   };
-  const bundleIdMatcher = sinon.match(new RegExp('(component|vendor)(-\\w*)', 'g'));
+  const bundleIdMatcher = sinon.match(new RegExp('component(-\\w*)', 'g'));
 
   beforeEach(() => {
     deps = {
@@ -86,8 +85,7 @@ describe('getComponentBundle', () => {
         it('adds the bundles to the cache', () => {
           return result.then(() => {
             return [
-              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.component),
-              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.vendor)
+              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.component)
             ];
           });
         });

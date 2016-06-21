@@ -5,6 +5,7 @@ module.exports = (deps) => {
       '/cache/get': getCache,
       '/lib/jsBundler/webpack/runBundler': bundle,
       '/lib/buildBundleId': buildBundleId,
+      '/lib/jsBundler/vendorFiles': vendorFiles,
       debug
     } = deps;
 
@@ -18,7 +19,7 @@ module.exports = (deps) => {
 
     return getCache(`${assetType}-${bundleId}`)
       .catch(()=> {
-        return bundle({ modulePaths, definitions, minify })
+        return bundle({ modulePaths, definitions, vendorFiles, minify })
           .then((bundles) => {
             log('saving into cache: ', bundleId);
             return Promise.all([

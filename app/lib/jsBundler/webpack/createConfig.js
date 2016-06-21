@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, minify}) {
+  return function createWebpackConfig({modulePaths, definitions, externals = [], minify}) {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
       'extract-text-webpack-plugin':ExtractTextPlugin,
@@ -11,7 +11,7 @@ module.exports = (deps) => {
       entry: {
         components: modulePaths
       },
-      externals: ['react'],
+      externals: externals,
       recordsInputPath: webpackBundleIndexesRecordPath,
       output: {
         filename: '[name].js',
