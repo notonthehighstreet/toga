@@ -24,7 +24,7 @@ describe('getComponentBundle', () => {
     return Promise.reject(cacheMissError);
   };
   const bundleSuccessData = {
-    component: 'freshly bundled component'
+    scripts: 'freshly bundled component'
   };
   const bundleSuccessMock = () => {
     return Promise.resolve(bundleSuccessData);
@@ -33,7 +33,7 @@ describe('getComponentBundle', () => {
   const bundleFailureMock = () => {
     return Promise.reject(bundleFailureError);
   };
-  const bundleIdMatcher = sinon.match(new RegExp('component(-\\w*)', 'g'));
+  const bundleIdMatcher = sinon.match(new RegExp('scripts(-\\w*)', 'g'));
 
   beforeEach(() => {
     deps = {
@@ -75,17 +75,17 @@ describe('getComponentBundle', () => {
       describe('and the bundle is successful', () => {
         beforeEach(() => {
           deps['/lib/jsBundler/webpack/runBundler'] = bundleSuccessMock;
-          result = subject(fakeComponentsList, 'component');
+          result = subject(fakeComponentsList, 'scripts');
         });
         it('returns the bundle', () => {
           return result.then((componentBundle) => {
-            return expect(componentBundle).to.be.eq(bundleSuccessData.component);
+            return expect(componentBundle).to.be.eq(bundleSuccessData.scripts);
           });
         });
         it('adds the bundles to the cache', () => {
           return result.then(() => {
             return [
-              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.component)
+              expect(setCacheMock).to.have.been.calledWithMatch(bundleIdMatcher, bundleSuccessData.scripts)
             ];
           });
         });

@@ -4,15 +4,12 @@ module.exports = (deps) => {
       'es6-promisify': promisify,
       'fs': fs,
       '/lib/jsBundler/getComponentBundle': getComponentBundle,
-      '/lib/jsBundler/getVendorBundle': getVendorBundle,
       '/lib/getAppConfig': getAppConfig
       } = deps;
 
     const readdir = promisify(fs.readdir);
     const { componentsPath } = getAppConfig();
 
-    getVendorBundle();
-    
     return readdir(componentsPath)
       .then((components) => {
         const promises = components

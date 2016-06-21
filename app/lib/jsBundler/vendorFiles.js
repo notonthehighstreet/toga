@@ -1,3 +1,6 @@
 module.exports = () => {
-  return ['react'];
+  return { 
+    'react': 'React', 
+    'react-dom': 'ReactDOM' 
+  };
 };

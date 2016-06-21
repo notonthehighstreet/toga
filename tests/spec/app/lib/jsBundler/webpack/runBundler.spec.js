@@ -69,7 +69,7 @@ describe('runBundler', () => {
         result = subject({modulePaths: fakeModulePaths, definitions: fakeDefinitions});
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
-            component: componentBundle,
+            scripts: componentBundle,
             styles: undefined
           });
         });
@@ -82,7 +82,7 @@ describe('runBundler', () => {
         result = subject({modulePaths: fakeModulePaths, definitions: fakeDefinitions});
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
-            component: componentBundle,
+            scripts: componentBundle,
             styles: stylesBundle
           });
         });

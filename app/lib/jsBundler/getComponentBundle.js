@@ -16,14 +16,15 @@ module.exports = (deps) => {
     const log = debug('toga:getComponentBundle');
     const definitions = { };
     const { modulePaths, bundleId } = buildBundleId(components, minify);
+    const externals = components==='vendor' ? [] : vendorFiles;
 
     return getCache(`${assetType}-${bundleId}`)
       .catch(()=> {
-        return bundle({ modulePaths, definitions, vendorFiles, minify })
+        return bundle({ modulePaths, definitions, externals, minify })
           .then((bundles) => {
             log('saving into cache: ', bundleId);
             return Promise.all([
-              setCache(`component-${bundleId}`, bundles['component']),
+              setCache(`scripts-${bundleId}`, bundles['scripts']),
               setCache(`styles-${bundleId}`, bundles['styles'])
             ]).then(() => bundles[assetType]);
           });
