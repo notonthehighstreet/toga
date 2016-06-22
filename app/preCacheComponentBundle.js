@@ -14,7 +14,7 @@ module.exports = (deps) => {
       .then((components) => {
         const promises = components
           .filter((componentName) => fs.statSync(`${componentsPath}/${componentName}`).isDirectory())
-          .map(getComponentBundle);
+          .map((component) => getComponentBundle(component, 'component', process.env.NODE_ENV === 'production'));
         return Promise.all(promises);
       });
   };

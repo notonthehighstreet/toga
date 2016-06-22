@@ -5,7 +5,7 @@ module.exports = (deps) => {
       '/middleware/errors/notFoundError': NotFoundError
     } = deps;
 
-    return getComponentBundle(req.components, 'component')
+    return getComponentBundle(req.components, 'component', req.path.endsWith('.min.js'))
       .then((bundle) => {
         res.set('Content-Type', 'application/javascript').send(bundle);
       })

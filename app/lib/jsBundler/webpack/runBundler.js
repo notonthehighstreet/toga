@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function runBundler({modulePaths, definitions}) {
+  return function runBundler({modulePaths, definitions, minify}) {
     const {
       'fs': fs,
       'es6-promisify': promisify,
@@ -26,7 +26,8 @@ module.exports = (deps) => {
         const webpackConfig = createWebpackConfig({
           modulePaths: modulePaths,
           definitions,
-          vendorBundleFileName
+          vendorBundleFileName,
+          minify
         });
         const compiler = webpack(webpackConfig);
         const run = promisify(compiler.run.bind(compiler));

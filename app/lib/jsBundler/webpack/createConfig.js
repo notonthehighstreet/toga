@@ -1,13 +1,11 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName}) {
+  return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName, minify}) {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
-      '/lib/getAppConfig': getAppConfig,
       'extract-text-webpack-plugin':ExtractTextPlugin,
       autoprefixer,
       webpack
     } = deps;
-    const { minify } = getAppConfig();
 
     let config = {
       entry: {
@@ -36,7 +34,7 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              'css?-url&sourceMap',
+              `css?-url&sourceMap${minify ? '&minimize' : ''}`,
               'postcss',
               'sass?sourceMap&outputStyle=expanded'].join('!'))
           },

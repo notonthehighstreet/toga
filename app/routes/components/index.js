@@ -24,11 +24,11 @@ module.exports = (deps) => {
     );
 
     router
-      .get(/^\/styles.css$/, getComponentStyles)
-      .get(/^\/components-vendor-bundle\.js$/, getVendorJs)
+      .get(/^\/styles(\.min)?.css$/, getComponentStyles)
+      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getVendorJs)
       .get(/.*\.raw\.html$/, getComponentRawHtml)
       .get(/.*\.html$/, getComponentTestingHtml)
-      .get(/^\/components\.js$/, getComponentJs);
+      .get(/^\/components(\.min)?\.js$/, getComponentJs);
 
     router.use('/:component/assets/:path', serveStatic);
 
