@@ -20,6 +20,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "test-e2e": "npm run nightwatch -- --env local",
     "test-e2e-xb": "npm run nightwatch -- --env chrome_win,IE10 --verbose",
+    "prenightwatch": "selenium-standalone install",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [

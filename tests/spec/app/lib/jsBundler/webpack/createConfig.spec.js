@@ -77,12 +77,10 @@ describe('Create Webpack Config', () => {
 
   context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
-      fakeGetAppConfig.returns({
-        minify: true
-      });
       const result = subject({
         modulePaths: [],
-        vendorBundleFileName: chance.word()
+        vendorBundleFileName: chance.word(),
+        minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);

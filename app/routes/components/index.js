@@ -3,11 +3,8 @@ module.exports = (deps) => {
     const {
       'express': express,
       '/middleware/setComponentContext': setComponentContext,
-      '/middleware/getVendorJs': getVendorJs,
-      '/middleware/getComponentJs': getComponentJs,
-      '/middleware/getComponentStyles': getComponentStyles,
-      '/middleware/getComponentRawHtml': getComponentRawHtml,
-      '/middleware/getComponentTestingHtml': getComponentTestingHtml,
+      '/middleware/getComponentAsset': getComponentAsset,
+      '/middleware/getComponentHtml': getComponentHtml,
       '/middleware/setLocale': setLocale
     } = deps;
 
@@ -18,17 +15,13 @@ module.exports = (deps) => {
       return express.static(`components/${component}/assets/${path}`)(req, res, next);
     };
 
-    router.use(
-      setLocale,
-      setComponentContext
-    );
+    router.use(setLocale, setComponentContext);
 
     router
-      .get(/^\/styles.css$/, getComponentStyles)
-      .get(/^\/components-vendor-bundle\.js$/, getVendorJs)
-      .get(/.*\.raw\.html$/, getComponentRawHtml)
-      .get(/.*\.html$/, getComponentTestingHtml)
-      .get(/^\/components\.js$/, getComponentJs);
+      .get(/^\/styles(\.min)?.css$/, getComponentAsset('css', 'styles'))
+      .get(/^\/components(\.min)?\.js$/, getComponentAsset('js', 'component'))
+      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js', 'vendor'))
+      .get(/.*\.(raw\.)?html$/, getComponentHtml);
 
     router.use('/:component/assets/:path', serveStatic);
 

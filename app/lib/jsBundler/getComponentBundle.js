@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function getComponentBundle(components, assetType) {
+  return function getComponentBundle(components, assetType, minify) {
     const {
       '/cache/set': setCache,
       '/cache/get': getCache,
@@ -14,11 +14,11 @@ module.exports = (deps) => {
 
     const log = debug('toga:getComponentBundle');
     const definitions = { };
-    const { modulePaths, bundleId } = buildBundleId(components);
+    const { modulePaths, bundleId } = buildBundleId(components, minify);
 
     return getCache(`${assetType}-${bundleId}`)
       .catch(()=> {
-        return bundle({ modulePaths, definitions })
+        return bundle({ modulePaths, definitions, minify })
           .then((bundles) => {
             log('saving into cache: ', bundleId);
             return Promise.all([
