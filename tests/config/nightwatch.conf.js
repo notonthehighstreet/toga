@@ -9,6 +9,8 @@ require('babel-core/register')({
 const hook = require('node-hook').hook;
 hook('.scss', (source, filename) => `console.log("${filename}");`);
 
+// const testServer = require('../integration/startTestServer')
+
 module.exports = (function(settings) {
   var buildString = "";
   if (argv.sha) {
@@ -19,9 +21,17 @@ module.exports = (function(settings) {
   }
 
   settings.test_settings.default.globals = {
-    TARGET_PATH : argv.target || 'http://localhost:3000'
+    TARGET_PATH : argv.target || 'http://localhost:3000',
+    before: function(done) {
+      // const app = testServer();
+      // app
+      //   .then(() => {
+      //     done();
+      //   })
+      //   .catch(done);
+    }
   };
-  
+
   settings.test_settings.default.desiredCapabilities['browserstack.user'] = argv.bsuser || process.env.BROWSERSTACK_USER;
   settings.test_settings.default.desiredCapabilities['browserstack.key'] = argv.bskey || process.env.BROWSERSTACK_KEY;
   settings.test_settings.default.desiredCapabilities['build'] = buildString;

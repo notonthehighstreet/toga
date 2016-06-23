@@ -15,8 +15,8 @@ test:
   override:
     - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
         background: true
-    - npm run start:
-        background: true
+#    - npm run start:
+#        background: true
     - npm run example:
         background: true
     - npm run test
