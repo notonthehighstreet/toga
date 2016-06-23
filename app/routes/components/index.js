@@ -19,8 +19,8 @@ module.exports = (deps) => {
 
     router
       .get(/^\/styles(\.min)?.css$/, getComponentAsset('css', 'styles'))
-      .get(/^\/components(\.min)?\.js$/, getComponentAsset('js', 'component'))
-      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js', 'vendor'))
+      .get(/^\/components(\.min)?\.js$/, getComponentAsset('js', 'scripts'))
+      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js', 'scripts'))
       .get(/.*\.(raw\.)?html$/, getComponentHtml);
 
     router.use('/:component/assets/:path', serveStatic);
