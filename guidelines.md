@@ -18,7 +18,7 @@ These aim to achieve consistent coding practices throughout the project.
 | ---- | ----------- |
 | `/components` | contains Toga components |
 | `/lib` | contains code of the Toga server itself |
-| `/packages` | constains packages to use throughout Toga components |
+| `/packages` | contains packages to use throughout Toga components |
 | `/script` | support scripts for running tests, starting Toga in a Docker container etc. |
 | `/spec` | tests for the Toga server itself |
 
@@ -107,7 +107,7 @@ This way there's a single point of dependency on a third party tool. Switching t
 
 ## Promises
 
-Use promises for asynchrounous operations. 
+Use promises for asynchronous operations.
 
 Utilise promise chaining to create success/error routines instead of wrapping promises with other promises.
 This module has an extraneous promise wrapping an already existing chain:
@@ -169,7 +169,7 @@ TDD is strongly encouraged
 
 * e.g. controllers
 * [Mock or stub](http://martinfowler.com/articles/mocksArentStubs.html) controller dependencies using Breadboard
-* Compose scenarios using pre-canned, reusable, injectable mock dependencies, where appropriate 
+* Compose scenarios using pre-canned, reusable, injectable mock dependencies, where appropriate
 
 ### Unit tests
 
@@ -178,4 +178,4 @@ TDD is strongly encouraged
 * Test public functions only
 * Test interface, not implementation
 * In general, mock or stub dependencies to help drive different scenarios
-* Don't mock or stub third part dependencies if the functionality they provide is trivial (e.g. some lodash functions)
+* Don't mock or stub third party dependencies if the functionality they provide is trivial (e.g. some lodash functions)
