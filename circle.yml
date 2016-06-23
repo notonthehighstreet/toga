@@ -13,11 +13,13 @@ dependencies:
     - node_modules
 test:
   override:
-#    - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
-#        background: true
-#    - npm run start:
-#        background: true
+    - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
+        background: true
+    - npm run start:
+        background: true
+    - npm run example:
+        background: true
     - npm run test
     - npm run test-integration
-#    - npm run test-e2e-xb
+    - npm run test-e2e-xb
 
