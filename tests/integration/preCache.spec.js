@@ -33,8 +33,7 @@ describe('preCache', () => {
         client.disconnect();
         done(err);
       });
-      promises.push(redisGet('component-test'));
-      promises.push(redisGet('vendor-test'));
+      promises.push(redisGet('scripts-test'));
 
       return Promise.all(promises).then((values) => {
         values.forEach((item) => {
@@ -43,7 +42,6 @@ describe('preCache', () => {
           }
         });
         expect(values[0]).to.contain('test-text');
-        expect(values[1]).to.contain('React');
         done();
       });
     }, (err) => {

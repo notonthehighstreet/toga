@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function runBundler({modulePaths, definitions, minify}) {
+  return function runBundler({modulePaths, definitions, externals = [], minify}) {
     const {
       'fs': fs,
       'es6-promisify': promisify,
@@ -13,8 +13,7 @@ module.exports = (deps) => {
     const stat = promisify(fs.stat);
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
-    const vendorBundleFileName = 'vendor.bundle.js';
-    const componentBundleFileName = 'components.js';
+    const jsBundleFileName = 'components.js';
     const cssBundleFileName = 'components.css';
     const logger = getLogger();
     const promises = modulePaths.map((modulePath) => {
@@ -26,29 +25,26 @@ module.exports = (deps) => {
         const webpackConfig = createWebpackConfig({
           modulePaths: modulePaths,
           definitions,
-          vendorBundleFileName,
+          externals,
           minify
         });
         const compiler = webpack(webpackConfig);
         const run = promisify(compiler.run.bind(compiler));
-        log('Run Webpack...');
-        
+
         compiler.outputFileSystem = memoryFS;
         return run().then(() => {
           const cssExists = memoryFS.existsSync(`/${cssBundleFileName}`);
           const readFilePromises = [];
-          readFilePromises.push(mFSReadfile(`/${componentBundleFileName}`, 'utf8'));
-          readFilePromises.push(mFSReadfile(`/${vendorBundleFileName}`, 'utf8'));
+          readFilePromises.push(mFSReadfile(`/${jsBundleFileName}`, 'utf8'));
 
           if (cssExists) {
             readFilePromises.push(mFSReadfile(`/${cssBundleFileName}`, 'utf8'));
-          } 
+          }
 
           return Promise.all(readFilePromises).then((data) => {
             return {
-              component: data[0],
-              vendor: data[1],
-              styles: data[2]
+              scripts: data[0],
+              styles: data[1]
             };
           });
         });
