@@ -4,7 +4,10 @@
   "description": "A modular set of components and pages for the Notonthehighstreet frontend which are exposed as either raw assets or pre-rendered.",
   "main": "index.js",
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
-  "engine": "node >= 4.2.3",
+  "engines": {
+    "node": "^4.2.3",
+    "npm": "^2.14.7"
+  },
   "scripts": {
     "example": "node ./example",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --dev",
@@ -16,6 +19,7 @@
     "create-bundle-indexes": "env DEBUG=toga:*,toga:createBundleIndexes:*,toga:createBundleIndexes:error node ./script/createBundleIndexes.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "test-e2e": "npm run nightwatch -- --env local",
+    "test-e2e-xb": "npm run nightwatch -- --env chrome_win,IE10 --verbose",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [
@@ -88,6 +92,7 @@
     "pre-commit": "1.1.2",
     "react-addons-test-utils": "^0.14.6",
     "rewire": "^2.5.1",
+    "selenium-standalone": "^5.1.1",
     "sinon": "1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.1.0"
