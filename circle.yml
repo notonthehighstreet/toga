@@ -1,0 +1,23 @@
+machine:
+  timezone:
+    Europe/London
+  node:
+    version: v4.2
+general:
+  artifacts:
+    - tests/reports
+    - tests/nightwatch/report
+dependencies:
+  cache_directories:
+    - browserstack
+    - node_modules
+test:
+  override:
+#    - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
+#        background: true
+#    - npm run start:
+#        background: true
+    - npm run test
+    - npm run test-integration
+#    - npm run test-e2e-xb
+

@@ -45,5 +45,21 @@ describe('setComponentContext', () => {
         return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
       });
     });
+    it('should set vendor as the coponent when the requested path is the vendor.js', () => {
+      const context = {'hello': 'world'};
+      const encodedContext = encodeURIComponent(JSON.stringify(context));
+      const fakeRequest = {
+        query: {
+          context: encodedContext
+        },
+        path: '/components-vendor-bundle.js'
+      };
+      it('returns a context created from the json', () => {
+        subject(fakeRequest, fakeResponse, nextSpy);
+        expect(fakeRequest.componentContext).to.deep.eq(context);
+        expect(fakeRequest.components).to.deep.eq('vendor');
+        expect(nextSpy).to.have.been.calledOnce;
+      });
+    });
   });
 });

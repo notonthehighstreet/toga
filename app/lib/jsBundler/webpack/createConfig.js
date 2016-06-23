@@ -1,19 +1,17 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, vendorBundleFileName}) {
+  return function createWebpackConfig({modulePaths, definitions, externals = [], minify}) {
     const {
       '/constants': {webpackBundleIndexesRecordPath},
-      '/lib/getAppConfig': getAppConfig,
       'extract-text-webpack-plugin':ExtractTextPlugin,
       autoprefixer,
       webpack
     } = deps;
-    const { minify } = getAppConfig();
 
     let config = {
       entry: {
-        components: modulePaths,
-        vendor: ['react', 'lodash']
+        components: modulePaths
       },
+      externals: externals,
       recordsInputPath: webpackBundleIndexesRecordPath,
       output: {
         filename: '[name].js',
@@ -36,7 +34,7 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              'css?-url&sourceMap',
+              `css?-url&sourceMap${minify ? '&minimize' : ''}`,
               'postcss',
               'sass?sourceMap&outputStyle=expanded'].join('!'))
           },
@@ -49,7 +47,6 @@ module.exports = (deps) => {
       devtool: 'source-map',
       plugins: [
         new ExtractTextPlugin('[name].css'),
-        new webpack.optimize.CommonsChunkPlugin(vendorBundleFileName, ['components', 'vendor']),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(true)
       ],
