@@ -30,6 +30,7 @@ module.exports = (deps) => {
         });
         const compiler = webpack(webpackConfig);
         const run = promisify(compiler.run.bind(compiler));
+        log('Run Webpack...');
 
         compiler.outputFileSystem = memoryFS;
         return run().then(() => {

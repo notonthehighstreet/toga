@@ -1,47 +1,40 @@
-const fs = require('fs');
-const path = require('path');
 const loaderUtils = require('loader-utils');
-const bootstrapper = fs.readFileSync(path.join(__dirname, 'bootstrapper.js'));
 const getComponentName = (componentPath) => {
   const componentPathSegments = componentPath.split('/');
 
   //return the second-to-last segment
   return componentPathSegments.slice(-2, -1)[0];
 };
-const getEntryComponentName = (entryComponentPath) => {
-  const entryComponentPathSegments = entryComponentPath.split('/');
-
-  //return the third segment
-  return entryComponentPathSegments.slice(2, 3)[0];
-};
 
 module.exports = function(source) {
   let componentName;
-  let entryComponentName;
-  let componentIsNested;
-  let togaComponentSource = source;
+  let loaderSource = source;
 
-  this.value = togaComponentSource;
+  this.value = loaderSource;
   this.cacheable && this.cacheable();
   try {
     componentName = getComponentName(loaderUtils.getRemainingRequest(this));
-    entryComponentName = getEntryComponentName(this.options.entry.components[0]);
   }
   catch (e) {
     return source;
   }
-  componentIsNested = this.options.entry.components.length === 1 && entryComponentName !== componentName;
-  if (typeof source === 'string' && !componentIsNested) {
-    try {
-      togaComponentSource = `${source.replace('module.exports', 'let togaComponentSource')}
-        let togaComponentName=\"${componentName}\";
-        ${bootstrapper.toString()}`;
-    }
-    catch (e) {
-      return source;
-    }
+  try {
+    loaderSource = `${source}
+      const elems = document.querySelectorAll('[toga=${componentName}]');
+      [].forEach.call(elems, function(elem) {
+        let props;
+        try {
+          props = JSON.parse(elem.getAttribute('props'));
+        } catch (e) {
+          props = {};
+        }
+        ReactDOM.render(<module.exports {...props}/>, elem);
+      });`;
   }
-  this.value = togaComponentSource;
+  catch (e) {
+    return source;
+  }
+  this.value = loaderSource;
 
-  return togaComponentSource;
+  return loaderSource;
 };
