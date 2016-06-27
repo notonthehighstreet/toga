@@ -9,12 +9,12 @@ module.exports = class NewsletterSubscribe extends React.Component {
     const t = (key) => i18n[locale] && i18n[locale][key] || key;
     return (
       <div className="toga-newsletter-subscribe">
-        <p className="slogan">{t('UNIQUE_INSPIRING')}</p>
-        <p className="cta">{t('SIGN_UP')}</p>
+        <p className="newsletter-subscribe__slogan">{t('UNIQUE_INSPIRING')}</p>
+        <p className="newsletter-subscribe__cta">{t('SIGN_UP')}</p>
         <div className="form-wrapper">
-          <form className="form" action="post" action="/communication-preference">
-            <input className="input" type="text" placeholder={t('ENTER_EMAIL')}/>
-            <button className="button primary medium" type="submit">{t('SUBSCRIBE')}</button>
+          <form className="newsletter-subscribe__form" action="post" action="/communication-preference" >
+            <input className="input" type="text" className="noths-input noths-input--subscribe" placeholder={t('ENTER_EMAIL')}/>
+            <button className="button button--primary button--medium newsletter-subscribe__form__submit" type="submit">{t('SUBSCRIBE')}</button>
           </form>
         </div>
       </div>
