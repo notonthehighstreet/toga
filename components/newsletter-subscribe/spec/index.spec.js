@@ -23,5 +23,4 @@ describe('Newsletter subscribe component', () => {
       expect(slogan.text()).to.eq('UNIQUE_INSPIRING');
     });
   });
-
 });
