@@ -1,3 +1,207 @@
+@import '~toga-component/styles/breakpoint';
+
+//REMOVE WHEN NORMALISED
+div, ul { box-sizing: border-box; margin: 0; padding: 0}
+li { list-style-type: none; }
+a { text-decoration: none; }
+* { font-weight: normal; }
+
 .toga-footer {
-  color: blue;
+  //toga-footerfont-family: "NOTHS Sans No3 Regular";
+}
+
+.toga-footer__navigation {
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint(large) {
+    width: 920px;
+    flex-direction: row;
+  }
+}
+
+.toga-footerAccordion__list {
+
+  @include breakpoint(large) {
+    width: 25%;
+  }
+
+  ul li a {
+    color: #555;
+    display: block;
+    padding: 10px 20px;
+    border-bottom: 1px solid #d6d2ce;
+    background-color: #f6f5f3;
+    overflow: hidden;
+
+    @include breakpoint(large) {
+      color: #555;
+      font-size: 13px;
+      line-height: 20px;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    &:hover {
+      border-left: 10px solid #0ca6d4;
+      padding-left: 10px;
+
+      @include breakpoint(large) {
+        border: none;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.toga-footerAccordion__links {
+
+  @include breakpoint(large) {
+    &.hidden {
+      display: block;
+    }
+  }
+
+}
+
+.toga-footer__list--myaccount, .toga-footer__list--currency {
+
+
+  @include breakpoint(large) {
+    display: none;
+  }
+}
+
+.toga-footerAccordion__header, .toga-footer__header {
+  padding-right: 20px;
+  padding-left: 20px;
+  font-family: "NOTHS Sans No2 Regular","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+  font-size: 17px;
+  position: relative;
+  border-bottom: 1px solid #d6d2ce;
+  cursor: pointer;
+  line-height: 45px;
+  margin: 0;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent url('footer/assets/svg/arrow_down_darker.svg') center center no-repeat;
+    width: 32px;
+    height: 100%;
+    background-size: 16px 16px;
+
+  }
+
+  &.expanded:after {
+    transform: rotate(180deg)
+  }
+
+
+  @include breakpoint(large) {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: normal;
+    padding: 0;
+    border-bottom: none;
+    line-height: 1.1;
+    cursor: auto;
+    margin: 0 0 16px;
+
+    &:after {
+      content: none;
+    }
+  }
+
+}
+
+.hidden {
+  display: none;
+}
+
+.toga-footer__list--social {
+
+  @include breakpoint(large) {
+    width: 290px;
+  }
+}
+
+.toga-footer__header--social {
+  display: none;
+
+  @include breakpoint(large) {
+    display: block;
+  }
+}
+
+.toga-footer__links--social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin: 32px 0;
+
+  @include breakpoint(large) {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.social_link {
+  background-image: url('footer/assets/images/social_media_sprite.png');
+  height: 42px;
+  width: 42px;
+  background-size: auto 42px;
+  text-indent: -9999px;
+
+  @include breakpoint(large) {
+    height: 32px;
+    width: 32px;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+    margin-right: 16px;
+  }
+}
+
+$socialIcons:  (
+  (facebook, 0, 0, null),
+  (twitter, -42px, -32px, null),
+  (blog, -84px, -64px, null),
+  (pinterest, -126px, -96px,null),
+  (instagram, -168px, -128px,null),
+  (google_plus, -210px, -160px, 0)
+);
+
+@each $label, $mobile-bg-position, $desktop-bg-position, $margin in $socialIcons {
+  .social_link--#{$label} {
+    background-position: #{$mobile-bg-position} 0;
+
+    @include breakpoint(large) {
+      background-position: #{$desktop-bg-position} 0;
+      @if $margin {
+        margin: #{$margin}
+      }
+    }
+
+    &:hover {
+      background: linear-gradient(
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+        ),
+        url('footer/assets/images/social_media_sprite.png');
+      background-size: auto 42px;
+      background-position: #{$mobile-bg-position} 0;
+      @include breakpoint(large) {
+        background-size: auto 32px;
+        background-position: #{$desktop-bg-position} 0;
+      }
+
+    }
+  }
 }
