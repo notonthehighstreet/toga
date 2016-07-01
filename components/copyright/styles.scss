@@ -1,7 +1,16 @@
-.toga-copyright {
-  border: 1px solid #ddd;
+@import '~toga-component/styles/breakpoint';
 
-  &.highlighted {
-    background: red;
+.toga-copyright {
+  font-size: 13px;
+  border-top: 1px solid #d6d2ce;
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+.toga-copyright__company-name {
+  display: block;
+
+  @include breakpoint(large) {
+    display: inline;
   }
 }
