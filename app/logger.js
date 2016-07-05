@@ -23,7 +23,8 @@ module.exports = (deps) => {
 
       streams.push({
         type: 'stream',
-        stream: process.stdout
+        stream: process.stdout,
+        level: 'info'
       });
 
       return streams;
