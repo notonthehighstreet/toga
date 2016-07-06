@@ -4,7 +4,7 @@ module.exports = (deps) => {
       'es6-promisify': promisify,
       '/cache/redis/client': client
     } = deps;
-    const redisSet = promisify(client().set.bind(client));
+    const redisSet = promisify(client.set.bind(client));
 
     return redisSet(key, value);
   };
