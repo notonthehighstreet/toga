@@ -12,16 +12,14 @@ module.exports = class FooterAccordion extends React.Component {
 
   render() {
 
-    const {title, links } = this.props;
+    const {title, children, className, ...props } = this.props;
 
     return (
-      <div id="about" className="toga-footerAccordion__list">
+      <div id="about" className={`toga-footerAccordion__list ${className ? className : ''}`} {...props} >
         <h2 className={`toga-footerAccordion__header ${this.state.open ? ' expanded':''}`} onClick={this.toggleContent}>{title}</h2>
-        <ul className={`toga-footerAccordion__links ${this.state.open ? '':' hidden' }`}>
-          { links && links.map((link, i) => {
-            return <li className="toga-footerAccordion__link" key={i}><a href={link.href}>{link.name}</a></li>;
-          })}
-        </ul>
+        <div className={`toga-footerAccordion__content ${this.state.open ? '':' hidden-mobile' }`}>
+          { children }
+        </div>
       </div>
     );
   }
