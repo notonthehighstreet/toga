@@ -17,5 +17,8 @@
     "apiKey": "it's a secret!"
   },
   "minify": true,
-  "componentsPath": "./components"
+  "componentsPath": "./components",
+  "syncServer": {
+    "enabled": false
+  }
 }

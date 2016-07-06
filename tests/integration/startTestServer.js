@@ -13,7 +13,7 @@ let server;
 module.exports = function startApp() {
   return new Promise((resolve, reject) => {
     if (!server) {
-      const client = Redis(6379, 'localhost', redisClientConfig);
+      const client = Redis(6379, 'redis', redisClientConfig);
 
       client.on('error', (err) => {
         client.disconnect();

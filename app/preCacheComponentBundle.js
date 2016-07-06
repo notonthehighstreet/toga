@@ -9,12 +9,13 @@ module.exports = (deps) => {
 
     const readdir = promisify(fs.readdir);
     const { componentsPath } = getAppConfig();
+    const minify = false;
 
     return readdir(componentsPath)
       .then((components) => {
         const promises = components
           .filter((componentName) => fs.statSync(`${componentsPath}/${componentName}`).isDirectory())
-          .map((component) => getComponentBundle(component, 'component', process.env.NODE_ENV === 'production'));
+          .map((component) => getComponentBundle(component, 'component', minify));
         return Promise.all(promises);
       });
   };

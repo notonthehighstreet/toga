@@ -1,14 +1,19 @@
 # Contributing
 
 1. [Getting Toga working locally](#getting-toga-working-locally)
-    1. [Installation](#installation)
-    2. [Running the servers](#running-the-servers)
-    3. [Viewing the components](#viewing-the-components)
-    4. [Testing](#testing)
-2. [Toga Workflow](#toga-workflow)
-    1. [Toga Server](#toga-server)
-    2. [Toga Components](#toga-components)
-    3. [Submitting code](#submitting-code)
+  1. [Installation](#installation)
+  2. [Running the servers](#running-the-servers)
+  3. [Viewing the components](#viewing-the-components)
+  4. [Testing](#testing)
+2. [Getting Toga working with Docker](#getting-toga-working-with-docker)
+  1. [Installation](#installation-toga)
+  2. [Running the servers](#running-the-servers-toga)
+  3. [Viewing the components](#viewing-the-components-toga)
+  4. [Testing](#testing-toga)
+3. [Toga Workflow](#toga-workflow)
+  1. [Toga Server](#toga-server)
+  2. [Toga Components](#toga-components)
+  3. [Submitting code](#submitting-code)
 
 ## Getting Toga working locally
 
@@ -75,6 +80,64 @@ We have end-to-end tests which uses [Nightwatch](https://github.com/nightwatchjs
  * `npm run dev`
  * `npm run example`
  * `npm run test-e2e`
+
+
+## Getting Toga working with Docker
+
+<a name="installation-toga"></a>
+### Installation
+Install node module dependencies
+
+* `Docker` - Recommend using native installations
+ - https://docs.docker.com/engine/installation/mac/
+ - https://docs.docker.com/engine/installation/linux/
+ - https://docs.docker.com/engine/installation/windows/
+* `docker-compose` - Comes packaged with Docker
+
+### Running the servers<a name="running-the-servers-toga"></a>
+
+### Basic Server
+Starts the server without any development dependencies. This is the closest approximation to what will run on QA and Production environments.
+
+`docker-compose up`
+
+### Development Server
+Watches for changes in the following folders and restarts the application picking up the changes.
+
+- `app`
+- `components`
+- `script`
+
+
+`docker-compose -f ./docker-compose-dev.yml up`
+
+**NOTE:** Upon making changes in `package.json`, you will need to rebuild the docker container for the respective environment.
+
+```
+docker-compose build
+docker-compose -f ./docker-compose-dev.yml build
+```
+
+<a name="viewing-the-components-toga"></a>
+### Viewing the Components
+
+When running in Docker the components are available on the same domain and port as a local installation.
+
+
+<a name="testing-toga"></a>
+### Testing
+
+### Unit and Integration
+Run the unit and integration tests within the docker container.
+
+`docker-compose -f ./docker-compose-testing.yml run toga`
+
+To run the test and watch for changes, this will have to be run locally until it is integrated with Docker.
+
+`npm test -- --watch`
+
+### End to End
+This has not yet been integrated with Docker and will need to be run locally
 
 ## Toga Workflow
 

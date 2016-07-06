@@ -3,7 +3,7 @@ const getAppConfig = require('../../app/lib/getAppConfig')({
   path: require('path'),
   semver: require('semver'),
   '/config/application.json': require('../../app/config/application.json'),
-  '/config/dev.json': require('../../app/config/dev.json')
+  '/config/devOverrides.json': require('../../app/config/devOverrides.json')
 });
 const bootstrapApp = require('../../');
 

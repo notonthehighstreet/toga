@@ -25,7 +25,7 @@ describe('preCache', () => {
   it('should cache the test component bundle in redis', (done) => {
     app.then(([server]) => {
       server.close();
-      const client = Redis(6379, 'localhost', redisClientConfig);
+      const client = Redis('redis', 'localhost', redisClientConfig);
       const redisGet = promisify(client.get.bind(client));
       const promises = [];
 
