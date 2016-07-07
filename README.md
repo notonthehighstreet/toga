@@ -2,41 +2,19 @@
 
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
 
-## Prerequisites
+# Consuming a Component
 
-* Node.js v4.4.3 - Recommend using NVM
-* npm v3.7.1
-* Redis i.e. `brew install redis`
+Toga Components rely on NOTHS [Styles-Toolkit](https://github.com/notonthehighstreet/styles-toolkit) to get the core styles.
+The Styles-Toolkit CSS file must be included in your project.
 
-## Installation
+To render a component, the CSS, JavaScript and HTML must be pulled into your app.
+We have an example node app doing this for :
 
-Install node module dependencies
+ * [one component](example/routes/one-component.js)
+ * [multiple components](example/routes/multiple-components.js)
 
-`npm install`
+## Contributing
 
-Create webpack module mappings (must be re-run when modules change)
+ > More information about how to contribute and run the project locally.
 
-`npm run create-bundle-indexes`
-
-## Ensure Redis is running
-
-`redis-server`
-
-## Run the server
-
-`npm start`
-
-## Development server
-Spins up an extra server under the default port of 3001, which proxies directly to the Toga server. All the routes remain the same, but get bonus auto reloading on style changes
-
-`npm run dev`
-
-## Tests
-
-Run all the Tests
-
-`npm test`
-
-Run the tests and watch for changes
-
-`npm test -- --watch`
+[Contributing.md](CONTRIBUTING.md)
