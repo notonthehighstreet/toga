@@ -1,2 +1,2 @@
 npm run create-bundle-indexes
-npm start -- --config=/config/application.json
+npm start

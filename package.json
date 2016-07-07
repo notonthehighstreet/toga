@@ -5,13 +5,13 @@
   "main": "index.js",
   "repository": "https://github.com/notonthehighstreet/noths-frontend",
   "engines": {
-    "node": "^4.2.3",
+    "node": "^6.2.2",
     "npm": "^2.14.7"
   },
   "scripts": {
     "example": "node ./example",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --dev",
-    "start": "./script/start/index.js",
+    "start": "DEBUG=breadboard,breadboard:* ./script/start/index.js",
     "test": "_mocha --require ./tests/spec/specHelper.js --opts ./tests/config/mocha.opts '{tests/spec,components}/**/*.spec.js'",
     "test-integration": "_mocha -t 40000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config './app/config/integration.json'",
     "coverage": "nyc --require babel-core/register --all npm test",
@@ -44,6 +44,7 @@
     "babel-preset-es2015": "^6.3.13",
     "breadboard": "^2.0.0",
     "bunyan": "^1.7.1",
+    "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "debug": "2.2.0",
     "es6-promisify": "^3.0.0",
@@ -63,6 +64,7 @@
     "postcss": "5.0.16",
     "postcss-loader": "^0.9.1",
     "react": "^0.14.6",
+    "react-bem-helper": "^1.1.0",
     "react-dom": "^0.14.6",
     "request-promise": "^2.0.0",
     "sass-loader": "^3.2.0",
