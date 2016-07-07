@@ -29,6 +29,7 @@ module.exports = (function(settings) {
       //     done();
       //   })
       //   .catch(done);
+      done();
     }
   };
 

@@ -20,7 +20,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "test-e2e": "npm run nightwatch -- --env local",
     "test-e2e-xb": "npm run nightwatch -- --env chrome_win",
-    "prenightwatch": "selenium-standalone install",
+    "prenightwatch": "selenium-standalone install --version=2.53.1",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [
@@ -96,7 +96,7 @@
     "pre-commit": "1.1.2",
     "react-addons-test-utils": "^0.14.6",
     "rewire": "^2.5.1",
-    "selenium-standalone": "^5.1.1",
+    "selenium-standalone": "^5.4.1",
     "sinon": "1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.1.0"

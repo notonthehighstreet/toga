@@ -8,7 +8,7 @@ module.exports = {
   ['load the page'](browser) {
     browser.pageLoaded('/locale');
     browser.expect.element('#locale').to.be.present;
-    browser.expect.element('.toga-test').to.be.present;
+    browser.expect.element('.toga-test-one').to.be.present;
   },
 
   ['test component renders default locale'](browser) {

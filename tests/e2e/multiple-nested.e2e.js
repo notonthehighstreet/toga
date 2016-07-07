@@ -12,15 +12,15 @@ module.exports = {
   },
 
   ['first component renders an image'](browser) {
-    browser.expect.element('[toga="test"] .toga-test').to.be.present;
-    browser.getCssProperty('[toga="test"] .toga-test', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test/assets/images/product_mosaic.jpg")');
+    browser.expect.element('[toga="test-one"] .toga-test-one').to.be.present;
+    browser.getCssProperty('[toga="test-one"] .toga-test-one', 'backgroundImage', function(result) {
+      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
     });
   },
 
   ['\'first component\' javascript should be auto-initialised (clicks should change the class name)'](browser) {
-    browser.safeClick('[toga="test"] .toga-test');
-    browser.expect.element('[toga="test"] .toga-test.clicked').to.be.present;
+    browser.safeClick('[toga="test-one"] .toga-test-one');
+    browser.expect.element('[toga="test-one"] .toga-test-one.clicked').to.be.present;
   },
 
   ['second component renders an image'](browser) {
@@ -36,14 +36,14 @@ module.exports = {
   },
 
   ['nested component renders an image'](browser) {
-    browser.expect.element('[toga="test-nested"] .toga-test').to.be.present;
-    browser.getCssProperty('[toga="test-nested"] .toga-test', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test/assets/images/product_mosaic.jpg")');
+    browser.expect.element('[toga="test-nested"] .toga-test-one').to.be.present;
+    browser.getCssProperty('[toga="test-nested"] .toga-test-one', 'backgroundImage', function(result) {
+      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
     });
   },
 
   ['\'nested component\' javascript should be auto-initialised (clicks should change the class name)'](browser) {
-    browser.safeClick('[toga="test-nested"] .toga-test');
-    browser.expect.element('[toga="test-nested"] .toga-test.clicked').to.be.present;
+    browser.safeClick('[toga="test-nested"] .toga-test-one');
+    browser.expect.element('[toga="test-nested"] .toga-test-one.clicked').to.be.present;
   }
 };

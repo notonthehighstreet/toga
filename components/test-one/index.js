@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.scss';
 
-module.exports = class Test extends React.Component {
+module.exports = class TestOne extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ module.exports = class Test extends React.Component {
     const { BOOM, clicked } = this.state;
     return (
       <div
-        className={`toga-test${BOOM ? ' highlighted' : ''}${clicked ? ' clicked' : ''}`}
+        className={`toga-test-one${BOOM ? ' highlighted' : ''}${clicked ? ' clicked' : ''}`}
         onMouseOver={() => this.onMouseOver(true)}
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}

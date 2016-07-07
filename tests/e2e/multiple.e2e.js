@@ -12,26 +12,26 @@ module.exports = {
   },
 
   ['first component renders an image'](browser) {
-    browser.expect.element('.toga-test').to.be.present;
-    browser.getCssProperty('.toga-test', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test/assets/images/product_mosaic.jpg")');
+    browser.expect.element('.toga-test-one').to.be.present;
+    browser.getCssProperty('.toga-test-one', 'backgroundImage', function(result) {
+      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
     });
   },
 
   ['\'first component\' javascript should be auto-initialised (clicks should change the class name)'](browser) {
-    browser.safeClick('.toga-test');
-    browser.expect.element('.toga-test.clicked').to.be.present;
+    browser.safeClick('.toga-test-one');
+    browser.expect.element('.toga-test-one.clicked').to.be.present;
   },
 
   ['second component renders an image'](browser) {
-    browser.expect.element('.toga-test2').to.be.present;
-    browser.getCssProperty('.toga-test2', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test2/assets/images/product_mosaic.jpg")');
+    browser.expect.element('.toga-test-multiple').to.be.present;
+    browser.getCssProperty('.toga-test-multiple', 'backgroundImage', function(result) {
+      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-multiple/assets/images/product_mosaic.jpg")');
     });
   },
 
   ['\'second component\' javascript should be auto-initialised (clicks should change the class name)'](browser) {
-    browser.safeClick('.toga-test2');
-    browser.expect.element('.toga-test2.clicked').to.be.present;
+    browser.safeClick('.toga-test-multiple');
+    browser.expect.element('.toga-test-multiple.clicked').to.be.present;
   }
 };

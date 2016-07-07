@@ -8,15 +8,19 @@ general:
     - tests/reports
     - tests/nightwatch/report
 dependencies:
+  pre:
+    - if [[ ! -e redis-2.4.18/src/redis-server ]]; then wget http://redis.googlecode.com/files/redis-2.4.18.tar.gz && tar xzf redis-2.4.18.tar.gz && cd redis-2.4.18 && make; fi
   cache_directories:
     - browserstack
     - node_modules
+    - redis-2.4.18
+
 test:
   override:
     - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
         background: true
-#    - npm run start:
-#        background: true
+    - npm start -- --dev=./app/config/dev.json:
+        background: true
     - npm run example:
         background: true
     - npm run test
