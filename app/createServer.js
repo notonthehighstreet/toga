@@ -9,7 +9,7 @@ module.exports = (deps) => {
     } = deps;
     const app = express();
 
-    hook.hook('.scss', (source, filename) => `console.log("${filename}");`);
+    hook.hook('.scss', () => {});
     app.use(domainMiddleware);
     app.use(getRoutes());
     app.use('/public', express.static('public'));
