@@ -6905,6 +6905,8 @@
     },
     "toga-component": {
       "version": "1.0.0",
+      "from": "packages/toga-component",
+      "resolved": "file:packages/toga-component",
       "dependencies": {
         "babel-cli": {
           "version": "6.10.1",
@@ -11059,6 +11061,8 @@
     },
     "toga-loader": {
       "version": "1.0.0",
+      "from": "packages/toga-loader",
+      "resolved": "file:packages/toga-loader",
       "dependencies": {
         "babel-core": {
           "version": "6.9.1",
