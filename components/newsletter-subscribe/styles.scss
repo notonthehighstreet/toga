@@ -4,11 +4,8 @@
   box-sizing: border-box;
 }
 
-.toga-newsletter-subscribe{
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-top: 32px;
-  margin-bottom: 0;
+.toga-newsletter-subscribe {
+  padding: 32px 20px;
 
   @include breakpoint(large) {
     width: 960px;
@@ -17,21 +14,20 @@
   }
 }
 
-
 .form-wrapper {
   position: relative;
 
-
   @include breakpoint(large) {
-   background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
-   background-repeat: no-repeat;
-   background-position-x: center;
-   padding-top: 22px;
-   min-height: 114px;
+    background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    padding-top: 22px;
+    margin-bottom: 32px;
+    min-height: 114px;
   }
 }
 
-.noths-input--subscribe {
+.n-input--subscribe {
   width: 100%;
 
   @include breakpoint(large) {
@@ -47,12 +43,12 @@
     display: block;
     text-align: center;
     font-size: 15px;
+    margin-bottom: 16px;
     color: #434343;
   }
 }
 
 .newsletter-subscribe__form {
-
 
   @include breakpoint(large) {
     border: solid 1px #a5a5a5;
@@ -85,7 +81,7 @@
   font-size: 20px;
   line-height: 1.1;
   color: #434343;
-
+  margin-bottom: 16px;
 
   @include breakpoint(large) {
     display: none;

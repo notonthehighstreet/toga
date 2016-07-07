@@ -1,37 +1,40 @@
 import React from 'react';
-import Copyright from '../copyright';
+import NewsletterSubscribe from '../newsletter-subscribe';
 import linksObject from './links';
-import FooterAccordion from './FooterAccordion';
+import Accordion from './FooterAccordion';
+import MyAccountContent from './MyAccountContent';
+import CountryAndCurrency from './CountryAndCurrency';
+import FooterLinks from './FooterLinks';
 
 import './styles.scss';
 
 module.exports = class Footer extends React.Component {
   render() {
-    const {locale, one} = this.props;
+    const { loggedIn, name} = this.props;
+
     return (
       <div className="toga-footer">
+        <NewsletterSubscribe locale="en" />
         <div className="toga-footer__navigation">
-          <MyAccountMenu />
-          <FooterAccordion title="shopping with us" links={linksObject.shopping} />
-          <FooterAccordion title="selling with us" links={linksObject.selling} />
-          <FooterAccordion title="about us" links={linksObject.about}/>
-          <CountryCurrencyToggle />
+          <Accordion title={name ? name :'my account'} className="toga-footer__list--myaccount"><MyAccountContent loggedIn={loggedIn} /></Accordion>
+          <Accordion title="shopping with us" links={linksObject.shopping} >
+            <FooterLinks links={linksObject.shopping} />
+          </Accordion>
+          <Accordion title="selling with us" links={linksObject.selling} >
+            <FooterLinks links={linksObject.selling} />
+          </Accordion>
+          <Accordion title="about us">
+            <FooterLinks links={linksObject.about} />
+          </Accordion>
+          <Accordion title="select country and currency" className="toga-footer__list--currency">
+              <CountryAndCurrency />
+          </Accordion>
           <ConnectMenu />
         </div>
-
-        <Copyright locale={locale} one={one}/>
       </div>
     );
   }
 };
-
-const MyAccountMenu = () =>
-<div className="toga-footer__list toga-footer__list--myaccount">
-  <h2 className="toga-footer__header">my account</h2>
-  <ul className="toga-footer__links hidden">
-    <li>TODO: loggedIn logged-out links</li>
-  </ul>
-</div>;
 
 const ConnectMenu = () =>
   <div id="connect" className="toga-footer__list toga-footer__list--social">
@@ -67,18 +70,3 @@ const ConnectMenu = () =>
       </a>
     </div>
   </div>;
-
-const CountryCurrencyToggle = () =>
-  <div className="toga-footer__list--currency">
-    <h2 className="toga-footer__header ">select country and currency</h2>
-    <ul className="toga-footer__links hidden">
-      <label>select country and currency</label>
-      <select>
-        <option selected="selected" value="GB-1">Mainland UK</option>
-        <option value="GB-2">Highlands &amp; Islands of Scotland</option>
-        <option value="GB-9">Northern Ireland</option>
-        <option value="GB-10">Other UK Islands</option>
-      </select>
-    </ul>
-  </div>;
-

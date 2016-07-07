@@ -1,15 +1,5 @@
 @import '~toga-component/styles/breakpoint';
 
-//REMOVE WHEN NORMALISED
-div, ul { box-sizing: border-box; margin: 0; padding: 0}
-li { list-style-type: none; }
-a { text-decoration: none; }
-* { font-weight: normal; }
-
-.toga-footer {
-  //toga-footerfont-family: "NOTHS Sans No3 Regular";
-}
-
 .toga-footer__navigation {
   display: flex;
   flex-direction: column;
@@ -17,6 +7,7 @@ a { text-decoration: none; }
   @include breakpoint(large) {
     width: 920px;
     flex-direction: row;
+    margin-bottom: 32px;
   }
 }
 
@@ -33,6 +24,7 @@ a { text-decoration: none; }
     border-bottom: 1px solid #d6d2ce;
     background-color: #f6f5f3;
     overflow: hidden;
+    text-decoration: none;
 
     @include breakpoint(large) {
       color: #555;
@@ -55,28 +47,17 @@ a { text-decoration: none; }
   }
 }
 
-.toga-footerAccordion__links {
-
-  @include breakpoint(large) {
-    &.hidden {
-      display: block;
-    }
-  }
-
-}
-
 .toga-footer__list--myaccount, .toga-footer__list--currency {
-
 
   @include breakpoint(large) {
     display: none;
   }
 }
 
-.toga-footerAccordion__header, .toga-footer__header {
+.toga-footerAccordion__header {
   padding-right: 20px;
   padding-left: 20px;
-  font-family: "NOTHS Sans No2 Regular","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+  font-family: "NOTHS2","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
   font-size: 17px;
   position: relative;
   border-bottom: 1px solid #d6d2ce;
@@ -90,7 +71,7 @@ a { text-decoration: none; }
     position: absolute;
     right: 0;
     top: 0;
-    background: transparent url('footer/assets/svg/arrow_down_darker.svg') center center no-repeat;
+    background: transparent url('footer/assets/svg/arrow_down_lighter.svg') center center no-repeat;
     width: 32px;
     height: 100%;
     background-size: 16px 16px;
@@ -119,8 +100,22 @@ a { text-decoration: none; }
 
 }
 
-.hidden {
-  display: none;
+.toga-footerAccordion__content {
+  background-color: #f6f5f3;
+
+  @include breakpoint(large) {
+    background-color: white;
+  }
+}
+
+.toga-footerAccordion__list:nth-of-type(1) .toga-footerAccordion__header  {
+  border-radius: 8px 8px 0 0;
+  border-top: 1px solid #d6d2ce;
+
+  &:after {
+    background: transparent url('footer/assets/svg/arrow_down_darker.svg') center center no-repeat;
+    background-size: 16px 16px;
+  }
 }
 
 .toga-footer__list--social {
@@ -204,4 +199,37 @@ $socialIcons:  (
 
     }
   }
+}
+
+.footerLabel {
+  font-family: "NOTHS2", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.region_select, .currency_field {
+  margin-bottom: 24px;
+}
+
+.country_currency {
+  padding: 20px;
+}
+
+
+
+.myaccount-content__signout {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logged-out-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.logged-out-content__button--sign-in {
+  margin-right: 22px;
 }
