@@ -1,9 +1,9 @@
 module.exports = (deps) => {
-  const {
-    'lodash': _,
-    '/middleware/errors/badRequestError': BadRequestError
-  } = deps;
   return function setComponentContext(req, res, next) {
+    const {
+      'lodash': _,
+      '/middleware/errors/badRequestError': BadRequestError
+    } = deps;
     
     const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css$|\.json$/;
     const buildPath = (requestPath) => {
@@ -20,11 +20,11 @@ module.exports = (deps) => {
       req.components = componentContext(req.query.components);
       req.componentContext = componentContext(req.query.context);
       req.componentPath = buildPath(req.path);
-      
+
       if (req.path.indexOf('components-vendor-bundle')>-1) {
         req.components = 'vendor';
       }
-      
+
       next();
     }
     catch(error) {
