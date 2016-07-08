@@ -16,9 +16,9 @@ const currencyUnit = {
 const Price =  ({ price, currency, className, ...props }) => {
   const classes = classNames(priceBem('group', currency).className, className);
   return (
-    <span className={ classes } data-base-price={ price.base } data-current-price={ price.current } { ...props } >
+    <span className={ classes } { ...props } >
       <span { ...priceBem('unit') }>{ currencyUnit[currency] }</span>
-      <span { ...priceBem('major') }>{ price.current }</span>
+      <span { ...priceBem('major') }>{ price }</span>
       <span { ...priceBem('decimal') }></span>
     </span>
   );

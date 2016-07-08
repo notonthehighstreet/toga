@@ -20,7 +20,11 @@ const Label = ({ children, ...props }) => {
 };
 
 const render = ({ options, type, size, ...props }) => {
-  const buttonClasses = buttonBem(null, ['primary', size]).className;
+  const modifiers = ['primary'];
+  if (size) {
+    modifiers.pursh(size);
+  }
+  const buttonClasses = buttonBem(null, modifiers).className;
   const inputClasses = formBem(fieldClass, 'input', size );
 
   switch  (type) {
@@ -43,18 +47,18 @@ const render = ({ options, type, size, ...props }) => {
 
   default:
     return (
-        <input { ...inputClasses } { ...props } />
+        <input { ...inputClasses } type={ type } { ...props } />
       );
   }
 };
 
-const Field = ({ type, label, name, value, options, placeholder, className, size, inline }) => {
+const Field = ({ type, label, name, value, options, placeholder, className, size, inline, ...props }) => {
   const rowClass = classNames(formBem('row', { [size]: size, inline }).className, className);
   return (
     <div className={ rowClass }>
       <Label htmlFor={name} >{label}</Label>
       { 
-        render({ options, type, size, name, placeholder, id: name, defaultValue: value }) 
+        render({ options, type, size, name, placeholder, id: name, defaultValue: value, ...props }) 
       }
     </div>
   );
