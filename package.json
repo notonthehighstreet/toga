@@ -30,6 +30,9 @@
     "include": [
       "app/**/*.js",
       "components/**/*.js"
+    ],
+    "exclude": [
+      "components/test*/**/*"
     ]
   },
   "author": "",
