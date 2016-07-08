@@ -4,7 +4,7 @@ import BEMHelper from 'react-bem-helper';
 
 import './styles.scss';
 
-const formBem = new BEMHelper({  prefix: 'toga-', name: 'form' });
+const formBem = new BEMHelper({  prefix: 'n-', name: 'form' });
 const buttonBem = new BEMHelper({  prefix: 'n-', name: 'button' });
 const fieldClass = 'field';
 const selectClasses = formBem(fieldClass, 'select');
@@ -20,7 +20,7 @@ const Label = ({ children, ...props }) => {
 };
 
 const render = ({ options, type, size, ...props }) => {
-  const buttonClasses = buttonBem('primary', size).className;
+  const buttonClasses = buttonBem(null, ['primary', size]).className;
   const inputClasses = formBem(fieldClass, 'input', size );
 
   switch  (type) {
