@@ -5,6 +5,7 @@ var nested = require('./routes/nested-components');
 var multipleNested = require('./routes/multiple-nested-components');
 var locale = require('./routes/locale-component');
 var productPersonalisation = require('./routes/product-personalisation-component');
+var communication = require('./routes/communication-component');
 
 const server = express();
 
@@ -14,6 +15,7 @@ server.get('/multiple-nested', multipleNested);
 server.get('/nested', nested);
 server.get('/locale', locale);
 server.get('/product-personalisation', productPersonalisation);
+server.get('/communication', communication);
 
 server.listen(process.env.port || '3000', () => {
     console.log(`Running on port ${process.env.port || '3000'} :`); //eslint-disable-line
