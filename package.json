@@ -24,7 +24,8 @@
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "coverage"
   ],
   "nyc": {
     "include": [
