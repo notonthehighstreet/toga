@@ -32,7 +32,10 @@ module.exports = class TestMultiple extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
-        Test Component: 
+        <div>
+          <h2>Example: Multiple Components on the same page</h2>
+          <p>This example is used to test a HTML page which contains 2 components.</p>
+        </div>
         <div id="test2-locale">locale : {locale}</div>
         <div id="test2-context">context (one) : {one}</div>
         <div id="test2-clicked">clicked : {clicked.toString()}</div>

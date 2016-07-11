@@ -32,7 +32,10 @@ module.exports = class TestOne extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
-        Test Component:
+        <div>
+          <h2>Example: One Component</h2>
+          <p>This example is used to test a HTML page containing a single component</p>
+        </div>
         <div id="test-locale">locale : {locale}</div>
         <div id="test-context">context (one) : {one}</div>
         <div id="test-clicked">clicked : {clicked.toString()}</div>
