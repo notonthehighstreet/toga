@@ -5,6 +5,8 @@ import chanceModule from 'chance';
 const chance = chanceModule();
 
 import MyAccountContent from '../MyAccountContent';
+import FooterLinks from '../FooterLinks';
+import linksObject from '../links';
 
 const name = chance.word();
 
@@ -40,6 +42,19 @@ describe('footer component', () => {
         const component = shallow(<Footer loggedIn={true} />);
         const myAccountContent = component.find(MyAccountContent);
         expect(myAccountContent.props().loggedIn).to.be.true;
+      });
+    });
+
+    context('sponsored product feature flag', () => {
+      it('renders the sponsored product link when on', () => {
+        const component = shallow(<Footer sponsoredProductFeature={true} />);
+        const footerlinks = component.find(FooterLinks);
+        expect(footerlinks.last().props().links).to.deep.equal(linksObject.sponsored);
+      });
+      it('does not render the sponsored product link when off', () => {
+        const component = shallow(<Footer />);
+        const footerlinks = component.find(FooterLinks);
+        expect(footerlinks.last().props().links).to.deep.equal(linksObject.about);
       });
     });
   });

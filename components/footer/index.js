@@ -10,7 +10,7 @@ import './styles.scss';
 
 module.exports = class Footer extends React.Component {
   render() {
-    const { loggedIn, name} = this.props;
+    const { loggedIn, name, sponsoredProductFeature} = this.props;
 
     return (
       <div className="toga-footer">
@@ -25,6 +25,10 @@ module.exports = class Footer extends React.Component {
           </Accordion>
           <Accordion title="about us">
             <FooterLinks links={linksObject.about} />
+            { (sponsoredProductFeature)
+                  ? <FooterLinks links={linksObject.sponsored} />
+                  : null
+              }
           </Accordion>
           <Accordion title="select country and currency" className="toga-footer__list--currency">
               <CountryAndCurrency />
