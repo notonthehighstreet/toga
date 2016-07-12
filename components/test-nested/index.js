@@ -33,7 +33,11 @@ module.exports = class TestNested extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
-        Test Nested Components:
+        <div>
+          <h2>Example: Nested Components </h2>
+          <p>This example is used to test a HTML page containg a component (`TestNested`) 
+            which also contains another component (`Test`).</p>
+        </div>
         <div id="test-nested-locale">locale : {locale}</div>
         <div id="test-nested-context">context (one) : {one}</div>
         <div id="test-nested-clicked">clicked : {clicked.toString()}</div>

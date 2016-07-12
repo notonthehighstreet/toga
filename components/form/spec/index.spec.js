@@ -13,14 +13,14 @@ describe('form component', () => {
 
   it('is contained within a row', () => {
     renderedComponent = shallow(<Field  />);
-    componentDOM = renderedComponent.find('.toga-form__row input');
+    componentDOM = renderedComponent.find('.n-form__row input');
     expect(componentDOM).to.have.length(1);
   });
 
   it('adds additional class name', () => {
     renderedComponent = shallow(<Field className="test"/>);
-    componentDOM = renderedComponent.find('.toga-form__row');
-    expect(componentDOM.props().className).to.eq('toga-form__row test');
+    componentDOM = renderedComponent.find('.n-form__row');
+    expect(componentDOM.props().className).to.eq('n-form__row test');
   });
 
   it('has a label linked to the input box (i.e. htmlFor)', () => {
@@ -38,10 +38,10 @@ describe('form component', () => {
       // expect(renderedComponent).to.throw();
     });
 
-    it('has toga class names', () => {
+    it('has n class names', () => {
       renderedComponent = shallow(<Field type="select" options={[]} />);
-      componentDOM = renderedComponent.find('.toga-form__field');
-      expect(componentDOM.props().className).to.eq('toga-form__field toga-form__field--select');
+      componentDOM = renderedComponent.find('.n-form__field');
+      expect(componentDOM.props().className).to.eq('n-form__field n-form__field--select');
     });
 
     it('displays the options with value and label', () => {
@@ -78,10 +78,10 @@ describe('form component', () => {
       // expect(renderedComponent).to.throw();
     });
 
-    it('has toga class names', () => {
+    it('has n class names', () => {
       renderedComponent = shallow(<Field type="submit" value="submit" />);
-      componentDOM = renderedComponent.find('.toga-form__field');
-      expect(componentDOM.props().className).to.eq('n-button__primary toga-form__field toga-form__field--submit');
+      componentDOM = renderedComponent.find('.n-form__field');
+      expect(componentDOM.props().className).to.eq('n-button n-button--primary n-form__field n-form__field--submit');
     });
     
   });
@@ -97,10 +97,10 @@ describe('form component', () => {
       // expect(renderedComponent).to.throw();
     });
 
-    it('has toga class names', () => {
+    it('has n class names', () => {
       renderedComponent = shallow(<Field name="example" type="text" />);
-      componentDOM = renderedComponent.find('.toga-form__field');
-      expect(componentDOM.props().className).to.eq('toga-form__field toga-form__field--input');
+      componentDOM = renderedComponent.find('.n-form__field');
+      expect(componentDOM.props().className).to.eq('n-form__field n-form__field--input');
     });
     
   });

@@ -4,7 +4,7 @@ import BEMHelper from 'react-bem-helper';
 
 import './styles.scss';
 
-const formBem = new BEMHelper({  prefix: 'toga-', name: 'form' });
+const formBem = new BEMHelper({  prefix: 'n-', name: 'form' });
 const buttonBem = new BEMHelper({  prefix: 'n-', name: 'button' });
 const fieldClass = 'field';
 const selectClasses = formBem(fieldClass, 'select');
@@ -20,7 +20,11 @@ const Label = ({ children, ...props }) => {
 };
 
 const render = ({ options, type, size, ...props }) => {
-  const buttonClasses = buttonBem('primary', size).className;
+  const modifiers = ['primary'];
+  if (size) {
+    modifiers.pursh(size);
+  }
+  const buttonClasses = buttonBem(null, modifiers).className;
   const inputClasses = formBem(fieldClass, 'input', size );
 
   switch  (type) {
@@ -43,18 +47,18 @@ const render = ({ options, type, size, ...props }) => {
 
   default:
     return (
-        <input { ...inputClasses } { ...props } />
+        <input { ...inputClasses } type={ type } { ...props } />
       );
   }
 };
 
-const Field = ({ type, label, name, value, options, placeholder, className, size, inline }) => {
+const Field = ({ type, label, name, value, options, placeholder, className, size, inline, ...props }) => {
   const rowClass = classNames(formBem('row', { [size]: size, inline }).className, className);
   return (
     <div className={ rowClass }>
       <Label htmlFor={name} >{label}</Label>
       { 
-        render({ options, type, size, name, placeholder, id: name, defaultValue: value }) 
+        render({ options, type, size, name, placeholder, id: name, defaultValue: value, ...props }) 
       }
     </div>
   );
