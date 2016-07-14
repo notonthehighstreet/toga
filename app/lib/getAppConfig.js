@@ -44,6 +44,11 @@ module.exports = (deps) => {
       config.redis = process.env.REDIS_URL;
     }
 
+    // server config can be overridden with PORT env var
+    if (process.env.PORT) {
+      config.server.port = process.env.PORT;
+    }
+
     return Object.freeze(config);
   };
 };
