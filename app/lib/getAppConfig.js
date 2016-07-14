@@ -39,6 +39,11 @@ module.exports = (deps) => {
       argv.dev ? devConfig : {}
     );
 
+    // redis config can be overridden with REDIS_URL env var
+    if (process.env.REDIS_URL) {
+      config.redis = process.env.REDIS_URL;
+    }
+
     return Object.freeze(config);
   };
 };
