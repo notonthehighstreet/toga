@@ -11,10 +11,10 @@ module.exports = {
     browser.expect.element('#multiple-nested').to.be.present;
   },
 
-  ['first component renders an image'](browser) {
+  ['first component css has loaded correctly (and renders an image)'](browser) {
     browser.expect.element('[toga="test-one"] .toga-test-one').to.be.present;
     browser.getCssProperty('[toga="test-one"] .toga-test-one', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
+      this.assert.ok(result.value.indexOf('http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg')>-1);
     });
   },
 
@@ -26,7 +26,7 @@ module.exports = {
   ['second component renders an image'](browser) {
     browser.expect.element('.toga-test-nested').to.be.present;
     browser.getCssProperty('.toga-test-nested', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-nested/assets/images/product_mosaic.jpg")');
+      this.assert.ok(result.value.indexOf('http://localhost:8080/v1/test-nested/assets/images/product_mosaic.jpg')>-1);
     });
   },
 
@@ -38,7 +38,7 @@ module.exports = {
   ['nested component renders an image'](browser) {
     browser.expect.element('[toga="test-nested"] .toga-test-one').to.be.present;
     browser.getCssProperty('[toga="test-nested"] .toga-test-one', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
+      this.assert.ok(result.value.indexOf('http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg')>-1);
     });
   },
 

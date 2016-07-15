@@ -14,7 +14,7 @@ module.exports = {
   ['test component renders an image'](browser) {
     browser.expect.element('.toga-test-one').to.be.present;
     browser.getCssProperty('.toga-test-one', 'backgroundImage', function(result) {
-      this.assert.equal(result.value, 'url("http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg")');
+      this.assert.ok(result.value.indexOf('http://localhost:8080/v1/test-one/assets/images/product_mosaic.jpg')>-1);
     });
   },
 
