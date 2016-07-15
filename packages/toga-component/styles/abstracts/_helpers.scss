@@ -1,0 +1,21 @@
+@import './breakpoint';
+
+.hidden {
+  display:none;
+}
+
+.hidden--mobile {
+  @include breakpoint(small) {
+    display: none;
+  }
+}
+
+.hidden--desktop {
+  @include breakpoint(large) {
+    display: none;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}

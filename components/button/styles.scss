@@ -1,3 +1,80 @@
+@import "~toga-component/styles/abstracts/variables";
+
+$primary_button_color: white;
+$primary_button_background_color: $bondi-blue;
+$primary_border_color: #056582;
+
+$secondary_button_color: $ui_primary_colour;
+$secondary_button_background_color: #999998;
+$secondary_border_color: #949494;
+$secondary_hover_color: #a1a1a1;
+
+.n-button {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  color: white;
+  background-repeat: no-repeat;
+  white-space: nowrap;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+
+  &:hover {
+    opacity: 0.95;
+  }
+
+  &:active {
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.2);
+  }
+}
+
+// Styles : primary / secondary
+.n-button {
+  &--primary {
+    border-color: $primary_border_color;
+    box-shadow: inset 0 1px 0 #3ab4d9, 0 1px 1px rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient(top, #0ca6d4 0, #0a89af 100%);
+  }
+
+  &--secondary {
+    border-color: $secondary_border_color;
+    background-image: linear-gradient(top, #afafaf 0, #999998 100%);
+  }
+}
+
+// Sizes : small / medium / large
+.n-button {
+  &--small {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  &--medium {
+    padding: 10px 16px 8px;
+    font-size: 14px;
+  }
+
+  &--large {
+    padding: 14px 16px 12px;
+    font-size: 16px;
+
+    &.button--primary {
+      min-width: 200px;
+    }
+  }
+}
+
+.n-button--full-width {
+  width: 100%
+}
+
+// two buttons next to each other should have spacing
+// this wouldn't be needed if we swap to a 'grid'
 .n-button + .n-button {
   margin-left: 22px;
 }
