@@ -4,7 +4,7 @@ machine:
   timezone:
     Europe/London
   node:
-    version: v4.2
+    version: v6.2
 general:
   artifacts:
     - tests/reports

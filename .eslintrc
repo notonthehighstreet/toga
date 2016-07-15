@@ -1,12 +1,17 @@
 {
   "extends": "eslint:recommended",
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
+      "classes": true,
       "jsx": true,
       "experimentalObjectRestSpread": true
     }
   },
+  "plugins": [
+    "react"
+  ],
   "env": {
     "node": true,
     "es6": true
@@ -31,8 +36,5 @@
     "new-cap": 0,
     "semi": [2, "always"],
     "no-warning-comments": [2]
-  },
-  "plugins": [
-    "react"
-  ]
+  }
 }

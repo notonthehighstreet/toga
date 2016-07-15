@@ -1,0 +1,77 @@
+@import '~toga-component/styles/breakpoint';
+
+.toga-footer__social-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 20px;
+
+  @include breakpoint(large) {
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    @include breakpoint(large) {
+      margin-right: 18px;
+      margin-bottom: 18px;
+    }
+  }
+
+  a {
+    background-image: url('footer/assets/images/social_media_sprite.png');
+    height: 42px;
+    width: 42px;
+    background-size: auto 42px;
+    text-indent: -9999px;
+
+    @include breakpoint(large) {
+      height: 32px;
+      width: 32px;
+      float: left;
+      background-repeat: no-repeat;
+      background-size: auto 32px;
+      margin-right: 12px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+$socialIcons:  (
+                (facebook, 0, 0, null),
+                (twitter, -42px, -32px, null),
+                (blog, -84px, -64px, null),
+                (pinterest, -126px, -96px,null),
+                (instagram, -168px, -128px,null),
+                (google_plus, -210px, -160px, 0)
+);
+
+@each $label, $mobile-bg-position, $desktop-bg-position, $margin in $socialIcons {
+  .toga-links-list__link--#{$label} {
+    background-position: #{$mobile-bg-position} 0;
+
+    @include breakpoint(large) {
+      background-position: #{$desktop-bg-position} 0;
+      @if $margin {
+        margin: #{$margin}
+      }
+    }
+
+    &:hover {
+      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+      url('footer/assets/images/social_media_sprite.png');
+      background-size: auto 42px;
+      background-position: #{$mobile-bg-position} 0;
+      @include breakpoint(large) {
+        background-size: auto 32px;
+        background-position: #{$desktop-bg-position} 0;
+      }
+
+    }
+  }
+}

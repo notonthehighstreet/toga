@@ -1,32 +1,40 @@
 export default {
   about: [
-    { href: '/about', name: 'our story'},
-    { href: '/contact', name: 'customer contact'},
-    { href: '/about/awards', name: 'awards'},
-    { href: 'http://www.notonthehighstreetpresscentre.com/', name: 'press centre'},
-    { href: '/work-with-us', name: 'work with us'},
-    { href: '/partnerships', name: 'partnerships'},
-    { href: '/about/shopper-terms', name: 'terms & conditions'},
-    { href: '/about/privacy', name: 'privacy & cookies'}
+    { href: '/about', label: 'our story'},
+    { href: '/contact', label: 'customer contact'},
+    { href: '/about/awards', label: 'awards'},
+    { href: 'http://www.notonthehighstreetpresscentre.com/', label: 'press centre'},
+    { href: '/work-with-us', label: 'work with us'},
+    { href: '/partnerships', label: 'partnerships'},
+    { href: '/about/shopper-terms', label: 'terms & conditions'},
+    { href: '/about/privacy', label: 'privacy & cookies'}
   ],
   sponsored: [
-    { href: '/about/sponsored-product-listing', name: 'sponsored product listing'}
+    { href: '/about/sponsored-product-listing', label: 'sponsored product listing'}
   ],
   selling: [
-    { href: '/join/why', name: 'why join?'},
-    { href: '/join/faqs', name: 'faqs'},
-    { href: '/join/signup', name: 'apply to sell with us'},
-    { href: '/join/affiliates', name: 'affiliates'}
+    { href: '/join/why', label: 'why join?'},
+    { href: '/join/faqs', label: 'faqs'},
+    { href: '/join/signup', label: 'apply to sell with us'},
+    { href: '/join/affiliates', label: 'affiliates'}
   ],
   shopping: [
-    { href: '/about/why_shop_with_us', name: 'why shop with us?'},
-    { href: '/about/how_it_works', name: 'how it works'},
-    { href: '/about/delivery', name: 'delivery'},
-    { href: '/about/returns', name: 'returns'},
-    { href: '/about/where-is-my-order', name: 'where\'s my order'},
-    { href: '/about/customer-faqs', name: 'contact & help'},
-    { href: '/weddings', name: 'wedding list'},
-    { href: '/wish-lists', name: 'wish lists'},
-    { href: '/gift-vouchers', name: 'gift vouchers'}
+    { href: '/about/why_shop_with_us', label: 'why shop with us?'},
+    { href: '/about/how_it_works', label: 'how it works'},
+    { href: '/about/delivery', label: 'delivery'},
+    { href: '/about/returns', label: 'returns'},
+    { href: '/about/where-is-my-order', label: 'where\'s my order'},
+    { href: '/about/customer-faqs', label: 'contact & help'},
+    { href: '/weddings', label: 'wedding list'},
+    { href: '/wish-lists', label: 'wish lists'},
+    { href: '/gift-vouchers', label: 'gift vouchers'}
+  ],
+  social: [
+    { href: 'http://www.facebook.com/notonthehighstreet', name: 'facebook', label: 'visit us on Facebook', rel: 'nofollow', target: '_blank'},
+    { href: 'http://twitter.com/notonthehighst', name: 'twitter', label: 'tweet with us on Twitter', rel: 'nofollow', target: '_blank'},
+    { href: 'http://blog.notonthehighstreet.com/', name: 'blog', label: 'read our Blog'},
+    { href: 'http://pinterest.com/notonthehighst/', name: 'pinterest', label: 'see inspiration on Pinterest'},
+    { href: 'http://instagram.com/notonthehighstreet', name: 'instagram', label: 'view us on Instagram', rel: 'nofollow', target: '_blank'},
+    { href: 'https://plus.google.com/110256235424588800889', name: 'google_plus', label: 'follow us on Google Plus', rel: 'nofollow', target: '_blank'}
   ]
 };

@@ -1,0 +1,35 @@
+@import '~toga-component/styles/breakpoint';
+
+.toga-accordion__title {
+  position: relative;
+  border-bottom: 1px solid #d6d2ce;
+  // todo: remove cursor point and change tag to be more accessible
+  cursor: pointer;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    // todo: remove background svg and use inline
+    background: transparent url('footer/assets/svg/arrow_down_lighter.svg') center center no-repeat;
+    width: 32px;
+    height: 100%;
+    background-size: 16px 16px;
+  }
+
+  // todo: add animation
+  &.expanded:after {
+    transform: rotate(180deg)
+  }
+
+  @include breakpoint(large) {
+    border-bottom: none;
+    cursor: auto;
+
+    &:after {
+      content: none;
+    }
+  }
+}

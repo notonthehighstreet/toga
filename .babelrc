@@ -1,7 +1,7 @@
 {
   "sourceMaps": "inline",
   "plugins": [
-    "transform-react-jsx", "transform-object-rest-spread"
+    "transform-react-jsx", "transform-object-rest-spread", "transform-class-properties"
   ],
   "presets": [
     "es2015"

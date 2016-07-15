@@ -1,11 +1,14 @@
 import React from 'react';
 
+import Button from '../button';
+
+import '../form/styles.scss';
+
 module.exports = () =>
-<div className="country_currency">
-  <form acceptCharset="UTF-8" action="/geo" method="post">
-    <div className="region_select">
-      <label className="footerLabel">set my region to:</label>
-      <select className="n-select">
+  <form acceptCharset="UTF-8" action="/geo" method="post" className="n-form toga-country-currency">
+    <div className="n-form__row toga-country-currency__country">
+      <label className="n-form__label">set my region to:</label>
+      <select className="n-form__field n-form__field--select">
         <optgroup label="United Kingdom">
           <option defaultValue="selected" value="GB-1">Mainland UK</option>
           <option value="GB-2">Highlands &amp; Islands of Scotland</option>
@@ -245,10 +248,10 @@ module.exports = () =>
         </optgroup>
         </select>
     </div>
-    <div className="currency_field">
-      <label className="footerLabel">set my currency to:</label>
+    <div className="n-form__row toga-country-currency__currency">
+      <label className="n-form__label">set my currency to:</label>
 
-      <select className="n-select" name="currency">
+      <select className="n-form__field n-form__field--select" name="currency">
         <option defaultValue="selected" value="GBP">£ GBP</option>
         <option value="AUD">$ AUD</option>
         <option value="EUR">€ EUR</option>
@@ -256,9 +259,5 @@ module.exports = () =>
       </select>
 
     </div>
-    <div>
-      <input className="n-button n-button--primary n-button--medium n-button--full-width" type="submit" value="submit" >
-      </input>
-    </div>
-  </form>
-</div>;
+    <Button size="medium" fullWidth type="submit">update</Button>
+  </form>;
