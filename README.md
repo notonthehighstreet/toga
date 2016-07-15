@@ -1,7 +1,7 @@
 # noths-frontend
 
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
-[![CircleCI](https://circleci.com/gh/notonthehighstreet/noths-frontend.svg?style=svg)](https://circleci.com/gh/notonthehighstreet/noths-frontend)
+[![CircleCI](https://circleci.com/gh/notonthehighstreet/noths-frontend.svg?style=svg&circle-token=ed76cf8859cf269882e89ae499b99d61d6e4cd6e)](https://circleci.com/gh/notonthehighstreet/noths-frontend)
 
 # Consuming a Component
 
