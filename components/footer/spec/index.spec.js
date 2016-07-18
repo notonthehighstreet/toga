@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import chanceModule from 'chance';
+import Footer from '../';
+
 const chance = chanceModule();
 
 import MyAccountContent from '../../my-account';
@@ -11,11 +13,9 @@ import linksObject from '../links';
 const name = chance.word();
 
 describe('footer component', () => {
-  let Footer;
   let renderedOutput;
 
   beforeEach(() => {
-    Footer = require('../');
     renderedOutput = shallow(<Footer />);
   });
   describe('initial state', () => {

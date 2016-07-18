@@ -57,11 +57,11 @@ const Field = ({ type, label, name, value, options, placeholder, className, size
   return (
     <div className={ rowClass }>
       <Label htmlFor={name} >{label}</Label>
-      { 
-        render({ options, type, size, name, placeholder, id: name, defaultValue: value, ...props }) 
+      {
+        render({ options, type, size, name, placeholder, id: name, defaultValue: value, ...props })
       }
     </div>
   );
 };
 
-module.exports = Field;
+export default Field;

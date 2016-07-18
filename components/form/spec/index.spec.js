@@ -1,15 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import Field from '../';
 
 describe('form component', () => {
-  let Field;
   let renderedComponent;
   let componentDOM;
-
-  beforeEach(() => {
-    Field = require('../');
-  });
 
   it('is contained within a row', () => {
     renderedComponent = shallow(<Field  />);
@@ -83,7 +79,7 @@ describe('form component', () => {
       componentDOM = renderedComponent.find('.n-form__field');
       expect(componentDOM.props().className).to.eq('n-button n-button--primary n-form__field n-form__field--submit');
     });
-    
+
   });
 
   context('rendering inputs', () => {
@@ -91,7 +87,7 @@ describe('form component', () => {
       // renderedComponent = shallow(<Field />);
       // expect(renderedComponent).to.throw();
     });
-    
+
     it.skip('throws when type is missing', () => {
       // renderedComponent = shallow(<Field />);
       // expect(renderedComponent).to.throw();
@@ -102,6 +98,6 @@ describe('form component', () => {
       componentDOM = renderedComponent.find('.n-form__field');
       expect(componentDOM.props().className).to.eq('n-form__field n-form__field--input');
     });
-    
+
   });
 });

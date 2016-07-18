@@ -3,7 +3,7 @@ import Field from '../form';
 
 import './styles.scss';
 
-module.exports = class ProductPersonalisation extends React.Component {
+export default class ProductPersonalisation extends React.Component {
 
   render() {
     const { title, qty, setQty, addToBasket, formFields, ...props } = this.props;
@@ -19,4 +19,4 @@ module.exports = class ProductPersonalisation extends React.Component {
       </form>
     );
   }
-};
+}

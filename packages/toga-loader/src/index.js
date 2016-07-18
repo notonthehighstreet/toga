@@ -28,7 +28,10 @@ module.exports = function(source) {
         } catch (e) {
           props = {};
         }
-        ReactDOM.render(<module.exports {...props}/>, elem);
+        const Component = (typeof exports.default === 'undefined') 
+            ? module.exports 
+            : exports.default;
+        ReactDOM.render(<Component {...props}/>, elem);
       });`;
   }
   catch (e) {

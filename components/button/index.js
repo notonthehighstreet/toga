@@ -7,7 +7,7 @@ import './styles.scss';
 const bem = bemHelper({ prefix: 'n-', name: 'button' });
 const sizes = ['small', 'medium', 'large'];
 
-module.exports = class Button extends React.Component {
+export default class Button extends React.Component {
 
   constructor(props) {
     super(props);
@@ -37,4 +37,4 @@ module.exports = class Button extends React.Component {
 
     return React.createElement(tag, { className: classes, ...props }, children);
   }
-};
+}

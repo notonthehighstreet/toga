@@ -21,4 +21,4 @@ const LoggedInContent = () =>
     <Button type="secondary" size="medium">sign out</Button>
   </div>;
 
-module.exports = ({loggedIn}) => loggedIn ? <LoggedInContent /> : <LoggedOutContent />;
+export default ({loggedIn}) => loggedIn ? <LoggedInContent /> : <LoggedOutContent />;

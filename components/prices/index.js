@@ -36,4 +36,4 @@ const Prices = ({ gbp, aud, eur, usd, className, ...props }) => {
   );
 };
 
-module.exports = Prices;
+export default Prices;

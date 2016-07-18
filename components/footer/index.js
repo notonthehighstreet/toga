@@ -16,7 +16,7 @@ const bem = bemHelper({ prefix: 'toga-', name: 'footer' });
 const navClass = bem('navigation').className;
 const titleClass = bem('title').className;
 
-module.exports = class Footer extends React.Component {
+export default class Footer extends React.Component {
   render() {
     const { loggedIn, name, sponsoredProductFeature, className, ...props } = this.props;
     const classes = classnames(bem().className, className);
@@ -80,4 +80,4 @@ module.exports = class Footer extends React.Component {
       </div>
     );
   }
-};
+}

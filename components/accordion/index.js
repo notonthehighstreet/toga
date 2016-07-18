@@ -51,4 +51,4 @@ class Accordion extends React.Component {
 Accordion.Title = Title;
 Accordion.Content = Content;
 
-module.exports = Accordion;
+export default Accordion;

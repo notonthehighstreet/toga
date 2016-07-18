@@ -1,14 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import Copyright from '../';
 
 describe('copyright component', () => {
-  let Copyright;
   let renderedComponent;
   let componentDOM;
 
   beforeEach(() => {
-    Copyright = require('../');
     renderedComponent = shallow(<Copyright/>);
     componentDOM = renderedComponent.find('.toga-copyright');
   });

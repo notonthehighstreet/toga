@@ -19,8 +19,65 @@ const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 let callbackArguments;
 
 describe('renderComponent', () => {
+  const MockComponent = () => {};
+
   before(() => {
-    mockery.registerMock(`${fakeRelativeComponentPath}/`, () => {});
+    mockery.registerMock(`${fakeRelativeComponentPath}/`, MockComponent);
+    mockery.enable();
+  });
+
+  after(() => {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
+
+  beforeEach(() => {
+    subject = builder({
+      'toga-component': {
+        renderReact: renderReactStub
+      },
+      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
+      path: {
+        join: sandbox.stub().returns(fakeRelativeComponentPath)
+      }
+    });
+    actualSubjectReturnValue = subject({
+      componentName: fakeComponentName,
+      context: fakeComponentContext
+    }, callbackStub);
+    callbackArguments = callbackStub.args[0][0];
+  });
+
+  afterEach(() => {
+    sandbox.reset();
+  });
+
+  describe('calls the callback', () => {
+    context('when the component uses module.exports', ()=>{
+      it('renderReactStub is called with the correct args', () => {
+        expect(renderReactStub).to.be.calledWith({ component: MockComponent, context: fakeComponentContext });
+      });
+    });
+    it('with the rendered component\'s DOM', () => {
+      expect(callbackArguments.componentDOM).to.eq(fakeRenderedComponent);
+    });
+    it('with the component\'s name', () => {
+      expect(callbackArguments.componentName).to.eq(fakeComponentName);
+    });
+    it('with the component\'s context', () => {
+      expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
+    });
+    it('and returns its return value', () => {
+      expect(actualSubjectReturnValue).to.eq(expectedSubjectReturnValue);
+    });
+  });
+});
+
+describe('when the component uses export default', () => {
+  const MockComponent = { default: () => {} };
+
+  before(() => {
+    mockery.registerMock(`${fakeRelativeComponentPath}/`, MockComponent);
     mockery.enable();
   });
   after(() => {
@@ -46,18 +103,7 @@ describe('renderComponent', () => {
   afterEach(() => {
     sandbox.reset();
   });
-  describe('calls the callback', () => {
-    it('with the rendered component\'s DOM', () => {
-      expect(callbackArguments.componentDOM).to.eq(fakeRenderedComponent);
-    });
-    it('with the component\'s name', () => {
-      expect(callbackArguments.componentName).to.eq(fakeComponentName);
-    });
-    it('with the component\'s context', () => {
-      expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
-    });
-    it('and returns its return value', () => {
-      expect(actualSubjectReturnValue).to.eq(expectedSubjectReturnValue);
-    });
+  it('renderReactStub is called with the correct args', () => {
+    expect(renderReactStub).to.be.calledWith({ component: MockComponent.default, context: fakeComponentContext });
   });
 });

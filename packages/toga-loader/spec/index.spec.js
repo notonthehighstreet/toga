@@ -8,6 +8,19 @@ describe('Toga Loader', () => {
   const componentPath = `1/2/${componentName}/4`;
   const entryComponentPath = `1/2/${componentName}`;
   const sandbox = sinon.sandbox.create();
+  const bootstrapper = `const elems = document.querySelectorAll('[toga=${componentName}]');
+      [].forEach.call(elems, function(elem) {
+        let props;
+        try {
+          props = JSON.parse(elem.getAttribute('props'));
+        } catch (e) {
+          props = {};
+        }
+        const Component = (typeof exports.default === 'undefined') 
+            ? module.exports 
+            : exports.default;
+        ReactDOM.render(<Component {...props}/>, elem);
+      });`;
   const fakePath = {
     join: function() {}
   };
@@ -40,44 +53,15 @@ describe('Toga Loader', () => {
     mock.stopAll();
     sandbox.reset();
   });
-  describe('when source component is nested inside another component', () => {
-    it('returns pristine source', () => {
+  describe('bootstrap source with embeded source code', () => {
+    it('returns source and bootstrap', () => {
       const source = chance.word();
       context.options.entry.components[0] = '1/2/anotherComponentName';
       const result = subject.call(context, source);
 
-      expect(result).to.be.eq(source);
+      expect(result).to.include(source);
+      expect(result).to.include(bootstrapper);
     });
   });
-  describe('when source is not a string', () =>{
-    it('returns pristine source', () => {
-      const source = chance.integer();
-      const result = subject.call(context, source);
 
-      expect(result).to.be.eq(source);
-    });
-  });
-  describe('source is not a nested component and is a string', () => {
-    const source = `module.exports = ${chance.word()}`;
-    let result;
-
-    beforeEach(() => {
-      result = subject.call(context, source);
-    });
-    it('replaces `module.exports` with `let togaComponentSource`', () => {
-      const expectedMatcher = /^let togaComponentSource = /g;
-
-      expect(result).to.match(expectedMatcher);
-    });
-    it('assigns `entryComponentName` to `togaComponentName`', () => {
-      const expectedMatcher = new RegExp(`let togaComponentName="${componentName}"`);
-
-      expect(result).to.match(expectedMatcher);
-    });
-    it('appends bootstrapper.js contents', () => {
-      const expectedMatcher = new RegExp(`${bootstrapperContents}$`);
-
-      expect(result).to.match(expectedMatcher);
-    });
-  });
 });

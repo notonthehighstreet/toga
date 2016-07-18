@@ -21,4 +21,4 @@ const FooterLinks = ({ links, className, ...props }) => {
   );
 };
 
-module.exports = FooterLinks;
+export default FooterLinks;
