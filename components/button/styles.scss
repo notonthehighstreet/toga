@@ -12,6 +12,7 @@ $secondary_hover_color: #a1a1a1;
 .n-button {
   display: inline-block;
   text-align: center;
+  vertical-align: middle;
   touch-action: manipulation;
   cursor: pointer;
   color: white;
@@ -50,16 +51,16 @@ $secondary_hover_color: #a1a1a1;
 // Sizes : small / medium / large
 .n-button {
   &--small {
-    padding: 1px 8px 0;
+    padding: 5px 8px;
     font-size: 12px;
   }
   &--medium {
-    padding: 1px 16px 0;
+    padding: 10px 16px 8px;
     font-size: 14px;
   }
 
   &--large {
-    padding: 1px 16px 0;
+    padding: 14px 16px 12px;
     font-size: 16px;
 
     &.button--primary {
