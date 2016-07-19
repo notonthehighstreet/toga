@@ -19,3 +19,9 @@
 .bold {
   font-weight: bold;
 }
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}

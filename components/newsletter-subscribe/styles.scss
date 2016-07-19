@@ -1,5 +1,11 @@
 @import '~toga-component/styles/abstracts/breakpoint';
 
+$form__top-margin: 22px;
+$image__top-margin: 16px;
+$slogan__line-height: 17px;
+$image__top-position: $slogan__line-height + $image__top-margin;
+$form__top-position: $form__top-margin + $image__top-margin;
+
 * {
   box-sizing: border-box;
 }
@@ -9,72 +15,44 @@
 
   @include breakpoint(large) {
     width: 960px;
-    padding: 0;
+    padding: 0 0 16px;
     margin: 0;
   }
-}
-
-.form-wrapper {
-  position: relative;
 
   @include breakpoint(large) {
-    background-image: url('newsletter-subscribe/assets/images/product_mosaic.jpg');
-    background-repeat: no-repeat;
-    background-position-x: center;
-    padding-top: 22px;
-    margin-bottom: 32px;
-    min-height: 114px;
+    background: url('newsletter-subscribe/assets/images/product_mosaic.jpg') no-repeat center $image__top-position;
   }
 }
 
-.n-input--subscribe {
-  width: 100%;
-
-  @include breakpoint(large) {
-    width: 400px;
-    margin-right: 16px;
-  }
-}
 
 .newsletter-subscribe__slogan {
-  display: none;
-
-  @include breakpoint(large) {
-    display: block;
-    text-align: center;
-    font-size: 15px;
-    margin-bottom: 16px;
-    color: #434343;
-  }
+  text-align: center;
+  font-size: 15px;
+  line-height: $slogan__line-height;
 }
 
 .newsletter-subscribe__form {
+  display: flex;
+
+  > * {
+    flex: 1 100%;
+  }
 
   @include breakpoint(large) {
     border: solid 1px #a5a5a5;
     border-radius: 5px;
-    width: 580px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 60.35%;
+    margin: $form__top-position auto 32px;
     background-color: white;
     padding: 16px;
   }
 }
 
-.newsletter-subscribe__form__submit {
-  position: absolute;
-  top: 5px;
-  right: 4px;
-  padding: 6px 13px 4px;
-  height: 30px;
-  margin-top: 0;
-  width: auto;
-
-  @include breakpoint(large) {
-    position: initial;
-    width: 125px;
-  }
-
+.newsletter-subscribe__input {
+  margin-right: 16px;
+}
+.newsletter-subscribe__submit {
+  flex-basis: 0;
 }
 
 .newsletter-subscribe__cta {
@@ -82,8 +60,4 @@
   line-height: 1.1;
   color: #434343;
   margin-bottom: 16px;
-
-  @include breakpoint(large) {
-    display: none;
-  }
 }
