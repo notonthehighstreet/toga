@@ -72,7 +72,7 @@ describe('Accordion', () => {
 
     it('has the hidden class', () => {
       const component = shallow(<Accordion.Content>{ content }</Accordion.Content>);
-      expect(component).to.have.className('hidden-mobile');
+      expect(component).to.have.className('hidden--mobile');
     });
 
   });
@@ -85,7 +85,7 @@ describe('Accordion', () => {
 
     it('does not have the hidden class', () => {
       const component = shallow(<Accordion.Content expanded>{ content }</Accordion.Content>);
-      expect(component).not.to.have.className('hidden-mobile');
+      expect(component).not.to.have.className('hidden--mobile');
     });
   });
 });

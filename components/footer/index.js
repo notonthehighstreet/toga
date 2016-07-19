@@ -12,6 +12,8 @@ import linksObject from './links';
 
 import './styles.scss';
 
+import '../../packages/toga-component/styles/styleguide.scss';
+
 const bem = bemHelper({ prefix: 'toga-', name: 'footer' });
 const navClass = bem('navigation').className;
 const titleClass = bem('title').className;

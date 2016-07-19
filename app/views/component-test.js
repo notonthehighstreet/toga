@@ -8,7 +8,6 @@ module.exports = (deps) => {
     <head>
     <title>Toga Test - ${componentName}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href='http://cdn.notonthehighstreet.com/styles-toolkit/0.0.2/toolkit.css'>
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/styles.css?components=["${componentName}"]'>
     </head>
     <body>

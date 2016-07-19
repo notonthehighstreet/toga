@@ -13,7 +13,7 @@ const Title = ({ className, expanded, tag = 'h2', children,  ...props }) => {
 };
 
 const Content = ({ className, expanded, tag = 'div', children,  ...props }) => {
-  const classes = classnames(bem('content').className, { 'hidden-mobile': !expanded }, className);
+  const classes = classnames(bem('content').className, { 'hidden--mobile': !expanded }, className);
   return React.createElement(tag, { className: classes, ...props}, children);
 };
 
