@@ -1,14 +1,27 @@
 # Contributing
 
+1. [Getting Toga working locally](#getting-toga-working-locally)
+    1. [Installation](#installation)
+    2. [Running the servers](#running-the-servers)
+    3. [Viewing the components](#viewing-the-components)
+    4. [Testing](#testing)
+2. [Toga Workflow](#toga-workflow)
+    1. [Toga Server](#toga-server)
+    2. [Toga Components](#toga-components)
+    3. [Submitting code](#submitting-code)
 
-## Prerequisites
+## Getting Toga working locally
+
+### Installation
+
+#### Prerequisites
 
 * Node.js v6.2.2 - Recommend using NVM
 * npm v3.10.3
 * Redis i.e. `brew install redis`
 * PhantomJS i.e. `npm install -g phantomjs-prebuilt`
 
-## Installation
+#### Node Modules
 
 Install node module dependencies
 
@@ -18,25 +31,73 @@ Create webpack module mappings (must be re-run when modules change)
 
 `npm run create-bundle-indexes`
 
-## Ensure Redis is running
+
+### Running the Servers
+
+#### Redis
+
+Ensure redis is running
 
 `redis-server`
 
-## Run the server
+#### Run the prod server
 
 `npm start`
 
-## Development server
-Spins up an extra server under the default port of 3001, which proxies directly to the Toga server. All the routes remain the same, but get bonus auto reloading on style changes
+#### Development server
+
+Spins up an server under the port of 3001
 
 `npm run dev`
 
-## Tests
+### Viewing the Components
 
-Run all the Tests
+All components can be previewed once the servers are up and running using the localhost url and the name of the component.
 
-`npm test`
+To view Components, any required props must be set within the context of that component using the url. e.g.
 
-Run the tests and watch for changes
+`http://localhost:8080/v1/button.html?context={"children":"button text","fullWidth":true,"size":"large"}`
 
-`npm test -- --watch`
+### Testing
+
+Our unit tests are written with the help of [Enzyme](https://github.com/airbnb/enzyme) and a few variations of [Chai](https://github.com/chaijs/chai)
+([sinon-chai](https://github.com/domenic/sinon-chai), [chai-as-promised](https://github.com/domenic/chai-as-promised), [chai-enzyme](https://github.com/producthunt/chai-enzyme))
+
+ * `npm run lint`
+ * `npm run test-unit` or `npm run test-unit -- --watch`
+ * `npm run test-integration`
+
+#### e2e
+
+We have end-to-end tests which uses [Nightwatch](https://github.com/nightwatchjs/nightwatch)
+ and [PhantomJS](https://github.com/ariya/phantomjs) and also need the servers running first :
+
+ * `npm run dev`
+ * `npm run example`
+ * `npm run test-e2e`
+
+## Toga Workflow
+
+### Toga Server
+
+The Toga Server uses [Breadboard](https://github.com/notonthehighstreet/breadboard) which means the code and testing is different from what you might expect.
+Please take a look over the Breadboard [ReadMe.md](https://github.com/notonthehighstreet/breadboard/blob/master/README.md) to understand how this works.
+
+The Toga Server code lives within `/app` and the corresponding tests within `/tests`.
+
+### Toga Components
+
+The Toga Components can be written as any [React](https://github.com/facebook/react) component.
+Toga Components should be universal i.e. written so that they can be rendered server-side and client-side.
+
+The Toga Components tests lives within `/components` and the corresponding tests should live within a `/spec` directory with the component.
+
+### Submitting Code
+
+We would love some extra hands to help improve the Toga server and the Toga Components.
+If you want to help, please try to follow the following workflow to help make PRs accepted quickly.
+
+1. Raise an issue
+2. create a branch
+3. Write tests
+4. Submit a PR
