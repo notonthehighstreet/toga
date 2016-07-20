@@ -4,10 +4,17 @@ module.exports = (deps) => {
     const apiVersionPrefix = `/v${config.apiVersion}`;
 
     return `
-    <html>
-    <head>
+<!DOCTYPE html>
+  <html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      var dm = document.documentMode;
+      document.documentElement.className += dm ? ' oldie ie' + dm : '';
+    </script>
     <title>Toga Test - ${componentName}</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/styles.css?components=["${componentName}"]'>
     </head>
     <body>

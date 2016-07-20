@@ -11,6 +11,7 @@ const fakeWebpack = {
   },
   DefinePlugin: function() {}
 };
+const fakeAutoPrefixer = sandbox.stub();
 const fakeGetAppConfig = sandbox.stub();
 const fakeExtractTextPluging = () => {};
 fakeExtractTextPluging.extract = () => {};
@@ -24,6 +25,7 @@ describe('Create Webpack Config', () => {
     subject = builder({
       '/constants': chance.word(),
       webpack: fakeWebpack,
+      autoprefixer: fakeAutoPrefixer,
       'extract-text-webpack-plugin': fakeExtractTextPluging,
       '/lib/getAppConfig': fakeGetAppConfig
     });
@@ -61,7 +63,7 @@ describe('Create Webpack Config', () => {
       expect(definePluginSpy).not.to.have.been.called;
     });
   });
-  
+
   context('when in non-minify mode', () => {
     it('creates config without UglifyJs plugin', () => {
       subject({
@@ -75,7 +77,7 @@ describe('Create Webpack Config', () => {
   context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
       const result = subject({
-        modulePaths: [], 
+        modulePaths: [],
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;

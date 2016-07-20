@@ -1,4 +1,5 @@
 module.exports = (deps) => {
+
   return function runBundler({modulePaths, definitions, externals = [], minify}) {
     const {
       'fs': fs,
@@ -9,6 +10,19 @@ module.exports = (deps) => {
       '/lib/jsBundler/webpack/createConfig': createWebpackConfig,
       debug
     } = deps;
+
+    function outputWebpackErrors(webpackOutput) {
+      if (!webpackOutput) {
+        return;
+      }
+      if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.errors)) {
+        webpackOutput.compilation.errors.forEach(error => log(error));
+      }
+      if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.warnings)) {
+        webpackOutput.compilation.warnings.forEach(warning => log(warning));
+      }
+    }
+
     const log = debug('toga:runBundler');
     const stat = promisify(fs.stat);
     const memoryFS = new MemoryFS();
@@ -33,7 +47,10 @@ module.exports = (deps) => {
         log('Run Webpack...');
 
         compiler.outputFileSystem = memoryFS;
-        return run().then(() => {
+        return run().then((webpackOutput) => {
+
+          outputWebpackErrors(webpackOutput);
+
           const cssExists = memoryFS.existsSync(`/${cssBundleFileName}`);
           const readFilePromises = [];
           readFilePromises.push(mFSReadfile(`/${jsBundleFileName}`, 'utf8'));

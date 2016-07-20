@@ -2,35 +2,30 @@ import React from 'react';
 import classNames from 'classnames';
 import BEMHelper from 'react-bem-helper';
 
+import Button from '../button';
 import './styles.scss';
 
 const formBem = new BEMHelper({  prefix: 'n-', name: 'form' });
-const buttonBem = new BEMHelper({  prefix: 'n-', name: 'button' });
-const fieldClass = 'field';
-const selectClasses = formBem(fieldClass, 'select');
-const submitClasses = formBem(fieldClass, 'submit');
 
-const Label = ({ children, ...props }) => {
-  const labelClasses = formBem('label');
+export const Label = ({ className, children, ...props }) => {
+  const labelClasses = classNames(formBem('label').className, className);
   return (
-    <label { ...labelClasses } { ...props }>
+    <label className={ labelClasses } { ...props }>
       { children }
     </label>
   );
 };
 
-const render = ({ options, type, size, ...props }) => {
-  const modifiers = ['primary'];
-  if (size) {
-    modifiers.pursh(size);
-  }
-  const buttonClasses = buttonBem(null, modifiers).className;
-  const inputClasses = formBem(fieldClass, 'input', size );
+export const Field = ({ className, options, type, size, ...props }) => {
+  const fieldClass = 'field';
+  const selectClasses = classNames(formBem(fieldClass, 'select').className, className);
+  const submitClasses = classNames(formBem(fieldClass, 'submit').className, className);
+  const inputClasses = classNames(formBem(fieldClass, 'input', size ).className, className);
 
   switch  (type) {
   case 'select':
     return (
-        <select { ...selectClasses } { ...props } >
+        <select  className={ selectClasses }  { ...props } >
           { options.map((option, i) => (
             <option value={ option.value || option } key={ i }>
               { option.label || option }
@@ -41,27 +36,20 @@ const render = ({ options, type, size, ...props }) => {
       );
 
   case 'submit':
-    return (
-        <input className={ classNames(buttonClasses, submitClasses.className) } type="submit" { ...props } />
-      );
+    return <Button type="submit" size={ size }  className={ submitClasses } { ...props } />;
 
   default:
-    return (
-        <input { ...inputClasses } type={ type } { ...props } />
-      );
+    return <input type={ type } className={ inputClasses } { ...props } />;
   }
 };
 
-const Field = ({ type, label, name, value, options, placeholder, className, size, inline, ...props }) => {
+export default function Row({ type, label, name, value, options, placeholder, className, size, inline, ...props }) {
   const rowClass = classNames(formBem('row', { [size]: size, inline }).className, className);
   return (
     <div className={ rowClass }>
       <Label htmlFor={name} >{label}</Label>
-      {
-        render({ options, type, size, name, placeholder, id: name, defaultValue: value, ...props })
-      }
+      <Field { ...{ options, type, size, name, placeholder, id: name, defaultValue: value, ...props }} />
     </div>
   );
-};
+}
 
-export default Field;

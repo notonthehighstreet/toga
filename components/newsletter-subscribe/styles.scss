@@ -24,21 +24,6 @@ $form__top-position: $form__top-margin + $image__top-margin;
   }
 }
 
-.n-input {
-  border: 1px solid $aqua_squeeze;
-  font-size: 14px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 3px;
-  box-shadow: inset 0 2px 6px 0 rgba(0,0,0,0.24);
-  padding: 0 10px;
-
-  &:focus {
-    box-shadow: none;
-    border: 1px solid $orient;
-  }
-}
-
 .newsletter-subscribe__slogan {
   text-align: center;
   font-size: 15px;
@@ -47,10 +32,6 @@ $form__top-position: $form__top-margin + $image__top-margin;
 
 .newsletter-subscribe__form {
   display: flex;
-
-  > * {
-    flex: 1 100%;
-  }
 
   @include breakpoint(large) {
     border: solid 1px #a5a5a5;
@@ -63,10 +44,12 @@ $form__top-position: $form__top-margin + $image__top-margin;
 }
 
 .newsletter-subscribe__input {
+  flex: 1 1 auto; // syntax needed for ie10
   margin-right: 16px;
 }
+
 .newsletter-subscribe__submit {
-  flex-basis: 0;
+  flex: 1 auto; // syntax needed for ie10
 }
 
 .newsletter-subscribe__cta {

@@ -14,6 +14,18 @@ We have an example node app doing this for :
  * [one component](example/routes/one-component.js)
  * [multiple components](example/routes/multiple-components.js)
 
+# Browser Support
+
+Some components need special styles to make old version of Internet Explorer work.
+To ensure you get these styles in your app, please add the following script to your `head`:
+
+```javascript
+<script>
+      var dm = document.documentMode;
+      document.documentElement.className += dm ? ' oldie ie' + dm : '';
+</script>
+```
+
 ## Contributing
 
  > More information about how to contribute and run the project locally.
