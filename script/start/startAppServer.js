@@ -18,7 +18,7 @@ module.exports = function startAppServer() {
     port: config.server.port,
     host: config.server.host
   })
-  .then(([server, deps]) => {
+  .then(([deps, server]) => {
     const {
       '/logger': getLogger
     } = deps;
@@ -29,5 +29,9 @@ module.exports = function startAppServer() {
     logger.info('Toga server listening at http://%s:%s', host, port);
 
     return server;
+  })
+  .catch((e) => {
+    process.stderr.write(e.stack);
+    process.exit(1);
   });
 };
