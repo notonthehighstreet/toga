@@ -1,18 +1,18 @@
+/*eslint no-unused-vars: [2, { "argsIgnorePattern": "deps" }]*/
 const expect = require('chai').expect;
 const supertest = require('supertest');
-const breadboard = require('breadboard');
 let app;
 
+const startApp = require('./startTestServer');
+
 describe('/health', () => {
-  beforeEach(() => {
-    app = breadboard({
-      containerRoot: 'app',
+  beforeEach((done) => {
+    app = startApp({
       entry: (deps) => {
         return () => {
           return Promise.resolve(deps['/createServer']());
         };
       },
-      blacklist: ['newrelic'],
       substitutes: {
         ioredis: () => {
           return {
@@ -27,9 +27,15 @@ describe('/health', () => {
         }
       }
     });
+    app
+      .then(() => {
+        done();
+      }, (err) => {
+        done(err);
+      });
   });
   it('responds with 200', (done) => {
-    app.then(([server]) => {
+    app.then(([deps, server]) => {
       const agent = supertest.agent(server);
 
       agent.get('/health')
@@ -38,7 +44,11 @@ describe('/health', () => {
         .expect((res) => {
           expect(res.body.status).to.equal('HEALTHY');
         })
-        .end(done);
+        .end((err) => {
+          done(err);
+        });
+    }).catch((err) => {
+      done(err);
     });
   });
 });

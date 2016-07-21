@@ -10,7 +10,7 @@ const redisClientConfig = {
 };
 let server;
 
-module.exports = function startApp() {
+module.exports = function startApp(options) {
   return new Promise((resolve, reject) => {
     if (!server) {
       const client = Redis(6379, 'redis', redisClientConfig);
@@ -26,15 +26,16 @@ module.exports = function startApp() {
           reject(err);
         }
         else {
-          server = breadboard({
-            entry: '/index',
-            containerRoot: 'app',
-            blacklist: ['newrelic'],
-            initialState: {
-              port: 4981,
-              host: 'localhost'
-            }
-          });
+          options = options || {};
+          options.entry = options.entry || '/index';
+          options.containerRoot = options.containerRoot || 'app';
+          options.blacklist = options.blacklist || ['newrelic'];
+          options.initialState = options.initialState || {
+            port: 4982,
+            host: 'localhost'
+          };
+
+          server = breadboard(options);
           resolve(server);
         }
       });

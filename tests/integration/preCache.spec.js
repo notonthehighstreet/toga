@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: [2, { "argsIgnorePattern": "deps" }]*/
 const expect = require('chai').expect;
 const promisify = require('es6-promisify');
 const Redis = require('ioredis');
@@ -18,12 +19,13 @@ describe('preCache', () => {
     app
       .then(() => {
         done();
-      })
-      .catch(done);
+      }, (err) => {
+        done(err);
+      });
   });
 
   it('should cache the test component bundle in redis', (done) => {
-    app.then(([server]) => {
+    app.then(([deps, server]) => {
       server.close();
       const client = Redis('redis', 'localhost', redisClientConfig);
       const redisGet = promisify(client.get.bind(client));
@@ -43,6 +45,8 @@ describe('preCache', () => {
         });
         expect(values[0]).to.contain('test-text');
         done();
+      }, (errs) => {
+        done(errs);
       });
     }, (err) => {
       done(err);
