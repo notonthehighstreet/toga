@@ -17,20 +17,25 @@ describe('Get App Config', () => {
   let subject;
   let fakeDevConfigString;
   let fakeApplicationConfigString;
+  let fakeOverridenConfigString;
 
   beforeEach(() => {
     fakeDevConfigString = chance.word();
     fakeApplicationConfigString = chance.word();
+    fakeOverridenConfigString = chance.word();
 
     const fakeDeps = {
       yargs: fakeYargs,
       path: fakePath,
       semver: fakeSemver,
-      '/config/dev.json': {
+      '/config/devOverrides.json': {
         dev: fakeDevConfigString
       },
       '/config/application.json': {
         application: fakeApplicationConfigString
+      },
+      '/config/overrides.json': {
+        overriddenConfig: fakeOverridenConfigString
       }
     };
 
@@ -59,9 +64,9 @@ describe('Get App Config', () => {
   describe('when the `dev` argument is a string', () => {
     it('assigns dev config json based on the `dev` argument', () => {
       fakeYargs.argv = {
-        dev: 'config/dev.json'
+        dev: 'config/devOverrides.json'
       };
-      fakePath.resolve.returns('../../tests/spec/fixtures/config/dev.json');
+      fakePath.resolve.returns('../../tests/spec/fixtures/config/devOverrides.json');
       expect(subject().dev).to.eq('required');
     });
   });
@@ -79,7 +84,8 @@ describe('Get App Config', () => {
         config: 'config/application.json'
       };
       fakePath.resolve.returns('../../tests/spec/fixtures/config/application.json');
-      expect(subject().application).to.eq('required');
+      expect(subject().application).to.eq(fakeApplicationConfigString);
+      expect(subject().applicationMerged).to.eq('required');
     });
   });
 });

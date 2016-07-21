@@ -3,11 +3,12 @@ services:
   toga:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./DockerfileDev
+    image: toga-dev
     ports:
       - 8080:8080
     links:
       - redis
-    command: npm run start --config './app/config/productionOverrides.json'
+    command: npm run test
   redis:
     image: redis

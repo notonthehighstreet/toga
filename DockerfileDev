@@ -9,7 +9,7 @@ RUN apk add --update \
 COPY packages $HOME/packages
 COPY package.json $HOME/
 
-RUN npm install --production
+RUN npm install
 RUN ln -sfn /config/newrelic.js $HOME/newrelic.js
 
 COPY . $HOME/

@@ -3,6 +3,6 @@ acceptanceTestJob:
 buildJob: pl-frontend-service-build
 buildContainerJob: pl-frontend-service-publish
 slackChannel: https://hooks.slack.com/services/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
-cdEnabledAfterPullRequestIsMerged: true
-defaultEnvId:
+cdEnabledAfterPushToMaster: true
+autoEnvId: toga
 dependencies:

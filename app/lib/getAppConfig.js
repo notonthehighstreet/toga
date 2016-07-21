@@ -11,7 +11,7 @@ module.exports = (deps) => {
       semver
     } = deps;
     let {
-      '/config/dev.json': devConfig,
+      '/config/devOverrides.json': devConfig,
       '/config/application.json': applicationConfig
     } = deps;
     const getAbsolutePath = (filePath) => {
@@ -20,15 +20,13 @@ module.exports = (deps) => {
     const argv = yargs
       .default('dev', false)
       .argv;
-    let config;
+    let config, overridesConfig = {};
 
-    if (argv.config) {
-      applicationConfig = require(getAbsolutePath(argv.config));
+    if (argv.config && typeof argv.config === 'string') {
+      overridesConfig = require(getAbsolutePath(argv.config));
     }
-    if (argv.dev) {
-      if (typeof argv.dev === 'string') {
-        devConfig = require(getAbsolutePath(argv.dev));
-      }
+    if (argv.dev && typeof argv.dev === 'string') {
+      devConfig = require(getAbsolutePath(argv.dev));
     }
     config = Object.assign(
       {
@@ -36,18 +34,9 @@ module.exports = (deps) => {
         appName
       },
       applicationConfig,
+      overridesConfig,
       argv.dev ? devConfig : {}
     );
-
-    // redis config can be overridden with REDIS_URL env var
-    if (process.env.REDIS_URL) {
-      config.redis = process.env.REDIS_URL;
-    }
-
-    // server config can be overridden with PORT env var
-    if (process.env.PORT) {
-      config.server.port = process.env.PORT;
-    }
 
     return Object.freeze(config);
   };

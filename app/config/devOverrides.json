@@ -1,0 +1,7 @@
+{
+  "syncServer": {
+    "enabled": true,
+    "port": 3001
+  },
+  "minify": false
+}

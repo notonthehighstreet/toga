@@ -17,6 +17,6 @@ server.get('/locale', locale);
 server.get('/product-personalisation', productPersonalisation);
 server.get('/communication', communication);
 
-server.listen(process.env.port || '3000', () => {
-    console.log(`Running on port ${process.env.port || '3000'} :`); //eslint-disable-line
+server.listen('3000', () => {
+    console.log(`Running on port 3000' :`); //eslint-disable-line
 });
