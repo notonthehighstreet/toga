@@ -22,7 +22,11 @@ let app;
 describe('preCache', () => {
   before((done) => {
     app = startApp();
-    app.then(done, done);
+    app.then(() => {
+      // do not simplify this, otherwise deps and server will be passed to done, which will throw various errors in breadboard
+      done();
+    }, done)
+      .catch(done);
   });
 
   before((done) => {

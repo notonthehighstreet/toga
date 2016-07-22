@@ -24,7 +24,11 @@ describe('/health', () => {
         }
       }
     });
-    app.then(done, done);
+    app.then(() => {
+      // do not simplify this, otherwise deps and server will be passed to done, which will throw various errors in breadboard
+      done();
+    }, done)
+      .catch(done);
   });
   it('responds with 200', (done) => {
     app.then(({entryResolveValue: server}) => {
