@@ -1,10 +1,4 @@
-const getAppConfig = require('../../app/lib/getAppConfig')({
-  yargs: require('yargs'),
-  path: require('path'),
-  semver: require('semver'),
-  '/config/application.json': require('../../app/config/application.json'),
-  '/config/devOverrides.json': require('../../app/config/devOverrides.json')
-});
+const getAppConfig = require('../../app/lib/getAppConfig')();
 const bootstrapApp = require('../../index');
 
 module.exports = function startAppServer() {
