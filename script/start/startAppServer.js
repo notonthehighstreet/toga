@@ -5,7 +5,7 @@ const getAppConfig = require('../../app/lib/getAppConfig')({
   '/config/application.json': require('../../app/config/application.json'),
   '/config/devOverrides.json': require('../../app/config/devOverrides.json')
 });
-const bootstrapApp = require('../../');
+const bootstrapApp = require('../../index');
 
 module.exports = function startAppServer() {
   const config = getAppConfig();
@@ -18,10 +18,7 @@ module.exports = function startAppServer() {
     port: config.server.port,
     host: config.server.host
   })
-  .then(([deps, server]) => {
-    const {
-      '/logger': getLogger
-    } = deps;
+  .then(({deps: {'/logger': getLogger}, entryResolveValue: server}) => {
     const host = server.address().address;
     const port = server.address().port;
     const logger = getLogger();

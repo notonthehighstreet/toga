@@ -812,9 +812,9 @@
       "resolved": "https://registry.npmjs.org/braces/-/braces-1.8.5.tgz"
     },
     "breadboard": {
-      "version": "6.0.1",
-      "from": "breadboard@>=6.0.1 <7.0.0",
-      "resolved": "https://registry.npmjs.org/breadboard/-/breadboard-6.0.1.tgz",
+      "version": "7.0.0",
+      "from": "breadboard@7.0.0",
+      "resolved": "https://registry.npmjs.org/breadboard/-/breadboard-7.0.0.tgz",
       "dependencies": {
         "lodash": {
           "version": "4.13.1",

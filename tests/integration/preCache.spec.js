@@ -14,7 +14,6 @@ const redisClientConfig = {
   // permitted until a ReadyCheck has been performed. This is only a concern
   // if the Redis server is currently initializing and loading it's cache from disk
   enableReadyCheck: false,
-  // Promises do not resolve when using the OfflineQueue
   enableOfflineQueue: true
 };
 const startApp = require('./startTestServer');
@@ -23,12 +22,7 @@ let app;
 describe('preCache', () => {
   before((done) => {
     app = startApp();
-    app
-      .then(() => {
-        done();
-      }, (err) => {
-        done(err);
-      });
+    app.then(done, done);
   });
 
   before((done) => {
@@ -42,9 +36,9 @@ describe('preCache', () => {
   });
 
   it('should cache the test component bundle in redis', (done) => {
-    app.then(([deps, server]) => {
+    app.then(({entryResolveValue: server}) => {
       server.close();
-      const client = Redis('redis', 'localhost', redisClientConfig);
+      const client = Redis(6379, 'localhost', redisClientConfig);
       const redisGet = promisify(client.get.bind(client));
       const promises = [];
 
@@ -62,14 +56,8 @@ describe('preCache', () => {
         });
         expect(values[0]).to.contain('test-text');
         done();
-      }, (errs) => {
-        done(errs);
-      })
-      .catch((err) => {
-        done(err);
-      });
-    }, (err) => {
-      done(err);
-    });
+      }, done)
+      .catch(done);
+    }, done);
   });
 });

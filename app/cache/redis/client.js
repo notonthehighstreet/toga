@@ -9,7 +9,6 @@ module.exports = (deps) => {
     // permitted until a ReadyCheck has been performed. This is only a concern
     // if the Redis server is currently initializing and loading it's cache from disk
     enableReadyCheck: false,
-    // Promises do not resolve when using the OfflineQueue
     enableOfflineQueue: true
   };
   const client = Redis(redisConfig, clientConfig);
