@@ -4,6 +4,16 @@ const {
 } = require('../../package.json');
 
 module.exports = (deps) => {
+  // Removing the dependency on breadboard
+  if (!deps) {
+    deps = {
+      yargs: require('yargs'),
+      path: require('path'),
+      semver: require('semver'),
+      '/config/application.json': require('../../app/config/application.json'),
+      '/config/devOverrides.json': require('../../app/config/devOverrides.json')
+    };
+  }
   return function getAppConfig() {
     const {
       yargs,

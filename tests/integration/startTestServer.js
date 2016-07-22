@@ -9,10 +9,13 @@ const redisClientConfig = {
 };
 let server;
 
+const getAppConfig = require('../../app/lib/getAppConfig')();
+const redisConfig = getAppConfig().redis;
+
 module.exports = function startApp(options) {
   return new Promise((resolve, reject) => {
     if (!server) {
-      const client = Redis(6379, 'redis', redisClientConfig);
+      const client = Redis(redisConfig.port, redisConfig.host, redisClientConfig);
 
       client.on('error', (err) => {
         client.disconnect();

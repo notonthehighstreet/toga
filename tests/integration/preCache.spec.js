@@ -9,6 +9,9 @@ const majorVersion = semver.major(version);
 const hashFiles = require('hash-files');
 let hash;
 
+const getAppConfig = require('../../app/lib/getAppConfig')();
+const redisConfig = getAppConfig().redis;
+
 const redisClientConfig = {
   // With ReadyCheck enabled, accessing Redis for the first time will not be
   // permitted until a ReadyCheck has been performed. This is only a concern
@@ -22,7 +25,11 @@ let app;
 describe('preCache', () => {
   before((done) => {
     app = startApp();
-    app.then(done, done);
+    app.then(() => {
+      // do not simplify this, otherwise deps and server will be passed to done, which will throw various errors in breadboard
+      done();
+    }, done)
+      .catch(done);
   });
 
   before((done) => {
@@ -38,7 +45,7 @@ describe('preCache', () => {
   it('should cache the test component bundle in redis', (done) => {
     app.then(({entryResolveValue: server}) => {
       server.close();
-      const client = Redis(6379, 'localhost', redisClientConfig);
+      const client = Redis(redisConfig.port, redisConfig.host, redisClientConfig);
       const redisGet = promisify(client.get.bind(client));
       const promises = [];
 
