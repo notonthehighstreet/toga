@@ -5,6 +5,7 @@ module.exports = (deps) => {
       '/middleware/setComponentContext': setComponentContext,
       '/middleware/getComponentAsset': getComponentAsset,
       '/middleware/getComponentHtml': getComponentHtml,
+      '/lib/getAppConfig': getAppConfig,
       '/middleware/setLocale': setLocale
     } = deps;
 
@@ -18,6 +19,7 @@ module.exports = (deps) => {
     router.use(setLocale, setComponentContext);
 
     router
+      .get(/^\/core(\.min)?.css$/, (req, res) => res.redirect(getAppConfig().stylesToolkit.url))
       .get(/^\/styles(\.min)?.css$/, getComponentAsset('css', 'styles'))
       .get(/^\/components(\.min)?\.js$/, getComponentAsset('js', 'scripts'))
       .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js', 'scripts'))

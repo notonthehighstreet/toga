@@ -6,7 +6,10 @@ module.exports = function one(req, res) {
     'http://localhost:8080/v1/components-vendor-bundle.js?components=["product-personalisation"]',
     'http://localhost:8080/v1/components.js?components=["product-personalisation"]'
   ];
-  const styles = ['http://localhost:8080/v1/styles.css?components=["product-personalisation"]'];
+  const styles = [
+    'http://localhost:8080/v1/core.css',
+    'http://localhost:8080/v1/styles.css?components=["product-personalisation"]'
+  ];
   const context = {
     'title':'Personalise',
     'formFields':[

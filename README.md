@@ -6,7 +6,9 @@
 # Consuming a Component
 
 Toga Components rely on NOTHS [Styles-Toolkit](https://github.com/notonthehighstreet/styles-toolkit) to get the core styles.
-The Styles-Toolkit CSS file must be included in your project.
+We have included a URL that will fetch the required version for you to ensure you are always up to date :
+
+`/v1/core``.css`
 
 To render a component, the CSS, JavaScript and HTML must be pulled into your app.
 We have an example node app doing this for :
