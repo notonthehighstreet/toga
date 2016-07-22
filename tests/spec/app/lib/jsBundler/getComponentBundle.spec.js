@@ -16,9 +16,9 @@ describe('getComponentBundle', () => {
     return { bundleId : componentNames, cssBundleId : componentNames, bundlePaths: componentNames };
   };
   const getCachedValue = 'cached value';
-  const getCacheHitMock = () => {
+  const getCacheHitMock = sandbox.spy(() => {
     return Promise.resolve(getCachedValue);
-  };
+  });
   const cacheMissError = {};
   const getCacheMissMock = () => {
     return Promise.reject(cacheMissError);
@@ -29,17 +29,30 @@ describe('getComponentBundle', () => {
   const bundleSuccessMock = () => {
     return Promise.resolve(bundleSuccessData);
   };
+
+  const componentHash = chance.word();
+
+  const bundleHashMock = () => {
+    return Promise.resolve(componentHash);
+  };
   const bundleFailureError = {};
   const bundleFailureMock = () => {
     return Promise.reject(bundleFailureError);
   };
   const bundleIdMatcher = sinon.match(new RegExp('scripts(-\\w*)', 'g'));
 
+  const apiVersion = '3';
+  const getAppConfigMock = () => {
+    return {apiVersion};
+  };
+
   beforeEach(() => {
     deps = {
       '/cache/get': getCacheHitMock,
       '/cache/set': setCacheMock,
       '/lib/buildBundleId': buildBundleIdMock,
+      '/lib/buildBundleHash': bundleHashMock,
+      '/lib/getAppConfig': getAppConfigMock,
       'debug': () => () => {}
     };
     subject = builder(deps);
@@ -117,4 +130,3 @@ describe('getComponentBundle', () => {
     });
   });
 });
-

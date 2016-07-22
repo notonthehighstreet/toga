@@ -5,9 +5,13 @@ module.exports = (deps) => {
       '/cache/get': getCache,
       '/lib/jsBundler/webpack/runBundler': bundle,
       '/lib/buildBundleId': buildBundleId,
+      '/lib/buildBundleHash': buildBundleHash,
       '/lib/jsBundler/vendorFiles': vendorFiles,
+      '/lib/getAppConfig': getAppConfig,
       debug
     } = deps;
+
+    const { apiVersion } = getAppConfig();
 
     if (components.length === 0) {
       return Promise.reject(new Error('A bundle without components can not be created'));
@@ -18,16 +22,19 @@ module.exports = (deps) => {
     const { modulePaths, bundleId } = buildBundleId(components, minify);
     const externals = components==='vendor' ? [] : vendorFiles;
 
-    return getCache(`${assetType}-${bundleId}`)
-      .catch(()=> {
-        return bundle({ modulePaths, definitions, externals, minify })
-          .then((bundles) => {
-            log('saving into cache: ', bundleId);
-            return Promise.all([
-              setCache(`scripts-${bundleId}`, bundles['scripts']),
-              setCache(`styles-${bundleId}`, bundles['styles'])
-            ]).then(() => bundles[assetType]);
-          });
-      });
+    return buildBundleHash(components).then((hash) => {
+      return getCache(`${apiVersion}-${assetType}-${bundleId}-${hash}`)
+        .catch(()=> {
+          return bundle({ modulePaths, definitions, externals, minify })
+            .then((bundles) => {
+              log('saving into cache: ', bundleId);
+              return Promise.all([
+                setCache(`${apiVersion}-scripts-${bundleId}-${hash}`, bundles['scripts']),
+                setCache(`${apiVersion}-styles-${bundleId}-${hash}`, bundles['styles'])
+              ]).then(() => bundles[assetType]);
+            });
+        });
+    });
+
   };
 };
