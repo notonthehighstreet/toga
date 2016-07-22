@@ -1,7 +1,0 @@
-{spec,components}/**/*.spec.js
--u exports
--R spec
---reporter dot
---require ./spec/specHelper.js
---delay
---compilers js:babel-core/register

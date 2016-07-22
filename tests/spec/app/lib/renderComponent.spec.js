@@ -6,7 +6,9 @@ const builder = require('../../../../app/lib/renderComponent');
 let actualSubjectReturnValue;
 let expectedSubjectReturnValue = chance.word();
 const fakeRenderedComponent = chance.word();
+const fakeReact = chance.word();
 const sandbox = sinon.sandbox.create();
+const reactStub = sandbox.stub().returns(fakeReact);
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 const callbackStub = sandbox.stub().returns(expectedSubjectReturnValue);
 let subject;
@@ -33,8 +35,11 @@ describe('renderComponent', () => {
 
   beforeEach(() => {
     subject = builder({
-      'toga-component': {
-        renderReact: renderReactStub
+      'react': {
+        createElement: reactStub
+      },
+      'react-dom/server': {
+        renderToString: renderReactStub
       },
       '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
       path: {
@@ -55,7 +60,7 @@ describe('renderComponent', () => {
   describe('calls the callback', () => {
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
-        expect(renderReactStub).to.be.calledWith({ component: MockComponent, context: fakeComponentContext });
+        expect(reactStub).to.be.calledWith(MockComponent, fakeComponentContext);
       });
     });
     it('with the rendered component\'s DOM', () => {
@@ -86,8 +91,11 @@ describe('when the component uses export default', () => {
   });
   beforeEach(() => {
     subject = builder({
-      'toga-component': {
-        renderReact: renderReactStub
+      'react': {
+        createElement: reactStub
+      },
+      'react-dom/server': {
+        renderToString: renderReactStub
       },
       '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
       path: {
@@ -104,6 +112,6 @@ describe('when the component uses export default', () => {
     sandbox.reset();
   });
   it('renderReactStub is called with the correct args', () => {
-    expect(renderReactStub).to.be.calledWith({ component: MockComponent.default, context: fakeComponentContext });
+    expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentContext);
   });
 });

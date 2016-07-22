@@ -1,14 +1,10 @@
-@import '~toga-component/styles/abstracts/breakpoint';
+@import '~styles-toolkit/styles/abstracts/mixins';
 
 $form__top-margin: 22px;
 $image__top-margin: 16px;
 $slogan__line-height: 17px;
 $image__top-position: $slogan__line-height + $image__top-margin;
 $form__top-position: $form__top-margin + $image__top-margin;
-
-* {
-  box-sizing: border-box;
-}
 
 .toga-newsletter-subscribe {
   padding: 32px 20px;
@@ -24,13 +20,13 @@ $form__top-position: $form__top-margin + $image__top-margin;
   }
 }
 
-.newsletter-subscribe__slogan {
+.toga-newsletter-subscribe__slogan {
   text-align: center;
   font-size: 15px;
   line-height: $slogan__line-height;
 }
 
-.newsletter-subscribe__form {
+.toga-newsletter-subscribe__form {
   display: flex;
 
   @include breakpoint(large) {
@@ -43,16 +39,16 @@ $form__top-position: $form__top-margin + $image__top-margin;
   }
 }
 
-.newsletter-subscribe__input {
+.toga-newsletter-subscribe__input {
   flex: 1 1 auto; // syntax needed for ie10
   margin-right: 16px;
 }
 
-.newsletter-subscribe__submit {
+.toga-newsletter-subscribe__submit {
   flex: 1 auto; // syntax needed for ie10
 }
 
-.newsletter-subscribe__cta {
+.toga-newsletter-subscribe__cta {
   font-size: 20px;
   line-height: 1.1;
   color: #434343;

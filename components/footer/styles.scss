@@ -1,4 +1,4 @@
-@import '~toga-component/styles/abstracts/breakpoint';
+@import '~styles-toolkit/styles/abstracts/mixins';
 @import 'socialLinks';
 
 .toga-footer__title {
@@ -12,7 +12,6 @@
   @include breakpoint(large) {
     font-size: 15px;
     text-transform: uppercase;
-    font-weight: normal;
     padding: 0;
     border-bottom: none;
     line-height: 1.1;
@@ -42,6 +41,9 @@
   }
 
   &--currency {
+    .n-form__label {
+      font-weight: normal;
+    }
     @include breakpoint(large) {
       .n-form__label {
         font-size: 13px;
@@ -102,23 +104,5 @@
     padding-top: 0;
     padding-left: 0;
     border-bottom-width: 0;
-  }
-}
-
-
-// todo : move to global styles-toolkit
-.hidden {
-  display:none;
-}
-
-.hidden--mobile {
-  @include breakpoint(small) {
-    display: none;
-  }
-}
-
-.hidden--desktop {
-  @include breakpoint(large) {
-    display: none;
   }
 }

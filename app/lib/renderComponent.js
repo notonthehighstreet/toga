@@ -1,7 +1,8 @@
 module.exports = (deps) => {
   return function renderComponent({componentName, context}, cb) {
     const {
-      'toga-component': {renderReact},
+      'react-dom/server' : ReactDOMServer,
+      'react' : React,
       '/lib/getAppConfig': getAppConfig,
       path
     } = deps;
@@ -9,7 +10,9 @@ module.exports = (deps) => {
     const relativeComponentPath = path.join('../../', componentsPath, componentName);
     const component = require(`${relativeComponentPath}/`);
     // handle export default as well as module.exports
-    const componentDOM = renderReact({component : component.default || component, context});
+    const componentDOM =  ReactDOMServer.renderToString(
+      React.createElement(component.default || component, context)
+    );
     return cb({ componentDOM, componentName, context });
   };
 };

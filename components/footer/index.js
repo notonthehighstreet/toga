@@ -1,6 +1,5 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
-import classnames from 'classnames';
 
 import NewsletterSubscribe from '../newsletter-subscribe';
 import Accordion from '../accordion';
@@ -12,26 +11,24 @@ import linksObject from './links';
 
 import './styles.scss';
 
-import '../../packages/toga-component/styles/styleguide.scss';
-
 const bem = bemHelper({ prefix: 'toga-', name: 'footer' });
-const navClass = bem('navigation').className;
-const titleClass = bem('title').className;
+const navClasses = bem('navigation');
+const titleClasses = bem('title');
 
 export default class Footer extends React.Component {
   render() {
     const { loggedIn, name, sponsoredProductFeature, className, ...props } = this.props;
-    const classes = classnames(bem().className, className);
-    const myAccountClassName = classnames('hidden--desktop', bem('list', 'myaccount').className);
-    const currencyClassName = classnames(bem('list', 'currency').className);
-    const socialTitleClassName = classnames('hidden--mobile', bem('title', 'social').className);
+    const classes = bem(null, null, className);
+    const myAccountClasses = bem('list', 'myaccount', 'hidden--desktop');
+    const currencyClasses = bem('list', 'currency');
+    const socialTitleClasses = bem('title', 'social', 'hidden--mobile');
 
     return (
       <div className={ classes } { ...props } >
         <NewsletterSubscribe locale="en" />
-        <div className={ navClass }>
-          <Accordion className={ myAccountClassName } >
-            <Accordion.Title className={ titleClass }>
+        <div { ...navClasses }>
+          <Accordion { ...myAccountClasses } >
+            <Accordion.Title { ...titleClasses }>
               { name ? name :'my account' }
             </Accordion.Title>
             <Accordion.Content { ...bem('content', 'myaccount') }>
@@ -39,7 +36,7 @@ export default class Footer extends React.Component {
             </Accordion.Content>
           </Accordion>
           <Accordion { ...bem('list', 'shopping') } >
-            <Accordion.Title className={ titleClass }>
+            <Accordion.Title { ...titleClasses }>
               shopping with us
             </Accordion.Title>
             <Accordion.Content { ...bem('content', 'slim') }>
@@ -47,7 +44,7 @@ export default class Footer extends React.Component {
             </Accordion.Content>
           </Accordion>
           <Accordion { ...bem('list', 'selling') } >
-            <Accordion.Title className={ titleClass }>
+            <Accordion.Title { ...titleClasses }>
               selling with us
             </Accordion.Title>
             <Accordion.Content { ...bem('content', 'slim') }>
@@ -55,7 +52,7 @@ export default class Footer extends React.Component {
             </Accordion.Content>
           </Accordion>
           <Accordion { ...bem('list', 'about-us') } >
-            <Accordion.Title className={ titleClass }>
+            <Accordion.Title { ...titleClasses }>
               about us
             </Accordion.Title>
             <Accordion.Content { ...bem('content', 'slim') }>
@@ -66,8 +63,8 @@ export default class Footer extends React.Component {
               }
             </Accordion.Content>
           </Accordion>
-          <Accordion className={ currencyClassName } >
-            <Accordion.Title className={ titleClass }>
+          <Accordion { ...currencyClasses } >
+            <Accordion.Title { ...titleClasses }>
               region
             </Accordion.Title>
             <Accordion.Content { ...bem('content') }>
@@ -75,7 +72,7 @@ export default class Footer extends React.Component {
             </Accordion.Content>
           </Accordion>
           <div id="connect" { ...bem('list', 'social') }>
-            <h2 className={ socialTitleClassName }>keep in touch</h2>
+            <h2 { ...socialTitleClasses }>keep in touch</h2>
             <LinksList links={ linksObject.social } { ...bem('social-links') } />
           </div>
         </div>

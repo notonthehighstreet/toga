@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import bemHelper from 'react-bem-helper';
 
 import './styles.scss';
@@ -31,10 +30,9 @@ export default class Button extends React.Component {
   render() {
     const { className, size, secondary, fullWidth, children, ...props } = this.props;
 
-    const bemClasses = bem(null, [size, secondary ? 'secondary' : 'primary', fullWidth ? 'full-width' : undefined]).className;
-    const classes = classnames(className, bemClasses);
+    const classes = bem(null, [size, secondary ? 'secondary' : 'primary', fullWidth ? 'full-width' : undefined], className);
     const tag = this.props.href ? 'a' : 'button';
 
-    return React.createElement(tag, { className: classes, ...props }, children);
+    return React.createElement(tag, { ...classes, ...props }, children);
   }
 }

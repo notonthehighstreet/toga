@@ -13,13 +13,13 @@ describe('Newsletter subscribe component', () => {
   context('slogan', () => {
     it('renders slogan in english', () => {
       const component = shallow(<Newsletter locale='en'/>);
-      const slogan = component.find('.newsletter-subscribe__slogan');
+      const slogan = component.find('.toga-newsletter-subscribe__slogan');
       expect(slogan.text()).to.eq('UNIQUE. INSPIRING. Our emails aren\'t like other emails.');
     });
 
     it('renders key if text for locale is not found', () => {
       const component = shallow(<Newsletter locale='NOPE'/>);
-      const slogan = component.find('.newsletter-subscribe__slogan');
+      const slogan = component.find('.toga-newsletter-subscribe__slogan');
       expect(slogan.text()).to.eq('UNIQUE_INSPIRING');
     });
   });

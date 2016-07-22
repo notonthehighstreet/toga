@@ -46,12 +46,12 @@ describe('footer component', () => {
 
   context('sponsored product feature flag in the about-us section', () => {
     it('renders the sponsored product link when on', () => {
-      const component = shallow(<Footer sponsoredProductFeature={true} />);
+      const component = mount(<Footer sponsoredProductFeature={true} />);
       const footerlinks = component.find('.toga-footer__list--about-us').find(FooterLinks);
       expect(footerlinks.last().props().links).to.deep.equal(linksObject.sponsored);
     });
     it('does not render the sponsored product link when off', () => {
-      const component = shallow(<Footer />);
+      const component = mount(<Footer />);
       const footerlinks = component.find('.toga-footer__list--about-us').find(FooterLinks);
       expect(footerlinks.last().props().links).to.deep.equal(linksObject.about);
     });

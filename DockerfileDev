@@ -1,6 +1,7 @@
 FROM hub.noths.com/node:6-alpine
 
 RUN apk add --update \
+    git \
     python \
     python-dev \
     build-base \

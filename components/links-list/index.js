@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import bemHelper from 'react-bem-helper';
 
 import './styles.scss';
@@ -7,15 +6,13 @@ import './styles.scss';
 const bem = bemHelper({ prefix: 'toga-', name: 'links-list' });
 
 const FooterLinks = ({ links, className, ...props }) => {
-  const linksClass = classnames(bem().className, className);
   return (
-    <ul className={ linksClass } { ...props }>
+    <ul { ...bem(null, null, className) } { ...props }>
       { links && links.map((link, i) => {
         const { label, name, ...linkProps } = link;
-        const linkClass = classnames(bem('link', name).className, className);
         return (
           <li key={i}>
-            <a className={ linkClass } { ...linkProps }>{ label }</a>
+            <a { ... bem('link', name, className) } { ...linkProps }>{ label }</a>
           </li>
         );
       })}

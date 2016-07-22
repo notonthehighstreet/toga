@@ -1,10 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
 import BEMHelper from 'react-bem-helper';
 
 import './styles.scss';
 
-const priceBem = new BEMHelper({  prefix: 'toga-', name: 'price' });
+const bem = new BEMHelper({  prefix: 'toga-', name: 'price' });
 
 const currencyUnit = {
   'GBP' : '£',
@@ -14,18 +13,18 @@ const currencyUnit = {
 };
 
 const Price =  ({ price, currency, className, ...props }) => {
-  const classes = classNames(priceBem('group', currency).className, className);
+  const classes = bem('group', currency, className);
   return (
     <span className={ classes } { ...props } >
-      <span { ...priceBem('unit') }>{ currencyUnit[currency] }</span>
-      <span { ...priceBem('major') }>{ price }</span>
-      <span { ...priceBem('decimal') }></span>
+      <span { ...bem('unit') }>{ currencyUnit[currency] }</span>
+      <span { ...bem('major') }>{ price }</span>
+      <span { ...bem('decimal') }></span>
     </span>
   );
 };
 
 const Prices = ({ gbp, aud, eur, usd, className, ...props }) => {
-  const classes = classNames(priceBem(null).className, className);
+  const classes = bem(null, null, className);
   return (
     <span className={ classes } { ...props } >
       <Price currency="GBP" price={ gbp } />

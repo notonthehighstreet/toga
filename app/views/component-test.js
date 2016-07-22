@@ -16,6 +16,7 @@ module.exports = (deps) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/styles.css?components=["${componentName}"]'>
+    <link rel="stylesheet" type="text/css" href='http://cdn.notonthehighstreet.com/styles-toolkit/0.0.6/toolkit.css'>
     </head>
     <body>
     <div toga="${componentName}" props='${JSON.stringify(context)}'>${componentDOM}</div>
