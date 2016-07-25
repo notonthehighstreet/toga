@@ -33,7 +33,7 @@ describe('preCache', () => {
   });
 
   before((done) => {
-    hashFiles({files: ['tests/integration/components/test/**']}, (err, _hash) => {
+    hashFiles({files: ['tests/integration/components/**/*']}, (err, _hash) => {
       if (err) {
         done(err);
       }
@@ -53,16 +53,17 @@ describe('preCache', () => {
         client.disconnect();
         done(err);
       });
-      promises.push(redisGet(`${majorVersion}-scripts-test-${hash}`));
+      promises.push(redisGet(`${majorVersion}-${hash}-scripts-test`));
 
       return Promise.all(promises).then((values) => {
-        values.forEach((item) => {
-          if (item === null) {
-            done(new Error('One of the bundles is missing'));
-          }
-        });
-        expect(values[0]).to.contain('test-text');
-        done();
+        if (values.indexOf(null) > -1) {
+          done(new Error('One of the bundles is missing'));
+        }
+        else {
+          expect(values[0]).to.contain('test-text');
+          done();
+        }
+
       }, done)
       .catch(done);
     }, done);

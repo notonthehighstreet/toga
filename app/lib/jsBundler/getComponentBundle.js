@@ -22,15 +22,15 @@ module.exports = (deps) => {
     const { modulePaths, bundleId } = buildBundleId(components, minify);
     const externals = components==='vendor' ? [] : vendorFiles;
 
-    return buildBundleHash(components).then((hash) => {
-      return getCache(`${apiVersion}-${assetType}-${bundleId}-${hash}`)
+    return buildBundleHash().then((hash) => {
+      return getCache(`${apiVersion}-${hash}-${assetType}-${bundleId}`)
         .catch(()=> {
           return bundle({ modulePaths, definitions, externals, minify })
             .then((bundles) => {
               log('saving into cache: ', bundleId);
               return Promise.all([
-                setCache(`${apiVersion}-scripts-${bundleId}-${hash}`, bundles['scripts']),
-                setCache(`${apiVersion}-styles-${bundleId}-${hash}`, bundles['styles'])
+                setCache(`${apiVersion}-${hash}-scripts-${bundleId}`, bundles['scripts']),
+                setCache(`${apiVersion}-${hash}-styles-${bundleId}`, bundles['styles'])
               ]).then(() => bundles[assetType]);
             });
         });

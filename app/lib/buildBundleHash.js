@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function buildBundleHash(components) {
+  return function buildBundleHash() {
     const {
       'hash-files': hashFiles,
       'es6-promisify': promisify,
@@ -10,7 +10,7 @@ module.exports = (deps) => {
       componentsPath = componentsPath.slice(2);
     }
 
-    const componentsPaths = [].concat(components).map((component) =>`${componentsPath}/${component}/**`);
+    const componentsPaths = [`${componentsPath}/**/*`];
 
     const promiseHash = promisify(hashFiles.bind(hashFiles));
     return promiseHash({files: componentsPaths});
