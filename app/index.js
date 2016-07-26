@@ -3,11 +3,16 @@ module.exports = (deps) => {
     const {
       '/createServer': createServer,
       '/preCacheComponentBundle': preCacheComponentBundle,
+      '/preCacheBundleCacheHash': preCacheBundleCacheHash,
       '/logger': getLogger
       } = deps;
 
     const logger = getLogger();
-    return Promise.all([preCacheComponentBundle()]).then(() => {
+    return Promise.all([
+      preCacheComponentBundle(),
+      preCacheBundleCacheHash()
+
+    ]).then(() => {
       return new Promise((resolve) => {
         const server = createServer().listen(port, host, () => {
           resolve(server);

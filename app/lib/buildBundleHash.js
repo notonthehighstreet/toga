@@ -1,4 +1,5 @@
 module.exports = (deps) => {
+  let hash;
   return function buildBundleHash() {
     const {
       'hash-files': hashFiles,
@@ -9,10 +10,17 @@ module.exports = (deps) => {
     if (componentsPath[0] === '.') {
       componentsPath = componentsPath.slice(2);
     }
+    if(hash) {
+      return Promise.resolve(hash);
+    }
 
     const componentsPaths = [`${componentsPath}/**/*`];
 
     const promiseHash = promisify(hashFiles.bind(hashFiles));
-    return promiseHash({files: componentsPaths});
+    return promiseHash({files: componentsPaths})
+      .then((_hash) => {
+        hash = _hash;
+        return hash;
+      });
   };
 };
