@@ -16,7 +16,6 @@
     "environment": "development",
     "apiKey": "it's a secret!"
   },
-  "minify": true,
   "componentsPath": "./components",
   "syncServer": {
     "enabled": false

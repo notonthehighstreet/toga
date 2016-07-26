@@ -3,12 +3,12 @@ var rp = require('request-promise');
 
 module.exports = function multipleNested(req, res) {
   const scripts = [
-    'http://localhost:8080/v1/components-vendor-bundle.js?components=["test-one","test-nested"]',
-    'http://localhost:8080/v1/components.js?components=["test-one","test-nested"]'
+    'http://localhost:8080/v1/components-vendor-bundle.min.js',
+    'http://localhost:8080/v1/components.min.js?components=["test-one","test-nested"]'
   ];
   const styles = [
     'http://localhost:8080/v1/core.css',
-    'http://localhost:8080/v1/styles.css?components=["test-one","test-nested"]'
+    'http://localhost:8080/v1/styles.min.css?components=["test-one","test-nested"]'
   ];
   Promise.all([
     rp('http://localhost:8080/v1/test-one.raw.html?context={"one":"toe"}'),

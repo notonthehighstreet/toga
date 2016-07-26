@@ -74,6 +74,9 @@ module.exports = (deps) => {
     }
     if (minify) {
       config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+      config.plugins.push(new webpack.DefinePlugin({
+        'process.env': { NODE_ENV: JSON.stringify('production') }
+      }));
     }
     if (definitions) {
       config.plugins.push(new webpack.DefinePlugin(definitions));

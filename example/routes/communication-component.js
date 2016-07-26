@@ -3,12 +3,12 @@ var rp = require('request-promise');
 
 module.exports = function one(req, res) {
   const scripts = [
-    'http://localhost:8080/v1/components-vendor-bundle.js?components=["test-communication"]',
-    'http://localhost:8080/v1/components.js?components=["test-communication"]'
+    'http://localhost:8080/v1/components-vendor-bundle.min.js',
+    'http://localhost:8080/v1/components.min.js?components=["test-communication"]'
   ];
   const styles = [
     'http://localhost:8080/v1/core.css',
-    'http://localhost:8080/v1/styles.css?components=["test-communication"]'
+    'http://localhost:8080/v1/styles.min.css?components=["test-communication"]'
   ];
   Promise.all([
     rp('http://localhost:8080/v1/test-communication.raw.html')

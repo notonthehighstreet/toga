@@ -83,6 +83,14 @@ describe('Create Webpack Config', () => {
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
+    it('creates config with NODE_ENV set to production', () => {
+      const result = subject({
+        modulePaths: [],
+        minify: true
+      });
+      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(definePluginSpy).to.be.calledWith({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } });
+    });
   });
 
   context('when isoPlugin is NOT passed', () => {
