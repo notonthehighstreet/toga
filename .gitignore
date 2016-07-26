@@ -12,3 +12,6 @@ coverage
 .nyc_output
 *.iml
 tests_output
+# webpack-isomorphic-tools
+webpack-stats.json
+webpack-assets.json

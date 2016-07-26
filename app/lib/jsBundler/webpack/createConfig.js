@@ -1,8 +1,8 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, externals = [], minify}) {
+  return function createWebpackConfig({ isoPlugin, modulePaths, definitions, externals = [], minify}) {
     const {
-      '/constants': {webpackBundleIndexesRecordPath},
-      'extract-text-webpack-plugin':ExtractTextPlugin,
+      '/constants': { webpackBundleIndexesRecordPath },
+      'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
       webpack
     } = deps;
@@ -41,7 +41,8 @@ module.exports = (deps) => {
           {
             test: /.*components\/.*\/index\.js$/,
             loaders: ['toga']
-          }
+          },
+          { test: /\.svg$/, loader: 'svg-inline'}
         ]
       },
       devtool: 'source-map',
@@ -68,6 +69,9 @@ module.exports = (deps) => {
       )]
     };
 
+    if (isoPlugin) {
+      config.plugins.push(isoPlugin);
+    }
     if (minify) {
       config.plugins.push(new webpack.optimize.UglifyJsPlugin());
     }

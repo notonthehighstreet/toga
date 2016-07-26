@@ -19,12 +19,10 @@ dependencies:
 
 test:
   override:
-    - bin/BrowserStackLocal-linux $BROWSERSTACK_KEY -force:
-        background: true
-    - npm start -- --dev=./app/config/dev.json:
+    - npm run dev:
         background: true
     - npm run example:
         background: true
     - npm run test-unit
 #    - npm run test-integration
-#    - npm run test-e2e
+    - npm run test-e2e

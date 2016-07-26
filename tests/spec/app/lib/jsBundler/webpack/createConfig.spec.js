@@ -11,6 +11,7 @@ const fakeWebpack = {
   },
   DefinePlugin: function() {}
 };
+const fakeIsoPluginSpy = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
 const fakeGetAppConfig = sandbox.stub();
 const fakeExtractTextPluging = () => {};
@@ -67,8 +68,7 @@ describe('Create Webpack Config', () => {
   context('when in non-minify mode', () => {
     it('creates config without UglifyJs plugin', () => {
       subject({
-        modulePaths: [],
-        vendorBundleFileName: chance.word()
+        modulePaths: []
       });
       expect(uglifyJsPluginSpy).not.to.have.been.called;
     });
@@ -82,6 +82,26 @@ describe('Create Webpack Config', () => {
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+    });
+  });
+
+  context('when isoPlugin is NOT passed', () => {
+    it('creates config without isoPlugin plugin', () => {
+      const result = subject({
+        modulePaths: []
+      });
+      expect(result.plugins.length).to.equal(3);
+    });
+  });
+
+  context('when isoPlugin IS passes', () => {
+    it('creates config with isoPlugin plugin', () => {
+      const result = subject({
+        modulePaths: [],
+        isoPlugin: fakeIsoPluginSpy
+      });
+      expect(result.plugins.length).to.equal(4);
+      expect(result.plugins[3]).to.equal(fakeIsoPluginSpy);
     });
   });
 });

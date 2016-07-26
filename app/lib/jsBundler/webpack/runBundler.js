@@ -1,6 +1,6 @@
 module.exports = (deps) => {
 
-  return function runBundler({modulePaths, definitions, externals = [], minify}) {
+  return function runBundler({ component, modulePaths, definitions, externals = [], minify }) {
     const {
       'fs': fs,
       'es6-promisify': promisify,
@@ -8,6 +8,8 @@ module.exports = (deps) => {
       'webpack': webpack,
       '/logger': getLogger,
       '/lib/jsBundler/webpack/createConfig': createWebpackConfig,
+      'webpack-isomorphic-tools/plugin': IsomorphicToolsPlugin,
+      '/lib/createIsoConfig': createIsoConfig,
       debug
     } = deps;
 
@@ -24,27 +26,31 @@ module.exports = (deps) => {
     }
 
     const log = debug('toga:runBundler');
+    log(`bundle component : ${component}`);
+
     const stat = promisify(fs.stat);
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const jsBundleFileName = 'components.js';
     const cssBundleFileName = 'components.css';
     const logger = getLogger();
-    const promises = modulePaths.map((modulePath) => {
-      return stat(modulePath);
-    });
+    const promises = modulePaths.map((modulePath) => stat(modulePath));
+
+    const isoPlugin = (Array.isArray(component))
+      ? null
+      : new IsomorphicToolsPlugin(createIsoConfig(component));
 
     return Promise.all(promises)
       .then(() => {
         const webpackConfig = createWebpackConfig({
-          modulePaths: modulePaths,
+          isoPlugin,
+          modulePaths,
           definitions,
           externals,
           minify
         });
         const compiler = webpack(webpackConfig);
         const run = promisify(compiler.run.bind(compiler));
-        log('Run Webpack...');
 
         compiler.outputFileSystem = memoryFS;
         return run().then((webpackOutput) => {

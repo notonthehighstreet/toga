@@ -1,4 +1,5 @@
 {
   "verbose": true,
-  "ignore": ["logs/"]
+  "ignore": ["logs/", "*.json"],
+  "watch": ["app/", "components/"]
 }

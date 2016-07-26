@@ -1,17 +1,18 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
-import createChance from 'chance';
+import Chance from 'chance';
+import { fakeYargs } from '../../commonMocks';
 
 const sandbox = sinon.sandbox.create();
-const chance = createChance();
+const chance = new Chance();
 
 describe('Get App Config', () => {
-  let builder;
   let subject;
+  let builder;
   let deepAssignStub = sandbox.stub();
   let semverMajorStub = sandbox.stub();
   const deps = {
-    yargs: {argv: {config: []}},
+    yargs: fakeYargs,
     path: require('path'),
     semver: {
       major: semverMajorStub
@@ -20,11 +21,14 @@ describe('Get App Config', () => {
   };
 
   beforeEach(() => {
-    sandbox.reset();
-    delete require.cache[require.resolve('../../../app/lib/getAppConfig')];
-    builder = require('../../../app/lib/getAppConfig');
+    delete require.cache[require.resolve('../../../../app/lib/getAppConfig')];
+    builder = require('../../../../app/lib/getAppConfig');
     subject = builder(deps);
   });
+  afterEach(()=>{
+    sandbox.reset();
+  });
+
   it('caches config', () => {
     const fakeConfig = {
       foo: 'bar'

@@ -68,7 +68,7 @@ describe('getComponentBundle', () => {
     sandbox.reset();
   });
 
-  describe('when multiple components are requested', () => {
+  context('when multiple components are requested', () => {
     const componentNames = ['component1', 'component2'];
     describe('and the bundle is cached', () => {
       beforeEach(() => {
@@ -117,8 +117,8 @@ describe('getComponentBundle', () => {
     });
   });
 
-  describe('when no components are requested', () => {
-    const noComponentsErrorMessage = 'A bundle without components can not be created';
+  context('when no components are requested', () => {
+    const noComponentsErrorMessage = 'A bundle without a component can not be created';
     beforeEach(() => {
       fakeComponentsList = [];
       result = subject(fakeComponentsList);
