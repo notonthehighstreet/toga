@@ -1,91 +1,94 @@
-const { expect } = require('chai');
-const sinon = require('sinon');
-const chance = new require('chance')();
-const builder = require('../../../app/lib/getAppConfig');
+import {expect} from 'chai';
+import sinon from 'sinon';
+import createChance from 'chance';
+
+const sandbox = sinon.sandbox.create();
+const chance = createChance();
 
 describe('Get App Config', () => {
-  const sandbox = sinon.sandbox.create();
-  const fakeYargs = {
-    default: sandbox.stub()
-  };
-  const fakePath = {
-    resolve: sandbox.stub()
-  };
-  const fakeSemver = {
-    major: sandbox.stub()
-  };
+  let builder;
   let subject;
-  let fakeDevConfigString;
-  let fakeApplicationConfigString;
-  let fakeOverridenConfigString;
+  let deepAssignStub = sandbox.stub();
+  let semverMajorStub = sandbox.stub();
+  const deps = {
+    yargs: {argv: {config: []}},
+    path: require('path'),
+    semver: {
+      major: semverMajorStub
+    },
+    'deep-assign': deepAssignStub
+  };
 
   beforeEach(() => {
-    fakeDevConfigString = chance.word();
-    fakeApplicationConfigString = chance.word();
-    fakeOverridenConfigString = chance.word();
-
-    const fakeDeps = {
-      yargs: fakeYargs,
-      path: fakePath,
-      semver: fakeSemver,
-      '/config/devOverrides.json': {
-        dev: fakeDevConfigString
-      },
-      '/config/application.json': {
-        application: fakeApplicationConfigString
-      },
-      '/config/overrides.json': {
-        overriddenConfig: fakeOverridenConfigString
-      }
+    sandbox.reset();
+    delete require.cache[require.resolve('../../../app/lib/getAppConfig')];
+    builder = require('../../../app/lib/getAppConfig');
+    subject = builder(deps);
+  });
+  it('caches config', () => {
+    const fakeConfig = {
+      foo: 'bar'
     };
 
-    fakeYargs.default.returns(fakeYargs);
-    subject = builder(fakeDeps);
+    deepAssignStub.returns(fakeConfig);
+    expect(subject()).to.deep.equal(fakeConfig);
+    deepAssignStub.returns({});
+    subject = builder(deps);
+    expect(subject()).to.deep.equal(fakeConfig);
   });
-  afterEach(() => {
-    sandbox.reset();
+  it('sets application name', () => {
+    subject();
+    expect(deepAssignStub.args[0][2].appName).to.eq('noths-frontend');
   });
-  describe('when the `dev` argument is falsey', () => {
-    it('does not assign dev config', () => {
-      fakeYargs.argv = {
-        dev: false
-      };
-      expect(subject().dev).to.be.undefined;
-    });
+  it('sets api version', () => {
+    const fakeApiVersion = chance.natural();
+
+    semverMajorStub.returns(fakeApiVersion);
+    subject();
+    expect(deepAssignStub.args[0][2].apiVersion).to.eq(fakeApiVersion);
   });
-  describe('when the `dev` argument is a non-string truthy', () => {
-    it('assigns dev config from deps', () => {
-      fakeYargs.argv = {
-        dev: true
-      };
-      expect(subject().dev).to.eq(fakeDevConfigString);
-    });
-  });
-  describe('when the `dev` argument is a string', () => {
-    it('assigns dev config json based on the `dev` argument', () => {
-      fakeYargs.argv = {
-        dev: 'config/devOverrides.json'
-      };
-      fakePath.resolve.returns('../../tests/spec/fixtures/config/devOverrides.json');
-      expect(subject().dev).to.eq('required');
-    });
-  });
-  describe('when the `config` argument is not a string', () => {
-    it('assigns application config from deps', () => {
-      fakeYargs.argv = {
-        config: false
-      };
-      expect(subject().application).to.eq(fakeApplicationConfigString);
-    });
-  });
-  describe('when the `config` argument is a string', () => {
-    it('assigns application config json based on the `config` argument', () => {
-      fakeYargs.argv = {
-        config: 'config/application.json'
-      };
-      fakePath.resolve.returns('../../tests/spec/fixtures/config/application.json');
-      expect(subject().application).to.eq(fakeApplicationConfigString);
-      expect(subject().applicationMerged).to.eq('required');
-    });
+  it('merges properties of multiple config objects in given order', () => {
+    subject = builder(Object.assign({}, deps,
+      {
+        yargs: {
+          argv: {
+            config: [
+              './tests/spec/fixtures/config/a.json',
+              './tests/spec/fixtures/config/b.json'
+            ]
+          }
+        }
+      })
+    );
+    subject();
+    deepAssignStub.calledWith(
+      sinon.match({}),
+      sinon.match({
+        'name': 'a',
+        'bar': 'foo',
+        'nested': {
+          'value': 123,
+          'specificValue': 'a'
+        }
+      })
+    );
+    deepAssignStub.calledWith(
+      sinon.match({
+        'name': 'a',
+        'bar': 'foo',
+        'nested': {
+          'value': 123,
+          'specificValue': 'a'
+        }
+      }),
+      sinon.match({
+        'name': 'b',
+        'foo': 'bar',
+        'nested': {
+          'value': 555
+        }
+      })
+    );
   });
 });
+

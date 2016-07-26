@@ -8,6 +8,6 @@ services:
       - 8080:8080
     links:
       - redis
-    command: npm run start --config './app/config/productionOverrides.json'
+    command: npm start -- --config './app/config/application.json' --config './app/config/productionOverrides.json'
   redis:
     image: redis

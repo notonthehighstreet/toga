@@ -1,3 +1,6 @@
 {
-  "componentsPath": "./tests/integration/components"
+  "componentsPath": "./tests/integration/components",
+  "redis": {
+    "host": "localhost"
+  }
 }
