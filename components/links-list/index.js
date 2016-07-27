@@ -9,10 +9,13 @@ const FooterLinks = ({ links, className, ...props }) => {
   return (
     <ul { ...bem(null, null, className) } { ...props }>
       { links && links.map((link, i) => {
-        const { label, name, ...linkProps } = link;
+        const { label, screenReaderLabel, name, ...linkProps } = link;
+        const displayLabel = screenReaderLabel
+          ? <span className="sr-only">{screenReaderLabel}</span>
+          : label;
         return (
           <li key={i}>
-            <a { ... bem('link', name, className) } { ...linkProps }>{ label }</a>
+            <a { ... bem('link', name, className) } { ...linkProps }>{ displayLabel }</a>
           </li>
         );
       })}

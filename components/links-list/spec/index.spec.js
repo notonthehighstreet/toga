@@ -21,12 +21,19 @@ describe('links list', () => {
     let component;
     let firstLink;
     before(() => {
-      component = shallow(<LinksList links={[{href:'example.com', label: 'example dot com'}, {href:'example.com', label: 'example dot com'}]} />);
+      component = shallow(<LinksList links={[{href:'example.com', label: 'example dot com'}, {href:'example.com', screenReaderLabel: 'screen reader dot com'}]} />);
       firstLink = component.find('a').first();
     });
 
     it('has label as content', () => {
       expect(firstLink.text()).to.eq('example dot com');
+      expect(component.find('a').first().find('.sr-only')).not.to.be.present();
+    });
+
+    it('has label for screen-readers', () => {
+      const sr = component.find('a .sr-only');
+      expect(component.find('a').last().find('.sr-only')).to.be.present();
+      expect(sr.text()).to.eq('screen reader dot com');
     });
 
     it('applies other props', () => {

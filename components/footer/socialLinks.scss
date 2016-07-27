@@ -25,7 +25,6 @@
     height: 42px;
     width: 42px;
     background-size: auto 42px;
-    text-indent: -9999px;
 
     @include breakpoint(large) {
       height: 32px;
@@ -74,4 +73,18 @@ $socialIcons:  (
 
     }
   }
+}
+
+
+// todo: remove when in new version of styles-toolkit
+// screen-reader only eg. text within links that are images (social-buttons)
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
 }

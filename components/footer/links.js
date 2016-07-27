@@ -30,11 +30,11 @@ export default {
     { href: '/gift-vouchers', label: 'gift vouchers'}
   ],
   social: [
-    { href: 'http://www.facebook.com/notonthehighstreet', name: 'facebook', label: 'visit us on Facebook', rel: 'nofollow', target: '_blank'},
-    { href: 'http://twitter.com/notonthehighst', name: 'twitter', label: 'tweet with us on Twitter', rel: 'nofollow', target: '_blank'},
-    { href: 'http://blog.notonthehighstreet.com/', name: 'blog', label: 'read our Blog'},
-    { href: 'http://pinterest.com/notonthehighst/', name: 'pinterest', label: 'see inspiration on Pinterest'},
-    { href: 'http://instagram.com/notonthehighstreet', name: 'instagram', label: 'view us on Instagram', rel: 'nofollow', target: '_blank'},
-    { href: 'https://plus.google.com/110256235424588800889', name: 'google_plus', label: 'follow us on Google Plus', rel: 'nofollow', target: '_blank'}
+    { href: 'http://www.facebook.com/notonthehighstreet', name: 'facebook', screenReaderLabel: 'visit us on Facebook', rel: 'nofollow', target: '_blank'},
+    { href: 'http://twitter.com/notonthehighst', name: 'twitter', screenReaderLabel: 'tweet with us on Twitter', rel: 'nofollow', target: '_blank'},
+    { href: 'http://blog.notonthehighstreet.com/', name: 'blog', screenReaderLabel: 'read our Blog'},
+    { href: 'http://pinterest.com/notonthehighst/', name: 'pinterest', screenReaderLabel: 'see inspiration on Pinterest'},
+    { href: 'http://instagram.com/notonthehighstreet', name: 'instagram', screenReaderLabel: 'view us on Instagram', rel: 'nofollow', target: '_blank'},
+    { href: 'https://plus.google.com/110256235424588800889', name: 'google_plus', screenReaderLabel: 'follow us on Google Plus', rel: 'nofollow', target: '_blank'}
   ]
 };
