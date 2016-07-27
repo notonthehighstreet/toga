@@ -11,7 +11,8 @@ module.exports = (deps = {
       yargs: {argv},
       path: {join: pathJoin},
       'deep-assign': deepAssign,
-      semver
+      semver,
+      '/logger': getLogger
     } = deps;
 
     const loadConfig = path => require(pathJoin(process.cwd(), path));
@@ -30,6 +31,9 @@ module.exports = (deps = {
       const apiVersion = semver.major(packageVersion);
 
       finalConfig = Object.freeze(mergeAppMeta(config, {appName, apiVersion}));
+      if (getLogger) {
+        getLogger().info('Config read', configFilePaths, finalConfig);
+      }
     }
 
     return finalConfig;

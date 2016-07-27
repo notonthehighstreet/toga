@@ -6,8 +6,14 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8080:8080
+    volumes:
+      - ./app:/service/app
+      - ./components:/service/components
+      - ./script:/service/script
     links:
       - redis
     command: sh ./script/docker_compose_start
+    environment:
+      - NODE_ENV=production
   redis:
     image: redis
