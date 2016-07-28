@@ -45,13 +45,19 @@ Ensure redis is running
 
 `redis-server`
 
+#### Precache components
+
+To have all components ready for serving without compiling on the fly, run
+
+`npm run precache`
+
 #### Run the prod server
 
 `npm start`
 
 #### Development server
 
-Spins up an server under the port of 3001
+Spins up a server under the port of 3001
 
 `npm run dev`
 

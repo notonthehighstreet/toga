@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function preCacheComponentBundle() {
+  return function preCacheComponentBundleCacheHash() {
     const {
       '/lib/buildBundleHash': buildBundleHash
     } = deps;

@@ -14,6 +14,6 @@ services:
       - ./script:/service/script
     links:
       - redis
-    command: npm run dev -- --config './app/config/application.json' --config './app/config/devOverridesDocker.json'
+    command: sh ./script/docker_compose_dev_start
   redis:
     image: redis
