@@ -27,6 +27,7 @@ $secondary_hover_color: #a1a1a1;
 
   &:hover {
     opacity: 0.95;
+    color: white; // needed to overwrite `a:hover` styles
   }
 
   &:active {
