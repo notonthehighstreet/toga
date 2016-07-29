@@ -1,21 +1,20 @@
 module.exports = (deps) => {
-  return function createWebpackAssetsJson(components) {
+  return function createWebpackAssetsJson(components, assetsFile) {
     const {
       'es6-promisify': promisify,
       'deep-assign': deepAssign,
       'fs': fs,
       debug,
       '/lib/bundler/bundle': bundle,
-      '/lib/bundler/createModulePaths': createModulePaths,
+      '/lib/utils/createModulePaths': createModulePaths,
       '/lib/getAppConfig': getAppConfig,
-      '/utils/pathsExist': pathsExist
+      '/lib/utils/pathsExist': pathsExist
     } = deps;
 
     const log = debug('toga:CreateWebpackAssets');
     const readFile = promisify(fs.readFile);
     const writeFile = promisify(fs.writeFile);
     const { componentsPath } = getAppConfig();
-    const assetsFile = 'webpack-assets.json';
 
     const getAssetsJson = ((component) => {
       const path = createModulePaths(component, assetsFile);

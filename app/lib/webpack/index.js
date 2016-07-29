@@ -5,13 +5,14 @@ module.exports = (deps) => {
       'webpack': webpack,
       '/lib/bundler/vendorFiles': vendorFiles,
       '/lib/webpack/createWebpackConfig': createWebpackConfig,
-      'webpack-isomorphic-tools/plugin': IsomorphicToolsPlugin,
-      '/lib/webpack/createIsoConfig': createIsoConfig,
+      '/lib/universalRendering/index': getUniversalRendering,
       debug
     } = deps;
 
     const log = debug('toga:runWebpack');
     const externals = component === 'vendor' ? [] : vendorFiles;
+    const universalRendering = getUniversalRendering();
+    const isoPlugin = universalRendering.isoPlugin(component);
 
     function outputWebpackErrors(webpackOutput) {
       if (!webpackOutput) {
@@ -26,9 +27,6 @@ module.exports = (deps) => {
     }
 
     function run() {
-      const isoPlugin = (!Array.isArray(component))
-        ? new IsomorphicToolsPlugin(createIsoConfig(component))
-        : null;
       const webpackConfig = createWebpackConfig({ isoPlugin, modulePaths, externals, minify });
       const compiler = webpack(webpackConfig);
       compiler.outputFileSystem = outputFileSystem;

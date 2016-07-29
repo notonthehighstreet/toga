@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/bundler/createModulePaths');
+const builder = require('../../../../../app/lib/utils/createModulePaths');
 let subject;
 
 const fakePath = chance.word();

@@ -45,8 +45,8 @@ describe('bundler/index', () => {
       '/lib/bundler/buildHash': bundleHashMock,
       '/lib/bundler/bundle': fakeBundle,
       '/lib/getAppConfig': getAppConfigMock,
-      '/utils/pathsExist': fakePathsExist,
-      '/lib/bundler/createModulePaths': () => fakeModulePaths,
+      '/lib/utils/pathsExist': fakePathsExist,
+      '/lib/utils/createModulePaths': () => fakeModulePaths,
       'debug': () => () => {}
     };
     subject = builder(deps);

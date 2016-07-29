@@ -7,8 +7,8 @@ module.exports = (deps) => {
     '/lib/bundler/buildHash': buildHash,
     '/lib/bundler/bundle': bundle,
     '/lib/getAppConfig': getAppConfig,
-    '/utils/pathsExist': pathsExist,
-    '/lib/bundler/createModulePaths': createModulePaths
+    '/lib/utils/pathsExist': pathsExist,
+    '/lib/utils/createModulePaths': createModulePaths
   } = deps;
 
   return function togaBundle(component, opts = {}) {

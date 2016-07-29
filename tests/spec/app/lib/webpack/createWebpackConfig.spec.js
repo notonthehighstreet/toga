@@ -24,7 +24,6 @@ describe('Create Webpack Config', () => {
 
   beforeEach(() => {
     subject = builder({
-      '/constants': chance.word(),
       webpack: fakeWebpack,
       autoprefixer: fakeAutoPrefixer,
       'extract-text-webpack-plugin': fakeExtractTextPluging,

@@ -3,8 +3,8 @@ module.exports = (deps) => {
     const {
       'es6-promisify': promisify,
       'memory-fs': MemoryFS,
-      '/lib/webpack/runWebpack': runWebpack,
-      '/lib/bundler/createModulePaths': createModulePaths,
+      '/lib/webpack/index': runWebpack,
+      '/lib/utils/createModulePaths': createModulePaths,
       debug
     } = deps;
 

@@ -1,22 +1,28 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/webpack/runWebpack');
-import { fakePromisify, fakeWebpack, fakeReject, fakeDebug } from '../../../commonMocks';
+const builder = require('../../../../../app/lib/webpack/index');
+import { fakePromisify, fakeWebpack, fakeReject, fakeDebug, fakePromise } from '../../../commonMocks';
 
-describe('runBundler', () => {
+describe('webpack/index', () => {
   const sandbox = sinon.sandbox.create();
   let deps;
   let subject;
   let result;
   const component = chance.word();
-  const createIsoConfigMock = sandbox.stub().returns(() => {});
-  const IsomorphicToolsPluginMock = sandbox.stub().returns({});
   const webpackFailureError = {};
   const webpackFailureMock = () => ({ run: fakeReject(webpackFailureError) });
   const createConfigMock = sandbox.spy();
   const fakeModulePaths = [ chance.file() ];
   const fakeVendorFiles = { [chance.word()]: chance.word() };
+  const universalServerStub = sandbox.stub();
+  const assetsJsonStub = fakePromise;
+  const fakeIsoPlugin = sandbox.spy();
+  const fakeUniversalRendering = sandbox.stub().returns({
+    isoPlugin: fakeIsoPlugin,
+    server: universalServerStub,
+    createAssetsJson: assetsJsonStub
+  });
 
   beforeEach(() => {
     deps = {
@@ -25,8 +31,7 @@ describe('runBundler', () => {
       'debug': fakeDebug,
       '/lib/bundler/vendorFiles': fakeVendorFiles,
       '/lib/webpack/createWebpackConfig': createConfigMock,
-      'webpack-isomorphic-tools/plugin': IsomorphicToolsPluginMock,
-      '/lib/webpack/createIsoConfig': createIsoConfigMock
+      '/lib/universalRendering/index': fakeUniversalRendering
     };
     subject = builder(deps);
   });
@@ -43,11 +48,12 @@ describe('runBundler', () => {
     it('passes through options', () => {
       result = subject(component, { modulePaths: fakeModulePaths, minify: true});
       return result.then(()=>{
-        expect(IsomorphicToolsPluginMock).to.be.calledWith(createIsoConfigMock());
+        expect(fakeUniversalRendering).to.be.called;
+        expect(fakeUniversalRendering().isoPlugin).to.be.calledWith(component);
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          isoPlugin: IsomorphicToolsPluginMock(),
+          isoPlugin: fakeUniversalRendering().isoPlugin(),
           minify: true,
           modulePaths: fakeModulePaths
         });
@@ -67,45 +73,13 @@ describe('runBundler', () => {
     });
   });
 
-  context('when a single component is passed', ()=>{
-    it('uses the isoTools plugin', () => {
-      result = subject(component);
-      return result.then(()=>{
-        expect(IsomorphicToolsPluginMock).to.be.calledWith(createIsoConfigMock());
-        expect(createConfigMock).to.be.called;
-        expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          isoPlugin: IsomorphicToolsPluginMock(),
-          minify: undefined,
-          modulePaths: undefined
-        });
-      });
-    });
-  });
-
-  context('when a multiple components are passed', ()=>{
-    it('doesn\'t use the isoTools plugin', () => {
-      result = subject([chance.word(), chance.word()]);
-      return result.then(()=>{
-        expect(IsomorphicToolsPluginMock).not.to.be.called;
-        expect(createConfigMock).to.be.called;
-        expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          isoPlugin: null,
-          minify: undefined,
-          modulePaths: undefined
-        });
-      });
-    });
-  });
-
   describe('webpack options are passed correctly', () => {
     it('sets the externals webpack option if the component is vendor', () => {
       result = subject('vendor');
       return result.then(()=>{
         expect(createConfigMock).to.be.calledWith({
           externals: [],
-          isoPlugin: { },
+          isoPlugin: undefined,
           minify: undefined,
           modulePaths: undefined
         });
@@ -117,7 +91,7 @@ describe('runBundler', () => {
       return result.then(() => {
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          isoPlugin: { },
+          isoPlugin: undefined,
           minify: true,
           modulePaths: undefined
         });

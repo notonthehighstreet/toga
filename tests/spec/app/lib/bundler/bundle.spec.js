@@ -28,8 +28,8 @@ describe('runBundler', () => {
     deps = {
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,
-      '/lib/webpack/runWebpack': fakeRunWebpack,
-      '/lib/bundler/createModulePaths': () => fakeModulePaths,
+      '/lib/webpack/index': fakeRunWebpack,
+      '/lib/utils/createModulePaths': () => fakeModulePaths,
       'debug': fakeDebug
     };
     subject = builder(deps);

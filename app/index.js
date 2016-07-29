@@ -3,10 +3,8 @@ module.exports = (deps) => {
     const {
       '/createServer': createServer,
       '/lib/getComponentNames': getComponentNames,
-      '/lib/createWebpackAssetsJson': createAssetsJson,
-      '/lib/webpack/createIsoConfig': createIsoConfig,
+      '/lib/universalRendering/index': getUniversalRendering,
       '/logger': getLogger,
-      'webpack-isomorphic-tools': IsomorphicTools,
       debug,
       path
     } = deps;
@@ -14,13 +12,13 @@ module.exports = (deps) => {
     const log = debug('toga:startup');
     const logger = getLogger();
     const components = getComponentNames();
-    const isoTools = new IsomorphicTools(createIsoConfig('.'));
+    const universalRendering = getUniversalRendering();
 
     log(`${components.length} components`);
 
-    return createAssetsJson(components)
+    return universalRendering.createAssetsJson(components)
       .then(() => {
-        return isoTools.server(path.join(__dirname, '..'));
+        return universalRendering.server(path.join(__dirname, '..'));
       })
       .then(() => {
         return new Promise((resolve) => {

@@ -2,40 +2,47 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import Chance from 'chance';
 import builder from '../../../app/index';
-import { fakePath, fakeLogger, fakeDebug } from '../commonMocks';
+import { fakePath, fakeLogger, fakeDebug, fakePromise } from '../commonMocks';
 
 const chance = new Chance();
 const sandbox = sinon.sandbox.create();
-const isoStub = sandbox.stub().returns({ server: ()=>{}});
 const fakeCreateServer = sandbox.stub().returns({ listen: (a, b, cb) => cb() });
 
 const fakeGetComponentNames = sandbox.stub().returns([chance.word(), chance.word()]);
-const fakeCreateWebpackAssetsJson = sandbox.stub();
+const universalServerStub = sandbox.stub();
+const assetsJsonStub = fakePromise;
+const fakeUniversalRendering = sandbox.stub().returns({
+  server: universalServerStub,
+  createAssetsJson: assetsJsonStub
+});
 
 const subject = builder({
   '/createServer': fakeCreateServer,
   '/lib/getComponentNames': fakeGetComponentNames,
-  '/lib/createWebpackAssetsJson': fakeCreateWebpackAssetsJson,
+  '/lib/universalRendering/index': fakeUniversalRendering,
   '/logger': fakeLogger,
-  '/lib/webpack/createIsoConfig': sandbox.stub(),
-  'webpack-isomorphic-tools': isoStub,
   debug: fakeDebug,
   path: fakePath
 });
 
-fakeCreateWebpackAssetsJson.returns(Promise.resolve());
 describe('App index', () => {
   context('passes in the components', ()=> {
     it('to the createWebpackAssetsJson function', () => {
       return subject({}).then(() => {
-        expect(fakeCreateWebpackAssetsJson).to.have.been.calledWith(fakeGetComponentNames());
+        expect(assetsJsonStub).to.have.been.calledWith(fakeGetComponentNames());
       });
     });
   });
 
   it('uses the isomorphic tools server', () => {
     return subject({}).then(() => {
-      expect(isoStub).to.have.been.called;
+      expect(universalServerStub).to.have.been.called;
+    });
+  });
+
+  it('uses the express server', () => {
+    return subject({}).then(() => {
+      expect(fakeCreateServer).to.have.been.called;
     });
   });
 });
