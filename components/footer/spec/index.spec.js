@@ -24,6 +24,10 @@ describe('footer component', () => {
     });
   });
 
+  it('bemified class added', () => {
+    expect(renderedOutput).to.have.className('toga-footer');
+  });
+
   context('My account menu', () => {
     it('when name is passed renders name as header', () => {
       const component = mount(<Footer name={name} />);

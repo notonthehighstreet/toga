@@ -24,7 +24,7 @@ export default class Footer extends React.Component {
     const socialTitleClasses = bem('title', 'social', 'hidden--mobile');
 
     return (
-      <div className={ classes } { ...props } >
+      <div { ...classes } { ...props } >
         <NewsletterSubscribe locale="en" />
         <div { ...navClasses }>
           <Accordion { ...myAccountClasses } >
