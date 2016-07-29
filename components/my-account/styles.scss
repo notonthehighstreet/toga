@@ -1,4 +1,16 @@
-.toga-my-account {
+.toga-my-account--signed-out {
   display: flex;
   justify-content: flex-end;
+  padding: 10px 20px;
+}
+
+.toga-my-account__sign-out-button {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+//TODO:FIX THIS LATER!
+.toga-footer__content.toga-footer__content--myaccount {
+  padding: 0
 }
