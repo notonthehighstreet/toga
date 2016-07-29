@@ -1,7 +1,6 @@
 module.exports = (deps) => {
   return function createWebpackConfig({ isoPlugin, modulePaths, definitions, externals = [], minify}) {
     const {
-      '/constants': { webpackBundleIndexesRecordPath },
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
       webpack
@@ -12,7 +11,6 @@ module.exports = (deps) => {
         components: modulePaths
       },
       externals: externals,
-      recordsInputPath: webpackBundleIndexesRecordPath,
       output: {
         filename: '[name].js',
         path: '/'

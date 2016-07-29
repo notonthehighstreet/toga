@@ -5,12 +5,14 @@ module.exports = (deps) => {
       '/lib/getComponentNames': getComponentNames,
       '/lib/createWebpackAssetsJson': createWebpackAssetsJson,
       '/lib/createIsoConfig': createIsoConfig,
+      '/logger': getLogger,
       'webpack-isomorphic-tools': IsomorphicTools,
       debug,
       path
     } = deps;
 
     const log = debug('toga:startup');
+    const logger = getLogger();
     const components = getComponentNames();
     const isoTools = new IsomorphicTools(createIsoConfig('.'));
 
@@ -26,6 +28,10 @@ module.exports = (deps) => {
             resolve(server);
           });
         });
+      })
+      .catch((err) => {
+        logger.error('Prevent server starting', err);
+        process.exit(1);
       });
   };
 };

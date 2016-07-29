@@ -20,9 +20,9 @@ module.exports = (deps) => {
 
     router
       .get(/^\/core(\.min)?.css$/, (req, res) => res.redirect(getAppConfig().stylesToolkit.url))
-      .get(/^\/styles(\.min)?.css$/, getComponentAsset('css', 'styles'))
-      .get(/^\/components(\.min)?\.js$/, getComponentAsset('js', 'scripts'))
-      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js', 'scripts'))
+      .get(/^\/styles(\.min)?.css$/, getComponentAsset('css'))
+      .get(/^\/components(\.min)?\.js$/, getComponentAsset('js'))
+      .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js'))
       .get(/.*\.(raw\.)?html$/, getComponentHtml);
 
     router.use('/:component/assets/:path', serveStatic);

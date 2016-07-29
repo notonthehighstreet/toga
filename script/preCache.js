@@ -5,11 +5,17 @@ breadboard({
   containerRoot: 'app',
   blacklist: ['newrelic'],
   entry: ({
-    '/lib/preCacheComponentBundle': preCacheComponentBundle,
-    '/lib/preCacheBundleCacheHash': preCacheBundleCacheHash,
+    '/lib/bundler/index': bundle,
     '/lib/getComponentNames': getComponentNames
   }) => {
-    return Promise.all([preCacheComponentBundle(getComponentNames()), preCacheBundleCacheHash()]);
+    const components = getComponentNames();
+    const buildBundles = (component) => {
+      return Promise.all([
+        bundle(component, { minify: true }).getAsset('scripts'),
+        bundle(component).getAsset('scripts')
+      ]);
+    };
+    return Promise.all(components.map(buildBundles));
   }
 })
   .then(({deps:{'/logger': getLogger}}) => {

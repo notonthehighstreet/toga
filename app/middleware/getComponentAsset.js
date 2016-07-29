@@ -5,19 +5,21 @@ const contentType = {
 };
 
 module.exports = (deps) => {
-  return function getComponentAsset(assetType, bundleType) { 
+  return function getComponentAsset(assetType) {
     return function(req, res, next) {
       const {
-        '/lib/jsBundler/getComponentBundle': getComponentBundle,
+        '/lib/bundler/index': bundle,
         '/middleware/errors/notFoundError': NotFoundError
       } = deps;
-  
-      return getComponentBundle(req.components, bundleType, req.path.endsWith(`.min.${assetType}`))
-        .then((bundle) => {
-          res.set('Content-Type', contentType[assetType]).send(bundle);
+
+      const minify = req.path.endsWith(`.min.${assetType}`);
+      return bundle(req.components, { minify })
+        .getAsset(assetType)
+        .then((content) => {
+          res.set('Content-Type', contentType[assetType]).send(content);
         })
         .catch(() => {
-          next(new NotFoundError(`${bundleType} ${assetType} is not found`));
+          next(new NotFoundError(`${assetType} is not found`));
         });
     };
   };
