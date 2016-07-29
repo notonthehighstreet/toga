@@ -17,7 +17,7 @@ const subject = builder({
   '/lib/getComponentNames': fakeGetComponentNames,
   '/lib/createWebpackAssetsJson': fakeCreateWebpackAssetsJson,
   '/logger': fakeLogger,
-  '/lib/createIsoConfig': sandbox.stub(),
+  '/lib/webpack/createIsoConfig': sandbox.stub(),
   'webpack-isomorphic-tools': isoStub,
   debug: fakeDebug,
   path: fakePath

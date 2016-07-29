@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../../../app/lib/bundler/index');
+import { fakeResolve, fakeReject, fakeLogger } from '../../../commonMocks';
 
 describe('bundler/index', () => {
   const sandbox = sinon.sandbox.create();
@@ -16,30 +17,31 @@ describe('bundler/index', () => {
   const cacheMissError = null;
   const componentHash = chance.word();
   const fakeComponentsPath = chance.word();
-  const bundleFailureError = {};
   const bundleJSIdMatcher = sinon.match(new RegExp('js(-\\w*)', 'g'));
   const bundleCSSIdMatcher = sinon.match(new RegExp('css(-\\w*)', 'g'));
   const apiVersion = '3';
   const getAppConfigMock = () => {
     return { apiVersion, componentsPath: fakeComponentsPath };
   };
+  const bundleFailureError = {};
   const bundleSuccessData = {
     js: 'freshly bundled js',
     css: 'freshly bundled css'
   };
-  const getCacheHitMock = sandbox.spy(() => Promise.resolve(getCachedValue));
-  const getCacheMissMock = sandbox.spy(() => Promise.resolve(cacheMissError));
-  const bundleHashMock = sandbox.spy(() => componentHash);
-  const bundleSuccessMock = sandbox.spy(() => Promise.resolve(bundleSuccessData));
-  const bundleFailureMock = sandbox.spy(() => Promise.reject(bundleFailureError));
-  const fakePathsExist = sandbox.spy(() => Promise.resolve(true));
-  const fakeModulePaths = [chance.file()];
+  const bundleSuccessMock = fakeResolve(bundleSuccessData);
+  const bundleFailureMock = fakeReject(bundleFailureError);
   const fakeBundle = sandbox.stub();
+  const bundleHashMock = sandbox.spy(() => componentHash);
+  const getCacheHitMock = fakeResolve(getCachedValue);
+  const getCacheMissMock = fakeResolve(cacheMissError);
+  const fakePathsExist = fakeResolve(true);
+  const fakeModulePaths = [chance.file()];
 
   beforeEach(() => {
     deps = {
       '/cache/get': getCacheHitMock,
       '/cache/set': setCacheMock,
+      '/logger': fakeLogger,
       '/lib/bundler/buildHash': bundleHashMock,
       '/lib/bundler/bundle': fakeBundle,
       '/lib/getAppConfig': getAppConfigMock,
@@ -61,10 +63,9 @@ describe('bundler/index', () => {
   });
 
   context('when a single component are requested', () => {
-    const componentNames = 'component1';
     describe('and the bundle is cached', () => {
       it('returns the bundle', () => {
-        return subject(componentNames).getAsset('js')
+        return subject(chance.word()).getAsset('js')
           .then((freshVendorBundle) => {
             return expect(freshVendorBundle).to.be.eq(getCachedValue);
           });

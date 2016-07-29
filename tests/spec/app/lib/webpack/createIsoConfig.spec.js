@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Chance from 'chance';
-import builder from '../../../../app/lib/createIsoConfig';
+import builder from '../../../../../app/lib/webpack/createIsoConfig';
 
 const chance = new Chance();
 const componentName = chance.word();

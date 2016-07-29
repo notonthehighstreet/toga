@@ -3,6 +3,7 @@ module.exports = (deps) => {
   const {
     '/cache/set': setCache,
     '/cache/get': getCache,
+    '/logger': getLogger,
     '/lib/bundler/buildHash': buildHash,
     '/lib/bundler/bundle': bundle,
     '/lib/getAppConfig': getAppConfig,
@@ -15,6 +16,7 @@ module.exports = (deps) => {
     const minify = opts.minify || false;
     const togaHash = buildHash(componentsPath);
     const modulePaths = createModulePaths(component);
+    const logger = getLogger();
 
     function getAsset(assetType) {
       return getCache(getCacheId(assetType))
@@ -36,6 +38,10 @@ module.exports = (deps) => {
           return Promise.all([saveAsset('js', assets), saveAsset('css', assets)]);
         }).then(() => {
           return assets[assetType];
+        })
+        .catch((statErr) => {
+          logger.error('Path not found:', statErr);
+          throw statErr;
         });
     }
 

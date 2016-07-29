@@ -2,18 +2,12 @@ module.exports = (deps) => {
 
   const {
     fs,
-    'es6-promisify': promisify,
-    '/logger': getLogger
+    'es6-promisify': promisify
   } = deps;
 
   return function pathsExists(paths) {
     const stat = promisify(fs.stat);
-    const logger = getLogger();
-    const promises = paths.map((path) => stat(path));
-    return Promise.all(promises)
-      .catch((statErr) => {
-        logger.error('Path not found:', statErr);
-        throw statErr;
-      });
+    const promises = [].concat(paths).map((path) => stat(path));
+    return Promise.all(promises);
   };
 };

@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../../../app/lib/bundler/bundle');
-import { fakePromisify, fakeWebpack } from '../../../commonMocks';
+import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../commonMocks';
 
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();
@@ -14,43 +14,23 @@ describe('runBundler', () => {
   const stylesBundle = 'styles bundle';
   const readFileStub = sandbox.stub();
   const existsSyncStub = sandbox.stub();
-  const createIsoConfigMock = sandbox.stub().returns(() => {});
-  const IsomorphicToolsPluginMock = sandbox.stub().returns({});
+  const memoryFsMock = sandbox.stub();
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
   readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
-  const memoryFsMock = function() {
-    this.readFile = readFileStub;
-    this.existsSync = existsSyncStub;
-  };
-  const webpackSuccessMock = () => {
-    return {
-      run: sandbox.spy(() => {
-        return Promise.resolve();
-      })
-    };
-  };
-  const webpackFailureError = {};
-  const webpackFailureMock = () => {
-    return {
-      run: sandbox.spy(() => {
-        return Promise.reject(webpackFailureError);
-      })
-    };
-  };
-  const createConfigMock = sandbox.spy();
+  memoryFsMock.returns({
+    readFile : readFileStub,
+    existsSync : existsSyncStub
+  });
   const fakeModulePaths = [ chance.file() ];
-  const fakeVendorFiles = { [chance.word()]: chance.word() };
+  const fakeRunWebpack = fakePromise;
+
   beforeEach(() => {
     deps = {
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,
-      'webpack': fakeWebpack,
-      'debug': () => () => {},
-      '/lib/bundler/vendorFiles': fakeVendorFiles,
-      '/lib/webpack/createWebpackConfig': createConfigMock,
-      '/lib/createIsoConfig': createIsoConfigMock,
-      'webpack-isomorphic-tools/plugin': IsomorphicToolsPluginMock,
-      '/lib/bundler/createModulePaths': () => fakeModulePaths
+      '/lib/webpack/runWebpack': fakeRunWebpack,
+      '/lib/bundler/createModulePaths': () => fakeModulePaths,
+      'debug': fakeDebug
     };
     subject = builder(deps);
   });
@@ -63,7 +43,7 @@ describe('runBundler', () => {
     context('when styles do NOT exist', () => {
       it('returns a bundle object with js + css is undefined', () => {
         existsSyncStub.withArgs('/components.css').returns(false);
-        deps['webpack'] = webpackSuccessMock;
+        deps['/lib/webpack/runWebpack'] = fakeResolve();
         result = subject(component);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
@@ -76,7 +56,7 @@ describe('runBundler', () => {
     context('when css exist', () => {
       it('returns a bundle object with js + css', () => {
         existsSyncStub.withArgs('/components.css').returns(true);
-        deps['webpack'] = webpackSuccessMock;
+        deps['/lib/webpack/runWebpack'] = fakeResolve();
         result = subject(component);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
@@ -89,70 +69,26 @@ describe('runBundler', () => {
   });
 
   context('when the bundle is not successful', () => {
+    const failError = chance.word();
     beforeEach(() => {
-      deps['webpack'] = webpackFailureMock;
+      deps['/lib/webpack/runWebpack'] = fakeReject(failError);
       result = subject(component);
     });
     it('throws an error', () => {
       return result.catch((error) => {
-        return expect(error).to.be.eq(webpackFailureError);
+        return expect(error).to.be.eq(failError);
       });
     });
   });
 
-  context('when a single component is passed', ()=>{
-    it('uses the isoTools plugin', () => {
-      result = subject(component);
-      return result.then(()=>{
-        expect(IsomorphicToolsPluginMock).to.be.calledWith(createIsoConfigMock());
-        expect(createConfigMock).to.be.called;
-        expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          isoPlugin: IsomorphicToolsPluginMock(),
-          minify: undefined,
-          modulePaths: fakeModulePaths
-        });
-      });
-    });
-  });
-
-  context('when a multiple components are passed', ()=>{
-    it('doesn\'t use the isoTools plugin', () => {
-      result = subject([chance.word(), chance.word()]);
-      return result.then(()=>{
-        expect(IsomorphicToolsPluginMock).not.to.be.called;
-        expect(createConfigMock).to.be.called;
-        expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          isoPlugin: null,
-          minify: undefined,
-          modulePaths: fakeModulePaths
-        });
-      });
-    });
-  });
-
-  describe('webpack options are passed correctly', () => {
-    it('sets the externals webpack option if the component is vendor', () => {
-      result = subject('vendor');
-      return result.then(()=>{
-        expect(createConfigMock).to.be.calledWith({
-          externals: [],
-          isoPlugin: { },
-          minify: undefined,
-          modulePaths: fakeModulePaths
-        });
-      });
-    });
-
+  describe('runWebpack options are passed correctly', () => {
     it('minifies content', () => {
-      result = subject(chance.word(), { minify: true });
+      result = subject(component, { minify: true });
       return result.then(() => {
-        expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          isoPlugin: { },
+        expect(fakeRunWebpack).to.be.calledWith(component, {
           minify: true,
-          modulePaths: fakeModulePaths
+          modulePaths: fakeModulePaths,
+          outputFileSystem: memoryFsMock()
         });
       });
     });

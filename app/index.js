@@ -3,8 +3,8 @@ module.exports = (deps) => {
     const {
       '/createServer': createServer,
       '/lib/getComponentNames': getComponentNames,
-      '/lib/createWebpackAssetsJson': createWebpackAssetsJson,
-      '/lib/createIsoConfig': createIsoConfig,
+      '/lib/createWebpackAssetsJson': createAssetsJson,
+      '/lib/webpack/createIsoConfig': createIsoConfig,
       '/logger': getLogger,
       'webpack-isomorphic-tools': IsomorphicTools,
       debug,
@@ -18,7 +18,7 @@ module.exports = (deps) => {
 
     log(`${components.length} components`);
 
-    return createWebpackAssetsJson(components)
+    return createAssetsJson(components)
       .then(() => {
         return isoTools.server(path.join(__dirname, '..'));
       })
