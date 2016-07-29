@@ -19,27 +19,33 @@
       margin-bottom: 18px;
     }
   }
+}
 
-  a {
-    background-image: url('footer/assets/images/social_media_sprite.png');
-    height: 42px;
-    width: 42px;
-    background-size: auto 42px;
+.social-link {
+  background-image: url('footer/assets/images/social_media_sprite.png');
+  height: 42px;
+  width: 42px;
+  background-size: auto 42px;
 
-    @include breakpoint(large) {
-      height: 32px;
-      width: 32px;
-      float: left;
-      background-repeat: no-repeat;
-      background-size: auto 32px;
-      margin-right: 12px;
+  @include breakpoint(large) {
+    height: 32px;
+    width: 32px;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+    margin-right: 12px;
 
-      &:last-child {
-        margin-right: 0;
-      }
+    &:last-child {
+      margin-right: 0;
     }
   }
+
+  &:hover {
+    border: none;
+    background-color: white
+  }
 }
+
 
 $socialIcons:  (
                 (facebook, 0, 0, null),
@@ -53,6 +59,9 @@ $socialIcons:  (
 @each $label, $mobile-bg-position, $desktop-bg-position, $margin in $socialIcons {
   .toga-links-list__link--#{$label} {
     background-position: #{$mobile-bg-position} 0;
+    padding: 0;
+    border: none;
+    background-color: white;
 
     @include breakpoint(large) {
       background-position: #{$desktop-bg-position} 0;
@@ -66,6 +75,7 @@ $socialIcons:  (
       url('footer/assets/images/social_media_sprite.png');
       background-size: auto 42px;
       background-position: #{$mobile-bg-position} 0;
+      border: none;
       @include breakpoint(large) {
         background-size: auto 32px;
         background-position: #{$desktop-bg-position} 0;

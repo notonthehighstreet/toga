@@ -5,7 +5,7 @@ import './styles.scss';
 
 const bem = bemHelper({ prefix: 'toga-', name: 'links-list' });
 
-const FooterLinks = ({ links, className, ...props }) => {
+const FooterLinks = ({ links, className, linkClass, ...props }) => {
   return (
     <ul { ...bem(null, null, className) } { ...props }>
       { links && links.map((link, i) => {
@@ -15,7 +15,7 @@ const FooterLinks = ({ links, className, ...props }) => {
           : label;
         return (
           <li key={i}>
-            <a { ... bem('link', name, className) } { ...linkProps }>{ displayLabel }</a>
+            <a { ... bem('link', name, linkClass) } { ...linkProps }>{ displayLabel }</a>
           </li>
         );
       })}

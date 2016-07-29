@@ -1,0 +1,58 @@
+.toga-footer__list {
+  &:first-child {
+    border-top: 1px solid #d6d2ce;
+    border-radius: 8px 8px 0 0;
+  }
+
+  @include breakpoint(large) {
+    width: 20%;
+  }
+
+  &--currency {
+    .n-form__label {
+      font-weight: normal;
+    }
+    @include breakpoint(large) {
+      .n-form__label {
+        font-size: 13px;
+        font-weight: normal;
+      }
+      .n-form__field--select {
+        height: 30px;
+        font-size: 12px;
+      }
+      .n-button {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.toga-links-list__link {
+  color: #555;
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid #d6d2ce;
+  background-color: #f6f5f3;
+  overflow: hidden;
+  text-decoration: none;
+
+  @include breakpoint(large) {
+    font-size: 13px;
+    line-height: 20px;
+    background-color: white;
+    border: none;
+    padding: 0;
+  }
+
+  &:hover {
+    border-left: 10px solid #0ca6d4;
+    padding-left: 10px;
+
+    @include breakpoint(large) {
+      border: none;
+      padding: 0;
+    }
+  }
+}

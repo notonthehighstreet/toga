@@ -73,7 +73,7 @@ export default class Footer extends React.Component {
           </Accordion>
           <div id="connect" { ...bem('list', 'social') }>
             <h2 { ...socialTitleClasses }>keep in touch</h2>
-            <LinksList links={ linksObject.social } { ...bem('social-links') } />
+            <LinksList links={ linksObject.social } linkClass="social-link" { ...bem('social-links') } />
           </div>
         </div>
       </div>
