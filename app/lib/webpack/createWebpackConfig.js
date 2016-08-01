@@ -32,9 +32,9 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              `css?-url&sourceMap${minify ? '&minimize' : ''}`,
+              `css?-url${minify ? '&minimize' : ''}`,
               'postcss',
-              'sass?sourceMap&outputStyle=expanded'].join('!'))
+              'sass?outputStyle=expanded'].join('!'))
           },
           {
             test: /.*components\/.*\/index\.js$/,
@@ -43,7 +43,6 @@ module.exports = (deps) => {
           { test: /\.svg$/, loader: 'svg-inline'}
         ]
       },
-      devtool: 'source-map',
       plugins: [
         new ExtractTextPlugin('[name].css'),
         new webpack.optimize.DedupePlugin(),
