@@ -4,27 +4,27 @@ import Chance from 'chance';
 const chance = new Chance();
 const builder = require('../../../../app/middleware/getComponentAsset');
 
+const sandbox = sinon.sandbox.create();
+const bundlerGetAssetsStub = sandbox.stub();
+const bundlerStub = sandbox.stub();
+const fakeRequest = {
+  path: '',
+  components: 'components'
+};
+const fakeResponse = {
+  set: sandbox.stub(),
+  send: sandbox.stub()
+};
+fakeResponse.set.returns(fakeResponse);
+const NotFoundError =sandbox.stub();
+
 describe('getComponentAssets', () => {
-  const sandbox = sinon.sandbox.create();
-  const bundlerGetAssetsStub = sandbox.stub();
-  const bundlerStub = sandbox.stub();
-  const fakeRequest = {
-    path: '',
-    components: 'components'
-  };
-  const fakeResponse = {
-    set: sandbox.stub(),
-    send: sandbox.stub()
-  };
-  fakeResponse.set.returns(fakeResponse);
   let nextSpy;
   let bundleContent;
 
-  function NotFoundError() { }
-
   const subject = builder({
     '/lib/bundler/index': bundlerStub,
-    '/middleware/errors/notFoundError': NotFoundError
+    '/middleware/errors/index': { NotFoundError }
   });
 
   beforeEach(() => {

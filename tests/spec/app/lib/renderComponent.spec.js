@@ -3,14 +3,14 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../../app/lib/renderComponent');
+import { fakePromise } from '../../commonMocks';
+
 let actualSubjectReturnValue;
-let expectedSubjectReturnValue = chance.word();
 const fakeRenderedComponent = chance.word();
 const fakeReact = chance.word();
 const sandbox = sinon.sandbox.create();
 const reactStub = sandbox.stub().returns(fakeReact);
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
-const callbackStub = sandbox.stub().returns(expectedSubjectReturnValue);
 let subject;
 let fakeComponentName = chance.word();
 let fakeComponentContext = {
@@ -18,7 +18,21 @@ let fakeComponentContext = {
   [chance.word()]: chance.word()
 };
 const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
-let callbackArguments;
+
+const deps = {
+  'react': {
+    createElement: reactStub
+  },
+  'react-dom/server': {
+    renderToString: renderReactStub
+  },
+  '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
+  '/lib/utils/pathsExist': fakePromise,
+  '/lib/utils/createModulePaths': sandbox.stub().returns(chance.word()),
+  path: {
+    join: sandbox.stub().returns(fakeRelativeComponentPath)
+  }
+};
 
 describe('renderComponent', () => {
   const MockComponent = () => {};
@@ -34,46 +48,37 @@ describe('renderComponent', () => {
   });
 
   beforeEach(() => {
-    subject = builder({
-      'react': {
-        createElement: reactStub
-      },
-      'react-dom/server': {
-        renderToString: renderReactStub
-      },
-      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
-      path: {
-        join: sandbox.stub().returns(fakeRelativeComponentPath)
-      }
-    });
+    subject = builder(deps);
     actualSubjectReturnValue = subject({
       componentName: fakeComponentName,
       context: fakeComponentContext
-    }, callbackStub);
-    callbackArguments = callbackStub.args[0][0];
+    });
   });
 
   afterEach(() => {
     sandbox.reset();
   });
 
-  describe('calls the callback', () => {
+  describe('returns', () => {
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
         expect(reactStub).to.be.calledWith(MockComponent, fakeComponentContext);
       });
     });
-    it('with the rendered component\'s DOM', () => {
-      expect(callbackArguments.componentDOM).to.eq(fakeRenderedComponent);
+    it('the rendered component\'s DOM', () => {
+      return actualSubjectReturnValue.then((callbackArguments) => {
+        expect(callbackArguments.componentDOM).to.eq(fakeRenderedComponent);
+      });
     });
-    it('with the component\'s name', () => {
-      expect(callbackArguments.componentName).to.eq(fakeComponentName);
+    it('the component\'s name', () => {
+      return actualSubjectReturnValue.then((callbackArguments) => {
+        expect(callbackArguments.componentName).to.eq(fakeComponentName);
+      });
     });
-    it('with the component\'s context', () => {
-      expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
-    });
-    it('and returns its return value', () => {
-      expect(actualSubjectReturnValue).to.eq(expectedSubjectReturnValue);
+    it('the component\'s context', () => {
+      return actualSubjectReturnValue.then((callbackArguments) => {
+        expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
+      });
     });
   });
 });
@@ -90,28 +95,18 @@ describe('when the component uses export default', () => {
     mockery.disable();
   });
   beforeEach(() => {
-    subject = builder({
-      'react': {
-        createElement: reactStub
-      },
-      'react-dom/server': {
-        renderToString: renderReactStub
-      },
-      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
-      path: {
-        join: sandbox.stub().returns(fakeRelativeComponentPath)
-      }
-    });
+    subject = builder(deps);
     actualSubjectReturnValue = subject({
       componentName: fakeComponentName,
       context: fakeComponentContext
-    }, callbackStub);
-    callbackArguments = callbackStub.args[0][0];
+    });
   });
   afterEach(() => {
     sandbox.reset();
   });
   it('renderReactStub is called with the correct args', () => {
-    expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentContext);
+    return actualSubjectReturnValue.then(()=> {
+      expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentContext);
+    });
   });
 });

@@ -2,9 +2,9 @@ module.exports = (deps) => {
   return function setComponentContext(req, res, next) {
     const {
       'lodash': _,
-      '/middleware/errors/badRequestError': BadRequestError
+      '/middleware/errors/index': { BadRequestError }
     } = deps;
-    
+
     const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css$|\.json$/;
     const buildPath = (requestPath) => {
       return requestPath.replace(componentMatcher, '');

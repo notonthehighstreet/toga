@@ -9,7 +9,7 @@ module.exports = (deps) => {
     return function(req, res, next) {
       const {
         '/lib/bundler/index': bundle,
-        '/middleware/errors/notFoundError': NotFoundError
+        '/middleware/errors/index': { NotFoundError }
       } = deps;
 
       const minify = req.path.endsWith(`.min.${assetType}`);

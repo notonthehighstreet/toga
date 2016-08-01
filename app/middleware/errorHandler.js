@@ -2,22 +2,22 @@
 module.exports = (deps) => {
   return function errorHandler(err, req, res, next) {
     const {
-      '/logger': getLogger,
-      '/middleware/errors/notFoundError': NotFoundError,
-      '/middleware/errors/badRequestError': BadRequestError
+      '/logger': getLogger
     } = deps;
     const logger = getLogger();
-
-    if (err instanceof NotFoundError) {
+    switch (err.name) {
+    case 'NotFoundError' :
       res.status(404).send(err.message.toString());
-    }
-    else if (err instanceof BadRequestError) {
+      break;
+    case 'BadRequestError' :
       res.status(400).send(err.message.toString());
-    }
-    else {
+      break;
+    default :
       res.status(500).send(err.toString());
     }
-
-    logger.fatal(err);
+    logger.fatal({
+      status: res.statusCode,
+      err
+    });
   };
 };
