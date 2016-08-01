@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function getRawComponentHtml(req, res) {
+  return function getRawComponentHtml(req, res, next) {
     const {
       '/lib/renderComponent': renderComponent,
       '/views/component-test': renderTestMarkup,
@@ -17,7 +17,7 @@ module.exports = (deps) => {
         res.set('Content-Type', 'text/html').send(html);
       })
       .catch(() => {
-        throw new NotFoundError(`${componentName} is not found`);
+        next(new NotFoundError(`${componentName} is not found`));
       });
   };
 };

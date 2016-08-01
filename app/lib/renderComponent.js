@@ -5,11 +5,12 @@ module.exports = (deps) => {
       'react' : React,
       '/lib/getAppConfig': getAppConfig,
       '/lib/utils/pathsExist': pathsExist,
+      '/lib/utils/createModulePaths': createModulePaths,
       path
     } = deps;
     const {componentsPath} = getAppConfig();
-    const relativeComponentPath = path.join('../../', componentsPath, componentName);
-    return pathsExist(`${relativeComponentPath}/`).then(() => {
+    return pathsExist(createModulePaths(componentName)).then(() => {
+      const relativeComponentPath = path.join('../../', componentsPath, componentName);
       const component = require(`${relativeComponentPath}/`);
       // handle export default as well as module.exports
       const componentDOM = ReactDOMServer.renderToString(

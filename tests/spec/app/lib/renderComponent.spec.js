@@ -28,6 +28,7 @@ const deps = {
   },
   '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
   '/lib/utils/pathsExist': fakePromise,
+  '/lib/utils/createModulePaths': sandbox.stub().returns(chance.word()),
   path: {
     join: sandbox.stub().returns(fakeRelativeComponentPath)
   }
