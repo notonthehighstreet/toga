@@ -1,18 +1,21 @@
 module.exports = (deps) => {
-  return function renderComponent({componentName, context}, cb) {
+  return function renderComponent({componentName, context}) {
     const {
       'react-dom/server' : ReactDOMServer,
       'react' : React,
       '/lib/getAppConfig': getAppConfig,
+      '/lib/utils/pathsExist': pathsExist,
       path
     } = deps;
-    const { componentsPath } = getAppConfig();
+    const {componentsPath} = getAppConfig();
     const relativeComponentPath = path.join('../../', componentsPath, componentName);
-    const component = require(`${relativeComponentPath}/`);
-    // handle export default as well as module.exports
-    const componentDOM =  ReactDOMServer.renderToString(
-      React.createElement(component.default || component, context)
-    );
-    return cb({ componentDOM, componentName, context });
+    return pathsExist(`${relativeComponentPath}/`).then(() => {
+      const component = require(`${relativeComponentPath}/`);
+      // handle export default as well as module.exports
+      const componentDOM = ReactDOMServer.renderToString(
+        React.createElement(component.default || component, context)
+      );
+      return {componentDOM, componentName, context};
+    });
   };
 };
