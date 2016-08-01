@@ -19,7 +19,7 @@ export const Field = ({ className, options, type, size, ...props }) => {
   const fieldClass = 'field';
   const selectClasses = bem(fieldClass, 'select', className);
   const submitClasses = bem(fieldClass, 'submit', className);
-  const inputClasses = bem(fieldClass, ['input', size], className);
+  const inputClasses = bem(fieldClass, { 'input': true, [size]: !!size}, className);
 
   switch  (type) {
   case 'select':

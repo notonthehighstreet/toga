@@ -3,7 +3,7 @@ import bemHelper from 'react-bem-helper';
 
 import './styles.scss';
 
-const bem = bemHelper({ prefix: 'n-', name: 'button' });
+const bem = bemHelper({prefix: 'n-', name: 'button'});
 const sizes = ['small', 'medium', 'large'];
 
 export default class Button extends React.Component {
@@ -28,11 +28,18 @@ export default class Button extends React.Component {
   };
 
   render() {
-    const { className, size, secondary, fullWidth, children, ...props } = this.props;
+    const {className, size, secondary, fullWidth, children, ...props} = this.props;
 
-    const classes = bem(null, [size, secondary ? 'secondary' : 'primary', fullWidth ? 'full-width' : undefined], className);
+    const classes = bem(null, {
+      [size]: !!size,
+      'secondary': secondary,
+      'primary': !secondary,
+      'full-width': fullWidth
+    },
+      className
+    );
     const tag = this.props.href ? 'a' : 'button';
 
-    return React.createElement(tag, { ...classes, ...props }, children);
+    return React.createElement(tag, {...classes, ...props}, children);
   }
 }
