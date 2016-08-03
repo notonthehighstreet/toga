@@ -2,7 +2,7 @@ module.exports = (deps) => {
   return function setComponentContext(req, res, next) {
     const {
       'lodash': _,
-      '/middleware/errors/index': { BadRequestError }
+      '/lib/utils/errors': { BadRequestError }
     } = deps;
 
     const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css$|\.json$/;

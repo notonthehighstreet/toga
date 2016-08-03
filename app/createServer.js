@@ -3,8 +3,8 @@ module.exports = (deps) => {
     const {
       'express': express,
       'express-domain-middleware': domainMiddleware,
-      '/routes/index': getRoutes,
       'node-hook': hook,
+      '/routes/index': getRoutes,
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
       compression

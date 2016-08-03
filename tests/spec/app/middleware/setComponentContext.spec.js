@@ -4,7 +4,7 @@ const builder = require('../../../../app/middleware/setComponentContext');
 function BadRequestError() { }
 
 const subject = builder({
-  '/middleware/errors/index': { BadRequestError },
+  '/lib/utils/errors': { BadRequestError },
   'lodash': require('lodash')
 });
 

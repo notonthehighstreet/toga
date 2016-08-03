@@ -11,19 +11,20 @@ module.exports = (deps) => {
       '/lib/utils/pathsExist': pathsExist
     } = deps;
 
-    const log = debug('toga:CreateWebpackAssets');
+    debug('toga:CreateWebpackAssets');
+
     const readFile = promisify(fs.readFile);
     const writeFile = promisify(fs.writeFile);
     const { componentsPath } = getAppConfig();
 
     const getAssetsJson = ((component) => {
       const path = createModulePaths(component, assetsFile);
-      return (pathsExist(path)).then(()=>{
-        return readFile(path[0]);
-      }).catch(() => {
-        log(`creating assetsFile for ${component}`);
-        return bundle(component, { minify: false }).then(() => getAssetsJson(component));
-      });
+      return (pathsExist(path))
+        .then((exists)=>{
+          return exists
+            ? readFile(path[0])
+            : bundle(component, { minify: false }).then(() => getAssetsJson(component));
+        });
     });
 
     const readAssetFiles = components.map(getAssetsJson);

@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const builder = require('../../../../../app/middleware/errors/index');
+const builder = require('../../../../../app/lib/utils/errors');
 
 describe('Errors/index', () => {
   const sandbox = sinon.sandbox.create();
