@@ -10,9 +10,7 @@ describe('bundler/index', () => {
   let subject;
   let result;
   let fakeComponentsList;
-  const setCacheMock = sandbox.spy(() => {
-    return Promise.resolve();
-  });
+  const setCacheMock = fakeResolve();
   const getCachedValue = 'cached value';
   const cacheMissError = null;
   const componentHash = chance.word();
@@ -23,19 +21,21 @@ describe('bundler/index', () => {
   const getAppConfigMock = () => {
     return { apiVersion, componentsPath: fakeComponentsPath };
   };
-  const bundleFailureError = {};
+  const errorMessage = chance.word();
+  const bundleFailureError = new Error(errorMessage);
   const bundleSuccessData = {
     js: 'freshly bundled js',
     css: 'freshly bundled css'
   };
   const bundleSuccessMock = fakeResolve(bundleSuccessData);
   const bundleFailureMock = fakeReject(bundleFailureError);
-  const fakeBundle = sandbox.stub();
   const bundleHashMock = sandbox.spy(() => componentHash);
   const getCacheHitMock = fakeResolve(getCachedValue);
   const getCacheMissMock = fakeResolve(cacheMissError);
   const fakePathsExist = fakeResolve(true);
   const fakeModulePaths = [chance.file()];
+  const fakeNotFoundError = sandbox.stub().throws();
+  const fakeBundleError = sandbox.stub().throws();
 
   beforeEach(() => {
     deps = {
@@ -43,10 +43,14 @@ describe('bundler/index', () => {
       '/cache/set': setCacheMock,
       '/logger': fakeLogger,
       '/lib/bundler/buildHash': bundleHashMock,
-      '/lib/bundler/bundle': fakeBundle,
+      '/lib/bundler/bundle': bundleSuccessMock,
       '/lib/getAppConfig': getAppConfigMock,
       '/lib/utils/pathsExist': fakePathsExist,
       '/lib/utils/createModulePaths': () => fakeModulePaths,
+      '/lib/utils/errors': {
+        NotFoundError: fakeNotFoundError,
+        BundleError: fakeBundleError
+      },
       'debug': () => () => {}
     };
     subject = builder(deps);
@@ -74,53 +78,55 @@ describe('bundler/index', () => {
   });
 
   context('when multiple components are requested', () => {
+    const assetType = 'js';
+
     describe('and the bundle is cached', () => {
       it('returns the bundle', () => {
-        return subject(fakeComponentsList).getAsset('js')
+        return subject(fakeComponentsList).getAsset(assetType)
           .then((freshVendorBundle) => {
-            expect(fakeBundle).not.to.be.called;
+            expect(bundleSuccessMock).not.to.be.called;
             return expect(freshVendorBundle).to.be.eq(getCachedValue);
           });
       });
     });
+
     describe('and the bundle is not cached', () => {
-      beforeEach(() => {
-        deps['/cache/get'] = getCacheMissMock;
-        subject = builder(deps);
-      });
       describe('and the bundle is successful', () => {
-        const assetType = 'js';
         beforeEach(() => {
+          deps['/cache/get'] = getCacheMissMock;
           deps['/lib/bundler/bundle'] = bundleSuccessMock;
           subject = builder(deps);
-          result = subject(fakeComponentsList).getAsset(assetType);
         });
-        it('returns the bundle', () => {
+
+        it('returns the bundle + adds the bundles to the cache', () => {
+          result = subject(fakeComponentsList).getAsset(assetType);
+
           return result.then((componentBundle) => {
             expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
             expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: false });
-            return expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
-          });
-        });
-        it('adds the bundles to the cache', () => {
-          return result.then(() => {
-            return [
-              expect(setCacheMock).to.have.been.calledTwice,
-              expect(setCacheMock.firstCall).to.have.been.calledWithMatch(bundleJSIdMatcher, bundleSuccessData['js']),
-              expect(setCacheMock.secondCall).to.have.been.calledWithMatch(bundleCSSIdMatcher, bundleSuccessData['css'])
-            ];
+            expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
+
+            expect(setCacheMock).to.have.been.calledTwice,
+            expect(setCacheMock.firstCall).to.have.been.calledWithMatch(bundleJSIdMatcher, bundleSuccessData['js']),
+            expect(setCacheMock.secondCall).to.have.been.calledWithMatch(bundleCSSIdMatcher, bundleSuccessData['css']);
           });
         });
       });
+
       describe('and the bundle is not successful', () => {
         beforeEach(() => {
+          deps['/cache/get'] = getCacheMissMock;
           deps['/lib/bundler/bundle'] = bundleFailureMock;
           subject = builder(deps);
-          result = subject(fakeComponentsList).getAsset('js');
         });
+
         it('returns an error', () => {
+          result = subject(fakeComponentsList).getAsset('js');
+
           return result.catch((error) => {
-            expect(error).to.be.eq(bundleFailureError);
+            expect(fakeNotFoundError).not.to.have.been.called;
+            expect(fakeBundleError).to.have.been.calledWith(errorMessage);
+            expect(error).to.be.an.instanceOf(Error);
           });
         });
       });

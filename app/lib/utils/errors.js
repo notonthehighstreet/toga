@@ -26,7 +26,21 @@ module.exports = () => {
     }
   }
 
+  class BundleError extends Error {
+    constructor(error) {
+      super();
+      extendError.call(this, error);
+    }
+  }
+
+  class InternalServerError extends Error {
+    constructor(error) {
+      super();
+      extendError.call(this, error);
+    }
+  }
+
   return {
-    NotFoundError, BadRequestError
+    NotFoundError, BadRequestError, InternalServerError, BundleError
   };
 };

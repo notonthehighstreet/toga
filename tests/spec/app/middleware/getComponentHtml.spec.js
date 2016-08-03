@@ -28,7 +28,7 @@ describe('getComponentRawHtml middleware', () => {
     '/lib/renderComponent': renderComponentStub,
     '/views/component-raw': fakeRenderRawMarkup,
     '/views/component-test': fakeRenderTestMarkup,
-    '/middleware/errors/index': { NotFoundError }
+    '/lib/utils/errors': { NotFoundError }
   });
 
   afterEach(() => {

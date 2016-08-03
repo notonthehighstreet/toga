@@ -16,7 +16,7 @@ const fakeResponse = {
   send: sandbox.stub()
 };
 fakeResponse.set.returns(fakeResponse);
-const NotFoundError =sandbox.stub();
+const NotFoundError = sandbox.stub();
 
 describe('getComponentAssets', () => {
   let nextSpy;
@@ -24,7 +24,7 @@ describe('getComponentAssets', () => {
 
   const subject = builder({
     '/lib/bundler/index': bundlerStub,
-    '/middleware/errors/index': { NotFoundError }
+    '/lib/utils/errors': { NotFoundError }
   });
 
   beforeEach(() => {
@@ -41,6 +41,7 @@ describe('getComponentAssets', () => {
   context('when the component js', () => {
     const assetType = 'js';
     const jsSubject = subject(assetType);
+
     context('is successfully returned', () => {
       it('bundles content and responds with that content', () => {
         fakeRequest.path = 'some.js';
@@ -55,6 +56,7 @@ describe('getComponentAssets', () => {
           ];
         });
       });
+
       it('bundles minified content and responds with that content', () => {
         fakeRequest.path = 'some.min.js';
         const result = jsSubject(fakeRequest, fakeResponse, nextSpy);
@@ -69,17 +71,17 @@ describe('getComponentAssets', () => {
         });
       });
     });
+
     context('is not successfully returned', () => {
       it('propagates error', () => {
-        const err = {};
-        bundlerGetAssetsStub.returns(Promise.reject(err));
+        bundlerGetAssetsStub.returns(Promise.reject(NotFoundError));
         bundlerStub.returns({ getAsset: bundlerGetAssetsStub });
         const result = jsSubject(fakeRequest, fakeResponse, nextSpy);
 
         return result.then(() => {
           expect(nextSpy.calledOnce).to.equal(true);
           let firstCallArguments = nextSpy.args[0];
-          return expect(firstCallArguments[0] instanceof NotFoundError).to.be.true;
+          return expect(firstCallArguments[0]).to.equal(NotFoundError);
         });
       });
     });
@@ -102,6 +104,7 @@ describe('getComponentAssets', () => {
           ];
         });
       });
+
       it('returns the minified components css', () => {
         fakeRequest.path = 'some.min.css';
         const result = cssSubject(fakeRequest, fakeResponse, nextSpy);
@@ -115,16 +118,17 @@ describe('getComponentAssets', () => {
         });
       });
     });
+
     context('is not successfully returned', () => {
       it('propagates error if bundling was unsuccessful', () => {
-        const err = {};
-        bundlerGetAssetsStub.returns(Promise.reject(err));
+        bundlerGetAssetsStub.returns(Promise.reject(NotFoundError));
         bundlerStub.returns({ getAsset: bundlerGetAssetsStub });
         const result = cssSubject(fakeRequest, fakeResponse, nextSpy);
+
         return result.then(() => {
           expect(nextSpy.calledOnce).to.equal(true);
           let firstCallArguments = nextSpy.args[0];
-          return expect(firstCallArguments[0] instanceof NotFoundError).to.be.true;
+          return expect(firstCallArguments[0]).to.equal(NotFoundError);
         });
       });
     });
