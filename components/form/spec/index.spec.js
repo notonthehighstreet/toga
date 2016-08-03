@@ -4,9 +4,22 @@ import { shallow, mount } from 'enzyme';
 import Row, { Field, Label } from '../';
 import button from '../../button';
 
-describe('form Row component', () => {
-  let renderedComponent;
-  let componentDOM;
+let renderedComponent;
+let componentDOM;
+
+describe('form component', () => {
+  context('form Field', () => {
+
+    it('passes tref as a ref prop', () => {
+      let input;
+      renderedComponent = mount(<Field tref= { (node) => input = node }  />);
+      expect(typeof input).to.equal('object');
+    });
+
+  });
+});
+
+describe('form  component', () => {
 
   it('is contained within a row', () => {
     renderedComponent = shallow(<Row />);
