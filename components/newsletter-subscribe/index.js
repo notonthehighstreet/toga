@@ -23,8 +23,8 @@ export default class NewsletterSubscribe extends React.Component {
     this.onChange(input);
   }
 
-  onChange(target) {
-    this.setState({ hasEmailText: !!target.value });
+  onChange(node) {
+    this.setState({ hasEmailText: !!node.value });
   }
 
   render() {
@@ -37,7 +37,7 @@ export default class NewsletterSubscribe extends React.Component {
         <p { ...bem('slogan', null, 'hidden--mobile') }>{t('UNIQUE_INSPIRING')}</p>
         <p { ...bem('cta', null, 'hidden--desktop') }>{t('SIGN_UP')}</p>
         <form { ...bem('form') } method="post" action="/communication-preference" >
-          <Field { ...bem('input', { 'has-text' : hasEmailText }) } onChange={() => this.onChange(input) }
+          <Field { ...bem('input', { 'has-text' : hasEmailText }) } onChange={(e) => this.onChange(e.target) }
                  tref= { (node) => input = node } name={inputName} id={inputName} type="email"
           />
           <Label { ...bem('label') } htmlFor={ inputName } >{t('ENTER_EMAIL')}</Label>

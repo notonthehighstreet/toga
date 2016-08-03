@@ -15,19 +15,16 @@ export const Label = ({className, children, ...props}) => {
   );
 };
 
-export class Field extends React.Component {
-  render() {
-    const {className, options, type, size, tref, ...props} = this.props;
-// export const Field = ( { className, options, type, size, tref, ...props }) => {
-    const fieldClass = 'field';
-    const selectClasses = bem(fieldClass, 'select', className);
-    const submitClasses = bem(fieldClass, 'submit', className);
-    const inputClasses = bem(fieldClass, {'input': true, [size]: !!size}, className);
-    props.ref = tref;
+export const Field = ( { className, options, type, size, tref, ...props }) => {
+  const fieldClass = 'field';
+  const selectClasses = bem(fieldClass, 'select', className);
+  const submitClasses = bem(fieldClass, 'submit', className);
+  const inputClasses = bem(fieldClass, {'input': true, [size]: !!size}, className);
+  props.ref = tref;
 
-    switch (type) {
-    case 'select':
-      return (
+  switch (type) {
+  case 'select':
+    return (
           <select  { ...selectClasses } { ...props } >
             { options.map((option, i) => (
               <option value={ option.value || option } key={ i }>
@@ -38,14 +35,13 @@ export class Field extends React.Component {
           </select>
         );
 
-    case 'submit':
-      return <Button type="submit" size={ size } { ...submitClasses } { ...props } />;
+  case 'submit':
+    return <Button type="submit" size={ size } { ...submitClasses } { ...props } />;
 
-    default:
-      return <input type={ type } { ...inputClasses } { ...props } />;
-    }
+  default:
+    return <input type={ type } { ...inputClasses } { ...props } />;
   }
-}
+};
 
 export default function Row({type, label, name, value, options, placeholder, className, size, inline, ...props}) {
   const rowClasses = bem('row', {[size]: size, inline}, className);

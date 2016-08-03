@@ -17,9 +17,6 @@ describe('form component', () => {
     });
 
   });
-});
-
-describe('form  component', () => {
 
   it('is contained within a row', () => {
     renderedComponent = shallow(<Row />);
