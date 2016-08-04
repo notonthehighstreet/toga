@@ -29,7 +29,7 @@ const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
   const link = <a href="#" onClick={(e) => e.preventDefault() }>{children}</a>;
   const headerProps = {
     role: 'tab',
-    'aria-expanded': expanded,
+    'aria-expanded': !!expanded,
     id: `accordion-tab-${accordionTabCount}`,
     ...classes, ...props
   };
@@ -37,7 +37,7 @@ const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
 };
 
 const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
-  const classes = bem('panel', null, { [className]: true } );
+  const classes = bem('panel', null, { [className]: !!className } );
   const panelProps = {
     role: 'tabPanel',
     'aria-hidden' : !expanded,

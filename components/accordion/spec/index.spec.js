@@ -52,6 +52,7 @@ describe('Accordion', () => {
 
     it('opens when clicked', () => {
       component.find(Accordion.Header).simulate('click');
+      console.log(`component.find(Accordion.Panel).props()`, component.find(Accordion.Panel).props())
       expect(component.find(Accordion.Header).props().expanded).to.eq(true);
       expect(component.find(Accordion.Panel).props().expanded).to.eq(true);
     });
@@ -67,12 +68,12 @@ describe('Accordion', () => {
   context('when not expanded', () => {
     it('does not have the expanded class', () => {
       const component = shallow(<Accordion.Header>{ title }</Accordion.Header>);
-      expect(component).not.to.have.className('expanded');
+      expect(component).to.have.prop('aria-expanded', false);
     });
 
     it('has the hidden class', () => {
       const component = shallow(<Accordion.Panel>{ content }</Accordion.Panel>);
-      expect(component).to.have.className('hidden--mobile');
+      expect(component).to.have.prop('aria-hidden', true);
     });
 
   });
@@ -80,12 +81,12 @@ describe('Accordion', () => {
   context('when expanded', () => {
     it('has the expanded class', () => {
       const component = shallow(<Accordion.Header expanded>{ title }</Accordion.Header>);
-      expect(component).to.have.className('expanded');
+      expect(component).to.have.prop('aria-expanded', true);
     });
 
     it('does not have the hidden class', () => {
       const component = shallow(<Accordion.Panel expanded>{ content }</Accordion.Panel>);
-      expect(component).not.to.have.className('hidden--mobile');
+      expect(component).to.have.prop('aria-hidden', false);
     });
   });
 });
