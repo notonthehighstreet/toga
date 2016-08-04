@@ -18,13 +18,13 @@ describe('Accordion', () => {
     });
 
     it('wont render accordion.title without a title', () => {
-      const component = shallow(<Accordion><Accordion.Title></Accordion.Title></Accordion>);
-      expect(component.find(Accordion.Title).length).to.eq(0);
+      const component = shallow(<Accordion><Accordion.Header></Accordion.Header></Accordion>);
+      expect(component.find(Accordion.Header).length).to.eq(0);
     });
 
     it('wont render accordion.content without content', () => {
-      const component = shallow(<Accordion><Accordion.Content></Accordion.Content></Accordion>);
-      expect(component.find(Accordion.Content).length).to.eq(0);
+      const component = shallow(<Accordion><Accordion.Panel></Accordion.Panel></Accordion>);
+      expect(component.find(Accordion.Panel).length).to.eq(0);
     });
 
   });
@@ -35,43 +35,43 @@ describe('Accordion', () => {
 
     beforeEach(() => {
       component = shallow(<Accordion>
-        <Accordion.Title>{ title }</Accordion.Title>
-        <Accordion.Content>{ content }</Accordion.Content>
+        <Accordion.Header>{ title }</Accordion.Header>
+        <Accordion.Panel>{ content }</Accordion.Panel>
       </Accordion>);
     });
 
     it('will render accordion title + content', () => {
-      expect(component.find(Accordion.Title).length).to.eq(1);
-      expect(component.find(Accordion.Content).length).to.eq(1);
+      expect(component.find(Accordion.Header).length).to.eq(1);
+      expect(component.find(Accordion.Panel).length).to.eq(1);
     });
 
     it('defaults to closed', () => {
-      expect(component.find(Accordion.Title).props().expanded).to.eq(false);
-      expect(component.find(Accordion.Content).props().expanded).to.eq(false);
+      expect(component.find(Accordion.Header).props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).props().expanded).to.eq(false);
     });
 
     it('opens when clicked', () => {
-      component.find(Accordion.Title).simulate('click');
-      expect(component.find(Accordion.Title).props().expanded).to.eq(true);
-      expect(component.find(Accordion.Content).props().expanded).to.eq(true);
+      component.find(Accordion.Header).simulate('click');
+      expect(component.find(Accordion.Header).props().expanded).to.eq(true);
+      expect(component.find(Accordion.Panel).props().expanded).to.eq(true);
     });
 
     it('closes when open and clicked', () => {
-      component.find(Accordion.Title).simulate('click');
-      component.find(Accordion.Title).simulate('click');
-      expect(component.find(Accordion.Title).props().expanded).to.eq(false);
-      expect(component.find(Accordion.Content).props().expanded).to.eq(false);
+      component.find(Accordion.Header).simulate('click');
+      component.find(Accordion.Header).simulate('click');
+      expect(component.find(Accordion.Header).props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).props().expanded).to.eq(false);
     });
   });
 
   context('when not expanded', () => {
     it('does not have the expanded class', () => {
-      const component = shallow(<Accordion.Title>{ title }</Accordion.Title>);
+      const component = shallow(<Accordion.Header>{ title }</Accordion.Header>);
       expect(component).not.to.have.className('expanded');
     });
 
     it('has the hidden class', () => {
-      const component = shallow(<Accordion.Content>{ content }</Accordion.Content>);
+      const component = shallow(<Accordion.Panel>{ content }</Accordion.Panel>);
       expect(component).to.have.className('hidden--mobile');
     });
 
@@ -79,12 +79,12 @@ describe('Accordion', () => {
 
   context('when expanded', () => {
     it('has the expanded class', () => {
-      const component = shallow(<Accordion.Title expanded>{ title }</Accordion.Title>);
+      const component = shallow(<Accordion.Header expanded>{ title }</Accordion.Header>);
       expect(component).to.have.className('expanded');
     });
 
     it('does not have the hidden class', () => {
-      const component = shallow(<Accordion.Content expanded>{ content }</Accordion.Content>);
+      const component = shallow(<Accordion.Panel expanded>{ content }</Accordion.Panel>);
       expect(component).not.to.have.className('hidden--mobile');
     });
   });

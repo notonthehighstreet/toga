@@ -1,19 +1,49 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
 
-import getComponent from './getComponent';
 import './styles.scss';
 
 const bem = bemHelper({ prefix: 'toga-', name: 'accordion'});
+let accordionTabCount = 0;
 
-const Title = ({ className, expanded, tag = 'h2', children,  ...props }) => {
-  const classes = bem('title', null, {expanded, [className]: true });
-  return React.createElement(tag, { ...classes, ...props}, children);
+// Find children which match the component and pass it the props
+// if no child matches, then it will search for grandchildren
+// if no grandchild matches it gives up and returns the original node
+function passPropsToComponent(child, matchers) {
+  let match = matchers.reduce((prev, matcher) => {
+    return (child.type === matcher.Component)
+      ? React.cloneElement(child, matcher.props)
+      : prev;
+  }, child);
+
+  if (match === child) {
+    const grandchildMatch = child.props.children
+      && [].concat(child.props.children).map((grandchild) => passPropsToComponent(grandchild, matchers));
+    match = React.cloneElement(child, child.props, grandchildMatch);
+  }
+  return match;
+}
+
+const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
+  const classes = bem('header',  null, { [className]: true });
+  const link = <a href="#" onClick={(e) => e.preventDefault() }>{children}</a>;
+  const headerProps = {
+    role: 'tab',
+    'aria-expanded': expanded,
+    id: `accordion-tab-${accordionTabCount}`,
+    ...classes, ...props
+  };
+  return React.createElement(tag, headerProps, link);
 };
 
-const Content = ({ className, expanded, tag = 'div', children,  ...props }) => {
-  const classes = bem('content', null, { 'hidden--mobile': !expanded, [className]: true } );
-  return React.createElement(tag, { ...classes, ...props}, children);
+const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
+  const classes = bem('panel', null, { [className]: true } );
+  const panelProps = {
+    role: 'tabPanel',
+    'aria-hidden' : !expanded,
+    ...classes, ...props
+  };
+  return React.createElement(tag, panelProps, children);
 };
 
 class Accordion extends React.Component {
@@ -21,33 +51,39 @@ class Accordion extends React.Component {
   constructor() {
     super();
     this.state = {
-      expanded: false
+      expandedItems: false
     };
-    this.toggleContent = this.toggleContent.bind(this);
+    this.togglePanel = this.togglePanel.bind(this);
   }
 
-  toggleContent() {
-    this.setState({ expanded: !this.state.expanded});
+  togglePanel(item) {
+    const selected =  this.state.expandedItems === item;
+    this.setState({ expandedItems: selected ? false : item });
   }
 
   render() {
     const { children, tag = 'div', className, ...props } = this.props;
-    const { expanded } = this.state;
-
+    const { expandedItems } = this.state;
     const classes = bem(null, null, className);
-    const title = getComponent(children, Title);
-    const content = getComponent(children, Content);
-    const headerProps = { expanded, onClick: this.toggleContent };
-    const contentProps = { expanded };
-    const accordionProps = { ...classes, ...props };
-    const headerClone = title ? React.cloneElement(title, headerProps) : null;
-    const contentClone = content ? React.cloneElement(content, contentProps) : null;
+    const accordionProps = { role: 'tablist', ...classes, ...props };
+    const accordionChildren = children
+      && [].concat(children).map((child, i) => {
+      const expanded = expandedItems === i;
+      const id = `accordion-${i}`;
+      const headerProps = { expanded, id: id, onClick: () => this.togglePanel(i) };
+      const panelProps = { expanded, 'aria-labelledby': id };
 
-    return React.createElement(tag, accordionProps, headerClone, contentClone);
+      return passPropsToComponent(child, [
+        { Component: Header, props: headerProps },
+        { Component: Panel, props: panelProps }
+      ]);
+    });
+
+    return React.createElement(tag, accordionProps, accordionChildren);
   }
 }
 
-Accordion.Title = Title;
-Accordion.Content = Content;
+Accordion.Header = Header;
+Accordion.Panel = Panel;
 
 export default Accordion;
