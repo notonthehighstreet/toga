@@ -1,6 +1,5 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
-import deepAssign from 'deep-assign';
 import passPropsToComponent from './passPropsToComponent';
 
 import './styles.scss';
@@ -68,7 +67,7 @@ class Accordion extends React.Component {
 
   togglePanel(item) {
     const selected =  !!this.state.expandedItems[item];
-    const expandedItems = deepAssign({}, this.state.expandedItems, { [item]: !selected });
+    const expandedItems = Object.assign({}, this.state.expandedItems, { [item]: !selected });
     this.setState({ expandedItems: expandedItems });
   }
 

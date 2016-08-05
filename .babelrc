@@ -1,7 +1,10 @@
 {
   "sourceMaps": "inline",
   "plugins": [
-    "transform-react-jsx", "transform-object-rest-spread", "transform-class-properties",
+    "transform-react-jsx",
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "transform-object-assign",
     ["babel-plugin-transform-builtin-extend", {
       globals: ["Error", "Array"],
       approximate: true
