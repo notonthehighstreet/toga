@@ -1,29 +1,12 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
 import deepAssign from 'deep-assign';
+import passPropsToComponent from './passPropsToComponent';
 
 import './styles.scss';
 
 const bem = bemHelper({ prefix: 'toga-', name: 'accordion'});
 let accordionTabCount = 0;
-
-// Find children which match the component and pass it the props
-// if no child matches, then it will search for grandchildren
-// if no grandchild matches it gives up and returns the original node
-function passPropsToComponent(child, matchers) {
-  let match = matchers.reduce((prev, matcher) => {
-    return (child.type === matcher.Component)
-      ? React.cloneElement(child, matcher.props)
-      : prev;
-  }, child);
-
-  if (match === child && child.props) {
-    const grandchildMatch = child.props.children
-      && [].concat(child.props.children).map((grandchild) => passPropsToComponent(grandchild, matchers));
-    match = React.cloneElement(child, child.props, grandchildMatch);
-  }
-  return match;
-}
 
 const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
   const classes = bem('header',  null, { [className]: true });
