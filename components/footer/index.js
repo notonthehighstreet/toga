@@ -15,6 +15,25 @@ const bem = bemHelper({ prefix: 'toga-', name: 'footer' });
 const titleClasses = bem('title');
 
 export default class Footer extends React.Component {
+
+  static propTypes = {
+    loggedIn: React.PropTypes.bool,
+    name: React.PropTypes.string,
+    className: React.PropTypes.string,
+    sponsoredProductFeature: React.PropTypes.bool,
+    country: CountryAndCurrency.propTypes.country,
+    currency: CountryAndCurrency.propTypes.currency
+  };
+
+  static defaultProps = {
+    loggedIn: false,
+    sponsoredProductFeature: false
+  };
+
+  static childContextTypes = {
+    csrf: React.PropTypes.string
+  };
+
   getChildContext() {
     return { csrf: this.props.csrf };
   }
@@ -84,7 +103,3 @@ export default class Footer extends React.Component {
     );
   }
 }
-
-Footer.childContextTypes = {
-  csrf: React.PropTypes.string
-};

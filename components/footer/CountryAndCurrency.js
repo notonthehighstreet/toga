@@ -7,8 +7,21 @@ import '../form/styles.scss';
 import countries from './countries.json';
 
 const CountryOption = ({code, name}) => <option value={code}>{name}</option>;
+const currencies = { GBP: '£', AUD: '$', EUR: '€', USD: '$' };
+const currencyCodes = Object.keys(currencies);
+const countryCodes = [].concat(countries.other.map(c => c.code), countries.uk.map(c => c.code));
 
 class CountryAndCurrency extends React.Component {
+
+  static propTypes = {
+    country: React.PropTypes.oneOf(countryCodes),
+    currency: React.PropTypes.oneOf(currencyCodes)
+  };
+
+  static contextTypes = {
+    csrf: React.PropTypes.string
+  };
+
   constructor(props) {
     super(props);
     const { country, currency } = props;
@@ -73,10 +86,9 @@ class CountryAndCurrency extends React.Component {
         <div className="n-form__row toga-country-currency__currency">
           <label className="n-form__label">set my currency to:</label>
           <select defaultValue={this.state.currency} onChange={this.onCurrencyChanged} className="n-form__field n-form__field--select" name="currency">
-            <option value="GBP">£ GBP</option>
-            <option value="AUD">$ AUD</option>
-            <option value="EUR">€ EUR</option>
-            <option value="USD">$ USD</option>
+            {Object.keys(currencies).map((currency, i) =>
+              <option value={currency} key={`currency-${i}`}>{currencies[currency]} {currency}</option>
+            )}
           </select>
         </div>
         <Button onClick={this.onSubmitted} size="medium" fullWidth type="submit">update</Button>
@@ -86,5 +98,3 @@ class CountryAndCurrency extends React.Component {
 }
 
 export default CountryAndCurrency;
-
-CountryAndCurrency.contextTypes = {csrf: React.PropTypes.string};
