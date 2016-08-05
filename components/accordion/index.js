@@ -1,19 +1,32 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
+import passPropsToComponent from './passPropsToComponent';
 
-import getComponent from './getComponent';
 import './styles.scss';
 
 const bem = bemHelper({ prefix: 'toga-', name: 'accordion'});
+let accordionTabCount = 0;
 
-const Title = ({ className, expanded, tag = 'h2', children,  ...props }) => {
-  const classes = bem('title', null, {expanded, [className]: true });
-  return React.createElement(tag, { ...classes, ...props}, children);
+const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
+  const classes = bem('header',  null, { [className]: true });
+  const link = <a href="#" onClick={(e) => e.preventDefault() }>{children}</a>;
+  const headerProps = {
+    role: 'tab',
+    'aria-expanded': !!expanded,
+    id: `accordion-tab-${accordionTabCount}`,
+    ...classes, ...props
+  };
+  return children ? React.createElement(tag, headerProps, link) : null;
 };
 
-const Content = ({ className, expanded, tag = 'div', children,  ...props }) => {
-  const classes = bem('content', null, { 'hidden--mobile': !expanded, [className]: true } );
-  return React.createElement(tag, { ...classes, ...props}, children);
+const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
+  const classes = bem('panel', null, { [className]: !!className } );
+  const panelProps = {
+    role: 'tabPanel',
+    'aria-hidden' : !expanded,
+    ...classes, ...props
+  };
+  return children ? React.createElement(tag, panelProps, children) : null;
 };
 
 class Accordion extends React.Component {
@@ -21,33 +34,53 @@ class Accordion extends React.Component {
   constructor() {
     super();
     this.state = {
-      expanded: false
+      expandedItems: {}
     };
-    this.toggleContent = this.toggleContent.bind(this);
+    this.togglePanel = this.togglePanel.bind(this);
   }
 
-  toggleContent() {
-    this.setState({ expanded: !this.state.expanded});
+  formatAccordionChildren(children) {
+    if (!children) {
+      return null;
+    }
+
+    let count = 0;
+    return [].concat(children).map(child => {
+      if (child.type !== Accordion.Panel) {
+        count++;
+      }
+      const id = `accordion-${count}`;
+      const expanded = this.isExpanded(id);
+      const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
+      const panelProps = { expanded, 'aria-labelledby': id };
+
+      return passPropsToComponent(child, [
+          { Component: Header, props: headerProps },
+          { Component: Panel, props: panelProps }
+      ]);
+    });
+  }
+
+  isExpanded(item) {
+    return !!this.state.expandedItems[item];
+  }
+
+  togglePanel(item) {
+    const selected =  !!this.state.expandedItems[item];
+    const expandedItems = Object.assign({}, this.state.expandedItems, { [item]: !selected });
+    this.setState({ expandedItems: expandedItems });
   }
 
   render() {
     const { children, tag = 'div', className, ...props } = this.props;
-    const { expanded } = this.state;
-
     const classes = bem(null, null, className);
-    const title = getComponent(children, Title);
-    const content = getComponent(children, Content);
-    const headerProps = { expanded, onClick: this.toggleContent };
-    const contentProps = { expanded };
-    const accordionProps = { ...classes, ...props };
-    const headerClone = title ? React.cloneElement(title, headerProps) : null;
-    const contentClone = content ? React.cloneElement(content, contentProps) : null;
-
-    return React.createElement(tag, accordionProps, headerClone, contentClone);
+    const accordionProps = { role: 'tablist', ...classes, ...props };
+    const accordionChildren = this.formatAccordionChildren(children);
+    return React.createElement(tag, accordionProps, accordionChildren);
   }
 }
 
-Accordion.Title = Title;
-Accordion.Content = Content;
+Accordion.Header = Header;
+Accordion.Panel = Panel;
 
 export default Accordion;

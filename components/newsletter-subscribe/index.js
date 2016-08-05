@@ -7,9 +7,18 @@ import './styles.scss';
 
 const bem = new BemHelper({ prefix: 'toga-', name: 'newsletter-subscribe'});
 const inputName = 'newsletter-subscribe-input';
+const locales = Object.keys(i18n);
 let input;
 
 export default class NewsletterSubscribe extends React.Component {
+
+  static propTypes = {
+    locale: React.PropTypes.oneOf(locales)
+  };
+
+  static defaultProps = {
+    locale: locales[0]
+  };
 
   constructor(props) {
     super(props);

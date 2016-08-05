@@ -12,79 +12,94 @@ import linksObject from './links';
 import './styles.scss';
 
 const bem = bemHelper({ prefix: 'toga-', name: 'footer' });
-const navClasses = bem('navigation');
 const titleClasses = bem('title');
 
 export default class Footer extends React.Component {
+
+  static propTypes = {
+    loggedIn: React.PropTypes.bool,
+    name: React.PropTypes.string,
+    className: React.PropTypes.string,
+    sponsoredProductFeature: React.PropTypes.bool,
+    country: CountryAndCurrency.propTypes.country,
+    currency: CountryAndCurrency.propTypes.currency
+  };
+
+  static defaultProps = {
+    loggedIn: false,
+    sponsoredProductFeature: false
+  };
+
+  static childContextTypes = {
+    csrf: React.PropTypes.string
+  };
+
   getChildContext() {
     return { csrf: this.props.csrf };
   }
 
   render() {
     const { loggedIn, name, sponsoredProductFeature, country, currency, className, ...props } = this.props;
-    const classes = bem(null, null, className);
-    const myAccountClasses = bem('list', 'myaccount', 'hidden--desktop');
-    const currencyClasses = bem('list', 'currency');
-    const socialTitleClasses = bem('title', 'social', 'hidden--mobile');
 
     return (
-      <div { ...classes } { ...props } >
+      <div { ...bem(null, null, className) } { ...props } >
         <NewsletterSubscribe locale="en" />
-        <div { ...navClasses }>
-          <Accordion { ...myAccountClasses } >
-            <Accordion.Title { ...titleClasses }>
+        <h2 className="sr-only">Additional navigation</h2>
+        <Accordion { ...bem('navigation') }>
+          <div  { ...bem('list', 'myaccount', 'hidden--desktop') }>
+            <Accordion.Header { ...titleClasses }>
               { name ? name :'my account' }
-            </Accordion.Title>
-            <Accordion.Content { ...bem('content', 'myaccount') }>
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content', 'slim') }>
               <MyAccount loggedIn={loggedIn} />
-            </Accordion.Content>
-          </Accordion>
-          <Accordion { ...bem('list', 'shopping') } >
-            <Accordion.Title { ...titleClasses }>
+            </Accordion.Panel>
+          </div>
+          <div { ...bem('list', 'shopping') } >
+            <Accordion.Header { ...titleClasses }>
               shopping with us
-            </Accordion.Title>
-            <Accordion.Content { ...bem('content', 'slim') }>
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content', 'slim', 'visible--desktop') }>
               <LinksList links={linksObject.shopping} { ...bem('links') } />
-            </Accordion.Content>
-          </Accordion>
-          <Accordion { ...bem('list', 'selling') } >
-            <Accordion.Title { ...titleClasses }>
+            </Accordion.Panel>
+          </div>
+          <div { ...bem('list', 'selling') } >
+            <Accordion.Header { ...titleClasses }>
               selling with us
-            </Accordion.Title>
-            <Accordion.Content { ...bem('content', 'slim') }>
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content', 'slim', 'visible--desktop') }>
               <LinksList links={linksObject.selling} { ...bem('links') } />
-            </Accordion.Content>
-          </Accordion>
-          <Accordion { ...bem('list', 'about-us') } >
-            <Accordion.Title { ...titleClasses }>
+            </Accordion.Panel>
+          </div>
+          <div { ...bem('list', 'about-us') } >
+            <Accordion.Header { ...bem('title') }>
               about us
-            </Accordion.Title>
-            <Accordion.Content { ...bem('content', 'slim') }>
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content', 'slim', 'visible--desktop') }>
               <LinksList links={linksObject.about} { ...bem('links') } />
               { (sponsoredProductFeature)
                 ? <LinksList links={ linksObject.sponsored } { ...bem('links') } />
                 : null
               }
-            </Accordion.Content>
-          </Accordion>
-          <Accordion { ...currencyClasses } >
-            <Accordion.Title { ...titleClasses }>
-              region
-            </Accordion.Title>
-            <Accordion.Content { ...bem('content') }>
-              <CountryAndCurrency country={country} currency={currency}/>
-            </Accordion.Content>
-          </Accordion>
-          <div id="connect" { ...bem('list', 'social') }>
-            <h2 { ...socialTitleClasses }>keep in touch</h2>
-            <LinksList links={ linksObject.social } linkClass="social-link" { ...bem('social-links') } />
+            </Accordion.Panel>
           </div>
-        </div>
+          <div { ...bem('list', 'currency') } >
+            <Accordion.Header { ...bem('title') }>
+              region
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content') }>
+              <CountryAndCurrency country={country} currency={currency}/>
+            </Accordion.Panel>
+          </div>
+          <div { ...bem('list', 'social') }>
+            <Accordion.Header { ...bem('title', 'social', 'hidden--mobile') }>
+              keep in touch
+            </Accordion.Header>
+            <Accordion.Panel { ...bem('content', null, 'visible--desktop') }>
+              <LinksList links={ linksObject.social } linkClass="social-link" { ...bem('social-links') } />
+            </Accordion.Panel>
+          </div>
+        </Accordion>
       </div>
     );
   }
 }
-
-Footer.childContextTypes = {
-  csrf: React.PropTypes.string
-};
