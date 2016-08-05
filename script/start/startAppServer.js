@@ -1,8 +1,6 @@
-const getAppConfig = require('../../app/lib/getAppConfig')();
-const bootstrapApp = require('../../index');
-
 module.exports = function startAppServer() {
-  const config = getAppConfig();
+  const bootstrapApp = require('../../index');
+  const config = require('../../app/lib/getAppConfig')()();
 
   if (config.newRelicEnabled) {
     require('newrelic');

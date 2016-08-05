@@ -4,6 +4,9 @@ const breadboard = require('breadboard');
 breadboard({
   containerRoot: 'app',
   blacklist: ['newrelic'],
+  substitutes: {
+    'package.json': require('../package.json')
+  },
   entry: ({
     '/lib/bundler/index': bundle,
     '/lib/getComponentNames': getComponentNames

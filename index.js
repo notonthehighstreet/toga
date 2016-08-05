@@ -5,7 +5,10 @@ module.exports = function bootstrap(initialState) {
     entry: '/index',
     containerRoot: 'app',
     initialState: initialState,
-    blacklist: ['newrelic']
+    blacklist: ['newrelic'],
+    substitutes: {
+      'package.json': require('./package.json')
+    }
   };
 
   return breadboard(breadboardOptions);

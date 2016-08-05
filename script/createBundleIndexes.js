@@ -46,7 +46,10 @@ const createBundleIndexes = (deps) => {
 const breadboardOptions = {
   entry: createBundleIndexes,
   containerRoot: 'app',
-  blacklist: ['newrelic']
+  blacklist: ['newrelic'],
+  substitutes: {
+    'package.json': require('../package.json')
+  }
 };
 
 breadboard(breadboardOptions)

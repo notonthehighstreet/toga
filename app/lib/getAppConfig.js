@@ -1,10 +1,11 @@
-let finalConfig;
+let cachedConfig;
 
 module.exports = (deps = {
   yargs: require('yargs'),
   path: require('path'),
   semver: require('semver'),
-  'deep-assign': require('deep-assign')
+  'deep-assign': require('deep-assign'),
+  'package.json': require('../../package.json')
 }) => {
   return () => {
     const {
@@ -12,30 +13,30 @@ module.exports = (deps = {
       path: {join: pathJoin},
       'deep-assign': deepAssign,
       semver,
-      '/logger': getLogger
+      '/logger': getLogger,
+      'package.json': {version: packageVersion, name: appName}
     } = deps;
 
-    const loadConfig = path => require(pathJoin(process.cwd(), path));
-    const mergeConfig = (config, path) => deepAssign(config, loadConfig(path));
-    const readApplicationMeta = () => require('../../package.json');
-    const mergeAppMeta = (config, meta) => deepAssign({}, config, meta);
-    const toArray = value => Array.isArray(value) ? value : [value];
-
-    if (!finalConfig) {
-      const configFilePaths = toArray(argv.config);
-      const config = configFilePaths.reduce(mergeConfig, {});
-      const {
-        name: appName,
-        version: packageVersion
-      } = readApplicationMeta();
-      const apiVersion = semver.major(packageVersion);
-
-      finalConfig = Object.freeze(mergeAppMeta(config, {appName, apiVersion}));
-      if (getLogger) {
-        getLogger().info('Config read', configFilePaths, finalConfig);
-      }
+    if (cachedConfig) {
+      return cachedConfig;
     }
 
-    return finalConfig;
+    const apiVersion = semver.major(packageVersion);
+    const metaDataConfig = {apiVersion: apiVersion, appName};
+
+    const toArray = value => Array.isArray(value) ? value : [value];
+    const configFilePaths = toArray(argv.config);
+
+    const loadConfig = path => require(pathJoin(process.cwd(), path));
+    const deepClone = obj => JSON.parse(JSON.stringify(obj));
+    const configFiles = configFilePaths.map(loadConfig).map(deepClone);
+
+    cachedConfig = deepAssign({}, metaDataConfig, ...configFiles);
+
+    if (getLogger) {
+      getLogger().info('Config read', configFilePaths, cachedConfig);
+    }
+
+    return cachedConfig;
   };
 };

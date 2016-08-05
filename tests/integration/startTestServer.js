@@ -9,10 +9,10 @@ const redisClientConfig = {
 };
 let server;
 
-const getAppConfig = require('../../app/lib/getAppConfig')();
-const redisConfig = getAppConfig().redis;
-
 module.exports = function startApp(options) {
+  const getAppConfig = require('../../app/lib/getAppConfig')();
+  const redisConfig = getAppConfig().redis;
+
   return new Promise((resolve, reject) => {
     if (!server) {
       const client = Redis(redisConfig.port, redisConfig.host, redisClientConfig);
@@ -35,6 +35,9 @@ module.exports = function startApp(options) {
           options.initialState = options.initialState || {
             port: 4982,
             host: 'localhost'
+          };
+          options.substitutes = {
+            'package.json': require('../../package.json')
           };
 
           server = breadboard(options);

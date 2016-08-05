@@ -1,13 +1,7 @@
-const config = require('../../app/lib/getAppConfig')({
-  yargs: require('yargs'),
-  path: require('path'),
-  semver: require('semver'),
-  '/config/application.json': require('../../app/config/application.json'),
-  '/config/devOverrides.json': require('../../app/config/devOverrides.json')
-})();
-const browserSync = require('browser-sync');
-
 module.exports = function createDevSyncServer() {
+  const config = require('../../app/lib/getAppConfig')()();
+  const browserSync = require('browser-sync');
+
   const server = browserSync.create();
 
   server.watch('./components/**/*.scss').on('change', server.reload);
