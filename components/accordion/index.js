@@ -16,7 +16,7 @@ function passPropsToComponent(child, matchers) {
       : prev;
   }, child);
 
-  if (match === child) {
+  if (match === child && child.props) {
     const grandchildMatch = child.props.children
       && [].concat(child.props.children).map((grandchild) => passPropsToComponent(grandchild, matchers));
     match = React.cloneElement(child, child.props, grandchildMatch);
@@ -33,7 +33,7 @@ const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
     id: `accordion-tab-${accordionTabCount}`,
     ...classes, ...props
   };
-  return React.createElement(tag, headerProps, link);
+  return !!children ? React.createElement(tag, headerProps, link) : null;
 };
 
 const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
@@ -43,7 +43,7 @@ const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
     'aria-hidden' : !expanded,
     ...classes, ...props
   };
-  return React.createElement(tag, panelProps, children);
+  return !!children ? React.createElement(tag, panelProps, children) : null;
 };
 
 class Accordion extends React.Component {
@@ -70,7 +70,7 @@ class Accordion extends React.Component {
       && [].concat(children).map((child, i) => {
       const expanded = expandedItems === i;
       const id = `accordion-${i}`;
-      const headerProps = { expanded, id: id, onClick: () => this.togglePanel(i) };
+      const headerProps = { expanded, id, onClick: () => this.togglePanel(i) };
       const panelProps = { expanded, 'aria-labelledby': id };
 
       return passPropsToComponent(child, [

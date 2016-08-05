@@ -1,6 +1,6 @@
 import React from 'react';
-import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import {expect} from 'chai';
+import {shallow, mount} from 'enzyme';
 import chanceMoudle from 'chance';
 const chance = chanceMoudle();
 
@@ -10,23 +10,41 @@ import Accordion from '../';
 
 describe('Accordion', () => {
 
-  context('without a proper structure and content', () => {
-    it('wont render children', () => {
+  context('without content', () => {
+    it('will render children', () => {
       const child = <div className="exampleChild"></div>;
-      const component = shallow(<Accordion></Accordion>);
-      expect(component.find(child).length).to.eq(0);
+      const component = shallow(<Accordion>{child}</Accordion>);
+      expect(component.find('.exampleChild').length).to.eq(1);
     });
 
-    it('wont render accordion.title without a title', () => {
-      const component = shallow(<Accordion><Accordion.Header></Accordion.Header></Accordion>);
-      expect(component.find(Accordion.Header).length).to.eq(0);
+    it('wont render accordion.Header without a title', () => {
+      const component = mount(<Accordion><Accordion.Header></Accordion.Header></Accordion>);
+      expect(component.find('.toga-accordion__header').length).to.eq(0);
     });
 
-    it('wont render accordion.content without content', () => {
-      const component = shallow(<Accordion><Accordion.Panel></Accordion.Panel></Accordion>);
-      expect(component.find(Accordion.Panel).length).to.eq(0);
+    it('wont render accordion.Panel without content', () => {
+      const component = mount(<Accordion><Accordion.Panel></Accordion.Panel></Accordion>);
+
+      expect(component.find('.toga-accordion__panel').length).to.eq(0);
+    });
+  });
+
+  context('with content', () => {
+    it('will render children', () => {
+      const child = <div className="exampleChild">random child</div>;
+      const component = shallow(<Accordion>{child}</Accordion>);
+      expect(component.find('.exampleChild').length).to.eq(1);
     });
 
+    it('will render accordion.Header', () => {
+      const component = mount(<Accordion><Accordion.Header>Header</Accordion.Header></Accordion>);
+      expect(component.find('.toga-accordion__header').length).to.eq(1);
+    });
+
+    it('will render accordion.Panel', () => {
+      const component = mount(<Accordion><Accordion.Panel>Panel Body</Accordion.Panel></Accordion>);
+      expect(component.find('.toga-accordion__panel').length).to.eq(1);
+    });
   });
 
   context('with a proper structure and content', () => {
@@ -52,8 +70,8 @@ describe('Accordion', () => {
 
     it('opens when clicked', () => {
       component.find(Accordion.Header).simulate('click');
-      console.log(`component.find(Accordion.Panel).props()`, component.find(Accordion.Panel).props())
       expect(component.find(Accordion.Header).props().expanded).to.eq(true);
+      console.log(`component.find(Accordion.Panel).props()`, component.find(Accordion.Panel).props())
       expect(component.find(Accordion.Panel).props().expanded).to.eq(true);
     });
 
