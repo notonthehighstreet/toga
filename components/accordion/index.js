@@ -40,6 +40,28 @@ class Accordion extends React.Component {
     this.togglePanel = this.togglePanel.bind(this);
   }
 
+  formatAccordionChildren(children) {
+    if (!children) {
+      return null;
+    }
+
+    let count = 0;
+    return [].concat(children).map(child => {
+      if (child.type !== Accordion.Panel) {
+        count++;
+      }
+      const id = `accordion-${count}`;
+      const expanded = this.isExpanded(id);
+      const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
+      const panelProps = { expanded, 'aria-labelledby': id };
+
+      return passPropsToComponent(child, [
+          { Component: Header, props: headerProps },
+          { Component: Panel, props: panelProps }
+      ]);
+    });
+  }
+
   isExpanded(item) {
     return !!this.state.expandedItems[item];
   }
@@ -54,23 +76,7 @@ class Accordion extends React.Component {
     const { children, tag = 'div', className, ...props } = this.props;
     const classes = bem(null, null, className);
     const accordionProps = { role: 'tablist', ...classes, ...props };
-    let count = 0;
-    const accordionChildren = children
-      && [].concat(children).map((child) => {
-        if (child.type !== Accordion.Panel) {
-          count++;
-        }
-        const id = `accordion-${count}`;
-        const expanded = this.isExpanded(id);
-        const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
-        const panelProps = { expanded, 'aria-labelledby': id };
-
-        return passPropsToComponent(child, [
-          { Component: Header, props: headerProps },
-          { Component: Panel, props: panelProps }
-        ]);
-      });
-
+    const accordionChildren = this.formatAccordionChildren(children);
     return React.createElement(tag, accordionProps, accordionChildren);
   }
 }
