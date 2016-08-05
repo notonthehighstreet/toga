@@ -1,8 +1,12 @@
 import React, {PropTypes, Component} from 'react';
 import ToggleProductButton from './ToggleProductButton';
 import Price from './Price';
+import bemHelper from 'react-bem-helper';
+import '../styles/components/product.scss';
 
-class Product extends Component {
+const bem = bemHelper({ prefix: 'toga-', name: 'product-list-item' });
+
+class ProductListItem extends Component {
   render() {
     const {product, listId, actions, actions:{toggleProduct, gtm}} = this.props;
     const onRemoveButtonClick = () => {
@@ -24,37 +28,37 @@ class Product extends Component {
     };
 
     return (
-      <li className={`product ${product.removed?'removed':''}`}>
-        <div className="image-box box">
-          <a className="image-link content" href={product.url} onClick={onProductLinkClick}>
-            <img className="product-image" src={product.image} alt={product.title}/>
+      <li {...bem(null, {'removed': !!product.removed})}>
+        <div {...bem('image-box')}>
+          <a {...bem('image-link')} href={product.url} onClick={onProductLinkClick}>
+            <img {...bem('product-image')} src={product.image} alt={product.title}/>
           </a>
           <ToggleProductButton listId={listId}
                                productRemoved={product.removed}
                                productCode={product.code}
                                actions={actions}/>
         </div>
-        <a className="title-link" href={product.url} onClick={onProductLinkClick}>
+        <a {...bem('title-link')} href={product.url} onClick={onProductLinkClick}>
           {product.title}
         </a>
-        <div className="partner">
+        <div {...bem('partner-details')}>
           by
-          <a className="partner-link" href={product.partnerUrl}>
+          <a {...bem('partner-link')} href={product.partnerUrl}>
             {product.partnerName}
           </a>
         </div>
 
         <Price price={product.price}/>
 
-        <div className="actions">
-          <button className="remove-button" onClick={onRemoveButtonClick}>Remove</button>
+        <div {...bem('actions')}>
+          <button {...bem('remove-button')} onClick={onRemoveButtonClick}>Remove</button>
         </div>
       </li>
     );
   }
 }
 
-Product.propTypes = {
+ProductListItem.propTypes = {
   product: PropTypes.shape({
     code: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -69,4 +73,4 @@ Product.propTypes = {
   listId: PropTypes.string.isRequired
 };
 
-export default Product;
+export default ProductListItem;

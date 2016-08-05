@@ -1,4 +1,7 @@
 import React, {PropTypes, Component} from 'react';
+import bemHelper from 'react-bem-helper';
+
+const bem = bemHelper({ prefix: 'toga-', name: 'currency' });
 
 class Currency extends Component {
   static symbols = {
@@ -11,7 +14,7 @@ class Currency extends Component {
   render() {
     const symbol = Currency.symbols[this.props.code];
 
-    return <div className="currency">{symbol}</div>;
+    return <div {...bem()}>{symbol}</div>;
   }
 }
 

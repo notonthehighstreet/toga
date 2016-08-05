@@ -1,8 +1,8 @@
 import helper from 'tests/spec/helper';
 import React from 'react';
 import {shallow} from 'enzyme';
-import List from '../../components/List';
-import Product from '../../components/Product';
+import ProductList from '../../components/ProductList';
+import ProductListItem from '../../components/ProductListItem';
 import createFakeProduct from '../helpers/createFakeProduct';
 import createSanitisedProduct from '../helpers/createSanitisedProduct';
 
@@ -14,12 +14,12 @@ describe('Product list component', () => {
     const numberOfProducts = chance.integer({min: 2, max: 20});
     const someProducts = createProductList(numberOfProducts);
     const wrapper = shallow(
-      <List
+      <ProductList
         products={someProducts}
         listId={chance.word()}
         actions={{toggleProduct: () => {}}}/>
     );
 
-    expect(wrapper.find(Product).length).to.equal(numberOfProducts);
+    expect(wrapper.find(ProductListItem).length).to.equal(numberOfProducts);
   });
 });

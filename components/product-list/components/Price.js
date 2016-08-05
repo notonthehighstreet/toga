@@ -1,5 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import Currency from './Currency';
+import bemHelper from 'react-bem-helper';
+import '../styles/components/price.scss';
+
+const bem = bemHelper({ prefix: 'toga-', name: 'price' });
 
 class Price extends Component {
   static getWhole(value, decimalPlaces) {
@@ -24,11 +28,11 @@ class Price extends Component {
     const hasDecimals = amount % Math.pow(10, decimalPlaces) !== 0;
 
     return (
-      <div className="price">
+      <div {...bem()}>
         <Currency code={currency}/>
-        <div className="amount">{decimalisedAmount}</div>
+        <div {...bem('amount')}>{decimalisedAmount}</div>
         { hasDecimals &&
-        <div className="decimals">.{decimals}</div>
+        <div {...bem('decimals')}>.{decimals}</div>
         }
       </div>
     );

@@ -39,7 +39,7 @@ describe('Toggle product button component', () => {
       <ToggleProductButton listId={listId} productCode={productCode} productRemoved={false} actions={{}} />
     );
 
-    expect(wrapper.hasClass('active')).to.equal(true, 'expected the component to have \'active\' class');
+    expect(wrapper.hasClass('toga-toggle-product-button--active')).to.equal(true, 'expected the component to have \'active\' class');
   });
 
   it('renders inactive image when marked as removed', () => {
@@ -49,6 +49,6 @@ describe('Toggle product button component', () => {
       <ToggleProductButton listId={listId} productCode={productCode} productRemoved={true} actions={{}} />
     );
 
-    expect(wrapper.hasClass('inactive')).to.equal(true, 'expected the component to have \'inactive\' class');
+    expect(wrapper.hasClass('toga-toggle-product-button--inactive')).to.equal(true, 'expected the component to have \'inactive\' class');
   });
 });

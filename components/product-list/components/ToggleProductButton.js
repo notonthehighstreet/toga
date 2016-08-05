@@ -1,4 +1,8 @@
 import React, {PropTypes, Component} from 'react';
+import bemHelper from 'react-bem-helper';
+import '../styles/components/toggleProductButton.scss';
+
+const bem = bemHelper({prefix: 'toga-', name: 'toggle-product-button'});
 
 class ToggleProductButton extends Component {
   render() {
@@ -15,7 +19,7 @@ class ToggleProductButton extends Component {
       });
     };
 
-    return <div className={`toggle-product-button ${productRemoved?'inactive':'active'}`} onClick={onClick}></div>;
+    return <div {...bem(null, productRemoved ? 'inactive' : 'active')} onClick={onClick}></div>;
   }
 }
 

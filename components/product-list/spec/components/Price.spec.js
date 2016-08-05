@@ -11,9 +11,9 @@ describe('Price component', () => {
       <Price price={{currency: 'GBP', amount: 1699}}/>
     );
 
-    expect(wrapper.hasClass('price')).to.equal(true, 'incorrect class name');
-    expect(wrapper.find('.amount').text()).to.equal('16', 'incorrect amount');
-    expect(wrapper.find('.decimals').text()).to.equal('.99', 'incorrect decimals');
+    expect(wrapper.hasClass('toga-price')).to.equal(true, 'incorrect class name');
+    expect(wrapper.find('.toga-price__amount').text()).to.equal('16', 'incorrect amount');
+    expect(wrapper.find('.toga-price__decimals').text()).to.equal('.99', 'incorrect decimals');
   });
 
   it('renders whole values', () => {
@@ -21,9 +21,9 @@ describe('Price component', () => {
       <Price price={{currency: 'GBP', amount: 2000}}/>
     );
 
-    expect(wrapper.hasClass('price')).to.equal(true, 'incorrect class name');
-    expect(wrapper.find('.amount').text()).to.equal('20', 'incorrect amount');
-    expect(wrapper.find('.decimals').length).to.equal(0, 'incorrect decimals');
+    expect(wrapper.hasClass('toga-price')).to.equal(true, 'incorrect class name');
+    expect(wrapper.find('.toga-price__amount').text()).to.equal('20', 'incorrect amount');
+    expect(wrapper.find('.toga-price__decimals').length).to.equal(0, 'incorrect decimals');
   });
 
   it('renders empty component when no price', () => {

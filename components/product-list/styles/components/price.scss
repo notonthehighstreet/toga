@@ -1,26 +1,27 @@
-
-.price {
+.toga-price {
   font-family: "NOTHS Sans No2 SemiBold", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
   color: #555;
   vertical-align: top;
   margin: 5px 0;
+}
 
-  .currency, .amount, .decimals {
-    vertical-align: top;
-    display: inline-block;
-  }
+.toga-currency,
+.toga-price__amount,
+.toga-price__decimals {
+  vertical-align: top;
+  display: inline-block;
+}
 
-  .currency {
-    font-size: 14px;
-    line-height: 14px;
-    margin-right: 1px;
-  }
-  .amount {
-    font-size: 21px;
-    line-height: 21px;
-  }
-  .decimals {
-    font-size: 14px;
-    line-height: 14px;
-  }
+.toga-currency {
+  font-size: 14px;
+  line-height: 14px;
+  margin-right: 1px;
+}
+.toga-price__amount {
+  font-size: 21px;
+  line-height: 21px;
+}
+.toga-price__decimals {
+  font-size: 14px;
+  line-height: 14px;
 }

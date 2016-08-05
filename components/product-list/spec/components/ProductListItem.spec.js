@@ -1,7 +1,7 @@
 import helper from 'tests/spec/helper';
 import React from 'react';
 import {shallow} from 'enzyme';
-import Product from '../../components/Product';
+import Product from '../../components/ProductListItem';
 import createFakeProduct from '../helpers/createFakeProduct';
 import createSanitisedProduct from '../helpers/createSanitisedProduct';
 
@@ -20,7 +20,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}}} />
     );
 
-    expect(wrapper.hasClass('removed')).to.be.false;
+    expect(wrapper.hasClass('toga-product-list-item--removed')).to.be.false;
   });
 
   it('product should have \'removed\' class if it has been removed', () => {
@@ -34,7 +34,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}}} />
     );
 
-    expect(removedWrapper.hasClass('removed')).to.be.true;
+    expect(removedWrapper.hasClass('toga-product-list-item--removed')).to.be.true;
   });
 
   it('product image links to product page', () => {
@@ -46,7 +46,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}}} />
     );
 
-    expect(wrapper.find('.image-link').prop('href')).to.equal(product.url);
+    expect(wrapper.find('.toga-product-list-item__image-link').prop('href')).to.equal(product.url);
   });
 
   it('partner name links to partner page', () => {
@@ -58,7 +58,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}}} />
     );
 
-    expect(wrapper.find('.partner-link').prop('href')).to.equal(product.partnerUrl);
+    expect(wrapper.find('.toga-product-list-item__partner-link').prop('href')).to.equal(product.partnerUrl);
   });
 
   it('clicking the \'remove button\' toggles the product', () => {
@@ -72,7 +72,7 @@ describe('Product component', () => {
         actions={{toggleProduct: toggleProductSpy}} />
     );
 
-    wrapper.find('.remove-button').simulate('click');
+    wrapper.find('.toga-product-list-item__remove-button').simulate('click');
     expect(toggleProductSpy.withArgs(
       {
         listId,
@@ -96,7 +96,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}, gtm: gtmSpy}} />
     );
 
-    wrapper.find('.image-link').simulate('click');
+    wrapper.find('.toga-product-list-item__image-link').simulate('click');
     expect(gtmSpy.withArgs({
       event: 'productClick',
       productCode: product.code
@@ -113,7 +113,7 @@ describe('Product component', () => {
         actions={{toggleProduct: () => {}, gtm: gtmSpy}} />
     );
 
-    wrapper.find('.title-link').simulate('click');
+    wrapper.find('.toga-product-list-item__title-link').simulate('click');
     expect(gtmSpy.withArgs({
       event: 'productClick',
       productCode: product.code
