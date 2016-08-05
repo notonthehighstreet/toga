@@ -4,9 +4,9 @@ import BEMHelper from 'react-bem-helper';
 import Button from '../button';
 import './styles.scss';
 
-const bem = new BEMHelper({  prefix: 'n-', name: 'form' });
+const bem = new BEMHelper({prefix: 'n-', name: 'form'});
 
-export const Label = ({ className, children, ...props }) => {
+export const Label = ({className, children, ...props}) => {
   const labelClasses = bem('label', null, className);
   return (
     <label { ...labelClasses } { ...props }>
@@ -15,24 +15,25 @@ export const Label = ({ className, children, ...props }) => {
   );
 };
 
-export const Field = ({ className, options, type, size, ...props }) => {
+export const Field = ( { className, options, type, size, tref, ...props }) => {
   const fieldClass = 'field';
   const selectClasses = bem(fieldClass, 'select', className);
   const submitClasses = bem(fieldClass, 'submit', className);
-  const inputClasses = bem(fieldClass, ['input', size], className);
+  const inputClasses = bem(fieldClass, {'input': true, [size]: !!size}, className);
+  props.ref = tref;
 
-  switch  (type) {
+  switch (type) {
   case 'select':
     return (
-        <select  { ...selectClasses }  { ...props } >
-          { options.map((option, i) => (
-            <option value={ option.value || option } key={ i }>
-              { option.label || option }
-            </option>
-          ))
-          }
-        </select>
-      );
+          <select  { ...selectClasses } { ...props } >
+            { options.map((option, i) => (
+              <option value={ option.value || option } key={ i }>
+                { option.label || option }
+              </option>
+            ))
+            }
+          </select>
+        );
 
   case 'submit':
     return <Button type="submit" size={ size } { ...submitClasses } { ...props } />;
@@ -42,13 +43,20 @@ export const Field = ({ className, options, type, size, ...props }) => {
   }
 };
 
-export default function Row({ type, label, name, value, options, placeholder, className, size, inline, ...props }) {
-  const rowClasses = bem('row', { [size]: size, inline }, className);
+export default function Row({type, label, name, value, options, placeholder, className, size, inline, ...props}) {
+  const rowClasses = bem('row', {[size]: size, inline}, className);
   return (
     <div { ...rowClasses }>
-      <Label htmlFor={name} >{label}</Label>
-      <Field { ...{ options, type, size, name, placeholder, id: name, defaultValue: value, ...props }} />
+      <Label htmlFor={name}>{label}</Label>
+      <Field { ...{
+        options,
+        type,
+        size,
+        name,
+        placeholder,
+        id: name,
+        defaultValue: value, ...props
+      }} />
     </div>
   );
 }
-

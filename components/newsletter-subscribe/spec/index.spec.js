@@ -1,8 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 
 import Newsletter from '../index';
+import { Field } from '../../form';
 
 describe('Newsletter subscribe component', () => {
   it('should render', () => {
@@ -21,6 +22,17 @@ describe('Newsletter subscribe component', () => {
       const component = shallow(<Newsletter locale='NOPE'/>);
       const slogan = component.find('.toga-newsletter-subscribe__slogan');
       expect(slogan.text()).to.eq('UNIQUE_INSPIRING');
+    });
+
+    it('updates the class name on input change', () => {
+      const component = mount(<Newsletter locale='NOPE'/>);
+      const input = component.find(Field).first();
+      expect(typeof input.props().tref).to.eq('function');
+      expect(input).not.to.have.className('toga-newsletter-subscribe__input--has-text');
+
+      input.simulate('change', {target: {value: 'My new value'}});
+
+      expect(input).to.have.className('toga-newsletter-subscribe__input--has-text');
     });
   });
 });

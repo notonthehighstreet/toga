@@ -5,6 +5,7 @@ $image__top-margin: 16px;
 $slogan__line-height: 17px;
 $image__top-position: $slogan__line-height + $image__top-margin;
 $form__top-position: $form__top-margin + $image__top-margin;
+$form__padding--large: 16px;
 
 .toga-newsletter-subscribe {
   padding: 32px 20px;
@@ -27,6 +28,7 @@ $form__top-position: $form__top-margin + $image__top-margin;
 }
 
 .toga-newsletter-subscribe__form {
+  position: relative;
   display: flex;
 
   @include breakpoint(large) {
@@ -35,8 +37,29 @@ $form__top-position: $form__top-margin + $image__top-margin;
     width: 60.35%;
     margin: $form__top-position auto 32px;
     background-color: white;
-    padding: 16px;
+    padding: $form__padding--large;
   }
+}
+
+.toga-newsletter-subscribe__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 40px;
+  margin-left: 1em;
+  opacity: 0.7;
+  cursor: auto;
+  font-weight: normal;
+
+  @include breakpoint(large) {
+    padding: $form__padding--large;
+  }
+}
+
+.toga-newsletter-subscribe__input--has-text + .toga-newsletter-subscribe__label,
+.toga-newsletter-subscribe__input:focus + .toga-newsletter-subscribe__label {
+  opacity: 0;
+  z-index: -1;
 }
 
 .toga-newsletter-subscribe__input {
