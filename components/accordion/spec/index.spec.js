@@ -130,15 +130,15 @@ describe('Accordion', () => {
       expect(component.find(Accordion.Panel).last().props().expanded).to.eq(false);
     });
 
-    it('opens only one at a time', () => {
+    it('opens many at a time', () => {
       component.find(Accordion.Header).first().simulate('click');
       expect(component.find(Accordion.Header).first().props().expanded).to.eq(true);
       expect(component.find(Accordion.Panel).first().props().expanded).to.eq(true);
       expect(component.find(Accordion.Header).last().props().expanded).to.eq(false);
       expect(component.find(Accordion.Panel).last().props().expanded).to.eq(false);
       component.find(Accordion.Header).last().simulate('click');
-      expect(component.find(Accordion.Header).first().props().expanded).to.eq(false);
-      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(true);
       expect(component.find(Accordion.Header).last().props().expanded).to.eq(true);
       expect(component.find(Accordion.Panel).last().props().expanded).to.eq(true);
     });

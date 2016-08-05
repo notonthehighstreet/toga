@@ -1,5 +1,6 @@
 import React from 'react';
 import bemHelper from 'react-bem-helper';
+import deepAssign from 'deep-assign';
 
 import './styles.scss';
 
@@ -51,19 +52,23 @@ class Accordion extends React.Component {
   constructor() {
     super();
     this.state = {
-      expandedItems: false
+      expandedItems: {}
     };
     this.togglePanel = this.togglePanel.bind(this);
   }
 
+  isExpanded(item) {
+    return !!this.state.expandedItems[item];
+  }
+
   togglePanel(item) {
-    const selected =  this.state.expandedItems === item;
-    this.setState({ expandedItems: selected ? false : item });
+    const selected =  !!this.state.expandedItems[item];
+    const expandedItems = deepAssign({}, this.state.expandedItems, { [item]: !selected });
+    this.setState({ expandedItems: expandedItems });
   }
 
   render() {
     const { children, tag = 'div', className, ...props } = this.props;
-    const { expandedItems } = this.state;
     const classes = bem(null, null, className);
     const accordionProps = { role: 'tablist', ...classes, ...props };
     let count = 0;
@@ -73,7 +78,7 @@ class Accordion extends React.Component {
           count++;
         }
         const id = `accordion-${count}`;
-        const expanded = expandedItems === id;
+        const expanded = this.isExpanded(id);
         const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
         const panelProps = { expanded, 'aria-labelledby': id };
 
