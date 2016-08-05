@@ -9,6 +9,7 @@ const chance = chanceModule();
 import MyAccountContent from '../../my-account';
 import FooterLinks from '../../links-list';
 import linksObject from '../links';
+import CountryAndCurrency from '../CountryAndCurrency';
 
 const name = chance.word();
 
@@ -45,6 +46,23 @@ describe('footer component', () => {
       const component = shallow(<Footer loggedIn={true} />);
       const myAccountContent = component.find(MyAccountContent);
       expect(myAccountContent.props().loggedIn).to.be.true;
+    });
+  });
+
+  context('country and currency', () => {
+    const country = 'BB-8';
+    const currency = 'USD';
+
+    it('passes the country prop', () => {
+      const component = shallow(<Footer country={country} />);
+      const countryAndCurrency = component.find(CountryAndCurrency);
+      expect(countryAndCurrency.props().country).to.eq(country);
+    });
+
+    it('passes the currency prop', () => {
+      const component = shallow(<Footer currency={currency} />);
+      const countryAndCurrency = component.find(CountryAndCurrency);
+      expect(countryAndCurrency.props().currency).to.eq(currency);
     });
   });
 

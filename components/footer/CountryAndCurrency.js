@@ -1,263 +1,90 @@
 import React from 'react';
 
 import Button from '../button';
+import iso from './iso';
 
 import '../form/styles.scss';
+import countries from './countries.json';
 
-module.exports = () =>
-  <form acceptCharset="UTF-8" action="/geo" method="post" className="n-form toga-country-currency">
-    <div className="n-form__row toga-country-currency__country">
-      <label className="n-form__label">set my region to:</label>
-      <select className="n-form__field n-form__field--select">
-        <optgroup label="United Kingdom">
-          <option defaultValue="selected" value="GB-1">Mainland UK</option>
-          <option value="GB-2">Highlands &amp; Islands of Scotland</option>
-          <option value="GB-9">Northern Ireland</option>
-          <option value="GB-10">Other UK Islands</option>
-        </optgroup>
-        <optgroup label="Other countries">
-          <option value="AX-8">Åland Islands</option>
-          <option value="AL-5">Albania</option>
-          <option value="DZ-8">Algeria</option>
-          <option value="AS-8">American Samoa</option>
-          <option value="AD-5">Andorra</option>
-          <option value="AO-8">Angola</option>
-          <option value="AI-8">Anguilla</option>
-          <option value="AQ-8">Antarctica</option>
-          <option value="AG-8">Antigua and Barbuda</option>
-          <option value="AR-8">Argentina</option>
-          <option value="AM-5">Armenia</option>
-          <option value="AW-8">Aruba</option>
-          <option value="AU-7">Australia</option>
-          <option value="AT-5">Austria</option>
-          <option value="AZ-8">Azerbaijan</option>
-          <option value="BS-8">Bahamas</option>
-          <option value="BH-8">Bahrain</option>
-          <option value="BD-8">Bangladesh</option>
-          <option value="BB-8">Barbados</option>
-          <option value="BY-5">Belarus</option>
-          <option value="BE-4">Belgium</option>
-          <option value="BZ-8">Belize</option>
-          <option value="BJ-8">Benin</option>
-          <option value="BM-8">Bermuda</option>
-          <option value="BT-8">Bhutan</option>
-          <option value="BO-8">Bolivia, Plurinational State of</option>
-          <option value="BQ-8">Bonaire, Sint Eustatius and Saba</option>
-          <option value="BA-5">Bosnia and Herzegovina</option>
-          <option value="BW-8">Botswana</option>
-          <option value="BV-8">Bouvet Island</option>
-          <option value="BR-8">Brazil</option>
-          <option value="IO-8">British Indian Ocean Territory</option>
-          <option value="BN-7">Brunei Darussalam</option>
-          <option value="BG-5">Bulgaria</option>
-          <option value="BF-8">Burkina Faso</option>
-          <option value="BI-8">Burundi</option>
-          <option value="KH-8">Cambodia</option>
-          <option value="CM-8">Cameroon</option>
-          <option value="CA-6">Canada</option>
-          <option value="CV-8">Cape Verde</option>
-          <option value="KY-8">Cayman Islands</option>
-          <option value="TD-8">Chad</option>
-          <option value="CL-8">Chile</option>
-          <option value="CN-7">China</option>
-          <option value="CX-8">Christmas Island</option>
-          <option value="CC-8">Cocos (Keeling) Islands</option>
-          <option value="CO-8">Colombia</option>
-          <option value="KM-8">Comoros</option>
-          <option value="CG-8">Congo</option>
-          <option value="CK-8">Cook Islands</option>
-          <option value="CR-8">Costa Rica</option>
-          <option value="HR-5">Croatia</option>
-          <option value="CW-8">Curaçao</option>
-          <option value="CY-5">Cyprus</option>
-          <option value="CZ-5">Czech Republic</option>
-          <option value="DK-4">Denmark</option>
-          <option value="DJ-8">Djibouti</option>
-          <option value="DM-8">Dominica</option>
-          <option value="DO-8">Dominican Republic</option>
-          <option value="EC-8">Ecuador</option>
-          <option value="EG-8">Egypt</option>
-          <option value="SV-8">El Salvador</option>
-          <option value="GQ-8">Equatorial Guinea</option>
-          <option value="EE-5">Estonia</option>
-          <option value="ET-8">Ethiopia</option>
-          <option value="FK-8">Falkland Islands (Malvinas)</option>
-          <option value="FO-5">Faroe Islands</option>
-          <option value="FJ-8">Fiji</option>
-          <option value="FI-5">Finland</option>
-          <option value="FR-4">France</option>
-          <option value="GF-8">French Guiana</option>
-          <option value="PF-8">French Polynesia</option>
-          <option value="TF-8">French Southern Territories</option>
-          <option value="GA-8">Gabon</option>
-          <option value="GM-8">Gambia</option>
-          <option value="GE-5">Georgia</option>
-          <option value="DE-4">Germany</option>
-          <option value="GH-8">Ghana</option>
-          <option value="GI-5">Gibraltar</option>
-          <option value="GR-4">Greece</option>
-          <option value="GL-5">Greenland</option>
-          <option value="GD-8">Grenada</option>
-          <option value="GP-8">Guadeloupe</option>
-          <option value="GU-8">Guam</option>
-          <option value="GT-8">Guatemala</option>
-          <option value="GG-10">Guernsey</option>
-          <option value="GW-8">Guinea-Bissau</option>
-          <option value="GY-8">Guyana</option>
-          <option value="HT-8">Haiti</option>
-          <option value="HM-8">Heard Island and McDonald Islands</option>
-          <option value="VA-5">Holy See (Vatican City State)</option>
-          <option value="HN-8">Honduras</option>
-          <option value="HK-7">Hong Kong</option>
-          <option value="HU-5">Hungary</option>
-          <option value="IS-5">Iceland</option>
-          <option value="IN-8">India</option>
-          <option value="ID-7">Indonesia</option>
-          <option value="IE-4">Ireland</option>
-          <option value="IM-10">Isle of Man</option>
-          <option value="IL-8">Israel</option>
-          <option value="IT-4">Italy</option>
-          <option value="JM-8">Jamaica</option>
-          <option value="JP-7">Japan</option>
-          <option value="JE-10">Jersey</option>
-          <option value="JO-8">Jordan</option>
-          <option value="KZ-8">Kazakhstan</option>
-          <option value="KE-8">Kenya</option>
-          <option value="KI-8">Kiribati</option>
-          <option value="KR-7">Korea, Republic of</option>
-          <option value="KW-8">Kuwait</option>
-          <option value="KG-8">Kyrgyzstan</option>
-          <option value="LA-7">Lao People's Democratic Republic</option>
-          <option value="LV-5">Latvia</option>
-          <option value="LS-8">Lesotho</option>
-          <option value="LI-5">Liechtenstein</option>
-          <option value="LT-5">Lithuania</option>
-          <option value="LU-4">Luxembourg</option>
-          <option value="MO-7">Macao</option>
-          <option value="MK-5">Macedonia, Republic of</option>
-          <option value="MG-8">Madagascar</option>
-          <option value="MW-8">Malawi</option>
-          <option value="MY-7">Malaysia</option>
-          <option value="MV-8">Maldives</option>
-          <option value="ML-8">Mali</option>
-          <option value="MT-5">Malta</option>
-          <option value="MH-8">Marshall Islands</option>
-          <option value="MQ-8">Martinique</option>
-          <option value="MR-8">Mauritania</option>
-          <option value="MU-8">Mauritius</option>
-          <option value="YT-8">Mayotte</option>
-          <option value="MX-8">Mexico</option>
-          <option value="FM-8">Micronesia, Federated States of</option>
-          <option value="MD-5">Moldova, Republic of</option>
-          <option value="MC-4">Monaco</option>
-          <option value="MN-8">Mongolia</option>
-          <option value="ME-5">Montenegro</option>
-          <option value="MS-8">Montserrat</option>
-          <option value="MA-8">Morocco</option>
-          <option value="MZ-8">Mozambique</option>
-          <option value="NA-8">Namibia</option>
-          <option value="NR-8">Nauru</option>
-          <option value="NP-8">Nepal</option>
-          <option value="NL-4">Netherlands</option>
-          <option value="AN-8">Netherlands Antilles</option>
-          <option value="NC-8">New Caledonia</option>
-          <option value="NZ-7">New Zealand</option>
-          <option value="NI-8">Nicaragua</option>
-          <option value="NE-8">Niger</option>
-          <option value="NG-8">Nigeria</option>
-          <option value="NU-8">Niue</option>
-          <option value="NF-8">Norfolk Island</option>
-          <option value="MP-8">Northern Mariana Islands</option>
-          <option value="NO-5">Norway</option>
-          <option value="OM-8">Oman</option>
-          <option value="PK-8">Pakistan</option>
-          <option value="PW-8">Palau</option>
-          <option value="PS-8">Palestine, State of</option>
-          <option value="PA-8">Panama</option>
-          <option value="PG-8">Papua New Guinea</option>
-          <option value="PY-8">Paraguay</option>
-          <option value="PE-8">Peru</option>
-          <option value="PH-7">Philippines</option>
-          <option value="PN-8">Pitcairn</option>
-          <option value="PL-5">Poland</option>
-          <option value="PT-4">Portugal</option>
-          <option value="PR-8">Puerto Rico</option>
-          <option value="QA-8">Qatar</option>
-          <option value="RE-8">Réunion</option>
-          <option value="RO-5">Romania</option>
-          <option value="RU-5">Russian Federation</option>
-          <option value="RW-8">Rwanda</option>
-          <option value="BL-8">Saint Barthélemy</option>
-          <option value="SH-8">Saint Helena, Ascension and Tristan da Cunha</option>
-          <option value="KN-8">Saint Kitts and Nevis</option>
-          <option value="LC-8">Saint Lucia</option>
-          <option value="MF-8">Saint Martin (French part)</option>
-          <option value="PM-8">Saint Pierre and Miquelon</option>
-          <option value="VC-8">Saint Vincent and the Grenadines</option>
-          <option value="WS-8">Samoa</option>
-          <option value="SM-5">San Marino</option>
-          <option value="ST-8">Sao Tome and Principe</option>
-          <option value="SA-8">Saudi Arabia</option>
-          <option value="SN-8">Senegal</option>
-          <option value="RS-5">Serbia</option>
-          <option value="SC-8">Seychelles</option>
-          <option value="SL-8">Sierra Leone</option>
-          <option value="SG-7">Singapore</option>
-          <option value="SX-8">Sint Maarten (Dutch part)</option>
-          <option value="SK-5">Slovakia</option>
-          <option value="SI-5">Slovenia</option>
-          <option value="SB-8">Solomon Islands</option>
-          <option value="ZA-8">South Africa</option>
-          <option value="GS-8">South Georgia and the South Sandwich Islands</option>
-          <option value="ES-4">Spain</option>
-          <option value="LK-8">Sri Lanka</option>
-          <option value="SR-8">Suriname</option>
-          <option value="SJ-8">Svalbard and Jan Mayen</option>
-          <option value="SZ-8">Swaziland</option>
-          <option value="SE-5">Sweden</option>
-          <option value="CH-5">Switzerland</option>
-          <option value="TW-7">Taiwan</option>
-          <option value="TJ-8">Tajikistan</option>
-          <option value="TZ-8">Tanzania, United Republic of</option>
-          <option value="TH-7">Thailand</option>
-          <option value="TL-8">Timor-Leste</option>
-          <option value="TG-8">Togo</option>
-          <option value="TK-8">Tokelau</option>
-          <option value="TO-8">Tonga</option>
-          <option value="TT-8">Trinidad and Tobago</option>
-          <option value="TN-8">Tunisia</option>
-          <option value="TR-5">Turkey</option>
-          <option value="TM-8">Turkmenistan</option>
-          <option value="TC-8">Turks and Caicos Islands</option>
-          <option value="TV-8">Tuvalu</option>
-          <option value="UG-8">Uganda</option>
-          <option value="UA-5">Ukraine</option>
-          <option value="AE-8">United Arab Emirates</option>
-          <option defaultValue="selected" value="GB-1">United Kingdom</option>
-          <option value="US-6">United States</option>
-          <option value="UM-6">United States Minor Outlying Islands</option>
-          <option value="UY-8">Uruguay</option>
-          <option value="UZ-8">Uzbekistan</option>
-          <option value="VU-8">Vanuatu</option>
-          <option value="VN-7">Viet Nam</option>
-          <option value="VG-8">Virgin Islands, British</option>
-          <option value="VI-8">Virgin Islands, U.S.</option>
-          <option value="WF-8">Wallis and Futuna</option>
-          <option value="EH-8">Western Sahara</option>
-          <option value="ZM-8">Zambia</option>
-        </optgroup>
-        </select>
-    </div>
-    <div className="n-form__row toga-country-currency__currency">
-      <label className="n-form__label">set my currency to:</label>
+const CountryOption = ({code, name}) => <option value={code}>{name}</option>;
 
-      <select className="n-form__field n-form__field--select" name="currency">
-        <option defaultValue="selected" value="GBP">£ GBP</option>
-        <option value="AUD">$ AUD</option>
-        <option value="EUR">€ EUR</option>
-        <option value="USD">$ USD</option>
-      </select>
+class CountryAndCurrency extends React.Component {
+  constructor(props) {
+    super(props);
+    const { country, currency } = props;
+    this.state = {
+      country: country,
+      currency: currency
+    };
 
-    </div>
-    <Button size="medium" fullWidth type="submit">update</Button>
-  </form>;
+    this.onCountryChanged = this.onCountryChanged.bind(this);
+    this.onCurrencyChanged = this.onCurrencyChanged.bind(this);
+    this.onSubmitted = this.onSubmitted.bind(this);
+  }
+
+  onCountryChanged(event) {
+    this.setState({country: event.target.value});
+  }
+
+  onCurrencyChanged(event) {
+    this.setState({currency: event.target.value});
+  }
+
+  onSubmitted(event) {
+    event.preventDefault();
+
+    iso.fetch(`https://${window.location.host}/geo`, {
+      method: 'POST',
+      body: this.buildRequestBody()
+    })
+    .then(function() {
+      location.reload();
+    })
+    .catch(()=> {
+      location.reload();
+    });
+  }
+
+  buildRequestBody() {
+    return {
+      utf8: true,
+      authenticity_token: this.context.csrf, // eslint-disable-line
+      extended_country_code: this.state.country, // eslint-disable-line
+      currency: this.state.currency
+    };
+  }
+
+  render() {
+    const ukCountryOptions = countries.uk.map((country, i) => <CountryOption key={i} {...country} /> );
+    const otherCountryOptions = countries.other.map((country, i) => <CountryOption key={i} {...country} /> );
+    return (
+      <div className="n-form toga-country-currency">
+        <div className="n-form__row toga-country-currency__country">
+          <label className="n-form__label">set my region to:</label>
+          <select defaultValue={this.state.country} onChange={this.onCountryChanged} className="n-form__field n-form__field--select" name="extended_country_code">
+            <optgroup label="United Kingdom">
+              {ukCountryOptions}
+            </optgroup>
+            <optgroup label="Other countries">
+              {otherCountryOptions}
+            </optgroup>
+          </select>
+        </div>
+        <div className="n-form__row toga-country-currency__currency">
+          <label className="n-form__label">set my currency to:</label>
+          <select defaultValue={this.state.currency} onChange={this.onCurrencyChanged} className="n-form__field n-form__field--select" name="currency">
+            <option value="GBP">£ GBP</option>
+            <option value="AUD">$ AUD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="USD">$ USD</option>
+          </select>
+        </div>
+        <Button onClick={this.onSubmitted} size="medium" fullWidth type="submit">update</Button>
+      </div>
+    );
+  }
+}
+
+export default CountryAndCurrency;
+
+CountryAndCurrency.contextTypes = {csrf: React.PropTypes.string};

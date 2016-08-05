@@ -18,17 +18,26 @@ module.exports = (deps) => {
 
     try {
       req.components = componentContext(req.query.components);
+
       req.componentContext = componentContext(req.query.context);
+
+    }
+    catch(error) {
+      return next(new BadRequestError('Context is not valid JSON'));
+
+    }
+
+    try{
       req.componentPath = buildPath(req.path);
 
       if (req.path.indexOf('components-vendor-bundle')>-1) {
         req.components = 'vendor';
       }
+    }
+    catch(e) {
+      return next(new BadRequestError('Path is not valid:', req.path));
+    }
 
-      next();
-    }
-    catch(error) {
-      next(new BadRequestError('Context is not valid JSON'));
-    }
+    next();
   };
 };

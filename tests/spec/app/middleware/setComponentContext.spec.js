@@ -24,11 +24,27 @@ describe('setComponentContext', () => {
       const fakeRequest = {
         query: {
           context: encodedContext
-        }
+        },
+        path: '/components-vendor-bundle.js'
       };
       it('returns a context created from the json', () => {
         subject(fakeRequest, fakeResponse, nextSpy);
         expect(fakeRequest.componentContext).to.deep.eq(context);
+        expect(nextSpy.args[0] instanceof BadRequestError).to.be.false;
+      });
+    });
+    describe('and the context contains a \'+\' character', () => {
+      const context = encodeURIComponent(JSON.stringify({'csrf': 'sGm23r+w4t4.[]]}'}));
+      const expectedContext = {'csrf': 'sGm23r+w4t4.[]]}'};
+      const fakeRequest = {
+        query: {
+          context: context
+        },
+        path: '/components-vendor-bundle.js'
+      };
+      it('should not convert it to a space character', () => {
+        subject(fakeRequest, fakeResponse, nextSpy);
+        expect(fakeRequest.componentContext).to.deep.eq(expectedContext);
         expect(nextSpy).to.have.been.calledOnce;
       });
     });
@@ -59,6 +75,19 @@ describe('setComponentContext', () => {
         expect(fakeRequest.componentContext).to.deep.eq(context);
         expect(fakeRequest.components).to.deep.eq('vendor');
         expect(nextSpy).to.have.been.calledOnce;
+      });
+    });
+    describe('and the path is not defined', () => {
+      const context = {'hello': 'world'};
+      const encodedContext = encodeURIComponent(JSON.stringify(context));
+      const fakeRequest = {
+        query: {
+          context: encodedContext
+        }
+      };
+      it('propgates the error', () => {
+        subject(fakeRequest, fakeResponse, nextSpy);
+        expect(nextSpy.args[0][0] instanceof BadRequestError).to.be.true;
       });
     });
   });

@@ -43,7 +43,7 @@ describe('setComponentPath', () => {
 
     it('does not set the componentPath', () => {
       subject(requestMock, responseMock, nextSpy);
-      expect(requestMock.componentPath).to.be.undefined;
+      expect(nextSpy.args[0][0] instanceof BadRequestError).to.be.true;
       expect(nextSpy).to.have.been.calledOnce;
     });
   });

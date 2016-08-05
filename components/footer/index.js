@@ -16,8 +16,12 @@ const navClasses = bem('navigation');
 const titleClasses = bem('title');
 
 export default class Footer extends React.Component {
+  getChildContext() {
+    return { csrf: this.props.csrf };
+  }
+
   render() {
-    const { loggedIn, name, sponsoredProductFeature, className, ...props } = this.props;
+    const { loggedIn, name, sponsoredProductFeature, country, currency, className, ...props } = this.props;
     const classes = bem(null, null, className);
     const myAccountClasses = bem('list', 'myaccount', 'hidden--desktop');
     const currencyClasses = bem('list', 'currency');
@@ -68,7 +72,7 @@ export default class Footer extends React.Component {
               region
             </Accordion.Title>
             <Accordion.Content { ...bem('content') }>
-              <CountryAndCurrency />
+              <CountryAndCurrency country={country} currency={currency}/>
             </Accordion.Content>
           </Accordion>
           <div id="connect" { ...bem('list', 'social') }>
@@ -80,3 +84,7 @@ export default class Footer extends React.Component {
     );
   }
 }
+
+Footer.childContextTypes = {
+  csrf: React.PropTypes.string
+};

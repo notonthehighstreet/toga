@@ -1,7 +1,9 @@
 const jsdom = require('jsdom');
 
 // setup the simplest document possible
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+const doc = jsdom.jsdom('<!doctype html><html><body></body></html>', {
+  url: 'https://noths.com/toga'
+});
 
 // get the window object out of the document
 const win = doc.defaultView;
