@@ -33,7 +33,7 @@ const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
     id: `accordion-tab-${accordionTabCount}`,
     ...classes, ...props
   };
-  return !!children ? React.createElement(tag, headerProps, link) : null;
+  return children ? React.createElement(tag, headerProps, link) : null;
 };
 
 const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
@@ -43,7 +43,7 @@ const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
     'aria-hidden' : !expanded,
     ...classes, ...props
   };
-  return !!children ? React.createElement(tag, panelProps, children) : null;
+  return children ? React.createElement(tag, panelProps, children) : null;
 };
 
 class Accordion extends React.Component {
@@ -66,18 +66,22 @@ class Accordion extends React.Component {
     const { expandedItems } = this.state;
     const classes = bem(null, null, className);
     const accordionProps = { role: 'tablist', ...classes, ...props };
+    let count = 0;
     const accordionChildren = children
-      && [].concat(children).map((child, i) => {
-      const expanded = expandedItems === i;
-      const id = `accordion-${i}`;
-      const headerProps = { expanded, id, onClick: () => this.togglePanel(i) };
-      const panelProps = { expanded, 'aria-labelledby': id };
+      && [].concat(children).map((child) => {
+        if (child.type !== Accordion.Panel) {
+          count++;
+        }
+        const id = `accordion-${count}`;
+        const expanded = expandedItems === id;
+        const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
+        const panelProps = { expanded, 'aria-labelledby': id };
 
-      return passPropsToComponent(child, [
-        { Component: Header, props: headerProps },
-        { Component: Panel, props: panelProps }
-      ]);
-    });
+        return passPropsToComponent(child, [
+          { Component: Header, props: headerProps },
+          { Component: Panel, props: panelProps }
+        ]);
+      });
 
     return React.createElement(tag, accordionProps, accordionChildren);
   }

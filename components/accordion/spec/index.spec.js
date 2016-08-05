@@ -47,7 +47,7 @@ describe('Accordion', () => {
     });
   });
 
-  context('with a proper structure and content', () => {
+  context('with a simple structure and content', () => {
 
     let component;
 
@@ -71,7 +71,6 @@ describe('Accordion', () => {
     it('opens when clicked', () => {
       component.find(Accordion.Header).simulate('click');
       expect(component.find(Accordion.Header).props().expanded).to.eq(true);
-      console.log(`component.find(Accordion.Panel).props()`, component.find(Accordion.Panel).props())
       expect(component.find(Accordion.Panel).props().expanded).to.eq(true);
     });
 
@@ -80,6 +79,68 @@ describe('Accordion', () => {
       component.find(Accordion.Header).simulate('click');
       expect(component.find(Accordion.Header).props().expanded).to.eq(false);
       expect(component.find(Accordion.Panel).props().expanded).to.eq(false);
+    });
+  });
+
+  context('with a more complex structure and content', () => {
+
+    let component;
+
+    beforeEach(() => {
+      component = shallow(<Accordion>
+        <div>
+          <Accordion.Header>{ title }</Accordion.Header>
+          <Accordion.Panel>{ content }</Accordion.Panel>
+        </div>
+        <div>
+          <Accordion.Header>{ title }</Accordion.Header>
+          <Accordion.Panel>{ content }</Accordion.Panel>
+        </div>
+        <div>
+          <Accordion.Header>{ title }</Accordion.Header>
+          <Accordion.Panel>{ content }</Accordion.Panel>
+        </div>
+      </Accordion>);
+    });
+
+    it('will render accordion title + content', () => {
+      expect(component.find(Accordion.Header).length).to.eq(3);
+      expect(component.find(Accordion.Panel).length).to.eq(3);
+    });
+
+    it('defaults to closed', () => {
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(false);
+    });
+
+    it('opens when clicked', () => {
+      component.find(Accordion.Header).first().simulate('click');
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Header).last().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).last().props().expanded).to.eq(false);
+    });
+
+    it('closes when open and clicked', () => {
+      component.find(Accordion.Header).first().simulate('click');
+      component.find(Accordion.Header).first().simulate('click');
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Header).last().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).last().props().expanded).to.eq(false);
+    });
+
+    it('opens only one at a time', () => {
+      component.find(Accordion.Header).first().simulate('click');
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Header).last().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).last().props().expanded).to.eq(false);
+      component.find(Accordion.Header).last().simulate('click');
+      expect(component.find(Accordion.Header).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Panel).first().props().expanded).to.eq(false);
+      expect(component.find(Accordion.Header).last().props().expanded).to.eq(true);
+      expect(component.find(Accordion.Panel).last().props().expanded).to.eq(true);
     });
   });
 
