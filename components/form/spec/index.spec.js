@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import Chance from 'chance';
+const chance = new Chance();
 import Row, { Field, Label } from '../';
 import button from '../../button';
 
@@ -14,6 +16,27 @@ describe('form component', () => {
       let input;
       renderedComponent = mount(<Field tref= { (node) => input = node }  />);
       expect(typeof input).to.equal('object');
+    });
+
+    it('builds children based on options', () => {
+      const option1 = chance.word();
+      const option2 = chance.word();
+      const options = [option1, option2];
+      renderedComponent = mount(<Field type="select" options={options}  />);
+      componentDOM = renderedComponent.find('option');
+      expect(componentDOM).to.have.length(2);
+      expect(componentDOM.first().props().value).to.eq(option1);
+      expect(componentDOM.first().props().children).to.eq(option1);
+      expect(componentDOM.last().props().value).to.eq(option2);
+      expect(componentDOM.last().props().children).to.eq(option2);
+    });
+
+    it('allows children to be passed', () => {
+      renderedComponent = mount(<Field type="select"><optgroup><option>{chance.word()}</option></optgroup></Field>);
+      const option = renderedComponent.find('option');
+      const optgroup = renderedComponent.find('optgroup');
+      expect(option).to.have.length(1);
+      expect(optgroup).to.have.length(1);
     });
 
   });

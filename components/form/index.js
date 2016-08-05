@@ -26,11 +26,13 @@ export const Field = ( { className, options, type, size, tref, ...props }) => {
   case 'select':
     return (
           <select  { ...selectClasses } { ...props } >
-            { options.map((option, i) => (
-              <option value={ option.value || option } key={ i }>
-                { option.label || option }
-              </option>
-            ))
+            { options
+                ? options.map((option, i) => (
+                  <option value={ option.value || option } key={ i }>
+                    { option.label || option }
+                  </option>
+                ))
+              : props.children
             }
           </select>
         );
