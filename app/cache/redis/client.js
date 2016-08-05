@@ -1,9 +1,9 @@
+let cachedClient;
 module.exports = (deps) => {
   const {
     ioredis: Redis,
     '/lib/getAppConfig': getAppConfig
     } = deps;
-  const redisConfig = getAppConfig().redis;
   const clientConfig = {
     // With ReadyCheck enabled, accessing Redis for the first time will not be
     // permitted until a ReadyCheck has been performed. This is only a concern
@@ -11,17 +11,24 @@ module.exports = (deps) => {
     enableReadyCheck: false,
     enableOfflineQueue: true
   };
-  const client = Redis(redisConfig, clientConfig);
 
-  client.on('error', (err) => {
-    const e = new Error('Connection to Redis failed');
+  return () => {
+    if (cachedClient) {
+      return cachedClient;
+    }
+    const redisConfig = getAppConfig().redis;
+    cachedClient = Redis(redisConfig, clientConfig);
 
-    e.originalError = err;
-    throw e;
-  });
-  client.on('close', () => {
-    throw new Error('Connection to Redis closed');
-  });
+    cachedClient.on('error', (err) => {
+      const e = new Error('Connection to Redis failed');
 
-  return client;
+      e.originalError = err;
+      throw e;
+    });
+    cachedClient.on('close', () => {
+      throw new Error('Connection to Redis closed');
+    });
+
+    return cachedClient;
+  };
 };
