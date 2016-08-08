@@ -1,17 +1,15 @@
 import React, { Children } from 'react';
-import uuid from 'node-uuid';
+
+const updateChildren = (component, matchFound, matchers) => {
+  const children = component.props && component.props.children;
+  return (!matchFound && children)
+    ? Children.map(children, (child) => passPropsToComponent(child, matchers) )
+    : children;
+};
 
 export default function passPropsToComponent(component, matchers) {
-  let props = component.props;
-  let children = component.props && component.props.children;
   const matchFound = matchers.find((matcher) => component.type === matcher.Component);
-
-  if (matchFound) {
-    props = matchFound.props;
-  }
-  else if (children) {
-    props = { ...props, key: uuid.v4() };
-    children = Children.map(children, (child) => passPropsToComponent(child, matchers) );
-  }
-  return React.cloneElement(component, props, children);
+  const newProps = matchFound ? matchFound.props : component.props;
+  const newChildren = updateChildren(component, matchFound, matchers);
+  return React.cloneElement(component, newProps, newChildren);
 }
