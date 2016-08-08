@@ -227,9 +227,9 @@
       "resolved": "https://registry.npmjs.org/autoprefixer/-/autoprefixer-6.4.0.tgz",
       "dependencies": {
         "postcss": {
-          "version": "5.1.1",
+          "version": "5.1.2",
           "from": "postcss@>=5.1.1 <6.0.0",
-          "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.1.1.tgz"
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.1.2.tgz"
         }
       }
     },
@@ -276,9 +276,9 @@
       "resolved": "https://registry.npmjs.org/babel-code-frame/-/babel-code-frame-6.11.0.tgz"
     },
     "babel-core": {
-      "version": "6.13.1",
+      "version": "6.13.2",
       "from": "babel-core@>=6.4.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.13.1.tgz",
+      "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.13.2.tgz",
       "dependencies": {
         "lodash": {
           "version": "4.14.1",
@@ -534,7 +534,7 @@
     },
     "babel-plugin-transform-object-assign": {
       "version": "6.8.0",
-      "from": "babel-plugin-transform-object-assign@latest",
+      "from": "babel-plugin-transform-object-assign@>=6.8.0 <7.0.0",
       "resolved": "https://registry.npmjs.org/babel-plugin-transform-object-assign/-/babel-plugin-transform-object-assign-6.8.0.tgz"
     },
     "babel-plugin-transform-object-rest-spread": {
@@ -563,9 +563,9 @@
       "resolved": "https://registry.npmjs.org/babel-polyfill/-/babel-polyfill-6.13.0.tgz"
     },
     "babel-preset-es2015": {
-      "version": "6.13.1",
+      "version": "6.13.2",
       "from": "babel-preset-es2015@>=6.3.13 <7.0.0",
-      "resolved": "https://registry.npmjs.org/babel-preset-es2015/-/babel-preset-es2015-6.13.1.tgz"
+      "resolved": "https://registry.npmjs.org/babel-preset-es2015/-/babel-preset-es2015-6.13.2.tgz"
     },
     "babel-register": {
       "version": "6.11.6",
@@ -840,9 +840,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000517",
+      "version": "1.0.30000519",
       "from": "caniuse-db@>=1.0.30000515 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000517.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000519.tgz"
     },
     "caseless": {
       "version": "0.11.0",
@@ -1060,9 +1060,9 @@
       }
     },
     "connect-history-api-fallback": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "from": "connect-history-api-fallback@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-1.2.0.tgz"
+      "resolved": "https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-1.3.0.tgz"
     },
     "console-browserify": {
       "version": "1.1.0",
@@ -1632,9 +1632,9 @@
       "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
     },
     "escodegen": {
-      "version": "1.8.0",
+      "version": "1.8.1",
       "from": "escodegen@>=1.6.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/escodegen/-/escodegen-1.8.0.tgz",
+      "resolved": "https://registry.npmjs.org/escodegen/-/escodegen-1.8.1.tgz",
       "dependencies": {
         "source-map": {
           "version": "0.2.0",
@@ -4203,7 +4203,7 @@
     },
     "node-uuid": {
       "version": "1.4.7",
-      "from": "node-uuid@>=1.4.7 <1.5.0",
+      "from": "node-uuid@>=1.4.7 <2.0.0",
       "resolved": "https://registry.npmjs.org/node-uuid/-/node-uuid-1.4.7.tgz"
     },
     "nopt": {
@@ -4617,9 +4617,9 @@
       "resolved": "https://registry.npmjs.org/postcss-loader/-/postcss-loader-0.9.1.tgz",
       "dependencies": {
         "postcss": {
-          "version": "5.1.1",
+          "version": "5.1.2",
           "from": "postcss@>=5.0.19 <6.0.0",
-          "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.1.1.tgz"
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.1.2.tgz"
         }
       }
     },
@@ -4738,9 +4738,9 @@
       "resolved": "https://registry.npmjs.org/postcss-reduce-transforms/-/postcss-reduce-transforms-1.0.3.tgz"
     },
     "postcss-selector-parser": {
-      "version": "2.1.1",
+      "version": "2.2.0",
       "from": "postcss-selector-parser@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-2.1.1.tgz"
+      "resolved": "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-2.2.0.tgz"
     },
     "postcss-svgo": {
       "version": "2.1.4",

@@ -14,7 +14,8 @@ const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
     role: 'tab',
     'aria-expanded': !!expanded,
     id: `accordion-tab-${accordionTabCount}`,
-    ...classes, ...props
+    ...classes,
+    ...props
   };
   return children ? React.createElement(tag, headerProps, link) : null;
 };
@@ -24,7 +25,8 @@ const Panel = ({ className, expanded, tag = 'div', children,  ...props }) => {
   const panelProps = {
     role: 'tabPanel',
     'aria-hidden' : !expanded,
-    ...classes, ...props
+    ...classes,
+    ...props
   };
   return children ? React.createElement(tag, panelProps, children) : null;
 };
@@ -45,20 +47,21 @@ class Accordion extends React.Component {
     }
 
     let count = 0;
-    return [].concat(children).map(child => {
-      if (child.type !== Accordion.Panel) {
-        count++;
-      }
-      const id = `accordion-${count}`;
-      const expanded = this.isExpanded(id);
-      const headerProps = { expanded, id, onClick: () => this.togglePanel(id) };
-      const panelProps = { expanded, 'aria-labelledby': id };
+    return [].concat(children)
+      .map(child => {
+        if (child.type !== Accordion.Panel) {
+          count++;
+        }
+        const id = `accordion-${count}`;
+        const expanded = this.isExpanded(id);
+        const headerProps = { expanded, id, key: `header-${id}`, onClick: () => this.togglePanel(id) };
+        const panelProps = { expanded,  key: `panel-${id}`, 'aria-labelledby': id };
 
-      return passPropsToComponent(child, [
-          { Component: Header, props: headerProps },
-          { Component: Panel, props: panelProps }
-      ]);
-    });
+        return passPropsToComponent(child, [
+            { Component: Header, props: headerProps },
+            { Component: Panel, props: panelProps }
+        ]);
+      });
   }
 
   isExpanded(item) {

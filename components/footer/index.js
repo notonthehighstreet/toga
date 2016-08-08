@@ -39,11 +39,11 @@ export default class Footer extends React.Component {
   }
 
   render() {
-    const { loggedIn, name, sponsoredProductFeature, country, currency, className, ...props } = this.props;
+    const { loggedIn, name, sponsoredProductFeature, country, currency, className, locale, ...props } = this.props;
 
     return (
       <div { ...bem(null, null, className) } { ...props } >
-        <NewsletterSubscribe locale="en" />
+        <NewsletterSubscribe locale={ locale } />
         <h2 className="sr-only">Additional navigation</h2>
         <Accordion { ...bem('navigation') }>
           <div  { ...bem('list', 'myaccount', 'hidden--desktop') }>

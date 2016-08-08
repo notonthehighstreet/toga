@@ -75,6 +75,7 @@
     "newrelic": "^1.25.4",
     "node-hook": "^0.4.0",
     "node-sass": "^3.4.2",
+    "node-uuid": "^1.4.7",
     "postcss": "5.0.16",
     "postcss-loader": "^0.9.1",
     "react": "^15.3.0",
