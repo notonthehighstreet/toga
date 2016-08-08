@@ -71,10 +71,6 @@ class CountryAndCurrency extends React.Component {
   render() {
     const ukCountryOptions = countries.uk.map((country, i) => <CountryOption key={i} {...country} /> );
     const otherCountryOptions = countries.other.map((country, i) => <CountryOption key={i} {...country} /> );
-    const currencyOptions = Object.keys(currencies).map(currency => ({
-      label: `${currencies[currency]} ${currency}`,
-      value: currency
-    }));
     return (
       <div className="toga-country-currency">
         <Row className="toga-country-currency__country" name="extended_country_code" label="set my region to:"
@@ -88,8 +84,10 @@ class CountryAndCurrency extends React.Component {
         </Row>
         <Row className="toga-country-currency__currency" name="currency" label="set my currency to:"
              type="select" defaultValue={this.state.currency} onChange={this.onCurrencyChanged}
-             options={currencyOptions}
         >
+          {currencyCodes.map((currency, i) =>
+            <option value={currency} key={`currency-${i}`}>{currencies[currency]} {currency}</option>
+          )}
         </Row>
         <Button onClick={this.onSubmitted} size="medium" fullWidth type="submit">update</Button>
       </div>

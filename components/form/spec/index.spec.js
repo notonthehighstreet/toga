@@ -18,19 +18,6 @@ describe('form component', () => {
       expect(typeof input).to.equal('object');
     });
 
-    it('builds children based on options', () => {
-      const option1 = chance.word();
-      const option2 = chance.word();
-      const options = [option1, option2];
-      renderedComponent = mount(<Field type="select" options={options}  />);
-      componentDOM = renderedComponent.find('option');
-      expect(componentDOM).to.have.length(2);
-      expect(componentDOM.first().props().value).to.eq(option1);
-      expect(componentDOM.first().props().children).to.eq(option1);
-      expect(componentDOM.last().props().value).to.eq(option2);
-      expect(componentDOM.last().props().children).to.eq(option2);
-    });
-
     it('allows children to be passed', () => {
       renderedComponent = mount(<Field type="select"><optgroup><option>{chance.word()}</option></optgroup></Field>);
       const option = renderedComponent.find('option');
@@ -68,37 +55,10 @@ describe('form component', () => {
     });
 
     it('has n class names', () => {
-      renderedComponent = mount(<Row type="select" options={[]} />);
+      renderedComponent = mount(<Row type="select" />);
       componentDOM = renderedComponent.find(Field);
       expect(componentDOM).to.have.className('n-form__field');
       expect(componentDOM).to.have.className('n-form__field--select');
-    });
-
-    it('displays the options with value and label', () => {
-      const option1 = 'blue';
-      const option2 = 'two';
-      renderedComponent = mount(<Row type="select" options={[
-        { value: option1, label:'option1' },
-        { value: option2, label:'option2' }
-      ]} name="for" />);
-      componentDOM = renderedComponent.find('option');
-      expect(componentDOM).to.have.length(2);
-      expect(componentDOM.first().props().value).to.eq(option1);
-      expect(componentDOM.first().props().children).to.eq('option1');
-      expect(componentDOM.last().props().value).to.eq(option2);
-      expect(componentDOM.last().props().children).to.eq('option2');
-    });
-
-    it('displays the options with value as the label when label is missing', () => {
-      const option1 = 'blue';
-      const option2 = 'two';
-      renderedComponent = mount(<Row type="select" options={[option1, option2]} name="for" />);
-      componentDOM = renderedComponent.find('option');
-      expect(componentDOM).to.have.length(2);
-      expect(componentDOM.first().props().value).to.eq(option1);
-      expect(componentDOM.first().props().children).to.eq(option1);
-      expect(componentDOM.last().props().value).to.eq(option2);
-      expect(componentDOM.last().props().children).to.eq(option2);
     });
   });
 

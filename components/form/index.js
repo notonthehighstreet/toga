@@ -15,7 +15,7 @@ export const Label = ({className, children, ...props}) => {
   );
 };
 
-export const Field = ( { className, options, type, size, tref, ...props }) => {
+export const Field = ( { className, type, size, tref, ...props }) => {
   const fieldClass = 'field';
   const selectClasses = bem(fieldClass, 'select', className);
   const submitClasses = bem(fieldClass, 'submit', className);
@@ -24,18 +24,7 @@ export const Field = ( { className, options, type, size, tref, ...props }) => {
 
   switch (type) {
   case 'select':
-    return (
-          <select  { ...selectClasses } { ...props } >
-            { options
-                ? options.map((option, i) => (
-                  <option value={ option.value || option } key={ i }>
-                    { option.label || option }
-                  </option>
-                ))
-              : props.children
-            }
-          </select>
-        );
+    return <select  { ...selectClasses } { ...props } />;
 
   case 'submit':
     return <Button type="submit" size={ size } { ...submitClasses } { ...props } />;
@@ -45,19 +34,19 @@ export const Field = ( { className, options, type, size, tref, ...props }) => {
   }
 };
 
-export default function Row({type, label, name, value, options, placeholder, className, size, inline, ...props}) {
+export default function Row({type, label, name, value, placeholder, className, size, inline, ...props}) {
   const rowClasses = bem('row', {[size]: size, inline}, className);
   return (
     <div { ...rowClasses }>
       <Label htmlFor={name}>{label}</Label>
       <Field { ...{
-        options,
         type,
         size,
         name,
         placeholder,
         id: name,
-        defaultValue: value, ...props
+        defaultValue: value,
+        ...props
       }} />
     </div>
   );
