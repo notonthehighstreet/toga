@@ -1,6 +1,5 @@
+let logger;
 module.exports = (deps) => {
-  let logger;
-
   return function getLogger() {
     const {
       '/lib/getAppConfig': getAppConfig,

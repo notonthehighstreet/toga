@@ -1,8 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/bundler/buildHash');
-
+let builder;
 const sandbox = sinon.sandbox.create();
 let subject;
 
@@ -12,6 +11,11 @@ hashfilesStub.sync = sandbox.stub();
 const randomComponentsPath = chance.word();
 const fakeHash = chance.word();
 
+function requireUncached(module) {
+  delete require.cache[require.resolve(module)];
+  return require(module);
+}
+
 const deps = {
   'hash-files': hashfilesStub
 };
@@ -19,6 +23,7 @@ describe('buildHash', () => {
 
   beforeEach(() => {
     sandbox.reset();
+    builder = requireUncached('../../../../../app/lib/bundler/buildHash');
   });
 
   it('generates a hash when no hash set', () => {
@@ -35,6 +40,8 @@ describe('buildHash', () => {
 
   it('does not call file hash when hash set', () => {
     subject = builder(deps);
+
+    hashfilesStub.sync.returns('Blah');
     subject(randomComponentsPath);
     subject(randomComponentsPath);
 
