@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import bemHelper from 'react-bem-helper';
 import passPropsToComponent from './passPropsToComponent';
 
@@ -47,21 +47,20 @@ class Accordion extends React.Component {
     }
 
     let count = 0;
-    return [].concat(children)
-      .map(child => {
-        if (child.type !== Accordion.Panel) {
-          count++;
-        }
-        const id = `accordion-${count}`;
-        const expanded = this.isExpanded(id);
-        const headerProps = { expanded, id, key: `header-${id}`, onClick: () => this.togglePanel(id) };
-        const panelProps = { expanded,  key: `panel-${id}`, 'aria-labelledby': id };
+    return Children.map(children, child => {
+      if (child.type !== Accordion.Panel) {
+        count++;
+      }
+      const id = `accordion-${count}`;
+      const expanded = this.isExpanded(id);
+      const headerProps = { expanded, id, key: `header-${id}`, onClick: () => this.togglePanel(id) };
+      const panelProps = { expanded,  key: `panel-${id}`, 'aria-labelledby': id };
 
-        return passPropsToComponent(child, [
-            { Component: Header, props: headerProps },
-            { Component: Panel, props: panelProps }
-        ]);
-      });
+      return passPropsToComponent(child, [
+          { Component: Header, props: headerProps },
+          { Component: Panel, props: panelProps }
+      ]);
+    });
   }
 
   isExpanded(item) {

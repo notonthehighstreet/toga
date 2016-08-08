@@ -1,25 +1,17 @@
-import React from 'react';
+import React, { Children } from 'react';
 import uuid from 'node-uuid';
 
-// Find children which match the component and pass it the props
-// if no child matches, then it will search for grandchildren
-// if no grandchild matches it gives up and returns the original node
-export default function passPropsToComponent(child, matchers) {
-  let match = matchers.reduce((prev, matcher) => {
-    return (child.type === matcher.Component)
-      ? React.cloneElement(child, matcher.props)
-      : prev;
-  }, child);
+export default function passPropsToComponent(component, matchers) {
+  let props = component.props;
+  let children = component.props && component.props.children;
+  const matchFound = matchers.find((matcher) => component.type === matcher.Component);
 
-  if (match === child && child.props) {
-    const key = uuid.v4();
-    const grandchildMatch = child.props.children
-      ? [].concat(child.props.children).map((grandchild) => passPropsToComponent(grandchild, matchers))
-      : null;
-    match = React.cloneElement(child, {
-      ...child.props,
-      key
-    }, grandchildMatch);
+  if (matchFound) {
+    props = matchFound.props;
   }
-  return match;
+  else if (children) {
+    props = { ...props, key: uuid.v4() };
+    children = Children.map(children, (child) => passPropsToComponent(child, matchers) );
+  }
+  return React.cloneElement(component, props, children);
 }
