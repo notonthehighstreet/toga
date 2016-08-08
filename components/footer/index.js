@@ -86,7 +86,7 @@ export default class Footer extends React.Component {
             <Accordion.Header { ...bem('title') }>
               region
             </Accordion.Header>
-            <Accordion.Panel { ...bem('content') }>
+            <Accordion.Panel { ...bem('content', null, 'visible--desktop') }>
               <CountryAndCurrency country={country} currency={currency}/>
             </Accordion.Panel>
           </div>
