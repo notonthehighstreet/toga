@@ -9,13 +9,16 @@ module.exports = (deps) => {
       '/lib/getAppConfig': getAppConfig,
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/errors': { NotFoundError, BundleError },
-      '/lib/utils/createModulePaths': createModulePaths
+      '/lib/utils/componentHelper': componentHelper
     } = deps;
 
     const { apiVersion, componentsPath } = getAppConfig();
     const minify = opts.minify || false;
+    const getCacheId = (assetType) => (
+      `${apiVersion}-${togaHash}-${componentHelper.bundleId(component, { minify })}.${assetType}`
+    );
     const togaHash = buildHash(componentsPath);
-    const modulePaths = createModulePaths(component);
+    const modulePaths = componentHelper.path(component);
 
     function getAsset(assetType) {
       return getCache(getCacheId(assetType))
@@ -39,17 +42,17 @@ module.exports = (deps) => {
         }).then((bundles) => {
           assets = bundles;
           // to do: move js/css to consts file to be used with getComponentAssets + routes/components/index.js
-          return Promise.all([saveAsset('js', assets), saveAsset('css', assets)]);
+          return Promise.all([
+            saveAsset('js', assets),
+            saveAsset('css', assets),
+            saveAsset('js.map', assets),
+            saveAsset('css.map', assets)
+          ]);
         }).then(() => {
           return assets[assetType];
         }).catch((err) => {
           throw new BundleError(err.message);
         });
-    }
-
-    function getCacheId(assetType) {
-      const bundleId = [].concat(component).join('__') + (minify ? '.min' : '');
-      return `${apiVersion}-${togaHash}-${assetType}-${bundleId}`;
     }
 
     return { getAsset };

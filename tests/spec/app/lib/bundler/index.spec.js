@@ -15,8 +15,12 @@ describe('bundler/index', () => {
   const cacheMissError = null;
   const componentHash = chance.word();
   const fakeComponentsPath = chance.word();
-  const bundleJSIdMatcher = sinon.match(new RegExp('js(-\\w*)', 'g'));
-  const bundleCSSIdMatcher = sinon.match(new RegExp('css(-\\w*)', 'g'));
+  const match = {
+    js : sinon.match(/(\w*)\.js/g),
+    'js.map' : sinon.match(/(\w*)\.js\.map/g),
+    css : sinon.match(/(\w*)\.css/g),
+    'css.map' : sinon.match(/(\w*)\.css\.map/g)
+  };
   const apiVersion = '3';
   const getAppConfigMock = () => {
     return { apiVersion, componentsPath: fakeComponentsPath };
@@ -24,8 +28,10 @@ describe('bundler/index', () => {
   const errorMessage = chance.word();
   const bundleFailureError = new Error(errorMessage);
   const bundleSuccessData = {
-    js: 'freshly bundled js',
-    css: 'freshly bundled css'
+    js: chance.word(),
+    css: chance.word(),
+    'js.map': chance.word(),
+    'css.map': chance.word()
   };
   const bundleSuccessMock = fakeResolve(bundleSuccessData);
   const bundleFailureMock = fakeReject(bundleFailureError);
@@ -34,9 +40,14 @@ describe('bundler/index', () => {
   const getCacheMissMock = fakeResolve(cacheMissError);
   const fakePathsExist = fakeResolve(true);
   const fakeModulePaths = [chance.file()];
+  const fakeMapPath = chance.word();
   const fakeNotFoundError = sandbox.stub().throws();
   const fakeBundleError = sandbox.stub().throws();
-
+  const fakeBundleId = sandbox.stub().returns(fakeMapPath);
+  const fakeComponentHelper = {
+    path: sandbox.stub().returns(fakeModulePaths),
+    bundleId: fakeBundleId
+  };
   beforeEach(() => {
     deps = {
       '/cache/get': getCacheHitMock,
@@ -46,7 +57,7 @@ describe('bundler/index', () => {
       '/lib/bundler/bundle': bundleSuccessMock,
       '/lib/getAppConfig': getAppConfigMock,
       '/lib/utils/pathsExist': fakePathsExist,
-      '/lib/utils/createModulePaths': () => fakeModulePaths,
+      '/lib/utils/componentHelper': fakeComponentHelper,
       '/lib/utils/errors': {
         NotFoundError: fakeNotFoundError,
         BundleError: fakeBundleError
@@ -98,17 +109,36 @@ describe('bundler/index', () => {
           subject = builder(deps);
         });
 
-        it('returns the bundle + adds the bundles to the cache', () => {
-          result = subject(fakeComponentsList).getAsset(assetType);
+        context('when NOT minified', ()=>{
+          it('returns the bundle + adds the bundles to the cache', () => {
+            result = subject(fakeComponentsList).getAsset(assetType);
 
-          return result.then((componentBundle) => {
-            expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
-            expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: false });
-            expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
+            return result.then((componentBundle) => {
+              expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
+              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: false });
+              expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: false });
+              expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
 
-            expect(setCacheMock).to.have.been.calledTwice,
-            expect(setCacheMock.firstCall).to.have.been.calledWithMatch(bundleJSIdMatcher, bundleSuccessData['js']),
-            expect(setCacheMock.secondCall).to.have.been.calledWithMatch(bundleCSSIdMatcher, bundleSuccessData['css']);
+              expect(setCacheMock).to.have.callCount(4);
+              expect(setCacheMock.firstCall).to.have.been.calledWithMatch(match.js, bundleSuccessData['js']);
+              expect(setCacheMock.secondCall).to.have.been.calledWithMatch(match.css, bundleSuccessData['css']);
+              expect(setCacheMock.thirdCall).to.have.been.calledWithMatch(match['js.map'], bundleSuccessData['js.map']);
+              expect(setCacheMock.lastCall).to.have.been.calledWithMatch(match['css.map'], bundleSuccessData['css.map']);
+            });
+          });
+        });
+        context('when minified', ()=>{
+          it('returns the bundle + adds the bundles to the cache', () => {
+            result = subject(fakeComponentsList, { minify: true }).getAsset(assetType);
+
+            return result.then((componentBundle) => {
+              expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
+              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: true });
+              expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: true });
+              expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
+
+              expect(setCacheMock).to.have.callCount(8);
+            });
           });
         });
       });

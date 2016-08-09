@@ -1,5 +1,5 @@
 {
-  "sourceMaps": "inline",
+  "sourceMaps": true,
   "plugins": [
     "transform-react-jsx",
     "transform-object-rest-spread",

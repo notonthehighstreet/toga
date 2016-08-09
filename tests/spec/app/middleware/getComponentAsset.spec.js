@@ -8,6 +8,7 @@ const sandbox = sinon.sandbox.create();
 const bundlerGetAssetsStub = sandbox.stub();
 const bundlerStub = sandbox.stub();
 const fakeRequest = {
+  params: {},
   path: '',
   components: 'components'
 };

@@ -10,6 +10,7 @@ const componentsPath = chance.word();
 const assetsFileName = chance.file();
 const fakePathsExist = fakeResolve(true);
 const fakeModulePaths = [ chance.file() ];
+const fakeMapPath = chance.word();
 const fakeBundle = fakePromise;
 let deps;
 
@@ -32,7 +33,10 @@ describe('create webpack assets json', () => {
       'fs': fakeFs,
       'debug': fakeDebug,
       '/lib/bundler/bundle': fakeBundle,
-      '/lib/utils/createModulePaths': () => fakeModulePaths,
+      '/lib/utils/componentHelper': {
+        path: sandbox.stub().returns(fakeModulePaths),
+        bundleId: sandbox.stub().returns(fakeMapPath)
+      },
       '/lib/getAppConfig': sandbox.stub().returns({ componentsPath }),
       '/lib/utils/pathsExist': fakePathsExist
     };

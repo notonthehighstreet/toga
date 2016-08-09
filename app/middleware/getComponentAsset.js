@@ -1,4 +1,6 @@
 const contentType = {
+  'js.map': 'application/json',
+  'css.map': 'application/json',
   js: 'application/javascript',
   css: 'text/css',
   html: 'text/html'
@@ -13,7 +15,7 @@ module.exports = (deps) => {
 
       const minify = req.path.endsWith(`.min.${assetType}`);
 
-      return bundle(req.components, { minify })
+      return bundle(req.params.components || req.components, { minify })
         .getAsset(assetType)
         .then((content) => {
           res.set('Content-Type', contentType[assetType]).send(content);

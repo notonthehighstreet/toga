@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/utils/createModulePaths');
+const builder = require('../../../../../app/lib/utils/componentHelper');
 let subject;
 
 const fakePath = chance.word();
@@ -12,10 +12,10 @@ const deps = {
   '/lib/getAppConfig': fakeGetAppConfig
 };
 
-describe('createModulePaths', () => {
+describe('component helper path', () => {
 
   beforeEach(() => {
-    subject = builder(deps);
+    subject = builder(deps).path;
   });
 
   it('should build path for single component', () => {
@@ -24,7 +24,7 @@ describe('createModulePaths', () => {
     expect(componentPath).to.deep.equal([`${fakePath}/${randomComponentString}/index.js`]);
   });
 
-  it('should build paths for mulitple components', () => {
+  it('should build paths for multiple components', () => {
     const component1 = chance.word();
     const component2 = chance.word();
     const componentsArray = [component1, component2 ];

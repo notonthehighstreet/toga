@@ -6,7 +6,7 @@ module.exports = (deps) => {
       '/lib/getAppConfig': getAppConfig,
       '/lib/utils/errors': { NotFoundError, InternalServerError },
       '/lib/utils/pathsExist': pathsExist,
-      '/lib/utils/createModulePaths': createModulePaths,
+      '/lib/utils/componentHelper': componentHelper,
       path
     } = deps;
     const { componentsPath } = getAppConfig();
@@ -21,7 +21,7 @@ module.exports = (deps) => {
       }
     }
 
-    return pathsExist(createModulePaths(componentName))
+    return pathsExist(componentHelper.path(componentName))
       .then((exists) => {
         if (exists) {
           const component = getComponent(relativeComponentPath);

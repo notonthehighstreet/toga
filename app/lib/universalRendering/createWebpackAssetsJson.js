@@ -6,7 +6,7 @@ module.exports = (deps) => {
       'fs': fs,
       debug,
       '/lib/bundler/bundle': bundle,
-      '/lib/utils/createModulePaths': createModulePaths,
+      '/lib/utils/componentHelper': componentHelper,
       '/lib/getAppConfig': getAppConfig,
       '/lib/utils/pathsExist': pathsExist
     } = deps;
@@ -18,7 +18,7 @@ module.exports = (deps) => {
     const { componentsPath } = getAppConfig();
 
     const getAssetsJson = ((component) => {
-      const path = createModulePaths(component, assetsFile);
+      const path = componentHelper.path(component, assetsFile);
       return (pathsExist(path))
         .then((exists)=>{
           return exists

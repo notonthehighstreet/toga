@@ -10,14 +10,21 @@ describe('runBundler', () => {
   let subject;
   let result;
   const component = chance.word();
-  const componentBundle = 'component bundle';
-  const stylesBundle = 'styles bundle';
+  const fakeMapPath = chance.word();
+  const componentBundle = chance.word();
+  const stylesBundle = chance.word();
+  const componentMapBundle = chance.word();
+  const stylesMapBundle = chance.word();
+  const readdirSyncStub = sandbox.stub().returns([ chance.file() ]);
   const readFileStub = sandbox.stub();
   const existsSyncStub = sandbox.stub();
   const memoryFsMock = sandbox.stub();
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
   readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
+  readFileStub.withArgs('/components.js.map', 'utf8').returns(Promise.resolve(componentMapBundle));
+  readFileStub.withArgs('/components.css.map', 'utf8').returns(Promise.resolve(stylesMapBundle));
   memoryFsMock.returns({
+    readdirSync: readdirSyncStub,
     readFile : readFileStub,
     existsSync : existsSyncStub
   });
@@ -29,7 +36,10 @@ describe('runBundler', () => {
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,
       '/lib/webpack/index': fakeRunWebpack,
-      '/lib/utils/createModulePaths': () => fakeModulePaths,
+      '/lib/utils/componentHelper': {
+        path: sandbox.stub().returns(fakeModulePaths),
+        bundleId: sandbox.stub().returns(fakeMapPath)
+      },
       'debug': fakeDebug
     };
     subject = builder(deps);
@@ -42,26 +52,67 @@ describe('runBundler', () => {
   context('when the bundle is successful', () => {
     context('when styles do NOT exist', () => {
       it('returns a bundle object with js + css is undefined', () => {
-        existsSyncStub.withArgs('/components.css').returns(false);
+        readdirSyncStub.returns(['components.js']);
+        memoryFsMock.returns({
+          readdirSync: readdirSyncStub,
+          readFile : readFileStub,
+          existsSync : existsSyncStub
+        });
         deps['/lib/webpack/runWebpack'] = fakeResolve();
+        deps['memory-fs'] = memoryFsMock;
+
         result = subject(component);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             js: componentBundle,
-            css: undefined
+            css: undefined,
+            'css.map': undefined,
+            'js.map': undefined
           });
         });
       });
     });
+
     context('when css exist', () => {
       it('returns a bundle object with js + css', () => {
-        existsSyncStub.withArgs('/components.css').returns(true);
+        readdirSyncStub.returns(['components.js', 'components.css']);
+        memoryFsMock.returns({
+          readdirSync: readdirSyncStub,
+          readFile : readFileStub,
+          existsSync : existsSyncStub
+        });
         deps['/lib/webpack/runWebpack'] = fakeResolve();
+        deps['memory-fs'] = memoryFsMock;
+
         result = subject(component);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             js: componentBundle,
-            css: stylesBundle
+            css: stylesBundle,
+            'css.map': undefined,
+            'js.map': undefined
+          });
+        });
+      });
+    });
+    context('when map exist', () => {
+      it('returns a bundle object with js + css', () => {
+        readdirSyncStub.returns(['components.js', 'components.css', 'components.js.map', 'components.css.map']);
+        memoryFsMock.returns({
+          readdirSync: readdirSyncStub,
+          readFile : readFileStub,
+          existsSync : existsSyncStub
+        });
+        deps['/lib/webpack/runWebpack'] = fakeResolve();
+        deps['memory-fs'] = memoryFsMock;
+
+        result = subject(component);
+        return result.then((bundle) => {
+          return expect(bundle).to.be.deep.eq({
+            js: componentBundle,
+            css: stylesBundle,
+            'css.map': stylesMapBundle,
+            'js.map': componentMapBundle
           });
         });
       });
@@ -87,6 +138,7 @@ describe('runBundler', () => {
       return result.then(() => {
         expect(fakeRunWebpack).to.be.calledWith(component, {
           minify: true,
+          mapPath: fakeMapPath,
           modulePaths: fakeModulePaths,
           outputFileSystem: memoryFsMock()
         });

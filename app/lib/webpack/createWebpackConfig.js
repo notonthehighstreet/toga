@@ -1,5 +1,7 @@
 module.exports = (deps) => {
-  return function createWebpackConfig({ isoPlugin, modulePaths, definitions, externals = [], minify}) {
+  return function createWebpackConfig(
+    { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath}
+    ) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
@@ -7,21 +9,21 @@ module.exports = (deps) => {
     } = deps;
 
     let config = {
+      devtool: 'source-map',
       entry: {
         components: modulePaths
       },
       externals: externals,
       output: {
         filename: '[name].js',
-        path: '/'
+        path: '/',
+        sourceMapFilename: `${mapPath}.[file].map`
       },
       module: {
         loaders: [
           {
             test: /\.js$/,
             loader: 'babel',
-            presets: ['es2015'],
-            plugins: ['transform-react-jsx'],
             exclude: /node_modules/
           },
           {
@@ -32,7 +34,7 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              `css?-url${minify ? '&minimize' : ''}`,
+              `css?sourceMap&-url${minify ? '&minimize' : ''}`,
               'postcss',
               'sass?outputStyle=expanded'].join('!'))
           },
@@ -70,7 +72,7 @@ module.exports = (deps) => {
       config.plugins.push(isoPlugin);
     }
     if (minify) {
-      config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+      config.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
       config.plugins.push(new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify('production') }
       }));

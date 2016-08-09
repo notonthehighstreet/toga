@@ -21,6 +21,8 @@ module.exports = (deps) => {
     router
       .get(/^\/core(\.min)?.css$/, (req, res) => res.redirect(getAppConfig().stylesToolkit.url))
       .get(/^\/styles(\.min)?.css$/, getComponentAsset('css'))
+      .get('/:components.components.js.map', getComponentAsset('js.map'))
+      .get('/:components.components.css.map', getComponentAsset('css.map'))
       .get(/^\/components(\.min)?\.js$/, getComponentAsset('js'))
       .get(/^\/components-vendor-bundle(\.min)?\.js$/, getComponentAsset('js'))
       .get(/.*\.(raw\.)?html$/, getComponentHtml);

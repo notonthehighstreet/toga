@@ -20,6 +20,8 @@ let fakeComponentContext = {
 const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
+const fakeModulePaths = [chance.file()];
+const fakeMapPath = chance.word();
 const deps = {
   'react': {
     createElement: reactStub
@@ -33,7 +35,10 @@ const deps = {
     NotFoundError: fakeNotFoundError,
     InternalServerError: fakeInternalServerError
   },
-  '/lib/utils/createModulePaths': sandbox.stub().returns(chance.word()),
+  '/lib/utils/componentHelper': {
+    path: sandbox.stub().returns(fakeModulePaths),
+    bundleId: sandbox.stub().returns(fakeMapPath)
+  },
   path: {
     join: sandbox.stub().returns(fakeRelativeComponentPath)
   }

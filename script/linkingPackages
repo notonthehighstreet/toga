@@ -1,8 +1,4 @@
-cd packages/toga-component
+cd packages/toga-loader
 npm link
-cd ../toga-loader
-npm link
-cd ../
-cd ../
+cd ../../
 npm link toga-loader
-npm link toga-component

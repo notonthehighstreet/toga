@@ -23,6 +23,7 @@ describe('webpack/index', () => {
     server: universalServerStub,
     createAssetsJson: assetsJsonStub
   });
+  const fakeMapPath = chance.word();
 
   beforeEach(() => {
     deps = {
@@ -46,7 +47,7 @@ describe('webpack/index', () => {
     });
 
     it('passes through options', () => {
-      result = subject(component, { modulePaths: fakeModulePaths, minify: true});
+      result = subject(component, { modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
       return result.then(()=>{
         expect(fakeUniversalRendering).to.be.called;
         expect(fakeUniversalRendering().isoPlugin).to.be.calledWith(component);
@@ -55,6 +56,7 @@ describe('webpack/index', () => {
           externals: fakeVendorFiles,
           isoPlugin: fakeUniversalRendering().isoPlugin(),
           minify: true,
+          mapPath: fakeMapPath,
           modulePaths: fakeModulePaths
         });
       });
@@ -81,6 +83,7 @@ describe('webpack/index', () => {
           externals: [],
           isoPlugin: undefined,
           minify: undefined,
+          mapPath: undefined,
           modulePaths: undefined
         });
       });
@@ -93,6 +96,7 @@ describe('webpack/index', () => {
           externals: fakeVendorFiles,
           isoPlugin: undefined,
           minify: true,
+          mapPath: undefined,
           modulePaths: undefined
         });
       });

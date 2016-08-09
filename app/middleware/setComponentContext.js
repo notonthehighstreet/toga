@@ -5,7 +5,7 @@ module.exports = (deps) => {
       '/lib/utils/errors': { BadRequestError }
     } = deps;
 
-    const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css$|\.json$/;
+    const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css.map$|\.js.map$|\.css$|\.json$/;
     const buildPath = (requestPath) => {
       return requestPath.replace(componentMatcher, '');
     };
