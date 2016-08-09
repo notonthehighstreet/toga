@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '../button';
 import Row from '../form';
-import iso from './iso';
+import isomorphic from './iso';
 
 import '../form/styles.scss';
 import countries from './countries.json';
@@ -46,15 +46,17 @@ class CountryAndCurrency extends React.Component {
 
   onSubmitted(event) {
     event.preventDefault();
-
-    iso.fetch(`https://${window.location.host}/geo`, {
-      method: 'POST',
-      body: this.buildRequestBody()
+    isomorphic.fetch({
+      method: 'PUT',
+      withCredentials: true,
+      url: '/geo',
+      headers: this.buildRequestHeaders(),
+      data: this.buildRequestBody()
     })
     .then(function() {
       location.reload();
     })
-    .catch(()=> {
+    .catch(function() {
       location.reload();
     });
   }
@@ -62,9 +64,14 @@ class CountryAndCurrency extends React.Component {
   buildRequestBody() {
     return {
       utf8: true,
-      authenticity_token: this.context.csrf, // eslint-disable-line
       extended_country_code: this.state.country, // eslint-disable-line
       currency: this.state.currency
+    };
+  }
+
+  buildRequestHeaders() {
+    return {
+      'X-CSRF-Token': this.context.csrf, // eslint-disable-line
     };
   }
 

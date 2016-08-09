@@ -67,15 +67,12 @@ describe('countryAndCurrency component', () => {
 
   describe('updates country and currency', () => {
 
-    const url = 'https://noths.com/geo';
     const payload = {
-      method: 'POST',
-      body: {
-        utf8: true,
-        authenticity_token: token, // eslint-disable-line
-        extended_country_code: 'GB-1', // eslint-disable-line
-        currency: 'GBP'
-      }
+      data: { currency: 'GBP', extended_country_code: 'GB-1', utf8: true }, // eslint-disable-line
+      headers: { 'X-CSRF-Token': token },
+      method: 'PUT',
+      withCredentials: true,
+      url: '/geo'
     };
 
     context('submit form updates', () => {
@@ -83,7 +80,7 @@ describe('countryAndCurrency component', () => {
         const updateCta = renderedOutput.find('button');
         updateCta.simulate('click');
         expect(fetchStub).to.be.called;
-        expect(fetchStub).to.be.calledWith(url, payload);
+        expect(fetchStub).to.be.calledWith(payload);
       });
 
       it('reloads on success', (done) => {
@@ -120,6 +117,6 @@ describe('countryAndCurrency component', () => {
       });
 
     });
-  });
+  }); 
 
 });
