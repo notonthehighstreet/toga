@@ -17,7 +17,7 @@ module.exports = (deps) => {
       output: {
         filename: '[name].js',
         path: '/',
-        sourceMapFilename: `${mapPath}.[file].map`
+        sourceMapFilename: `${mapPath || ''}${minify ? '.min': ''}.[file].map`
       },
       module: {
         loaders: [
@@ -72,7 +72,12 @@ module.exports = (deps) => {
       config.plugins.push(isoPlugin);
     }
     if (minify) {
-      config.plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
+      config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
+        compress: {
+          drop_debugger: false // eslint-disable-line
+        }
+      }));
       config.plugins.push(new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify('production') }
       }));

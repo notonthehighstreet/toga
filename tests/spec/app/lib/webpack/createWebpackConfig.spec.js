@@ -21,6 +21,7 @@ describe('Create Webpack Config', () => {
   let subject;
   const definePluginSpy = sandbox.spy(fakeWebpack, 'DefinePlugin');
   const uglifyJsPluginSpy = sandbox.spy(fakeWebpack.optimize, 'UglifyJsPlugin');
+  const fakeModulePaths = [];
 
   beforeEach(() => {
     subject = builder({
@@ -38,6 +39,25 @@ describe('Create Webpack Config', () => {
   });
   after(() => {
     sandbox.restore();
+  });
+
+  it('creates a basic config', () => {
+    const config = subject({
+      modulePaths: fakeModulePaths
+    });
+    expect(config.plugins.length).to.equal(3);
+    expect(config.entry.components).to.equal(fakeModulePaths);
+    expect(config.externals.length).to.eq(0);
+    expect(config.output.sourceMapFilename).to.equal('.[file].map');
+  });
+
+  it('has sourceMaps enabled', () => {
+    const fakeMapPath = chance.word();
+    const config = subject({
+      mapPath: fakeMapPath
+    });
+    expect(config.devtool).to.equal('source-map');
+    expect(config.output.sourceMapFilename).to.equal(`${fakeMapPath}.[file].map`);
   });
 
   context('when definitions are passed', () => {
@@ -75,19 +95,20 @@ describe('Create Webpack Config', () => {
 
   context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
-      const result = subject({
+      const config = subject({
         modulePaths: [],
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
-      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(config.output.sourceMapFilename).to.equal('.min.[file].map');
     });
     it('creates config with NODE_ENV set to production', () => {
-      const result = subject({
+      const config = subject({
         modulePaths: [],
         minify: true
       });
-      expect(result.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
       expect(definePluginSpy).to.be.calledWith({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } });
     });
   });
