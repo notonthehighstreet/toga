@@ -58,7 +58,6 @@
   }
 }
 
-// todo : move to toolkit
 .visible--desktop {
   @include breakpoint(large) {
     display: inherit !important;

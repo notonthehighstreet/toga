@@ -1,6 +1,6 @@
 {
   "stylesToolkit": {
-    "url": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.6/toolkit.css"
+    "url": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.7/toolkit.css"
   },
   "server": {
     "port": 8080,
