@@ -7,8 +7,10 @@ module.exports = (deps) => {
       '/lib/utils/errors': { NotFoundError, InternalServerError },
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/componentHelper': componentHelper,
+      debug,
       path
     } = deps;
+    const log = debug('toga:renderComponent');
     const { componentsPath } = getAppConfig();
     const relativeComponentPath = path.join('../../', componentsPath, componentName);
 
@@ -17,6 +19,7 @@ module.exports = (deps) => {
         return require(`${component}/`);
       }
       catch(e) {
+        log(e);
         throw new InternalServerError(`${componentName} Parsing error`);
       }
     }

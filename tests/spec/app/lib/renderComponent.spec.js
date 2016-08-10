@@ -3,7 +3,7 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('../../../../app/lib/renderComponent');
-import { fakeResolve } from '../../commonMocks';
+import { fakeResolve, fakeDebug } from '../../commonMocks';
 
 let actualSubjectReturnValue;
 const fakeRenderedComponent = chance.word();
@@ -41,7 +41,8 @@ const deps = {
   },
   path: {
     join: sandbox.stub().returns(fakeRelativeComponentPath)
-  }
+  },
+  debug: fakeDebug
 };
 
 describe('renderComponent', () => {
