@@ -1,5 +1,6 @@
 {
   "verbose": true,
   "ignore": ["logs/", "*.json"],
-  "watch": ["app/", "components/"]
+  "watch": ["app/", "components/"],
+  "ext": "svg js json scss"
 }
