@@ -10,7 +10,7 @@ const redisClientConfig = {
 let server;
 
 module.exports = function startApp(options) {
-  const getAppConfig = require('../../app/lib/getAppConfig')();
+  const getAppConfig = require('../../app/config/index');
   const redisConfig = getAppConfig().redis;
 
   return new Promise((resolve, reject) => {

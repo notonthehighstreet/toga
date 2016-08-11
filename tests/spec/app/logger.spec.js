@@ -4,9 +4,7 @@ const chance = new require('chance')();
 
 describe('Logger', () => {
   const sandbox = sinon.sandbox.create();
-  const getAppConfigStub = sandbox.stub().returns({
-    appName: chance.word()
-  });
+  const getAppConfigStub = { appName: chance.word() };
   const createHoneybadgerStreamSpy = sandbox.spy();
   const fakeBunyan = {
     createLogger: sandbox.stub().returns({})
@@ -17,7 +15,7 @@ describe('Logger', () => {
     const builder = require('../../../app/logger');
 
     subject = builder({
-      '/lib/getAppConfig': getAppConfigStub,
+      '/config/index': getAppConfigStub,
       '/lib/createHoneybadgerStream': createHoneybadgerStreamSpy,
       bunyan: fakeBunyan
     });

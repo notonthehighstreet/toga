@@ -37,7 +37,7 @@ describe('create webpack assets json', () => {
         path: sandbox.stub().returns(fakeModulePaths),
         bundleId: sandbox.stub().returns(fakeMapPath)
       },
-      '/lib/getAppConfig': sandbox.stub().returns({ componentsPath }),
+      '/config/index': { componentsPath },
       '/lib/utils/pathsExist': fakePathsExist
     };
   });

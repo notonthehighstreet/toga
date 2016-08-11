@@ -20,7 +20,7 @@ describe('redis client', () => {
 
   const deps = {
     ioredis: redisStub,
-    '/lib/getAppConfig': appConfigStub
+    '/config/index': appConfigStub
   };
 
   beforeEach(() => {

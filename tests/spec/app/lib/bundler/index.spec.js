@@ -55,7 +55,7 @@ describe('bundler/index', () => {
       '/logger': fakeLogger,
       '/lib/bundler/buildHash': bundleHashMock,
       '/lib/bundler/bundle': bundleSuccessMock,
-      '/lib/getAppConfig': getAppConfigMock,
+      '/config/index': getAppConfigMock,
       '/lib/utils/pathsExist': fakePathsExist,
       '/lib/utils/componentHelper': fakeComponentHelper,
       '/lib/utils/errors': {

@@ -2,7 +2,7 @@ let cachedClient;
 module.exports = (deps) => {
   const {
     ioredis: Redis,
-    '/lib/getAppConfig': getAppConfig
+    '/config/index': config
     } = deps;
   const clientConfig = {
     // With ReadyCheck enabled, accessing Redis for the first time will not be
@@ -16,7 +16,7 @@ module.exports = (deps) => {
     if (cachedClient) {
       return cachedClient;
     }
-    const redisConfig = getAppConfig().redis;
+    const redisConfig = config.redis;
     cachedClient = Redis(redisConfig, clientConfig);
 
     cachedClient.on('error', (err) => {

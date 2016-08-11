@@ -6,13 +6,13 @@ module.exports = (deps) => {
       '/cache/get': getCache,
       '/lib/bundler/buildHash': buildHash,
       '/lib/bundler/bundle': bundle,
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/errors': { NotFoundError, BundleError },
       '/lib/utils/componentHelper': componentHelper
     } = deps;
 
-    const { apiVersion, componentsPath } = getAppConfig();
+    const { apiVersion, componentsPath } = config;
     const minify = opts.minify || false;
     const getCacheId = (assetType) => (
       `${apiVersion}-${togaHash}-${componentHelper.bundleId(component, { minify })}.${assetType}`

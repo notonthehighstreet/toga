@@ -2,9 +2,9 @@ module.exports = (deps) => {
   return {
     path(component, file = 'index.js') {
       const {
-        '/lib/getAppConfig': getAppConfig
+        '/config/index': config
       } = deps;
-      const {componentsPath} = getAppConfig();
+      const {componentsPath} = config;
       return [].concat(component).map(name => `${componentsPath}/${name}/${file}`);
     },
     bundleId(component, { minify } = {}) {

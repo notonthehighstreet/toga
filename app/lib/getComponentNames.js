@@ -1,10 +1,10 @@
 module.exports = (deps) => {
   return function getComponentNames() {
     const {
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       fs
     } = deps;
-    const { componentsPath } = getAppConfig();
+    const { componentsPath } = config;
 
     const isComponentDir = (name) => fs.statSync(`${componentsPath}/${name}`).isDirectory();
     return fs.readdirSync(componentsPath).filter(isComponentDir);

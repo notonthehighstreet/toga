@@ -5,7 +5,7 @@ import Chance from 'chance';
 const sandbox = sinon.sandbox.create();
 const chance = new Chance();
 
-describe('Get App Config', () => {
+describe('config/index', () => {
   let subject;
   let builder;
   let semverMajorStub = sandbox.stub();
@@ -35,38 +35,42 @@ describe('Get App Config', () => {
   semverMajorStub.returns(fakeApiVersion);
 
   beforeEach(() => {
-    delete require.cache[require.resolve('../../../../app/lib/getAppConfig')];
-
-    builder = require('../../../../app/lib/getAppConfig');
-    subject = builder(Object.assign({}, deps));
+    delete require.cache[require.resolve('../../../../app/config/index')];
   });
   afterEach(()=>{
     sandbox.reset();
   });
 
   describe('config has not been accessed previously', () => {
+    beforeEach(() => {
+      builder = require('../../../../app/config/index');
+      subject = builder(Object.assign({}, deps));
+    });
     it('sets application name', () => {
-      let config = subject();
+      let config = subject;
       expect(config.appName).to.equal(fakeAppName);
     });
     it('sets api version', () => {
-      let config = subject();
+      let config = subject;
       expect(config.apiVersion).to.equal(fakeApiVersion);
     });
   });
   describe('config has already been accessed', () => {
     let firstReadConfig;
     beforeEach(() => {
-      firstReadConfig = subject();
+      builder = require('../../../../app/config/index');
+      subject = builder(Object.assign({}, deps));
+      firstReadConfig = subject;
     });
 
     it('returns a cached copy of the config', () => {
-      let secondReadConfig = subject();
+      let secondReadConfig = subject;
       expect(firstReadConfig).to.equal(secondReadConfig);
     });
   });
   describe('passed one config file', () => {
     beforeEach(() => {
+      builder = require('../../../../app/config/index');
       configFiles = [
         './tests/spec/fixtures/config/a.json'
       ];
@@ -81,7 +85,7 @@ describe('Get App Config', () => {
       );
     });
     it('contains the passed in config', () => {
-      let config = subject();
+      let config = subject;
       let expectedConfig = {
         'apiVersion': fakeApiVersion,
         'appName': fakeAppName,
@@ -98,6 +102,7 @@ describe('Get App Config', () => {
   describe('passed multiple config files', () => {
     describe('passed two different config files', () => {
       beforeEach(() => {
+        builder = require('../../../../app/config/index');
         configFiles = [
           './tests/spec/fixtures/config/a.json',
           './tests/spec/fixtures/config/b.json'
@@ -113,7 +118,7 @@ describe('Get App Config', () => {
         );
       });
       it('merges the second config on top of the first config', () => {
-        let config = subject();
+        let config = subject;
         let expectedConfig = {
           'apiVersion': fakeApiVersion,
           'appName': fakeAppName,
@@ -131,6 +136,7 @@ describe('Get App Config', () => {
 
     describe('the same config is re-applied after other config', () => {
       beforeEach(() => {
+        builder = require('../../../../app/config/index');
         configFiles = [
           './tests/spec/fixtures/config/a.json',
           './tests/spec/fixtures/config/b.json',
@@ -147,7 +153,7 @@ describe('Get App Config', () => {
         );
       });
       it('the third config overwrites changes made by the second', () => {
-        let config = subject();
+        let config = subject;
         let expectedConfig = {
           'apiVersion': fakeApiVersion,
           'appName': fakeAppName,

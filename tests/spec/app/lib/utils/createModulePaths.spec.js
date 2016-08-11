@@ -4,12 +4,9 @@ const builder = require('../../../../../app/lib/utils/componentHelper');
 let subject;
 
 const fakePath = chance.word();
-const fakeGetAppConfig = () => {
-  return {componentsPath: fakePath};
-};
-
+const fakeGetAppConfig = {componentsPath: fakePath};
 const deps = {
-  '/lib/getAppConfig': fakeGetAppConfig
+  '/config/index': fakeGetAppConfig
 };
 
 describe('component helper path', () => {

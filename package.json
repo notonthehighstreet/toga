@@ -11,6 +11,7 @@
   "scripts": {
     "example": "node ./example",
     "start": "DEBUG=toga,toga:* ./script/start/index.js --config ./app/config/application.json",
+    "heroku": "nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/herokuOverrides.js",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/devOverrides.json",
     "precache": "DEBUG=toga,toga:* ./script/preCache.js --config ./app/config/application.json --config ./app/config/devOverrides.json",
     "test": "npm run test-unit",

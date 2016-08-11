@@ -9,7 +9,7 @@ const majorVersion = semver.major(version);
 const hashFiles = require('hash-files');
 let hash;
 
-const getAppConfig = require('../../app/lib/getAppConfig')();
+const getAppConfig = require('../../app/config/index');
 const redisConfig = getAppConfig().redis;
 
 const redisClientConfig = {

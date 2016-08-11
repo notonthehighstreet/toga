@@ -28,7 +28,7 @@ describe('Create Webpack Config', () => {
       webpack: fakeWebpack,
       autoprefixer: fakeAutoPrefixer,
       'extract-text-webpack-plugin': fakeExtractTextPluging,
-      '/lib/getAppConfig': fakeGetAppConfig
+      '/config/index': fakeGetAppConfig
     });
     fakeGetAppConfig.returns({
       minify: false

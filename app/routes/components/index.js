@@ -5,7 +5,7 @@ module.exports = (deps) => {
       '/middleware/setComponentContext': setComponentContext,
       '/middleware/getComponentAsset': getComponentAsset,
       '/middleware/getComponentHtml': getComponentHtml,
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/middleware/setLocale': setLocale
     } = deps;
 
@@ -28,7 +28,7 @@ module.exports = (deps) => {
       .get(MAP_URL, getComponentAsset)
       .get(ASSETS_URL, getComponentAsset)
       .get(HTML_URL, getComponentHtml)
-      .get('/core(\.min)?.css', (req, res) => res.redirect(getAppConfig().coreStyles.url));
+      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles.url));
 
     router.use('/:component/assets/:path', serveStatic);
 

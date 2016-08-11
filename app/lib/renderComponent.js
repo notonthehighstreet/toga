@@ -3,7 +3,7 @@ module.exports = (deps) => {
     const {
       'react-dom/server' : ReactDOMServer,
       'react' : React,
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/lib/utils/errors': { NotFoundError, InternalServerError },
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/componentHelper': componentHelper,
@@ -11,7 +11,7 @@ module.exports = (deps) => {
       path
     } = deps;
     const log = debug('toga:renderComponent');
-    const { componentsPath } = getAppConfig();
+    const { componentsPath } = config;
     const relativeComponentPath = path.join('../../', componentsPath, componentName);
 
     function getComponent(component) {

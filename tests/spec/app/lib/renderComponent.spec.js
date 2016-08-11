@@ -29,7 +29,7 @@ const deps = {
   'react-dom/server': {
     renderToString: renderReactStub
   },
-  '/lib/getAppConfig': sandbox.stub().returns({ componentsPath: chance.word() }),
+  '/config/index': sandbox.stub().returns({ componentsPath: chance.word() }),
   '/lib/utils/pathsExist': fakeResolve(true),
   '/lib/utils/errors': {
     NotFoundError: fakeNotFoundError,

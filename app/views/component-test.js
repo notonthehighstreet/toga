@@ -1,6 +1,6 @@
 module.exports = (deps) => {
   return ({componentDOM, componentName, context}) => {
-    const config = deps['/lib/getAppConfig']();
+    const config = deps['/config/index'];
     const apiVersionPrefix = `/v${config.apiVersion}`;
 
     return `

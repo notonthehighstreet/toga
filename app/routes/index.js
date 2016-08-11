@@ -4,9 +4,9 @@ module.exports = (deps) => {
       'express': express,
       '/routes/serverStatus/index': createServerStatusRouter,
       '/routes/components/index': createComponentsRouter,
-      '/lib/getAppConfig': getAppConfig
+      '/config/index': config
       } = deps;
-    const apiVersion = getAppConfig().apiVersion;
+    const apiVersion = config.apiVersion;
     const appRouter = express.Router();
 
     appRouter.use(createServerStatusRouter());

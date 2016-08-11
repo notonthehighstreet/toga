@@ -7,7 +7,7 @@ module.exports = (deps) => {
       debug,
       '/lib/bundler/bundle': bundle,
       '/lib/utils/componentHelper': componentHelper,
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/lib/utils/pathsExist': pathsExist
     } = deps;
 
@@ -15,7 +15,7 @@ module.exports = (deps) => {
 
     const readFile = promisify(fs.readFile);
     const writeFile = promisify(fs.writeFile);
-    const { componentsPath } = getAppConfig();
+    const { componentsPath } = config;
 
     const getAssetsJson = ((component) => {
       const path = componentHelper.path(component, assetsFile);

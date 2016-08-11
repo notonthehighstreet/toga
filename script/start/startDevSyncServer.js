@@ -1,5 +1,5 @@
 module.exports = function createDevSyncServer() {
-  const config = require('../../app/lib/getAppConfig')()();
+  const config = require('../../app/config/index')();
   const browserSync = require('browser-sync');
 
   const server = browserSync.create();

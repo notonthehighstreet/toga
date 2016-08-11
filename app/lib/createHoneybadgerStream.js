@@ -4,10 +4,9 @@ module.exports = (deps) => {
       stream,
       honeybadger: Honeybadger,
       debug,
-      '/lib/getAppConfig': getAppConfig
+      '/config/index': config
     } = deps;
 
-    const config = getAppConfig();
     const d = debug('toga:honeybadger');
     const hb = new Honeybadger({
       apiKey: config.honeybadger.apiKey,

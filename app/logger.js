@@ -2,11 +2,10 @@ let logger;
 module.exports = (deps) => {
   return function getLogger() {
     const {
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/lib/createHoneybadgerStream': createHoneybadgerStream,
       bunyan
       } = deps;
-    const config = getAppConfig();
 
     function createDefaultLogStreamsConfig() {
       const streams = [
