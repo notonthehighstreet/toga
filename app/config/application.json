@@ -1,5 +1,5 @@
 {
-  "stylesToolkit": {
+  "coreStyles": {
     "url": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.7/toolkit.css"
   },
   "server": {

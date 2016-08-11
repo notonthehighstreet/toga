@@ -8,7 +8,7 @@ module.exports = function multipleNested(req, res) {
   ];
   const styles = [
     'http://localhost:8080/v1/core.css',
-    'http://localhost:8080/v1/styles.min.css?components=["test-one","test-nested"]'
+    'http://localhost:8080/v1/components.min.css?components=["test-one","test-nested"]'
   ];
   Promise.all([
     rp('http://localhost:8080/v1/test-one.raw.html?context={"one":"toe"}'),

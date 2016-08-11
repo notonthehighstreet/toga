@@ -7,22 +7,18 @@ const contentType = {
 };
 
 module.exports = (deps) => {
-  return function getComponentAsset(assetType) {
-    return function(req, res, next) {
-      const {
-        '/lib/bundler/index': bundle
-      } = deps;
-
-      const minify = req.path.endsWith(`.min.${assetType}`);
-
-      return bundle(req.params.components || req.components, { minify })
-        .getAsset(assetType)
-        .then((content) => {
-          res.set('Content-Type', contentType[assetType]).send(content);
-        })
-        .catch((err) => {
-          next(err);
-        });
-    };
+  return function getComponentAsset(req, res, next) {
+    const {
+      '/lib/bundler/index': bundle
+    } = deps;
+    const { assetType, minify } = req;
+    return bundle(req.components, { minify })
+      .getAsset(assetType)
+      .then((content) => {
+        res.set('Content-Type', contentType[assetType]).send(content);
+      })
+      .catch((err) => {
+        next(err);
+      });
   };
 };

@@ -1,43 +1,48 @@
 module.exports = (deps) => {
-  return function setComponentContext(req, res, next) {
-    const {
-      'lodash': _,
-      '/lib/utils/errors': { BadRequestError }
-    } = deps;
+  const {
+    '/lib/utils/errors': { BadRequestError }
+  } = deps;
 
-    const componentMatcher = /\.html$|\.raw\.html$|\.js$|\.css.map$|\.js.map$|\.css$|\.json$/;
-    const buildPath = (requestPath) => {
-      return requestPath.replace(componentMatcher, '');
-    };
+  const componentContext = (encodedConfig) => {
+    return (encodedConfig === undefined)
+      ? {}
+      : JSON.parse(decodeURIComponent(encodedConfig));
+  };
 
-    const componentContext = (encodedConfig) => {
-      return (_.isUndefined(encodedConfig))
-        ? {}
-        : JSON.parse(decodeURIComponent(encodedConfig));
-    };
-
+  const parse = (json, next) => {
     try {
-      req.components = componentContext(req.query.components);
-
-      req.componentContext = componentContext(req.query.context);
-
+      return componentContext(json);
     }
     catch(error) {
-      return next(new BadRequestError('Context is not valid JSON'));
-
+      return next(new BadRequestError(`Context is not valid JSON: ${json}`));
     }
+  };
 
-    try{
-      req.componentPath = buildPath(req.path);
-
-      if (req.path.indexOf('components-vendor-bundle')>-1) {
-        req.components = 'vendor';
-      }
+  return {
+    html(req, res, next) {
+      const raw = !!req.params[0];
+      req.componentName = req.params.componentName;
+      req.context = parse(req.query.context, next);
+      req.assetType = 'html';
+      req.raw = raw;
+      next();
+    },
+    map(req, res, next) {
+      const isMin = !!req.params[0];
+      const assetType = req.params[1];
+      req.components = req.params.components.split('__');
+      req.assetType = assetType + '.map';
+      req.minify = isMin;
+      next();
+    },
+    asset(req, res, next) {
+      const isVendor = !!req.params[0];
+      const isMin = !!req.params[1];
+      const assetType = req.params[2];
+      req.components = isVendor ? 'vendor' : parse(req.query.components);
+      req.assetType = assetType;
+      req.minify = isMin;
+      next();
     }
-    catch(e) {
-      return next(new BadRequestError('Path is not valid:', req.path));
-    }
-
-    next();
   };
 };

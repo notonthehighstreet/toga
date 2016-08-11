@@ -8,10 +8,9 @@ const chance = new Chance();
 
 describe('getComponentRawHtml middleware', () => {
   const sandbox = sinon.sandbox.create();
-  const componentName = 'fakeComponentPath';
+  const componentName = chance.word();
   const fakeReq = {
-    componentPath: '/' + componentName,
-    locale: 'fakeLocale'
+    componentName
   };
   const fakeRes = {
     set: sandbox.stub(),
@@ -34,26 +33,41 @@ describe('getComponentRawHtml middleware', () => {
   afterEach(() => {
     sandbox.reset();
   });
-  it('responds with the rendered raw component', () => {
-    fakeReq.path = 'some.html';
+
+  it('passes context', () => {
+    fakeReq.context = { [chance.word()]: chance.word() };
     fakeRes.set.returns(fakeRes);
     const result = subject(fakeReq, fakeRes);
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
       expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
-      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: { locale: fakeReq.locale }});
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: fakeReq.context});
     });
   });
 
   it('responds with the rendered test component', () => {
-    fakeReq.path = 'some.raw.html';
+    delete fakeReq.context;
+    fakeReq.raw = false;
+    fakeRes.set.returns(fakeRes);
+    const result = subject(fakeReq, fakeRes);
+    return result.then(()=> {
+      expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
+      expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
+      expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: undefined});
+    });
+  });
+
+  it('responds with the rendered raw component', () => {
+    delete fakeReq.context;
+    fakeReq.raw = true;
     fakeRes.set.returns(fakeRes);
     return subject(fakeReq, fakeRes).then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
       expect(fakeRenderRawMarkup).to.have.been.calledWith(fakeRenderOptions);
-      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: { locale: fakeReq.locale }});
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: undefined});
     });
   });
 });

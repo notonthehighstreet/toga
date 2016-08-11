@@ -37,7 +37,7 @@ module.exports = (deps) => {
             return bundle(component, { minify });
           }
           else {
-            throw new NotFoundError('Path not found');
+            throw new NotFoundError(`Path not found: ${modulePaths}`);
           }
         }).then((bundles) => {
           assets = bundles;
