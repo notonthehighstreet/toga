@@ -11,7 +11,7 @@ module.exports = function one(req, res) {
     'http://localhost:8080/v1/components.min.css?components=["test-one"]'
   ];
   Promise.all([
-    rp('http://localhost:8080/v1/test-one.raw.html?context={"one":"toe"}')
+    rp('http://localhost:8080/v1/test-one.raw.html?props={"one":"toe"}')
   ])
     .then(function(htmlStrings) {
       res.send(html({

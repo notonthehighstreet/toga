@@ -11,8 +11,8 @@ module.exports = function multiple(req, res) {
     'http://localhost:8080/v1/components.min.css?components=["test-one","test-multiple"]'
   ];
   Promise.all([
-    rp('http://localhost:8080/v1/test-one.raw.html?context={"one":"toe"}'),
-    rp('http://localhost:8080/v1/test-multiple.raw.html?context={"one":"head"}')
+    rp('http://localhost:8080/v1/test-one.raw.html?props={"one":"toe"}'),
+    rp('http://localhost:8080/v1/test-multiple.raw.html?props={"one":"head"}')
   ])
     .then(function(htmlStrings) {
       res.send(html({

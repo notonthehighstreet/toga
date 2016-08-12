@@ -13,7 +13,7 @@ const reactStub = sandbox.stub().returns(fakeReact);
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
 let fakeComponentName = chance.word();
-let fakeComponentContext = {
+let fakeComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
@@ -68,13 +68,13 @@ describe('renderComponent', () => {
       subject = builder(deps);
       actualSubjectReturnValue = subject({
         componentName: fakeComponentName,
-        context: fakeComponentContext
+        props: fakeComponentProps
       });
     });
 
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
-        expect(reactStub).to.be.calledWith(MockComponent, fakeComponentContext);
+        expect(reactStub).to.be.calledWith(MockComponent, fakeComponentProps);
       });
     });
 
@@ -90,9 +90,9 @@ describe('renderComponent', () => {
       });
     });
 
-    it('the component\'s context', () => {
+    it('the component\'s props', () => {
       return actualSubjectReturnValue.then((callbackArguments) => {
-        expect(callbackArguments.context).to.deep.eq(fakeComponentContext);
+        expect(callbackArguments.props).to.deep.eq(fakeComponentProps);
       });
     });
   });
@@ -103,7 +103,7 @@ describe('renderComponent', () => {
       subject = builder(deps);
       actualSubjectReturnValue = subject({
         componentName: fakeComponentName,
-        context: fakeComponentContext
+        props: fakeComponentProps
       });
     });
 
@@ -133,7 +133,7 @@ describe('when the component uses export default', () => {
     subject = builder(deps);
     actualSubjectReturnValue = subject({
       componentName: fakeComponentName,
-      context: fakeComponentContext
+      props: fakeComponentProps
     });
   });
   afterEach(() => {
@@ -141,7 +141,7 @@ describe('when the component uses export default', () => {
   });
   it('renderReactStub is called with the correct args', () => {
     return actualSubjectReturnValue.then(()=> {
-      expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentContext);
+      expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentProps);
     });
   });
 });

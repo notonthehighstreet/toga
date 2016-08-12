@@ -22,9 +22,7 @@ describe('bundler/index', () => {
     'css.map' : sinon.match(/(\w*)\.css\.map/g)
   };
   const apiVersion = '3';
-  const getAppConfigMock = () => {
-    return { apiVersion, componentsPath: fakeComponentsPath };
-  };
+  const configMock ={ apiVersion, componentsPath: fakeComponentsPath };
   const errorMessage = chance.word();
   const bundleFailureError = new Error(errorMessage);
   const bundleSuccessData = {
@@ -55,7 +53,7 @@ describe('bundler/index', () => {
       '/logger': fakeLogger,
       '/lib/bundler/buildHash': bundleHashMock,
       '/lib/bundler/bundle': bundleSuccessMock,
-      '/config/index': getAppConfigMock,
+      '/config/index': configMock,
       '/lib/utils/pathsExist': fakePathsExist,
       '/lib/utils/componentHelper': fakeComponentHelper,
       '/lib/utils/errors': {

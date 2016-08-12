@@ -5,9 +5,9 @@ module.exports = (deps) => {
       '/views/component-test': renderTestMarkup,
       '/views/component-raw': renderRawMarkup
     } = deps;
-    const { context, raw, componentName } = req;
+    const { props, raw, componentName } = req;
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
-    return renderComponent({ componentName, context })
+    return renderComponent({ componentName, props })
       .then((opts) => {
         const html = renderer(opts);
         res.set('Content-Type', 'text/html').send(html);

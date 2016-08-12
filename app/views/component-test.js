@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return ({componentDOM, componentName, context}) => {
+  return ({componentDOM, componentName, props}) => {
     const config = deps['/config/index'];
     const apiVersionPrefix = `/v${config.apiVersion}`;
 
@@ -19,7 +19,7 @@ module.exports = (deps) => {
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/components.css?components=["${componentName}"]'>
     </head>
     <body>
-    <div toga="${componentName}" props='${JSON.stringify(context)}'>${componentDOM}</div>
+    <div toga="${componentName}" props='${JSON.stringify(props)}'>${componentDOM}</div>
     <script src='${apiVersionPrefix}/components-vendor-bundle.js?components=["${componentName}"]'></script>
     <script src='${apiVersionPrefix}/components.js?components=["${componentName}"]'></script>
     </body>

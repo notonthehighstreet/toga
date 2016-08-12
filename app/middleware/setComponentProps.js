@@ -1,11 +1,11 @@
 module.exports = (deps) => {
   const {
     '/lib/utils/errors': { BadRequestError },
-    '/lib/getAppConfig': getAppConfig
+    '/config/index': config
   } = deps;
-  const { vendorBundleComponent } = getAppConfig();
+  const { vendorBundleComponent } = config;
 
-  const componentContext = (encodedConfig) => {
+  const encodeJson = (encodedConfig) => {
     return (encodedConfig === undefined)
       ? {}
       : JSON.parse(decodeURIComponent(encodedConfig));
@@ -13,17 +13,17 @@ module.exports = (deps) => {
 
   const parse = (json, next) => {
     try {
-      return componentContext(json);
+      return encodeJson(json);
     }
     catch(error) {
-      return next(new BadRequestError(`Context is not valid JSON: ${json}`));
+      return next(new BadRequestError(`Props is not valid JSON: ${json}`));
     }
   };
 
   return {
     html(req, res, next) {
       req.componentName = req.params.componentName;
-      req.context = parse(req.query.context, next);
+      req.props = parse(req.query.props, next);
       req.assetType = 'html';
       req.raw = !!req.params[0];
       next();

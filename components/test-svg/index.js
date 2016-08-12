@@ -39,7 +39,7 @@ module.exports = class TestOne extends React.Component {
           <p>This example is used to test a HTML page containing a single component</p>
         </div>
         <div id="test-locale">locale : {locale}</div>
-        <div id="test-context">context (one) : {one}</div>
+        <div id="test-props">props (one) : {one}</div>
         <div id="test-clicked">clicked : {clicked.toString()}</div>
         <div id="test-highlighted">highlighted : {BOOM.toString()}</div>
         <div id="test-svg"><Svg markup={ chevron }/></div>

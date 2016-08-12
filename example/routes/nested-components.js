@@ -11,7 +11,7 @@ module.exports = function nested(req, res) {
     'http://localhost:8080/v1/components.min.css?components=["test-nested"]'
   ];
   Promise.all([
-    rp('http://localhost:8080/v1/test-nested.raw.html?context={"one":"head"}')
+    rp('http://localhost:8080/v1/test-nested.raw.html?props={"one":"head"}')
   ])
     .then(function(htmlStrings) {
       res.send(html({

@@ -13,7 +13,7 @@ const fakeWebpack = {
 };
 const fakeIsoPluginSpy = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
-const fakeGetAppConfig = sandbox.stub();
+const configMock = { minify: false };
 const fakeExtractTextPluging = () => {};
 fakeExtractTextPluging.extract = () => {};
 
@@ -28,10 +28,7 @@ describe('Create Webpack Config', () => {
       webpack: fakeWebpack,
       autoprefixer: fakeAutoPrefixer,
       'extract-text-webpack-plugin': fakeExtractTextPluging,
-      '/config/index': fakeGetAppConfig
-    });
-    fakeGetAppConfig.returns({
-      minify: false
+      '/config/index': configMock
     });
   });
   afterEach(() => {

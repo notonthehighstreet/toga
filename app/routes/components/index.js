@@ -2,7 +2,7 @@ module.exports = (deps) => {
   return function createComponentRouter() {
     const {
       'express': express,
-      '/middleware/setComponentContext': setComponentContext,
+      '/middleware/setComponentProps': setComponentProps,
       '/middleware/getComponentAsset': getComponentAsset,
       '/middleware/getComponentHtml': getComponentHtml,
       '/config/index': config,
@@ -20,9 +20,9 @@ module.exports = (deps) => {
     };
 
     router.use(setLocale);
-    router.use(MAP_URL, setComponentContext.map);
-    router.use(ASSETS_URL, setComponentContext.asset);
-    router.use(HTML_URL, setComponentContext.html);
+    router.use(MAP_URL, setComponentProps.map);
+    router.use(ASSETS_URL, setComponentProps.asset);
+    router.use(HTML_URL, setComponentProps.html);
 
     router
       .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles.url))

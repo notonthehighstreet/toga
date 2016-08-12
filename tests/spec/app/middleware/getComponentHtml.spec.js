@@ -34,20 +34,20 @@ describe('getComponentRawHtml middleware', () => {
     sandbox.reset();
   });
 
-  it('passes context', () => {
-    fakeReq.context = { [chance.word()]: chance.word() };
+  it('passes props', () => {
+    fakeReq.props = { [chance.word()]: chance.word() };
     fakeRes.set.returns(fakeRes);
     const result = subject(fakeReq, fakeRes);
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
       expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
-      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: fakeReq.context});
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props});
     });
   });
 
   it('responds with the rendered test component', () => {
-    delete fakeReq.context;
+    delete fakeReq.props;
     fakeReq.raw = false;
     fakeRes.set.returns(fakeRes);
     const result = subject(fakeReq, fakeRes);
@@ -55,19 +55,19 @@ describe('getComponentRawHtml middleware', () => {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
       expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
-      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: undefined});
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });
 
   it('responds with the rendered raw component', () => {
-    delete fakeReq.context;
+    delete fakeReq.props;
     fakeReq.raw = true;
     fakeRes.set.returns(fakeRes);
     return subject(fakeReq, fakeRes).then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
       expect(fakeRenderRawMarkup).to.have.been.calledWith(fakeRenderOptions);
-      expect(renderComponentStub).to.have.been.calledWith({ componentName, context: undefined});
+      expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });
 });

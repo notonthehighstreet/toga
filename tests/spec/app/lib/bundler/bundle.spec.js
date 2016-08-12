@@ -5,9 +5,7 @@ const builder = require('../../../../../app/lib/bundler/bundle');
 import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../commonMocks';
 
 const fakeVendorBundleComponent = chance.word();
-const getAppConfigMock = () => {
-  return { vendorBundleComponent: fakeVendorBundleComponent };
-};
+const configMock = { vendorBundleComponent: fakeVendorBundleComponent };
 
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();
@@ -39,7 +37,7 @@ describe('runBundler', () => {
 
   beforeEach(() => {
     deps = {
-      '/lib/getAppConfig': getAppConfigMock,
+      '/config/index': configMock,
       '/lib/bundler/vendorFiles': fakeVendorFiles,
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,

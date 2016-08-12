@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const builder = require('../../../../app/middleware/setComponentContext');
+const builder = require('../../../../app/middleware/setComponentProps');
 const Chance = require('chance');
 const chance = new Chance();
 
@@ -9,15 +9,13 @@ const componentName = chance.word();
 const component2Name = chance.word();
 
 const fakeVendorBundleComponent = chance.word();
-const getAppConfigMock = () => {
-  return { vendorBundleComponent: fakeVendorBundleComponent };
-};
+const configMock = { vendorBundleComponent: fakeVendorBundleComponent };
 const subject = builder({
-  '/lib/getAppConfig': getAppConfigMock,
+  '/config/index': configMock,
   '/lib/utils/errors': {BadRequestError}
 });
 
-describe('setComponentContext', () => {
+describe('setComponentProps', () => {
   const sandbox = sinon.sandbox.create();
   const responseMock = {};
   const nextSpy = sandbox.spy();
@@ -26,7 +24,7 @@ describe('setComponentContext', () => {
     sandbox.reset();
   });
 
-  describe('when the html context is requested', () => {
+  describe('when the html props is requested', () => {
     const requestMock = {
       query: {},
       params: {componentName}
@@ -57,31 +55,31 @@ describe('setComponentContext', () => {
       expect(nextSpy).to.have.been.calledOnce;
     });
 
-    describe('when the context query param matches a request param', () => {
+    describe('when the props query param matches a request param', () => {
       describe('and the param is valid encoded json', () => {
-        const context = {'hello': 'world'};
-        const encodedContext = encodeURIComponent(JSON.stringify(context));
+        const props = {'hello': 'world'};
+        const encodedProps = encodeURIComponent(JSON.stringify(props));
         const fakeRequest = {
           query: {
-            context: encodedContext
+            props: encodedProps
           },
           params: {
 
           },
           path: '/components-vendor-bundle.js'
         };
-        it('returns a context created from the json', () => {
+        it('returns a props created from the json', () => {
           subject.html(fakeRequest, responseMock, nextSpy);
-          expect(fakeRequest.context).to.deep.eq(context);
+          expect(fakeRequest.props).to.deep.eq(props);
           expect(nextSpy.args[0] instanceof BadRequestError).to.be.false;
         });
       });
-      describe('and the context contains a \'+\' character', () => {
-        const context = encodeURIComponent(JSON.stringify({'csrf': 'sGm23r+w4t4.[]]}'}));
-        const expectedContext = {'csrf': 'sGm23r+w4t4.[]]}'};
+      describe('and the props contains a \'+\' character', () => {
+        const props = encodeURIComponent(JSON.stringify({'csrf': 'sGm23r+w4t4.[]]}'}));
+        const expectedProps = {'csrf': 'sGm23r+w4t4.[]]}'};
         const fakeRequest = {
           query: {
-            context: context
+            props
           },
           params: {
 
@@ -90,14 +88,14 @@ describe('setComponentContext', () => {
         };
         it('should not convert it to a space character', () => {
           subject.html(fakeRequest, responseMock, nextSpy);
-          expect(fakeRequest.context).to.deep.eq(expectedContext);
+          expect(fakeRequest.props).to.deep.eq(expectedProps);
           expect(nextSpy).to.have.been.calledOnce;
         });
       });
       describe('and the param is in-valid encoded json', () => {
         const fakeRequest = {
           query: {
-            context: 'I am \' an invalid {json} encoded string;'
+            props: 'I am \' an invalid {json} encoded string;'
           },
           params: {
 
@@ -105,7 +103,7 @@ describe('setComponentContext', () => {
         };
         it('propgates the error', () => {
           subject.html(fakeRequest, responseMock, nextSpy);
-          expect(fakeRequest.context).to.be.undefined;
+          expect(fakeRequest.props).to.be.undefined;
           let firstCallArguments = nextSpy.args[0];
           return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
         });
@@ -113,7 +111,7 @@ describe('setComponentContext', () => {
     });
   });
 
-  describe('when the map context is requested', () => {
+  describe('when the map props is requested', () => {
 
     it('detects it as a component and sets the componentPath ', () => {
       const minify = true;
@@ -142,7 +140,7 @@ describe('setComponentContext', () => {
     });
   });
 
-  describe('when the asset context is requested', () => {
+  describe('when the asset props is requested', () => {
 
     it('passes correct assetType', () => {
       const assetType = chance.word();

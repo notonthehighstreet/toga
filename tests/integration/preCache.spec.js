@@ -9,8 +9,8 @@ const majorVersion = semver.major(version);
 const hashFiles = require('hash-files');
 let hash;
 
-const getAppConfig = require('../../app/config/index');
-const redisConfig = getAppConfig().redis;
+const config = require('../../app/config/index');
+const redisConfig = config().redis;
 
 const redisClientConfig = {
   // With ReadyCheck enabled, accessing Redis for the first time will not be

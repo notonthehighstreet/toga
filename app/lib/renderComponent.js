@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function renderComponent({ componentName, context }) {
+  return function renderComponent({ componentName, props }) {
     const {
       'react-dom/server' : ReactDOMServer,
       'react' : React,
@@ -30,9 +30,9 @@ module.exports = (deps) => {
           const component = getComponent(relativeComponentPath);
           const componentDOM = ReactDOMServer.renderToString(
             // handle export default as well as module.exports
-            React.createElement(component.default || component, context)
+            React.createElement(component.default || component, props)
           );
-          return { componentDOM, componentName, context };
+          return { componentDOM, componentName, props };
         }
         else {
           throw new NotFoundError(`${componentName} not found`);

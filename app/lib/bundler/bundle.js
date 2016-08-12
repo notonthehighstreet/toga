@@ -3,7 +3,7 @@ module.exports = (deps) => {
     const {
       'es6-promisify': promisify,
       'memory-fs': MemoryFS,
-      '/lib/getAppConfig': getAppConfig,
+      '/config/index': config,
       '/lib/webpack/index': runWebpack,
       '/lib/utils/componentHelper': componentHelper,
       '/lib/bundler/vendorFiles': vendorFiles,
@@ -11,7 +11,7 @@ module.exports = (deps) => {
     } = deps;
 
     const log = debug('toga:bundle');
-    const { vendorBundleComponent } = getAppConfig();
+    const { vendorBundleComponent } = config;
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const modulePaths = componentHelper.path(component);

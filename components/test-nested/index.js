@@ -35,11 +35,11 @@ module.exports = class TestNested extends React.Component {
       >
         <div>
           <h2>Example: Nested Components </h2>
-          <p>This example is used to test a HTML page containg a component (`TestNested`) 
+          <p>This example is used to test a HTML page containg a component (`TestNested`)
             which also contains another component (`Test`).</p>
         </div>
         <div id="test-nested-locale">locale : {locale}</div>
-        <div id="test-nested-context">context (one) : {one}</div>
+        <div id="test-nested-props">props (one) : {one}</div>
         <div id="test-nested-clicked">clicked : {clicked.toString()}</div>
         <div id="test-nested-highlighted">highlighted : {BOOM.toString()}</div>
 
