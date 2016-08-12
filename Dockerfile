@@ -15,4 +15,5 @@ RUN ln -sfn /config/newrelic.js $HOME/newrelic.js
 
 COPY . $HOME/
 
+ENV NODE_ENV=production
 EXPOSE 8080
