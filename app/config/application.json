@@ -19,5 +19,6 @@
   "componentsPath": "./components",
   "syncServer": {
     "enabled": false
-  }
+  },
+  "vendorBundleComponent": "vendor"
 }

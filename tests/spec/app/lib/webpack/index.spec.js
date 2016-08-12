@@ -30,7 +30,6 @@ describe('webpack/index', () => {
       'es6-promisify': fakePromisify,
       'webpack': fakeWebpack,
       'debug': fakeDebug,
-      '/lib/bundler/vendorFiles': fakeVendorFiles,
       '/lib/webpack/createWebpackConfig': createConfigMock,
       '/lib/universalRendering/index': fakeUniversalRendering
     };
@@ -47,7 +46,7 @@ describe('webpack/index', () => {
     });
 
     it('passes through options', () => {
-      result = subject(component, { modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
+      result = subject(component, { externals: fakeVendorFiles, modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
       return result.then(()=>{
         expect(fakeUniversalRendering).to.be.called;
         expect(fakeUniversalRendering().isoPlugin).to.be.calledWith(component);
@@ -76,24 +75,11 @@ describe('webpack/index', () => {
   });
 
   describe('webpack options are passed correctly', () => {
-    it('sets the externals webpack option if the component is vendor', () => {
-      result = subject('vendor');
-      return result.then(()=>{
-        expect(createConfigMock).to.be.calledWith({
-          externals: [],
-          isoPlugin: undefined,
-          minify: undefined,
-          mapPath: undefined,
-          modulePaths: undefined
-        });
-      });
-    });
-
     it('minifies content', () => {
       result = subject(chance.word(), { minify: true });
       return result.then(() => {
         expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
+          externals: undefined,
           isoPlugin: undefined,
           minify: true,
           mapPath: undefined,

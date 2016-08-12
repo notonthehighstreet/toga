@@ -4,9 +4,9 @@ module.exports = (deps) => {
     const {
       '/cache/set': setCache,
       '/cache/get': getCache,
+      '/config/index': config,
       '/lib/bundler/buildHash': buildHash,
       '/lib/bundler/bundle': bundle,
-      '/config/index': config,
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/errors': { NotFoundError, BundleError },
       '/lib/utils/componentHelper': componentHelper

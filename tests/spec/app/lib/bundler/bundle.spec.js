@@ -4,6 +4,11 @@ const chance = new require('chance')();
 const builder = require('../../../../../app/lib/bundler/bundle');
 import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../commonMocks';
 
+const fakeVendorBundleComponent = chance.word();
+const getAppConfigMock = () => {
+  return { vendorBundleComponent: fakeVendorBundleComponent };
+};
+
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();
   let deps;
@@ -30,9 +35,12 @@ describe('runBundler', () => {
   });
   const fakeModulePaths = [ chance.file() ];
   const fakeRunWebpack = fakePromise;
+  const fakeVendorFiles = { [chance.word()]: chance.word() };
 
   beforeEach(() => {
     deps = {
+      '/lib/getAppConfig': getAppConfigMock,
+      '/lib/bundler/vendorFiles': fakeVendorFiles,
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,
       '/lib/webpack/index': fakeRunWebpack,
@@ -133,10 +141,24 @@ describe('runBundler', () => {
   });
 
   describe('runWebpack options are passed correctly', () => {
+    it('sets the externals webpack option if the component is vendor', () => {
+      result = subject(fakeVendorBundleComponent);
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith(fakeVendorBundleComponent, {
+          externals: [],
+          mapPath: fakeMapPath,
+          minify: undefined,
+          modulePaths: fakeModulePaths,
+          outputFileSystem: memoryFsMock()
+        });
+      });
+    });
+
     it('minifies content', () => {
       result = subject(component, { minify: true });
       return result.then(() => {
         expect(fakeRunWebpack).to.be.calledWith(component, {
+          externals: fakeVendorFiles,
           minify: true,
           mapPath: fakeMapPath,
           modulePaths: fakeModulePaths,

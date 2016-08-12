@@ -1,21 +1,24 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const builder = require('../../../../app/middleware/setComponentContext');
-function BadRequestError() {
-}
 const Chance = require('chance');
-const chance = Chance();
+const chance = new Chance();
 
+function BadRequestError() {}
 const componentName = chance.word();
 const component2Name = chance.word();
 
+const fakeVendorBundleComponent = chance.word();
+const getAppConfigMock = () => {
+  return { vendorBundleComponent: fakeVendorBundleComponent };
+};
 const subject = builder({
+  '/lib/getAppConfig': getAppConfigMock,
   '/lib/utils/errors': {BadRequestError}
 });
 
 describe('setComponentContext', () => {
   const sandbox = sinon.sandbox.create();
-  const componentPath = 'path/to/component';
   const responseMock = {};
   const nextSpy = sandbox.spy();
 
@@ -145,7 +148,7 @@ describe('setComponentContext', () => {
       const assetType = chance.word();
       const requestMock = {
         query: {},
-        params: {2: assetType, components: `${componentName}__${component2Name}`}
+        params: {1: assetType, componentName: `${componentName}__${component2Name}`}
       };
 
       subject.asset(requestMock, responseMock, nextSpy);
@@ -157,31 +160,69 @@ describe('setComponentContext', () => {
       const minify = true;
       const requestMock = {
         query: {},
-        params: {1: minify, components: `${componentName}__${component2Name}`}
+        params: {0: minify, componentName: `${componentName}__${component2Name}`}
       };
 
       subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.minify).to.eq(true);
+      expect(requestMock.minify).to.equal(true);
       expect(nextSpy).to.have.been.calledOnce;
     });
-    it('detects it as a vendor component', () => {
-      const isVendor = true;
+
+    it('detects it as a toga components alternate url', () => {
+      const fakeComponentName = chance.word();
       const requestMock = {
         query: {},
-        params: {0: isVendor, components: `${componentName}__${component2Name}`}
+        params: {componentName: fakeComponentName}
       };
 
       subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.eq('vendor');
+      expect(requestMock.components).to.equal(fakeComponentName);
+      expect(nextSpy).to.have.been.calledOnce;
+    });
+
+    it('detects broken component json', () => {
+      const fakeComponentName = chance.word();
+      const fakeComponents = fakeComponentName;
+      const requestMock = {
+        query: { components: fakeComponents},
+        params: {componentName: 'components'}
+      };
+
+      subject.asset(requestMock, responseMock, nextSpy);
+      expect(requestMock.components).to.deep.equal(undefined);
+      const firstCallArguments = nextSpy.args[0];
+      return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
+    });
+
+    it('detects it as a toga component', () => {
+      const fakeComponentName = [chance.word()];
+      const fakeComponents = encodeURIComponent(JSON.stringify(fakeComponentName));
+      const requestMock = {
+        query: { components: fakeComponents},
+        params: {componentName: 'components'}
+      };
+
+      subject.asset(requestMock, responseMock, nextSpy);
+      expect(requestMock.components).to.deep.equal(fakeComponentName);
+      expect(nextSpy).to.have.been.calledOnce;
+    });
+
+    it('detects it as a vendor component', () => {
+      const requestMock = {
+        query: {},
+        params: {componentName: 'components-vendor-bundle'}
+      };
+
+      subject.asset(requestMock, responseMock, nextSpy);
+      expect(requestMock.components).to.equal(fakeVendorBundleComponent);
       expect(nextSpy).to.have.been.calledOnce;
     });
 
     it('sets minify to false', () => {
       const minify = false;
       const requestMock = {
-        path: `${componentPath}.html`,
         query: {},
-        params: {0: true, 1: minify, 2: 'js', components: `${componentName}__${component2Name}`}
+        params: { 0: minify, 1: 'js', componentName: `${componentName}__${component2Name}`}
       };
 
       subject.asset(requestMock, responseMock, nextSpy);

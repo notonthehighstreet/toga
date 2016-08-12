@@ -1,7 +1,9 @@
 module.exports = (deps) => {
   const {
-    '/lib/utils/errors': { BadRequestError }
+    '/lib/utils/errors': { BadRequestError },
+    '/lib/getAppConfig': getAppConfig
   } = deps;
+  const { vendorBundleComponent } = getAppConfig();
 
   const componentContext = (encodedConfig) => {
     return (encodedConfig === undefined)
@@ -20,28 +22,25 @@ module.exports = (deps) => {
 
   return {
     html(req, res, next) {
-      const raw = !!req.params[0];
       req.componentName = req.params.componentName;
       req.context = parse(req.query.context, next);
       req.assetType = 'html';
-      req.raw = raw;
+      req.raw = !!req.params[0];
       next();
     },
     map(req, res, next) {
-      const isMin = !!req.params[0];
-      const assetType = req.params[1];
       req.components = req.params.components.split('__');
-      req.assetType = assetType + '.map';
-      req.minify = isMin;
+      req.assetType = req.params[1] + '.map';
+      req.minify = !!req.params[0];
       next();
     },
     asset(req, res, next) {
-      const isVendor = !!req.params[0];
-      const isMin = !!req.params[1];
-      const assetType = req.params[2];
-      req.components = isVendor ? 'vendor' : parse(req.query.components);
-      req.assetType = assetType;
-      req.minify = isMin;
+      const qComponents = parse(req.query.components, next);
+      const pComponentName = req.params.componentName;
+      const components = pComponentName === 'components-vendor-bundle' ? vendorBundleComponent : pComponentName;
+      req.components = pComponentName === 'components' ? qComponents : components;
+      req.assetType = req.params[1];
+      req.minify = !!req.params[0];
       next();
     }
   };

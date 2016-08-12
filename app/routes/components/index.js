@@ -11,8 +11,8 @@ module.exports = (deps) => {
 
     const router = express.Router();
     const MAP_URL = '/:components.components(\.min)?.(css|js).map';
-    const ASSETS_URL = '/components(-vendor-bundle)?(\.min)?.(css|js)';
     const HTML_URL = '/:componentName.(raw\.)?html';
+    const ASSETS_URL = '/:componentName.(min\.)?(css|js)';
 
     const serveStatic = (req, res, next) => {
       const { component, path } = req.params;
@@ -25,10 +25,9 @@ module.exports = (deps) => {
     router.use(HTML_URL, setComponentContext.html);
 
     router
-      .get(MAP_URL, getComponentAsset)
-      .get(ASSETS_URL, getComponentAsset)
+      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles.url))
       .get(HTML_URL, getComponentHtml)
-      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles.url));
+      .get([MAP_URL, ASSETS_URL], getComponentAsset);
 
     router.use('/:component/assets/:path', serveStatic);
 

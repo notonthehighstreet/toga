@@ -1,16 +1,14 @@
 module.exports = (deps) => {
-  return function runWebpack(component, { minify, modulePaths, mapPath, outputFileSystem } = {}) {
+  return function runWebpack(component, { externals, minify, modulePaths, mapPath, outputFileSystem } = {}) {
     const {
       'es6-promisify': promisify,
       'webpack': webpack,
-      '/lib/bundler/vendorFiles': vendorFiles,
       '/lib/webpack/createWebpackConfig': createWebpackConfig,
       '/lib/universalRendering/index': getUniversalRendering,
       debug
     } = deps;
 
     const log = debug('toga:runWebpack');
-    const externals = component === 'vendor' ? [] : vendorFiles;
     const universalRendering = getUniversalRendering();
     const isoPlugin = universalRendering.isoPlugin(component);
 
