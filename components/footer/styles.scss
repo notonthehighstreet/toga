@@ -42,6 +42,12 @@
     border-bottom-width: 0;
   }
 
+  &--social {
+    display: block;
+    background-color: white;
+    padding: 0;
+  }
+
   @include breakpoint(large) {
     background-color: white;
     padding-top: 0;

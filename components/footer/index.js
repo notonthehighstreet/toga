@@ -94,7 +94,7 @@ export default class Footer extends React.Component {
             <Accordion.Header { ...bem('title', 'social', 'hidden--mobile') }>
               keep in touch
             </Accordion.Header>
-            <Accordion.Panel { ...bem('content', null, 'visible--desktop') }>
+            <Accordion.Panel { ...bem('content', 'social', 'visible--desktop') }>
               <LinksList links={ linksObject.social } linkClass="social-link" { ...bem('social-links') } />
             </Accordion.Panel>
           </div>
