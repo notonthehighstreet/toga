@@ -16,10 +16,7 @@ class CountryAndCurrency extends React.Component {
 
   static propTypes = {
     country: React.PropTypes.oneOf(countryCodes),
-    currency: React.PropTypes.oneOf(currencyCodes)
-  };
-
-  static contextTypes = {
+    currency: React.PropTypes.oneOf(currencyCodes),
     csrf: React.PropTypes.string
   };
 
@@ -71,7 +68,7 @@ class CountryAndCurrency extends React.Component {
 
   buildRequestHeaders() {
     return {
-      'X-CSRF-Token': this.context.csrf, // eslint-disable-line
+      'X-CSRF-Token': this.props.csrf // eslint-disable-line
     };
   }
 

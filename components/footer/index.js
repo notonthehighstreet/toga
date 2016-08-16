@@ -22,7 +22,8 @@ export default class Footer extends React.Component {
     className: React.PropTypes.string,
     sponsoredProductFeature: React.PropTypes.bool,
     country: CountryAndCurrency.propTypes.country,
-    currency: CountryAndCurrency.propTypes.currency
+    currency: CountryAndCurrency.propTypes.currency,
+    csrf: React.PropTypes.string
   };
 
   static defaultProps = {
@@ -30,16 +31,8 @@ export default class Footer extends React.Component {
     sponsoredProductFeature: false
   };
 
-  static childContextTypes = {
-    csrf: React.PropTypes.string
-  };
-
-  getChildContext() {
-    return { csrf: this.props.csrf };
-  }
-
   render() {
-    const { loggedIn, name, sponsoredProductFeature, country, currency, className, locale, ...props } = this.props;
+    const { loggedIn, name, sponsoredProductFeature, country, currency, className, locale, csrf, ...props } = this.props;
 
     return (
       <div { ...bem(null, null, className) } { ...props } >
@@ -87,7 +80,7 @@ export default class Footer extends React.Component {
               region
             </Accordion.Header>
             <Accordion.Panel { ...bem('content', null, 'visible--desktop') }>
-              <CountryAndCurrency country={country} currency={currency}/>
+              <CountryAndCurrency country={country} currency={currency} csrf={csrf} />
             </Accordion.Panel>
           </div>
           <div { ...bem('list', 'social') }>

@@ -19,8 +19,7 @@ describe('countryAndCurrency component', () => {
 
   beforeEach(() => {
     sandbox.reset();
-    const context = { csrf: token };
-    renderedOutput = mount(<CountryAndCurrency country="GB-1" currency="GBP" />, { context });
+    renderedOutput = mount(<CountryAndCurrency country="GB-1" currency="GBP" csrf={token}/>);
   });
 
   describe('default values set by props', () => {
@@ -117,6 +116,6 @@ describe('countryAndCurrency component', () => {
       });
 
     });
-  }); 
+  });
 
 });
