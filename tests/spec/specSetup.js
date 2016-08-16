@@ -5,6 +5,7 @@ const hook = require('node-hook').hook;
 const chaiEnzyme = require('chai-enzyme');
 
 hook('.scss', () => {});
+hook('.svg', () => {});
 
 chai.use(chaiAsPromised);
 chai.use(chaiEnzyme());

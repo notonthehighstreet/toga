@@ -23,7 +23,8 @@
     "test-e2e": "npm run nightwatch -- --env local",
     "test-e2e-xb": "npm run nightwatch -- --env chrome_win",
     "prenightwatch": "selenium-standalone install --version=2.53.1",
-    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
+    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js",
+    "flush-webpack-asset": "node ./script/flushWebpackAssetFiles"
   },
   "pre-commit": [
     "lint",
@@ -114,6 +115,7 @@
     "eslint": "^2.4.0",
     "eslint-plugin-mocha": "2.0.0",
     "eslint-plugin-react": "^4.2.3",
+    "glob": "^6.0.4",
     "jsdom": "^7.2.2",
     "mocha": "^2.2.5",
     "mockery": "1.4.1",

@@ -6,7 +6,7 @@ module.exports = (deps) => {
     } = deps;
     const { componentsPath } = config;
 
-    const isComponentDir = (name) => fs.statSync(`${componentsPath}/${name}`).isDirectory();
-    return fs.readdirSync(componentsPath).filter(isComponentDir);
+    const isComponentFolder = (name) => name !== 'lib' && fs.statSync(`${componentsPath}/${name}`).isDirectory();
+    return fs.readdirSync(componentsPath).filter(isComponentFolder);
   };
 };

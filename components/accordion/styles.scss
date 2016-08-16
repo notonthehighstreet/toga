@@ -10,17 +10,12 @@
     text-decoration: none;
   }
 
-  &:after {
-    content: "";
-    display: block;
+  .toga-chevron-lighter {
     position: absolute;
-    right: 0;
+    right: 8px;
     top: 0;
-    // todo: remove background svg and use inline
-    background: transparent url('footer/assets/svg/arrow_down_lighter.svg') center center no-repeat;
-    width: 32px;
+    width: 16px;
     height: 100%;
-    background-size: 16px 16px;
   }
 
   @include breakpoint(large) {
@@ -38,7 +33,7 @@
 
   // todo: add animation
   &[aria-expanded="true"] {
-    &:after {
+    & .toga-chevron-lighter {
       transform: rotate(180deg)
     }
     + .toga-accordion__panel {

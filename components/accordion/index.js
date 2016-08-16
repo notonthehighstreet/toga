@@ -1,6 +1,8 @@
 import React, { Children } from 'react';
 import bemHelper from 'react-bem-helper';
 import passPropsToComponent from './passPropsToComponent';
+import Svg from '../svg/index';
+import chevron from '../lib/svg/toga-chevron-lighter.svg';
 
 import './styles.scss';
 
@@ -9,7 +11,7 @@ let accordionTabCount = 0;
 
 const Header = ({ className, expanded, tag = 'h3', children,  ...props }) => {
   const classes = bem('header',  null, { [className]: true });
-  const link = <a href="#" onClick={(e) => e.preventDefault() }>{children}</a>;
+  const link = <a href="#" onClick={(e) => e.preventDefault() }>{children}<Svg markup={chevron}/></a>;
   const headerProps = {
     role: 'tab',
     'aria-expanded': !!expanded,

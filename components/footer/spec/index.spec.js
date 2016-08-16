@@ -33,13 +33,13 @@ describe('footer component', () => {
     it('when name is passed renders name as header', () => {
       const component = mount(<Footer name={name} />);
       const myaccountList = component.find('.toga-footer__list--myaccount').find('.toga-footer__title');
-      expect(myaccountList.text()).to.eq(name);
+      expect(myaccountList.text()).to.include(name);
     });
 
     it('when name is not passed renders my account header', () => {
       const component = mount(<Footer />);
       const myaccountList = component.find('.toga-footer__list--myaccount').find('.toga-footer__title');
-      expect(myaccountList.text()).to.eq('my account');
+      expect(myaccountList.text()).to.include('my account');
     });
 
     it('passes logged in to my account content', () => {
