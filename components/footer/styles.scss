@@ -17,6 +17,10 @@
     border-bottom: none;
     line-height: 1.1;
     margin: 0 0 16px;
+
+    & .toga-chevron-lighter {
+      display: none;
+    }
   }
 }
 

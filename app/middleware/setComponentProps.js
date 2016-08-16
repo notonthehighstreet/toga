@@ -8,7 +8,7 @@ module.exports = (deps) => {
   const setControllerName = (url) => {
     if(config.newRelicEnabled) {
       const newRelic = require('newrelic');
-      newRelic.setControllerName(url)
+      newRelic.setControllerName(url);
     }
   };
 
