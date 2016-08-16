@@ -2,6 +2,7 @@ module.exports = (deps) => {
   return function set(key, value) {
     const {
       '/cache/redis/client': getClient,
+      '/config/index': config,
       debug
     } = deps;
 
@@ -10,7 +11,8 @@ module.exports = (deps) => {
 
     const client = getClient();
     const redisSet = client.set.bind(client);
+    const redisKeyTTL = config.redisKeyTTL;
 
-    return redisSet(key, value);
+    return redisSet(key, value, 'ex', redisKeyTTL);
   };
 };

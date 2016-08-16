@@ -20,5 +20,6 @@
   "syncServer": {
     "enabled": false
   },
-  "vendorBundleComponent": "vendor"
+  "vendorBundleComponent": "vendor",
+  "redisKeyTTL": 604800
 }
