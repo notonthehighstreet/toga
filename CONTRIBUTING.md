@@ -32,11 +32,6 @@ Install node module dependencies
 
 `npm install`
 
-Create webpack module mappings (must be re-run when modules change)
-
-`npm run create-bundle-indexes`
-
-
 ### Running the Servers
 
 #### Redis

@@ -1,8 +1,0 @@
-<svg viewBox="0 0 100 60" height="10" width="16" xmlns="http://www.w3.org/2000/svg" class="n-icon n-icon--chevron">
-    <g class="n-icon__group">
-        <line class="n-icon__fg n-icon__line n-icon__line--left" x1="50" y1="50" x2="10" y2="10" stroke-width="15"
-              stroke-linecap="round" />
-        <line class="n-icon__fg n-icon__line n-icon__line--right" x1="50" y1="50" x2="90" y2="10" stroke-width="15"
-              stroke-linecap="round" />
-    </g>
-</svg>
