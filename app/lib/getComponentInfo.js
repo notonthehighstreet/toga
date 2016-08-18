@@ -9,12 +9,10 @@ module.exports = (deps) => {
     const { components } = config;
     const flatternArray = (arr) => [].concat.apply([], arr);
 
-    //todo     // todo : handle when componentsToFind is an array of names
-    const componentToFind = Array.isArray(componentsToFind) ? componentsToFind[0] : componentsToFind;
+    const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];
 
-    // todo : handle when componentName is an array of names
-    const getComponent = (componentName) => {
-      return allComponents.find(component => component.name === componentName)
+    const getComponents = (componentNames) => {
+      return allComponents.filter(component => componentNames.indexOf(component.name)>-1)
     };
     const isComponentFolder = ({ path, name, ignore }) => {
       return ignore.indexOf(name) < 0 && fs.statSync(`${path}/${name}`).isDirectory();
@@ -44,6 +42,6 @@ module.exports = (deps) => {
     if (allComponents.length === 0) {
       allComponents = flatternArray(components.map(component => getInfo(component)));
     }
-    return componentToFind ? getComponent(componentToFind) : allComponents;
+    return componentsToFind ? getComponents(componentToFindArr) : allComponents;
   };
 };

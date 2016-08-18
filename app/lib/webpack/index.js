@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function runWebpack(componentPath, { isoPlugin, modulePaths,mapPath,  externals, minify, outputFileSystem } = {}) {
+  return function runWebpack({ isoPlugin, modulePaths, mapPath, externals, minify, outputFileSystem } = {}) {
     const {
       'es6-promisify': promisify,
       'webpack': webpack,

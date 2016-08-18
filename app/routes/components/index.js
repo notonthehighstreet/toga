@@ -18,7 +18,7 @@ module.exports = (deps) => {
 
     const serveStatic = (req, res, next) => {
       const { component } = req.params;
-      return express.static(`${getComponentInfo(component).public}`)(req, res, next);
+      return express.static(`${getComponentInfo(component)[0].public}`)(req, res, next);
     };
 
     router.use(setLocale);

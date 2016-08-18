@@ -9,7 +9,10 @@ module.exports = (deps) => {
       debug
     } = deps;
     const log = debug('toga:renderComponent');
-    const componentInfo = getComponentInfo(componentName);
+    const component = getComponentInfo(componentName)[0];
+    if (!component) {
+      throw new NotFoundError(`${componentName} not found`);
+    }
     function requireComponent(componentPath) {
       try {
         return require(componentPath);
@@ -20,13 +23,13 @@ module.exports = (deps) => {
       }
     }
 
-    return pathsExist(componentInfo.file)
+    return pathsExist(component.file)
       .then((exists) => {
         if (exists) {
-          const component = requireComponent(componentInfo.requirePath);
+          const componentJS = requireComponent(component.requirePath);
           const componentDOM = ReactDOMServer.renderToString(
             // handle export default as well as module.exports
-            React.createElement(component.default || component, props)
+            React.createElement(componentJS.default || componentJS, props)
           );
           return { componentDOM, componentName, props };
         }

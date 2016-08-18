@@ -11,12 +11,12 @@ module.exports = (deps) => {
 
     const log = debug('toga:startup');
     const logger = getLogger();
-    const componentsInfoArray = getComponentInfo();
+    const components = getComponentInfo();
     const universalRendering = getUniversalRendering();
 
-    log(`${componentsInfoArray.length} components`);
+    log(`${components.length} components`);
 
-    return universalRendering.createAssetsJson(componentsInfoArray)
+    return universalRendering.createAssetsJson(components)
       .then((repoRoot) => {
         return universalRendering.server(path.join(__dirname, '..'), repoRoot);
       })

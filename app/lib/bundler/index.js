@@ -18,12 +18,12 @@ module.exports = (deps) => {
 
     const { apiVersion } = config;
     const minify = opts.minify || false;
-    const componentsInfo = getComponentInfo(componentNames);
+    const components = getComponentInfo(componentNames);
     const getCacheId = (assetType) => (
       `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}.${assetType}`
     );
-    const togaHash = buildHash(componentsInfo.path);
-    const modulePaths = componentsInfo.file;
+    const togaHash = buildHash(components.map(component => component.path));
+    const modulePaths = components.map(component => component.file);
 
     function getAsset(assetType) {
       return getCache(getCacheId(assetType))
@@ -39,8 +39,8 @@ module.exports = (deps) => {
       return pathsExist(modulePaths)
         .then((exists) => {
           if (exists) {
-            log(`${componentsInfo.name} ${assetType} (min: ${minify})`)
-            return bundle(componentsInfo, { minify });
+            log(`${components.name} ${assetType} (min: ${minify})`)
+            return bundle(components, { modulePaths, minify });
           }
           else {
             throw new NotFoundError(`Path not found: ${modulePaths}`);

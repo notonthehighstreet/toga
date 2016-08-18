@@ -18,6 +18,12 @@
   },
   "components": [
     {
+      "root": "noths-frontend",
+      "public": "assets",
+      "path": "components",
+      "ignore": "lib"
+    },
+    {
       "root": "./tests/e2e",
       "public": "assets",
       "path": "components",

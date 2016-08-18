@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function createWebpackAssetsJson(componentInfoArray, assetsFile) {
+  return function createWebpackAssetsJson(components, assetsFile) {
     const {
       'es6-promisify': promisify,
       'deep-assign': deepAssign,
@@ -19,19 +19,20 @@ module.exports = (deps) => {
     // todo: work out how to deal with multiple repo;
     let componentsRoot;
 
-    const getAssetsJson = ((componentInfo) => {
-      componentsRoot = componentInfo.root;
-      const isoPlugin = universalRendering.isoPlugin(componentInfo.path);
-      const componentAssetFilePath = path.join(componentInfo.path , assetsFile);
+    const getAssetsJson = ((component) => {
+      componentsRoot = component.root;
+      const isoPlugin = universalRendering.isoPlugin(component.path);
+      const componentAssetFilePath = path.join(component.path , assetsFile);
+      const modulePaths = components.map(component => component.file);
       return (pathsExist(componentAssetFilePath))
         .then((exists)=>{
           return exists
             ? readFile(componentAssetFilePath)
-            : bundle(componentInfo, { isoPlugin, minify: false }).then(() => getAssetsJson(componentInfo));
+            : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
         });
     });
 
-    const readAssetFiles = componentInfoArray.map(getAssetsJson);
+    const readAssetFiles = components.map(getAssetsJson);
     const strToJson = results => results.map(jsonStr => JSON.parse(jsonStr));
     const combineAssetsJson = (json, allAssets) => deepAssign(allAssets, json);
     const combineAssetFiles = jsonArr => jsonArr.reduce(combineAssetsJson, {});
