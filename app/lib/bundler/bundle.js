@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function bundle(component, { minify } = {}) {
+  return function bundle(componentInfo, { isoPlugin, minify } = {}) {
     const {
       'es6-promisify': promisify,
       'memory-fs': MemoryFS,
@@ -14,12 +14,14 @@ module.exports = (deps) => {
     const { vendorBundleComponent } = config;
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
-    const modulePaths = componentHelper.path(component);
-    const mapPath = componentHelper.bundleId(component);
+    //todo: handle multiple components
+    const componentPath = componentInfo.path;
+    const modulePaths = componentInfo.file;
+    const mapPath = componentHelper.bundleId(componentInfo.name);
     const outputFileSystem = memoryFS;
-    const externals = component === vendorBundleComponent ? [] : vendorFiles;
+    const externals = componentInfo.name === vendorBundleComponent ? [] : vendorFiles;
 
-    log(`${component} ${minify ? 'min' : ''}`);
+    log(`${componentInfo.name} ${minify ? 'min' : ''}`);
 
     function getAssets() {
       const dir = '/';
@@ -37,7 +39,7 @@ module.exports = (deps) => {
       }));
     }
 
-    return runWebpack(component, { externals, minify, modulePaths, mapPath, outputFileSystem })
+    return runWebpack(componentPath, { isoPlugin, externals, minify, modulePaths, mapPath, outputFileSystem })
       .then(getAssets);
   };
 };

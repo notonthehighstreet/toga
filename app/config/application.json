@@ -16,7 +16,20 @@
     "environment": "development",
     "apiKey": "it's a secret!"
   },
-  "componentsPath": "./components",
+  "components": [
+    {
+      "root": "noths-frontend",
+      "public": "assets",
+      "path": "components",
+      "ignore": "lib"
+    },
+    {
+      "root": "./tests/e2e",
+      "public": "assets",
+      "path": "components",
+      "ignore": "lib"
+    }
+  ],
   "syncServer": {
     "enabled": false
   },

@@ -1,9 +1,9 @@
 /*eslint camelcase: ["error", {properties: "never"}]*/
 module.exports = (deps) => {
-  return function createConfig(component, assetsFilename) {
+  return function createIsoConfig(assetPath, assetsFilename) {
     const { path } = deps;
     return {
-      webpack_assets_file_path: path.join(__dirname, '..', '..', '..', 'components', component, `/${assetsFilename}`),
+      webpack_assets_file_path: path.join(__dirname, '..', '..', '..', assetPath, `/${assetsFilename}`),
       assets: {
         asset_type: {
           extension: 'svg',

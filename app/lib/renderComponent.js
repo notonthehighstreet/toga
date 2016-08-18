@@ -3,31 +3,27 @@ module.exports = (deps) => {
     const {
       'react-dom/server' : ReactDOMServer,
       'react' : React,
-      '/config/index': config,
+      '/lib/getComponentInfo': getComponentInfo,
       '/lib/utils/errors': { NotFoundError, InternalServerError },
       '/lib/utils/pathsExist': pathsExist,
-      '/lib/utils/componentHelper': componentHelper,
-      debug,
-      path
+      debug
     } = deps;
     const log = debug('toga:renderComponent');
-    const { componentsPath } = config;
-    const relativeComponentPath = path.join('../../', componentsPath, componentName);
-
-    function getComponent(component) {
+    const componentInfo = getComponentInfo(componentName);
+    function requireComponent(componentPath) {
       try {
-        return require(`${component}/`);
+        return require(componentPath);
       }
       catch(e) {
         log(e);
-        throw new InternalServerError(`${componentName} Parsing error`);
+        throw new InternalServerError(`${componentPath} require/Parsing error`);
       }
     }
 
-    return pathsExist(componentHelper.path(componentName))
+    return pathsExist(componentInfo.file)
       .then((exists) => {
         if (exists) {
-          const component = getComponent(relativeComponentPath);
+          const component = requireComponent(componentInfo.requirePath);
           const componentDOM = ReactDOMServer.renderToString(
             // handle export default as well as module.exports
             React.createElement(component.default || component, props)
