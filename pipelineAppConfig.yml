@@ -1,4 +1,4 @@
-name: noths-frontend
+name: toga
 acceptanceTestJob:
 buildJob: pl-frontend-service-build
 buildContainerJob: pl-frontend-service-publish
