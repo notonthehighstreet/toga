@@ -42,8 +42,9 @@ describe('bundler/index', () => {
   const fakeNotFoundError = sandbox.stub().throws();
   const fakeBundleError = sandbox.stub().throws();
   const fakeBundleId = sandbox.stub().returns(fakeMapPath);
+  const fakeComponentInfo = [{ path : chance.word(),  file: fakeModulePaths[0] }];
+  const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
   const fakeComponentHelper = {
-    path: sandbox.stub().returns(fakeModulePaths),
     bundleId: fakeBundleId
   };
   beforeEach(() => {
@@ -54,6 +55,7 @@ describe('bundler/index', () => {
       '/lib/bundler/buildHash': bundleHashMock,
       '/lib/bundler/bundle': bundleSuccessMock,
       '/config/index': configMock,
+      '/lib/getComponentInfo': fakeGetComponentInfo,
       '/lib/utils/pathsExist': fakePathsExist,
       '/lib/utils/componentHelper': fakeComponentHelper,
       '/lib/utils/errors': {
@@ -113,7 +115,8 @@ describe('bundler/index', () => {
 
             return result.then((componentBundle) => {
               expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
-              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: false });
+              expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
+              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: false, modulePaths: fakeModulePaths });
               expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: false });
               expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
 
@@ -131,7 +134,8 @@ describe('bundler/index', () => {
 
             return result.then((componentBundle) => {
               expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
-              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentsList,  { minify: true });
+              expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
+              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: true, modulePaths: fakeModulePaths });
               expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: true });
               expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
 
