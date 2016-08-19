@@ -4,8 +4,10 @@ const chance = new require('chance')();
 const builder = require('../../../../../app/lib/bundler/bundle');
 import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../commonMocks';
 
-const fakeVendorBundleComponent = chance.word();
-const configMock = { vendorBundleComponent: fakeVendorBundleComponent };
+const fakeFile =  chance.file() ;
+const fakeModulePaths = [ fakeFile ];
+const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
+const configMock = { vendorBundleComponent: fakeVendorBundleComponent.name };
 
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();
@@ -13,15 +15,17 @@ describe('runBundler', () => {
   let subject;
   let result;
   const component = chance.word();
+  const fakeIsoPlugin = chance.word();
   const fakeMapPath = chance.word();
   const componentBundle = chance.word();
   const stylesBundle = chance.word();
   const componentMapBundle = chance.word();
   const stylesMapBundle = chance.word();
-  const readdirSyncStub = sandbox.stub().returns([ chance.file() ]);
+  const readdirSyncStub = sandbox.stub().returns(fakeModulePaths);
   const readFileStub = sandbox.stub();
   const existsSyncStub = sandbox.stub();
   const memoryFsMock = sandbox.stub();
+  const components = [component];
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
   readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
   readFileStub.withArgs('/components.js.map', 'utf8').returns(Promise.resolve(componentMapBundle));
@@ -31,7 +35,6 @@ describe('runBundler', () => {
     readFile : readFileStub,
     existsSync : existsSyncStub
   });
-  const fakeModulePaths = [ chance.file() ];
   const fakeRunWebpack = fakePromise;
   const fakeVendorFiles = { [chance.word()]: chance.word() };
 
@@ -67,7 +70,7 @@ describe('runBundler', () => {
         deps['/lib/webpack/runWebpack'] = fakeResolve();
         deps['memory-fs'] = memoryFsMock;
 
-        result = subject(component);
+        result = subject(components);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             js: componentBundle,
@@ -90,7 +93,7 @@ describe('runBundler', () => {
         deps['/lib/webpack/runWebpack'] = fakeResolve();
         deps['memory-fs'] = memoryFsMock;
 
-        result = subject(component);
+        result = subject(components);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             js: componentBundle,
@@ -112,7 +115,7 @@ describe('runBundler', () => {
         deps['/lib/webpack/runWebpack'] = fakeResolve();
         deps['memory-fs'] = memoryFsMock;
 
-        result = subject(component);
+        result = subject(components);
         return result.then((bundle) => {
           return expect(bundle).to.be.deep.eq({
             js: componentBundle,
@@ -129,7 +132,7 @@ describe('runBundler', () => {
     const failError = chance.word();
     beforeEach(() => {
       deps['/lib/webpack/runWebpack'] = fakeReject(failError);
-      result = subject(component);
+      result = subject(components);
     });
     it('throws an error', () => {
       return result.catch((error) => {
@@ -139,27 +142,55 @@ describe('runBundler', () => {
   });
 
   describe('runWebpack options are passed correctly', () => {
-    it('sets the externals webpack option if the component is vendor', () => {
-      result = subject(fakeVendorBundleComponent);
+    it('sets the isoPlugin', () => {
+      result = subject([fakeVendorBundleComponent], { isoPlugin: fakeIsoPlugin });
       return result.then(()=>{
-        expect(fakeRunWebpack).to.be.calledWith(fakeVendorBundleComponent, {
+        expect(fakeRunWebpack).to.be.calledWith({
           externals: [],
           mapPath: fakeMapPath,
           minify: undefined,
+          isoPlugin: fakeIsoPlugin,
+          modulePaths: undefined,
+          outputFileSystem: memoryFsMock()
+        });
+      });
+    });
+    it('sets the modulePaths', () => {
+      result = subject([fakeVendorBundleComponent], { modulePaths: fakeModulePaths });
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: [],
+          mapPath: fakeMapPath,
+          minify: undefined,
+          isoPlugin: undefined,
           modulePaths: fakeModulePaths,
+          outputFileSystem: memoryFsMock()
+        });
+      });
+    });
+    it('sets the externals webpack option if the component is vendor', () => {
+      result = subject([fakeVendorBundleComponent]);
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: [],
+          mapPath: fakeMapPath,
+          minify: undefined,
+          isoPlugin: undefined,
+          modulePaths: undefined,
           outputFileSystem: memoryFsMock()
         });
       });
     });
 
     it('minifies content', () => {
-      result = subject(component, { minify: true });
+      result = subject(components, { minify: true });
       return result.then(() => {
-        expect(fakeRunWebpack).to.be.calledWith(component, {
+        expect(fakeRunWebpack).to.be.calledWith({
           externals: fakeVendorFiles,
           minify: true,
           mapPath: fakeMapPath,
-          modulePaths: fakeModulePaths,
+          isoPlugin: undefined,
+          modulePaths: undefined,
           outputFileSystem: memoryFsMock()
         });
       });
