@@ -5,23 +5,25 @@ const chance = new require('chance')();
 const builder = require('../../../../app/lib/renderComponent');
 import { fakeResolve, fakeDebug } from '../../commonMocks';
 
+const sandbox = sinon.sandbox.create();
+
 let actualSubjectReturnValue;
 const fakeRenderedComponent = chance.word();
+const fakeModulePaths = [chance.file()];
+let fakeComponentName = chance.word();
+const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
+const fakeComponentInfo = [{ requirePath : fakeRelativeComponentPath, path : chance.word(),  file: fakeModulePaths[0],  name: chance.word() }];
+const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
 const fakeReact = chance.word();
-const sandbox = sinon.sandbox.create();
 const reactStub = sandbox.stub().returns(fakeReact);
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
-let fakeComponentName = chance.word();
 let fakeComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
-const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
-const fakeModulePaths = [chance.file()];
-const fakeMapPath = chance.word();
 const deps = {
   'react': {
     createElement: reactStub
@@ -29,19 +31,12 @@ const deps = {
   'react-dom/server': {
     renderToString: renderReactStub
   },
-  '/config/index': sandbox.stub().returns({ componentsPath: chance.word() }),
   '/lib/utils/pathsExist': fakeResolve(true),
   '/lib/utils/errors': {
     NotFoundError: fakeNotFoundError,
     InternalServerError: fakeInternalServerError
   },
-  '/lib/utils/componentHelper': {
-    path: sandbox.stub().returns(fakeModulePaths),
-    bundleId: sandbox.stub().returns(fakeMapPath)
-  },
-  path: {
-    join: sandbox.stub().returns(fakeRelativeComponentPath)
-  },
+  '/lib/getComponentInfo': fakeGetComponentInfo,
   debug: fakeDebug
 };
 
@@ -49,7 +44,7 @@ describe('renderComponent', () => {
   const MockComponent = () => {};
 
   before(() => {
-    mockery.registerMock(`${fakeRelativeComponentPath}/`, MockComponent);
+    mockery.registerMock(fakeRelativeComponentPath, MockComponent);
     mockery.enable();
   });
 
