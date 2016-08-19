@@ -8,7 +8,7 @@ const chance = new Chance();
 const sandbox = sinon.sandbox.create();
 const fakeCreateServer = sandbox.stub().returns({ listen: (a, b, cb) => cb() });
 
-const fakeGetComponentNames = sandbox.stub().returns([chance.word(), chance.word()]);
+const fakeGetComponentInfo = sandbox.stub().returns([chance.word(), chance.word()]);
 const universalServerStub = sandbox.stub();
 const assetsJsonStub = fakePromise;
 const fakeUniversalRendering = sandbox.stub().returns({
@@ -18,7 +18,7 @@ const fakeUniversalRendering = sandbox.stub().returns({
 
 const subject = builder({
   '/createServer': fakeCreateServer,
-  '/lib/getComponentNames': fakeGetComponentNames,
+  '/lib/getComponentInfo': fakeGetComponentInfo,
   '/lib/universalRendering/index': fakeUniversalRendering,
   '/logger': fakeLogger,
   debug: fakeDebug,
@@ -29,7 +29,7 @@ describe('App index', () => {
   context('passes in the components', ()=> {
     it('to the createWebpackAssetsJson function', () => {
       return subject({}).then(() => {
-        expect(assetsJsonStub).to.have.been.calledWith(fakeGetComponentNames());
+        expect(assetsJsonStub).to.have.been.calledWith(fakeGetComponentInfo());
       });
     });
   });
