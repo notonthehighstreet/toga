@@ -116,7 +116,7 @@ describe('when the component uses export default', () => {
   const MockComponent = { default: () => {} };
 
   before(() => {
-    mockery.registerMock(`${fakeRelativeComponentPath}/`, MockComponent);
+    mockery.registerMock(fakeRelativeComponentPath, MockComponent);
     mockery.enable();
   });
   after(() => {
