@@ -1,7 +1,4 @@
 {
-  "coreStyles": {
-    "url": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.8/toolkit.css"
-  },
   "server": {
     "port": 8080,
     "host": "0.0.0.0"
@@ -16,17 +13,8 @@
     "environment": "development",
     "apiKey": "it's a secret!"
   },
-  "components": [
-    {
-      "root": "./tests/e2e",
-      "public": "assets",
-      "path": "components",
-      "ignore": "lib"
-    }
-  ],
   "syncServer": {
     "enabled": false
   },
-  "vendorBundleComponent": "vendor",
   "redisKeyTTL": 604800
 }

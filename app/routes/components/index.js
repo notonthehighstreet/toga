@@ -27,7 +27,7 @@ module.exports = (deps) => {
     router.use(HTML_URL, setComponentProps.html);
 
     router
-      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles.url))
+      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles))
       .get(HTML_URL, getComponentHtml)
       .get([MAP_URL, ASSETS_URL], getComponentAsset);
 

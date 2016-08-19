@@ -10,7 +10,7 @@ module.exports = (deps) => {
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
     return renderComponent({ componentName, props })
       .then((opts) => {
-        const html = renderer({ ...opts, coreStyles: config.coreStyles.url });
+        const html = renderer({ ...opts, coreStyles: config.coreStyles });
         res.set('Content-Type', 'text/html');
         res.send(html);
       })
