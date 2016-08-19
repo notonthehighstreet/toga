@@ -3,7 +3,7 @@ module.exports = (deps) => {
   return function getComponentInfo(componentsToFind) {
     const {
       '/config/index': config,
-      path,
+      'path': pathModule,
       fs
     } = deps;
     const { components } = config;
@@ -12,7 +12,7 @@ module.exports = (deps) => {
     const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];
 
     const getComponents = (componentNames) => {
-      return allComponents.filter(component => componentNames.indexOf(component.name)>-1)
+      return allComponents.filter(component => componentNames.indexOf(component.name)>-1);
     };
     const isComponentFolder = ({ path, name, ignore }) => {
       return ignore.indexOf(name) < 0 && fs.statSync(`${path}/${name}`).isDirectory();
@@ -22,7 +22,7 @@ module.exports = (deps) => {
       const isLocal = component.root.startsWith('.');
       const requirePrefix = (isLocal) ? '../../' : '';
       const requireRoot = component.root + '/' + component.path;
-      const root = (isLocal) ? requireRoot : path.join('node_modules', requireRoot);
+      const root = (isLocal) ? requireRoot : pathModule.join('node_modules', requireRoot);
       return fs.readdirSync(root)
         .filter((name) => {
           return isComponentFolder({ path: root, name, ignore: component.ignore });
@@ -35,7 +35,7 @@ module.exports = (deps) => {
             file: './' + root + '/' + name + '/' + 'index.js',
             public: './' + root + '/' + name + '/' + component.public,
             requirePath: requirePrefix + requireRoot +'/'+ name + '/' + 'index.js',
-          }
+          };
         });
     };
 

@@ -16,18 +16,24 @@ describe('getComponentRawHtml middleware', () => {
     set: sandbox.stub(),
     send: sandbox.stub()
   };
-  const fakeRenderOptions = { };
+
+  const fakeNext = sandbox.stub();
+  const fakeRenderOptions = { some: 'option'};
   const rawRenderResposne = chance.word();
   const testRenderResposne = chance.word();
   const renderComponentStub = fakeResolve(fakeRenderOptions);
   const fakeRenderRawMarkup = sandbox.stub().returns(rawRenderResposne);
   const fakeRenderTestMarkup = sandbox.stub().returns(testRenderResposne);
   const NotFoundError = sandbox.stub();
+  const styleURL = chance.word();
+  const coreStyles = { url : styleURL };
+  const fakeConfig = { coreStyles };
   const subject = builder({
     '/lib/renderComponent': renderComponentStub,
     '/views/component-raw': fakeRenderRawMarkup,
     '/views/component-test': fakeRenderTestMarkup,
-    '/lib/utils/errors': { NotFoundError }
+    '/lib/utils/errors': { NotFoundError },
+    '/config/index': fakeConfig
   });
 
   afterEach(() => {
@@ -37,11 +43,11 @@ describe('getComponentRawHtml middleware', () => {
   it('passes props', () => {
     fakeReq.props = { [chance.word()]: chance.word() };
     fakeRes.set.returns(fakeRes);
-    const result = subject(fakeReq, fakeRes);
+    const result = subject(fakeReq, fakeRes, fakeNext);
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
-      expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
+      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props});
     });
   });
@@ -50,11 +56,11 @@ describe('getComponentRawHtml middleware', () => {
     delete fakeReq.props;
     fakeReq.raw = false;
     fakeRes.set.returns(fakeRes);
-    const result = subject(fakeReq, fakeRes);
+    const result = subject(fakeReq, fakeRes, fakeNext);
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
-      expect(fakeRenderTestMarkup).to.have.been.calledWith(fakeRenderOptions);
+      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });
@@ -63,10 +69,10 @@ describe('getComponentRawHtml middleware', () => {
     delete fakeReq.props;
     fakeReq.raw = true;
     fakeRes.set.returns(fakeRes);
-    return subject(fakeReq, fakeRes).then(()=> {
+    return subject(fakeReq, fakeRes, fakeNext).then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
-      expect(fakeRenderRawMarkup).to.have.been.calledWith(fakeRenderOptions);
+      expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });

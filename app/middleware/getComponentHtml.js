@@ -11,7 +11,8 @@ module.exports = (deps) => {
     return renderComponent({ componentName, props })
       .then((opts) => {
         const html = renderer({ ...opts, coreStyles: config.coreStyles.url });
-        res.set('Content-Type', 'text/html').send(html);
+        res.set('Content-Type', 'text/html');
+        res.send(html);
       })
       .catch((err) => {
         next(err);

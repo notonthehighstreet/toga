@@ -16,13 +16,13 @@ module.exports = (deps) => {
     const readFile = promisify(fs.readFile);
     const writeFile = promisify(fs.writeFile);
 
-    // todo: work out how to deal with multiple repo;
+    // to do: work out how to deal with multiple repo;
     let componentsRoot;
 
     const getAssetsJson = ((component) => {
       componentsRoot = component.root;
       const isoPlugin = universalRendering.isoPlugin(component.path);
-      const componentAssetFilePath = path.join(component.path , assetsFile);
+      const componentAssetFilePath = path.join(component.path, assetsFile);
       const modulePaths = components.map(component => component.file);
       return (pathsExist(componentAssetFilePath))
         .then((exists)=>{

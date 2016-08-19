@@ -39,7 +39,7 @@ module.exports = (deps) => {
       return pathsExist(modulePaths)
         .then((exists) => {
           if (exists) {
-            log(`${components.name} ${assetType} (min: ${minify})`)
+            log(`${components.name} ${assetType} (min: ${minify})`);
             return bundle(components, { modulePaths, minify });
           }
           else {

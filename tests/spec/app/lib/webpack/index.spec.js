@@ -9,7 +9,6 @@ describe('webpack/index', () => {
   let deps;
   let subject;
   let result;
-  const component = chance.word();
   const webpackFailureError = {};
   const webpackFailureMock = () => ({ run: fakeReject(webpackFailureError) });
   const createConfigMock = sandbox.spy();
@@ -41,19 +40,13 @@ describe('webpack/index', () => {
   });
 
   context('when the bundle is successful', () => {
-    beforeEach(() => {
-      result = subject(component);
-    });
-
     it('passes through options', () => {
-      result = subject(component, { externals: fakeVendorFiles, modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
-      return result.then(()=>{
-        expect(fakeUniversalRendering).to.be.called;
-        expect(fakeUniversalRendering().isoPlugin).to.be.calledWith(component);
+      result = subject({isoPlugin: fakeIsoPlugin, externals: fakeVendorFiles, modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
+      return result.then(() => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          isoPlugin: fakeUniversalRendering().isoPlugin(),
+          isoPlugin: fakeIsoPlugin,
           minify: true,
           mapPath: fakeMapPath,
           modulePaths: fakeModulePaths
@@ -65,7 +58,7 @@ describe('webpack/index', () => {
   context('when the bundle is not successful', () => {
     beforeEach(() => {
       deps['webpack'] = webpackFailureMock;
-      result = subject(component);
+      result = subject({});
     });
     it('throws an error', () => {
       return result.catch((error) => {
@@ -76,7 +69,7 @@ describe('webpack/index', () => {
 
   describe('webpack options are passed correctly', () => {
     it('minifies content', () => {
-      result = subject(chance.word(), { minify: true });
+      result = subject({ minify: true });
       return result.then(() => {
         expect(createConfigMock).to.be.calledWith({
           externals: undefined,

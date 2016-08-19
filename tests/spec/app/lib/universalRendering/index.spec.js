@@ -10,6 +10,7 @@ describe('universalRendering/index', () => {
   let subject;
   let result;
   const component = chance.word();
+  const repoPath = chance.file();
   const path = chance.file();
   const createIsoConfigMock = sandbox.stub().returns(() => {});
   const IsomorphicToolsPluginMock = sandbox.stub();
@@ -40,23 +41,14 @@ describe('universalRendering/index', () => {
         expect(result).to.be.an.instanceOf(IsomorphicToolsPluginMock);
       });
     });
-
-    context('when a multiple components are passed', ()=>{
-      it('doesn\'t use the isoTools plugin', () => {
-        result = subject().isoPlugin([chance.word(), chance.word()]);
-        expect(IsomorphicToolsPluginMock).not.to.be.called;
-        expect(createIsoConfigMock).not.to.be.called;
-        expect(result).to.equal(null);
-      });
-    });
   });
 
   describe('server', () => {
     it('uses and return isoTools server', () => {
-      result = subject().server(path);
+      result = subject().server(path, repoPath);
       expect(isoStub).to.be.calledWith(createIsoConfigMock());
       expect(createIsoConfigMock).to.be.called;
-      expect(createIsoConfigMock).to.be.calledWith('.', subject().assetsFilename);
+      expect(createIsoConfigMock).to.be.calledWith(repoPath, subject().assetsFilename);
       expect(isoStub().server).to.be.calledWith(path);
       expect(result).to.equal(isoStub().server());
     });
