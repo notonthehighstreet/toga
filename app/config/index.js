@@ -20,13 +20,7 @@ module.exports = (deps = {
     return cachedConfig;
   }
 
-  function addArgv(arg) {
-    switch (arg) {
-    case 'PORT': argv[arg] ? cachedConfig.server.port = argv[arg] : null; break;
-    case 'REDIS_URL': argv[arg] ? cachedConfig.redis = argv[arg] : null; break;
-    }
-  }
-
+  const componentConfig = require(`../../${argv.components || 'toga-components.json'}`);
   const apiVersion = semver.major(packageVersion);
   const metaDataConfig = {apiVersion: apiVersion, appName};
 
@@ -37,11 +31,7 @@ module.exports = (deps = {
   const deepClone = obj => JSON.parse(JSON.stringify(obj));
   const configFiles = configFilePaths.map(loadConfig).map(deepClone);
 
-  cachedConfig = deepAssign({}, metaDataConfig, ...configFiles);
-
-    // allow indivdual arguments to be passed
-  addArgv('PORT');
-  addArgv('REDIS_URL');
+  cachedConfig = deepAssign({}, metaDataConfig, ...configFiles, { ...componentConfig });
 
   if (getLogger) {
     getLogger().info('Config read', configFilePaths, cachedConfig);

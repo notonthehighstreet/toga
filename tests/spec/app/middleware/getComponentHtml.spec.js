@@ -26,7 +26,7 @@ describe('getComponentRawHtml middleware', () => {
   const fakeRenderTestMarkup = sandbox.stub().returns(testRenderResposne);
   const NotFoundError = sandbox.stub();
   const styleURL = chance.word();
-  const coreStyles = { url : styleURL };
+  const coreStyles = styleURL;
   const fakeConfig = { coreStyles };
   const subject = builder({
     '/lib/renderComponent': renderComponentStub,

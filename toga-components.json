@@ -1,0 +1,12 @@
+{
+  "coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.8/toolkit.css",
+  "vendorBundleComponent": "vendor",
+  "components": [
+    {
+      "root": "./tests/e2e",
+      "public": "assets",
+      "path": "components",
+      "ignore": "lib"
+    }
+  ]
+}
