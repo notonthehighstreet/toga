@@ -15,7 +15,6 @@ const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 const componentRoot = chance.word();
 const fakeComponentInfo = [{ requirePath : fakeRelativeComponentPath, path : chance.word(),  file: chance.file(),  name: chance.word(), root: componentRoot }];
 
-
 let deps;
 
 describe('create webpack assets json', () => {

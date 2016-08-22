@@ -4,12 +4,14 @@ import Chance from 'chance';
 
 const sandbox = sinon.sandbox.create();
 const chance = new Chance();
+const mockery = require('mockery');
 
 describe('config/index', () => {
   let subject;
   let builder;
   let semverMajorStub = sandbox.stub();
   let configFiles = [];
+  let componentsArg = chance.word();
 
   const fakeAppName = chance.word();
 
@@ -20,7 +22,8 @@ describe('config/index', () => {
   const deps = {
     yargs: {
       argv: {
-        config: configFiles
+        config: configFiles,
+        components: componentsArg
       }
     },
     path: require('path'),
@@ -33,10 +36,31 @@ describe('config/index', () => {
 
   const fakeApiVersion = chance.natural();
   semverMajorStub.returns(fakeApiVersion);
+  const fakeComponents = { path: chance.word() };
+  const fakeDefaultComponents = { path: chance.word() };
+  const fakeVendor = { [chance.word()] : chance.word() };
+  const fakeDefaultVendor = { [chance.word()] : chance.word() };
+  const MockComponent = { components: fakeComponents, vendor: fakeVendor };
+  const MockDefaultComponent = { components: fakeDefaultComponents, vendor: fakeDefaultVendor };
+
+  before(() => {
+    mockery.registerMock(`../../${componentsArg}/toga.json`, MockComponent);
+    mockery.registerMock('../.././toga.json', MockDefaultComponent);
+    mockery.enable({
+      warnOnReplace: false,
+      warnOnUnregistered: false
+    });
+  });
+
+  after(() => {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
 
   beforeEach(() => {
     delete require.cache[require.resolve('../../../../app/config/index')];
   });
+
   afterEach(()=>{
     sandbox.reset();
   });
@@ -78,7 +102,8 @@ describe('config/index', () => {
         {
           yargs: {
             argv: {
-              config: configFiles
+              config: configFiles,
+              components: componentsArg
             }
           }
         })
@@ -94,7 +119,12 @@ describe('config/index', () => {
         'nested': {
           'value': 123,
           'specificValue': 'a'
-        }
+        },
+        'components': {
+          ...fakeComponents,
+          path: componentsArg + '/' + fakeComponents.path
+        },
+        'vendor': fakeVendor
       };
       expect(config).to.deep.equal(expectedConfig);
     });
@@ -111,7 +141,8 @@ describe('config/index', () => {
           {
             yargs: {
               argv: {
-                config: configFiles
+                config: configFiles,
+                components: componentsArg
               }
             }
           })
@@ -128,7 +159,12 @@ describe('config/index', () => {
           'nested': {
             'value': 555,
             'specificValue': 'a'
-          }
+          },
+          'components': {
+            ...fakeComponents,
+            path: componentsArg + '/' + fakeComponents.path
+          },
+          'vendor': fakeVendor
         };
         expect(config).to.deep.equal(expectedConfig);
       });
@@ -146,7 +182,8 @@ describe('config/index', () => {
           {
             yargs: {
               argv: {
-                config: configFiles
+                config: configFiles,
+                components: componentsArg
               }
             }
           })
@@ -163,7 +200,46 @@ describe('config/index', () => {
           'nested': {
             'value': 123,
             'specificValue': 'a'
-          }
+          },
+          'components': {
+            ...fakeComponents,
+            path: componentsArg + '/' + fakeComponents.path
+          },
+          'vendor': fakeVendor
+        };
+        expect(config).to.deep.equal(expectedConfig);
+      });
+    });
+
+    context('when a components arg isnt supplied', () => {
+      beforeEach(() => {
+        builder = require('../../../../app/config/index');
+        subject = builder(Object.assign({}, deps,
+          {
+            yargs: {
+              argv: {
+                config: [ './tests/spec/fixtures/config/a.json']
+              }
+            }
+          })
+        );
+      });
+      it('loads the default config', () => {
+        let config = subject;
+        let expectedConfig = {
+          'apiVersion': fakeApiVersion,
+          'appName': fakeAppName,
+          'name': 'a',
+          'bar': 'foo',
+          'nested': {
+            'value': 123,
+            'specificValue': 'a'
+          },
+          'components': {
+            ...fakeDefaultComponents,
+            path: './' + fakeDefaultComponents.path
+          },
+          'vendor': fakeDefaultVendor
         };
         expect(config).to.deep.equal(expectedConfig);
       });

@@ -20,7 +20,8 @@ module.exports = (deps = {
     return cachedConfig;
   }
 
-  const componentConfig = require(`../../${argv.components || 'toga-components.json'}`);
+  const componentsJsonPath = argv.components || '.';
+  const componentConfig = require(`../../${componentsJsonPath}/toga.json`);
   const apiVersion = semver.major(packageVersion);
   const metaDataConfig = {apiVersion: apiVersion, appName};
 
@@ -31,7 +32,13 @@ module.exports = (deps = {
   const deepClone = obj => JSON.parse(JSON.stringify(obj));
   const configFiles = configFilePaths.map(loadConfig).map(deepClone);
 
-  cachedConfig = deepAssign({}, metaDataConfig, ...configFiles, { ...componentConfig });
+  cachedConfig = deepAssign({}, metaDataConfig, ...configFiles,
+    { ...componentConfig,
+      components: {
+        ...componentConfig.components,
+        path: componentsJsonPath + '/' + componentConfig.components.path
+      }
+    });
 
   if (getLogger) {
     getLogger().info('Config read', configFilePaths, cachedConfig);

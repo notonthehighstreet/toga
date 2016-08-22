@@ -14,7 +14,7 @@ module.exports = (deps) => {
       debug
     } = deps;
 
-    const log = debug('toga:bundler/index');
+    const log = debug('toga:bundler/index'); // eslint-disable-line
 
     const { apiVersion } = config;
     const minify = opts.minify || false;
@@ -39,7 +39,6 @@ module.exports = (deps) => {
       return pathsExist(modulePaths)
         .then((exists) => {
           if (exists) {
-            log(`${components.name} ${assetType} (min: ${minify})`);
             return bundle(components, { modulePaths, minify });
           }
           else {

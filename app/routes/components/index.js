@@ -11,7 +11,7 @@ module.exports = (deps) => {
     } = deps;
 
     const router = express.Router();
-    // todo: test this as it was in the wrong place!
+    // to do: test this as it was in the wrong place!
     const MAP_URL = '/:components.(min\.)components.?(css|js).map';
     const HTML_URL = '/:componentName.(raw\.)?html';
     const ASSETS_URL = '/:componentName.(min\.)?(css|js)';
