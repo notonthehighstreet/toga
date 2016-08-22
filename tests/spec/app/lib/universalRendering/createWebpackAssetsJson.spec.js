@@ -6,12 +6,16 @@ import { fakeFs, fakePromisify, fakeDebug, fakeResolve, fakePromise } from '../.
 
 const sandbox = sinon.sandbox.create();
 const chance = new Chance();
-const componentsPath = chance.word();
 const assetsFileName = chance.file();
 const fakePathsExist = fakeResolve(true);
-const fakeModulePaths = [ chance.file() ];
-const fakeMapPath = chance.word();
 const fakeBundle = fakePromise;
+
+let fakeComponentName = chance.word();
+const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
+const componentRoot = chance.word();
+const fakeComponentInfo = [{ requirePath : fakeRelativeComponentPath, path : chance.word(),  file: chance.file(),  name: chance.word(), root: componentRoot }];
+
+
 let deps;
 
 describe('create webpack assets json', () => {
@@ -21,9 +25,9 @@ describe('create webpack assets json', () => {
   const result1 = chance.word();
   const result2 = chance.word();
   const components = [component1, component2];
-  const file1 = componentsPath + '/' + component1 + '/' + assetsFileName;
-  const file2 = componentsPath + '/' + component2 + '/' + assetsFileName;
-  const writefile = componentsPath + '/' + assetsFileName;
+  const file1 = fakeRelativeComponentPath + '/' + component1 + '/' + assetsFileName;
+  const file2 = fakeRelativeComponentPath + '/' + component2 + '/' + assetsFileName;
+  const writefile = componentRoot + '/' + assetsFileName;
   const jsonStr = JSON.stringify({[result2]:1, [result1]:1});
 
   beforeEach(() => {
@@ -33,11 +37,12 @@ describe('create webpack assets json', () => {
       'fs': fakeFs,
       'debug': fakeDebug,
       '/lib/bundler/bundle': fakeBundle,
+      'path': require('path'),
+      '/lib/universalRendering/index': sandbox.stub().returns({isoPlugin: () => {}}),
       '/lib/utils/componentHelper': {
-        path: sandbox.stub().returns(fakeModulePaths),
-        bundleId: sandbox.stub().returns(fakeMapPath)
+        bundleId: sandbox.stub().returns(fakeComponentName)
       },
-      '/config/index': { componentsPath },
+      '/config/index': { fakeRelativeComponentPath },
       '/lib/utils/pathsExist': fakePathsExist
     };
   });
@@ -53,7 +58,7 @@ describe('create webpack assets json', () => {
       fakeFs.readFile.withArgs(file1).returns(JSON.stringify({ [result1]: 1}) );
       fakeFs.readFile.withArgs(file2).returns(JSON.stringify({ [result2]: 1}) );
 
-      return subject(components, assetsFileName).then(() => {
+      return subject(fakeComponentInfo, assetsFileName).then(() => {
         expect(fakeFs.writeFile).to.have.been.calledWith(writefile, jsonStr, 'utf-8');
       });
     });

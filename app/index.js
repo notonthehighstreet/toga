@@ -2,7 +2,7 @@ module.exports = (deps) => {
   return function startApp({port, host}) {
     const {
       '/createServer': createServer,
-      '/lib/getComponentNames': getComponentNames,
+      '/lib/getComponentInfo': getComponentInfo,
       '/lib/universalRendering/index': getUniversalRendering,
       '/logger': getLogger,
       debug,
@@ -11,14 +11,14 @@ module.exports = (deps) => {
 
     const log = debug('toga:startup');
     const logger = getLogger();
-    const components = getComponentNames();
+    const components = getComponentInfo();
     const universalRendering = getUniversalRendering();
 
     log(`${components.length} components`);
 
     return universalRendering.createAssetsJson(components)
-      .then(() => {
-        return universalRendering.server(path.join(__dirname, '..'));
+      .then((repoRoot) => {
+        return universalRendering.server(path.join(__dirname, '..'), repoRoot);
       })
       .then(() => {
         return new Promise((resolve) => {

@@ -1,16 +1,13 @@
 module.exports = (deps) => {
-  return function runWebpack(component, { externals, minify, modulePaths, mapPath, outputFileSystem } = {}) {
+  return function runWebpack({ isoPlugin, modulePaths, mapPath, externals, minify, outputFileSystem } = {}) {
     const {
       'es6-promisify': promisify,
       'webpack': webpack,
       '/lib/webpack/createWebpackConfig': createWebpackConfig,
-      '/lib/universalRendering/index': getUniversalRendering,
       debug
     } = deps;
 
     const log = debug('toga:runWebpack');
-    const universalRendering = getUniversalRendering();
-    const isoPlugin = universalRendering.isoPlugin(component);
 
     function outputWebpackErrors(webpackOutput) {
       if (!webpackOutput) {
@@ -28,7 +25,6 @@ module.exports = (deps) => {
       const webpackConfig = createWebpackConfig({ isoPlugin, modulePaths, mapPath, externals, minify });
       const compiler = webpack(webpackConfig);
       compiler.outputFileSystem = outputFileSystem;
-
       const runner = promisify(compiler.run.bind(compiler));
       return runner().then(outputWebpackErrors);
     }

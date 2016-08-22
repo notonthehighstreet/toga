@@ -1,24 +1,29 @@
 module.exports = (deps) => {
 
-  return function togaBundle(component, opts = {}) {
+  return function togaBundle(componentNames, opts = {}) {
     const {
       '/cache/set': setCache,
       '/cache/get': getCache,
       '/config/index': config,
       '/lib/bundler/buildHash': buildHash,
       '/lib/bundler/bundle': bundle,
+      '/lib/getComponentInfo': getComponentInfo,
       '/lib/utils/pathsExist': pathsExist,
       '/lib/utils/errors': { NotFoundError, BundleError },
-      '/lib/utils/componentHelper': componentHelper
+      '/lib/utils/componentHelper': componentHelper,
+      debug
     } = deps;
 
-    const { apiVersion, componentsPath } = config;
+    const log = debug('toga:bundler/index');
+
+    const { apiVersion } = config;
     const minify = opts.minify || false;
+    const components = getComponentInfo(componentNames);
     const getCacheId = (assetType) => (
-      `${apiVersion}-${togaHash}-${componentHelper.bundleId(component, { minify })}.${assetType}`
+      `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}.${assetType}`
     );
-    const togaHash = buildHash(componentsPath);
-    const modulePaths = componentHelper.path(component);
+    const togaHash = buildHash(components.map(component => component.path));
+    const modulePaths = components.map(component => component.file);
 
     function getAsset(assetType) {
       return getCache(getCacheId(assetType))
@@ -34,7 +39,8 @@ module.exports = (deps) => {
       return pathsExist(modulePaths)
         .then((exists) => {
           if (exists) {
-            return bundle(component, { minify });
+            log(`${components.name} ${assetType} (min: ${minify})`);
+            return bundle(components, { modulePaths, minify });
           }
           else {
             throw new NotFoundError(`Path not found: ${modulePaths}`);

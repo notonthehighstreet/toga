@@ -5,25 +5,30 @@ module.exports = (deps) => {
       'deep-assign': deepAssign,
       'fs': fs,
       debug,
+      path,
+      '/lib/universalRendering/index': getUniversalRendering,
       '/lib/bundler/bundle': bundle,
-      '/lib/utils/componentHelper': componentHelper,
-      '/config/index': config,
       '/lib/utils/pathsExist': pathsExist
     } = deps;
 
-    debug('toga:CreateWebpackAssets');
-
+    const log = debug('toga:CreateWebpackAssets'); // eslint-disable-line
+    const universalRendering = getUniversalRendering();
     const readFile = promisify(fs.readFile);
     const writeFile = promisify(fs.writeFile);
-    const { componentsPath } = config;
+
+    // to do: work out how to deal with multiple repo;
+    let componentsRoot;
 
     const getAssetsJson = ((component) => {
-      const path = componentHelper.path(component, assetsFile);
-      return (pathsExist(path))
+      componentsRoot = component.root;
+      const isoPlugin = universalRendering.isoPlugin(component.path);
+      const componentAssetFilePath = path.join(component.path, assetsFile);
+      const modulePaths = components.map(component => component.file);
+      return (pathsExist(componentAssetFilePath))
         .then((exists)=>{
           return exists
-            ? readFile(path[0])
-            : bundle(component, { minify: false }).then(() => getAssetsJson(component));
+            ? readFile(componentAssetFilePath)
+            : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
         });
     });
 
@@ -31,11 +36,12 @@ module.exports = (deps) => {
     const strToJson = results => results.map(jsonStr => JSON.parse(jsonStr));
     const combineAssetsJson = (json, allAssets) => deepAssign(allAssets, json);
     const combineAssetFiles = jsonArr => jsonArr.reduce(combineAssetsJson, {});
-    const saveCombinedFile = json => writeFile(`${componentsPath}/${assetsFile}`, JSON.stringify(json), 'utf-8');
+    const saveCombinedFile = json => writeFile(`${componentsRoot}/${assetsFile}`, JSON.stringify(json), 'utf-8');
 
     return Promise.all(readAssetFiles)
       .then(strToJson)
       .then(combineAssetFiles)
-      .then(saveCombinedFile);
+      .then(saveCombinedFile)
+      .then(()=> componentsRoot);
   };
 };

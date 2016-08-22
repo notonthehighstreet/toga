@@ -10,19 +10,17 @@ module.exports = (deps) => {
 
     const assetsFilename = 'webpack-assets.json';
 
-    function isoPlugin(component) {
-      return (!Array.isArray(component))
-        ? new IsomorphicToolsPlugin(createIsoConfig(component, assetsFilename))
-        : null;
+    function isoPlugin(componentPath) {
+      return new IsomorphicToolsPlugin(createIsoConfig(componentPath, assetsFilename));
     }
 
-    function server(path) {
-      const isoTools = new IsomorphicTools(createIsoConfig('.', assetsFilename));
+    function server(path, repoPath) {
+      const isoTools = new IsomorphicTools(createIsoConfig(repoPath, assetsFilename));
       return isoTools.server(path);
     }
 
-    function createAssetsJson(components) {
-      return createWebpackAssetsJson(components, assetsFilename);
+    function createAssetsJson(componentsInfoArray) {
+      return createWebpackAssetsJson(componentsInfoArray, assetsFilename);
     }
 
     return { isoPlugin, server, assetsFilename, createAssetsJson };

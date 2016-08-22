@@ -16,7 +16,14 @@
     "environment": "development",
     "apiKey": "it's a secret!"
   },
-  "componentsPath": "./components",
+  "components": [
+    {
+      "root": "./tests/e2e",
+      "public": "assets",
+      "path": "components",
+      "ignore": "lib"
+    }
+  ],
   "syncServer": {
     "enabled": false
   },

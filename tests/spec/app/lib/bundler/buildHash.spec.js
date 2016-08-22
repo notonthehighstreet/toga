@@ -8,7 +8,7 @@ let subject;
 const hashfilesStub = sandbox.stub();
 hashfilesStub.sync = sandbox.stub();
 
-const randomComponentsPath = chance.word();
+const randomComponentsPath = [chance.word()];
 const fakeHash = chance.word();
 
 function requireUncached(module) {
