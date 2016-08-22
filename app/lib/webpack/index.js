@@ -23,7 +23,6 @@ module.exports = (deps) => {
 
     function run() {
       const webpackConfig = createWebpackConfig({ isoPlugin, modulePaths, mapPath, externals, minify });
-      log(webpackConfig)
       const compiler = webpack(webpackConfig);
       compiler.outputFileSystem = outputFileSystem;
       const runner = promisify(compiler.run.bind(compiler));

@@ -3,7 +3,7 @@ module.exports = (deps) => {
     '/lib/utils/errors': { BadRequestError },
     '/config/index': config
   } = deps;
-  const { vendorBundleComponent } = config;
+  const { vendor } = config;
 
   const setControllerName = (url) => {
     if(config.newRelicEnabled) {
@@ -47,7 +47,7 @@ module.exports = (deps) => {
       setControllerName(req.originalUrl);
       const qComponents = parse(req.query.components, next);
       const pComponentName = req.params.componentName;
-      const components = pComponentName === 'components-vendor-bundle' ? vendorBundleComponent : pComponentName;
+      const components = pComponentName === 'components-vendor-bundle' ? vendor.componentName : pComponentName;
       req.components = pComponentName === 'components' ? qComponents : components;
       req.assetType = req.params[1];
       req.minify = !!req.params[0];

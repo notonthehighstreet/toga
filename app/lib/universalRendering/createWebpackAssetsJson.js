@@ -19,11 +19,11 @@ module.exports = (deps) => {
     // to do: work out how to deal with multiple repo;
     let componentsRoot;
 
+    const modulePaths = components.map(component => component.file);
     const getAssetsJson = ((component) => {
       componentsRoot = component.root;
       const isoPlugin = universalRendering.isoPlugin(component.path);
       const componentAssetFilePath = path.join(component.path, assetsFile);
-      const modulePaths = components.map(component => component.file);
       return (pathsExist(componentAssetFilePath))
         .then((exists)=>{
           return exists

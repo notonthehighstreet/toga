@@ -7,7 +7,11 @@ import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '
 const fakeFile =  chance.file() ;
 const fakeModulePaths = [ fakeFile ];
 const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
-const configMock = { vendorBundleComponent: fakeVendorBundleComponent.name };
+const fakeVendorFiles = { [chance.word()]: chance.word() };
+const configMock = { vendor: {
+  componentName:  fakeVendorBundleComponent.name,
+  'bundle': fakeVendorFiles
+} };
 
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();
@@ -36,12 +40,10 @@ describe('runBundler', () => {
     existsSync : existsSyncStub
   });
   const fakeRunWebpack = fakePromise;
-  const fakeVendorFiles = { [chance.word()]: chance.word() };
 
   beforeEach(() => {
     deps = {
       '/config/index': configMock,
-      '/lib/bundler/vendorFiles': fakeVendorFiles,
       'es6-promisify': fakePromisify,
       'memory-fs': memoryFsMock,
       '/lib/webpack/index': fakeRunWebpack,

@@ -6,17 +6,16 @@ module.exports = (deps) => {
       '/config/index': config,
       '/lib/webpack/index': runWebpack,
       '/lib/utils/componentHelper': componentHelper,
-      '/lib/bundler/vendorFiles': vendorFiles,
       debug
     } = deps;
 
     const log = debug('toga:bundle');
-    const { vendorBundleComponent } = config;
+    const { vendor } = config;
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const mapPath = componentHelper.bundleId(components.map(component => component.name));
     const outputFileSystem = memoryFS;
-    const externals = components.length === 1 && components[0].name === vendorBundleComponent ? [] : vendorFiles;
+    const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
 
     log(`${components.map(component => component.name).join('__')} ${minify ? 'min' : ''}`);
 
