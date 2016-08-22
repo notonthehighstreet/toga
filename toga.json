@@ -9,6 +9,7 @@
     }
   },
   "components": {
+    "isLocal": true,
     "path": "./tests/components",
     "public": "assets",
     "ignore": "lib"

@@ -44,7 +44,7 @@ describe('config/index', () => {
   const MockDefaultComponent = { components: fakeDefaultComponents, vendor: fakeDefaultVendor };
 
   before(() => {
-    mockery.registerMock(`../../${componentsArg}/toga.json`, MockComponent);
+    mockery.registerMock(`../../node_modules/${componentsArg}/toga.json`, MockComponent);
     mockery.registerMock('../.././toga.json', MockDefaultComponent);
     mockery.enable({
       warnOnReplace: false,
@@ -122,7 +122,7 @@ describe('config/index', () => {
         },
         'components': {
           ...fakeComponents,
-          path: componentsArg + '/' + fakeComponents.path
+          path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
         },
         'vendor': fakeVendor
       };
@@ -162,7 +162,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
-            path: componentsArg + '/' + fakeComponents.path
+            path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
           },
           'vendor': fakeVendor
         };
@@ -203,7 +203,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
-            path: componentsArg + '/' + fakeComponents.path
+            path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
           },
           'vendor': fakeVendor
         };

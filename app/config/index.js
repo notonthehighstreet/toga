@@ -20,7 +20,7 @@ module.exports = (deps = {
     return cachedConfig;
   }
 
-  const componentsJsonPath = argv.components || '.';
+  const componentsJsonPath = argv.components ? ('node_modules/' + argv.components) : '.';
   const componentConfig = require(`../../${componentsJsonPath}/toga.json`);
   const apiVersion = semver.major(packageVersion);
   const metaDataConfig = {apiVersion: apiVersion, appName};
