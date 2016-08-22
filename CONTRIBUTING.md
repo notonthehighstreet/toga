@@ -151,10 +151,12 @@ The Toga Server code lives within `/app` and the corresponding tests within `/te
 
 ### Toga Components
 
-The Toga Components can be written as any [React](https://github.com/facebook/react) component.
-Toga Components should be universal i.e. written so that they can be rendered server-side and client-side.
+Components should be developed in a separate repo which will then be linked during startup following the guide in the [Readme.md](readme.md).
 
-The Toga Components tests lives within `/components` and the corresponding tests should live within a `/spec` directory with the component.
+The only exceptions are components which show particular functionality of toga it live in the example components.
+
+The Toga Components is a collection of [React](https://github.com/facebook/react) components which include a `toga.json` file in the root.
+Toga Components should be universal i.e. written so that they can be rendered server-side and client-side.
 
 ### Submitting Code
 
