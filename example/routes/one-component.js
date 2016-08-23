@@ -4,11 +4,11 @@ var rp = require('request-promise');
 module.exports = function one(req, res) {
   const scripts = [
     'http://localhost:8080/v1/components-vendor-bundle.min.js',
-    'http://localhost:8080/v1/components.min.js?components=["test-one"]'
+    'http://localhost:8080/v1/test-one.min.js'
   ];
   const styles = [
     'http://localhost:8080/v1/core.css',
-    'http://localhost:8080/v1/components.min.css?components=["test-one"]'
+    'http://localhost:8080/v1/test-one.min.css'
   ];
   Promise.all([
     rp('http://localhost:8080/v1/test-one.raw.html?props={"one":"toe"}')

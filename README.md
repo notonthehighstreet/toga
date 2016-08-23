@@ -3,18 +3,19 @@
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
 [![CircleCI](https://circleci.com/gh/notonthehighstreet/toga.svg?style=svg&circle-token=ed76cf8859cf269882e89ae499b99d61d6e4cd6e)](https://circleci.com/gh/notonthehighstreet/toga)
 
-Toga magically serves front-end components which are pre-rendered on the server and initialised on the client so that they can be instantly used with *any* web-app.
+Toga magically serves universal components which are pre-rendered on the server and initialised on the client so that they can be instantly used with *any* web-app.
 
-## Toga Serves pre-rendered components?
+## Toga serves universal components?
 
-Once toga is installed and running, you can tell it to use any Git-repo / NPM-package that contain web components.
-Toga automatically gives you end points so that you can quickly access the components rendered HTML, compiled CSS and compiled JS;
+> universal components are those that are written once, and can be run on the server and in the browser.
 
-Once the Toga-served assets (HTML, CSS + JS) have been included in your Ruby, PHP, Perl or *any* web-app,
-the components will be rendered on the server and initialised on the client automatically.
-The component is then ready to use and behaves as you'd expect.
+Toga can serve components from any directory and is setup to take the sting out of setting up Universal Components yourself.
+Once running, Toga automatically gives you end points so that you can quickly access the components rendered HTML, compiled CSS and compiled JS;
 
-This means you can include the latest components and technology in your existing apps without having to do complete a rebuild.
+Using the Toga end-points, you can quickly add the component assets (HTML, CSS + JS) into your Ruby, PHP, Perl or *any* web-app.
+The component is then ready to use.
+
+This means you can include the latest components and technology in your existing apps without having to do a complete rebuild.
 
 ## What type of components?
 
@@ -25,28 +26,33 @@ In the future, there is no reason why other component types can't be supported.
 
 ## Details. How do I do this?
 
-To render a component, the CSS, JavaScript and HTML must be pulled into your app.
-You need to :
+To render a component, you will need to :
 
-  * Add a component repo to Toga
-  * Run Toga
+  * Write a universal component
+  * Run Toga (pointing it to your components directory)
   * include the toga-served component assets in your app
+
+### ...Just show me an example?
 
 We have an example node app doing this for :
 
  * [one component](example/routes/one-component.js)
  * [multiple components](example/routes/multiple-components.js)
 
-### Add a component repo to Toga
+Checkout [example/README.md](example/README.md) more detail about the examples.
 
-update xxx to include your repo npm/git url.
+### Serving components from Toga
+
+Add a `toga.json` file to the root of the project which contains the components.
+
+When starting Toga, be sure to add `-- --components=../project-name`. Thats it.
 
 For more information on how to ensure your components will work with Toga read [components.md](components.md)
 
 ## Run Toga (quick start!)
 
 ```nodejs
-npm i toga
+npm i notonthehighstreet/toga
 brew install redis
 npm run dev
 ```

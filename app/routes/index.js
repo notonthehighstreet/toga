@@ -2,8 +2,8 @@ module.exports = (deps) => {
   return function getRoutes() {
     const {
       'express': express,
-      '/routes/serverStatus/index': createServerStatusRouter,
-      '/routes/components/index': createComponentsRouter,
+      '/routes/serverStatus': createServerStatusRouter,
+      '/routes/components': createComponentsRouter,
       '/config/index': config
       } = deps;
     const apiVersion = config.apiVersion;
