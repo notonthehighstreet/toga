@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('babel-core/register');
 const breadboard = require('breadboard');
 
 breadboard({
@@ -9,9 +10,9 @@ breadboard({
   },
   entry: ({
     '/lib/bundler/index': bundle,
-    '/lib/getComponentNames': getComponentNames
+    '/lib/getComponentInfo': getComponentInfo
   }) => {
-    const components = getComponentNames();
+    const components = getComponentInfo().map(componentInfo => componentInfo.name );
     const buildBundles = (component) => {
       return Promise.all([
         bundle(component, { minify: true }).getAsset('scripts'),
