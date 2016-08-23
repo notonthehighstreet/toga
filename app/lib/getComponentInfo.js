@@ -6,7 +6,7 @@ module.exports = (deps) => {
       fs
     } = deps;
     const { components } = config;
-    const root = components.path;
+    const root = components.path.replace('/./', '/');
     const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];
 
     const getComponents = (componentNames) => {
