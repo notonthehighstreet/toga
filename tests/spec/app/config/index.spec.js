@@ -45,7 +45,7 @@ describe('config/index', () => {
 
   before(() => {
     mockery.registerMock(`../../node_modules/${componentsArg}/toga.json`, MockComponent);
-    mockery.registerMock('../.././toga.json', MockDefaultComponent);
+    mockery.registerMock('../.././components/toga.json', MockDefaultComponent);
     mockery.enable({
       warnOnReplace: false,
       warnOnUnregistered: false
@@ -237,7 +237,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeDefaultComponents,
-            path: './' + fakeDefaultComponents.path
+            path: './components/' + fakeDefaultComponents.path
           },
           'vendor': fakeDefaultVendor
         };

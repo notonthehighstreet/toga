@@ -9,6 +9,7 @@ module.exports = (deps) => {
     const apiVersion = config.apiVersion;
     const appRouter = express.Router();
 
+    appRouter.get('/', (req, res) => res.redirect('/v1/HelloWorld.html'));
     appRouter.use(createServerStatusRouter());
     appRouter.use(`/v${apiVersion}`, createComponentsRouter());
 
