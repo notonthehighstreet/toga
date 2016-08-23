@@ -73,13 +73,11 @@ If you want to include multiple components it is :
 
 #### Core Styles
 
-Often, there will already be an existing stylesheet which includes a few core-styles.
-So Toga provides a convenience url which is setup with the `coreStyles` string of the [/toga.json](toga.json) file.
+If setup with the `coreStyles` string of the [/toga.json](toga.json) file, this end-point will be:
 
  `http://localhost:8080/v1/core.min.css`
 
-These means your apps which consume components won't need to be redeployed to get the latest styles,
-simply update Toga and all consuming apps will be updated automatically.
+For more information on core styles read [/toga.json.md](toga.json.md#corestyles)
 
 
 ### HTML

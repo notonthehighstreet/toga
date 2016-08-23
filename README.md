@@ -28,7 +28,8 @@ In the future, there is no reason why other component types can't be supported.
 
 To render a component, you will need to :
 
-  * Write a universal component
+  * Write a universal component e.g. [test-one](/tests/components/test-one/index.js)
+  * Add a [toga.json](toga.json.md) file to the root of your components project
   * Run Toga (pointing it to your components directory)
   * include the toga-served component assets in your app
 
