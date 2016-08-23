@@ -30,6 +30,8 @@ To render a component, you will need to :
 
   * Write a universal component e.g. [test-one](/tests/components/test-one/index.js)
   * Add a [toga.json](toga.json.md) file to the root of your components project
+  * for now, install required build tools
+    * `npm i -S node-sass webpack css-loader style-loader sass-loader notonthehighstreet/toga-loader babel-loader postcss-loader svg-inline-loader file-loader json-loader `
   * Run Toga (pointing it to your components directory)
   * include the toga-served component assets in your app
 
