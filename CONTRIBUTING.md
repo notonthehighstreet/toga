@@ -145,13 +145,13 @@ This has not yet been integrated with Docker and will need to be run locally
 ### Toga Server
 
 The Toga Server uses [Breadboard](https://github.com/notonthehighstreet/breadboard) which means the code and testing is different from what you might expect.
-Please take a look over the Breadboard [ReadMe.md](https://github.com/notonthehighstreet/breadboard/blob/master/README.md) to understand how this works.
+Please take a look over the Breadboard [README.md](https://github.com/notonthehighstreet/breadboard/blob/master/README.md) to understand how this works.
 
 The Toga Server code lives within `/app` and the corresponding tests within `/tests`.
 
 ### Toga Components
 
-Components should be developed in a separate repo which will then be linked during startup following the guide in the [Readme.md](readme.md).
+Components should be developed in a separate repo which will then be linked during startup following the guide in the [README.md](README.md).
 
 The only exceptions are components which show particular functionality of toga it live in the example components.
 

@@ -15,7 +15,7 @@ Once running, Toga automatically gives you end points so that you can quickly ac
 Using the Toga end-points, you can quickly add the component assets (HTML, CSS + JS) into your Ruby, PHP, Perl or *any* web-app.
 The component is then ready to use.
 
-This means you can include the latest components and technology in your existing apps without having to do complete a rebuild.
+This means you can include the latest components and technology in your existing apps without having to do a complete rebuild.
 
 ## What type of components?
 
@@ -26,17 +26,20 @@ In the future, there is no reason why other component types can't be supported.
 
 ## Details. How do I do this?
 
-To render a component, the CSS, JavaScript and HTML must be pulled into your app.
-You need to :
+To render a component, you will need to :
 
   * Write a universal component
   * Run Toga (pointing it to your components directory)
   * include the toga-served component assets in your app
 
+### ...Just show me an example?
+
 We have an example node app doing this for :
 
  * [one component](example/routes/one-component.js)
  * [multiple components](example/routes/multiple-components.js)
+
+Checkout [example/README.md](example/README.md) more detail about the examples.
 
 ### Serving components from Toga
 
@@ -49,7 +52,7 @@ For more information on how to ensure your components will work with Toga read [
 ## Run Toga (quick start!)
 
 ```nodejs
-npm i toga
+npm i notonthehighstreet/toga
 brew install redis
 npm run dev
 ```
