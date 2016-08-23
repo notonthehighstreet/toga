@@ -4,8 +4,7 @@
 
 ## Running
 
-As the example is purposely a separate app, we must first start Toga, then the example app.
-From the project root run :
+As the example is a demo of how a separate app would consume components from Toga, we must first start Toga, then the example app. From the project root run :
 
  * `npm start`
  * `npm run example`
