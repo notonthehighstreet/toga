@@ -1,7 +1,7 @@
 # TOGA
 
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
-[![CircleCI](https://circleci.com/gh/notonthehighstreet/toga.svg?style=svg&circle-token=ed76cf8859cf269882e89ae499b99d61d6e4cd6e)](https://circleci.com/gh/notonthehighstreet/toga)
+[![CircleCI](https://circleci.com/gh/notonthehighstreet/toga/tree/master.svg?style=svg&circle-token=fad4a71fbda4e23fb196f5e4c63384bf7db66b6c)](https://circleci.com/gh/notonthehighstreet/toga/tree/master)
 
 Toga magically serves universal components which are pre-rendered on the server and initialised on the client so that they can be instantly used with *any* web-app.
 
