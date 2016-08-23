@@ -1,7 +1,8 @@
-FROM hub.noths.com/node:6-alpine
+FROM mhart/alpine-node:latest
 
 RUN apk add --update \
     git \
+    openssh \
     python \
     python-dev \
     build-base \
@@ -17,3 +18,4 @@ COPY . $HOME/
 
 ENV NODE_ENV=production
 EXPOSE 8080
+CMD npm run precache -- --config './app/config/application.json' && npm start -- --config './app/config/application.json'
