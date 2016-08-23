@@ -39,7 +39,7 @@ module.exports = (deps) => {
               'sass?outputStyle=expanded'].join('!'))
           },
           {
-            test: new RegExp(`.*${componentRoot}\/.*\/index\.js$`),
+            test: new RegExp(`.*${componentRoot.replace('./node_modules/', '')}\/.*\/index\.js$`),
             loaders: ['toga']
           },
           { test: /\.svg$/, loader: 'svg-inline'}
