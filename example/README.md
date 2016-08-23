@@ -50,11 +50,8 @@ We dont want the following to be included in every component js, so we set them 
  * React-bem-helper
 
 This was achieved by updating the [toga.json](/toga.json).
-The `vendor.bundle` object states a mapping between the node-module being required and the global variable name.
-The 2nd part required to get this to work is the `vendor.componentName`.
-Currently, the mapping mentioned then also has to be setup inside a real component.
-The `vendor.componentName` tells Toga which component does this.
-Our example uses [tests/components/vendor/index.js](/tests/components/vendor/index.js).
+To understand more about how to set this up take a look at [/toga.json.md](toga.json.md#vendor)
+
 
 ### Stylesheets
 
@@ -77,7 +74,7 @@ If setup with the `coreStyles` string of the [/toga.json](toga.json) file, this 
 
  `http://localhost:8080/v1/core.min.css`
 
-For more information on core styles read [/toga.json.md](toga.json.md#corestyles)
+For more information on core styles read [/toga.json.md](toga.json.md#corestyles-string-optional)
 
 
 ### HTML

@@ -32,6 +32,11 @@ The vendor object requires a `componentName` and `bundle`.
 This is the name of the component which contains the vendor code.
 Take a look at our [example vendor component](/tests/components/vendor/index.js).
 
+### bundle (object)
+
+This object states a mapping between the node-module being required and the global variable name.
+It should map directly to what is being set within your `vendor` component.
+
 ## components (object)
 
 This object is needed to tell Toga about where the components reside within your project.
