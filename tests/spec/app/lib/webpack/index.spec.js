@@ -12,6 +12,7 @@ describe('webpack/index', () => {
   const webpackFailureError = {};
   const webpackFailureMock = () => ({ run: fakeReject(webpackFailureError) });
   const createConfigMock = sandbox.spy();
+  const fakeComponentsFile = chance.file();
   const fakeModulePaths = [ chance.file() ];
   const fakeVendorFiles = { [chance.word()]: chance.word() };
   const universalServerStub = sandbox.stub();
@@ -41,7 +42,14 @@ describe('webpack/index', () => {
 
   context('when the bundle is successful', () => {
     it('passes through options', () => {
-      result = subject({isoPlugin: fakeIsoPlugin, externals: fakeVendorFiles, modulePaths: fakeModulePaths, mapPath: fakeMapPath, minify: true});
+      result = subject({
+        isoPlugin: fakeIsoPlugin,
+        externals: fakeVendorFiles,
+        modulePaths: fakeModulePaths,
+        mapPath: fakeMapPath,
+        minify: true,
+        componentFile: fakeComponentsFile
+      });
       return result.then(() => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
@@ -49,7 +57,8 @@ describe('webpack/index', () => {
           isoPlugin: fakeIsoPlugin,
           minify: true,
           mapPath: fakeMapPath,
-          modulePaths: fakeModulePaths
+          modulePaths: fakeModulePaths,
+          componentFile: fakeComponentsFile
         });
       });
     });
@@ -76,7 +85,8 @@ describe('webpack/index', () => {
           isoPlugin: undefined,
           minify: true,
           mapPath: undefined,
-          modulePaths: undefined
+          modulePaths: undefined,
+          componentFile: undefined
         });
       });
     });

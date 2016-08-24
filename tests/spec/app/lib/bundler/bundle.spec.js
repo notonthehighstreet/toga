@@ -18,7 +18,9 @@ describe('runBundler', () => {
   let deps;
   let subject;
   let result;
-  const component = chance.word();
+  const fakeComponentFile = chance.file();
+  const component = { name: chance.word(), file: fakeComponentFile };
+  const components = [component];
   const fakeIsoPlugin = chance.word();
   const fakeMapPath = chance.word();
   const componentBundle = chance.word();
@@ -29,7 +31,6 @@ describe('runBundler', () => {
   const readFileStub = sandbox.stub();
   const existsSyncStub = sandbox.stub();
   const memoryFsMock = sandbox.stub();
-  const components = [component];
   readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
   readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
   readFileStub.withArgs('/components.js.map', 'utf8').returns(Promise.resolve(componentMapBundle));
@@ -153,7 +154,8 @@ describe('runBundler', () => {
           minify: undefined,
           isoPlugin: fakeIsoPlugin,
           modulePaths: undefined,
-          outputFileSystem: memoryFsMock()
+          outputFileSystem: memoryFsMock(),
+          componentFile: fakeFile
         });
       });
     });
@@ -166,7 +168,8 @@ describe('runBundler', () => {
           minify: undefined,
           isoPlugin: undefined,
           modulePaths: fakeModulePaths,
-          outputFileSystem: memoryFsMock()
+          outputFileSystem: memoryFsMock(),
+          componentFile: fakeFile
         });
       });
     });
@@ -179,7 +182,8 @@ describe('runBundler', () => {
           minify: undefined,
           isoPlugin: undefined,
           modulePaths: undefined,
-          outputFileSystem: memoryFsMock()
+          outputFileSystem: memoryFsMock(),
+          componentFile: fakeFile
         });
       });
     });
@@ -193,7 +197,8 @@ describe('runBundler', () => {
           mapPath: fakeMapPath,
           isoPlugin: undefined,
           modulePaths: undefined,
-          outputFileSystem: memoryFsMock()
+          outputFileSystem: memoryFsMock(),
+          componentFile: fakeComponentFile
         });
       });
     });
