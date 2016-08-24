@@ -28,8 +28,8 @@ In the future, there is no reason why other component types can't be supported.
 
 To render a component, you will need to :
 
-  * Write a universal component e.g. [test-one](/tests/components/test-one/index.js)
-  * Add a [toga.json](toga.json.md) file to the root of your components project
+  * Write a universal component e.g. [test-one](/tests/e2e/components/test-one/index.js)
+  * Add a [toga.json](/toga.json.md) file to the root of your components project
   * for now, install required build tools
     * `npm i -S node-sass webpack css-loader style-loader sass-loader notonthehighstreet/toga-loader babel-loader postcss-loader svg-inline-loader file-loader json-loader `
   * Run Toga (pointing it to your components directory)
@@ -39,10 +39,10 @@ To render a component, you will need to :
 
 We have an example node app doing this for :
 
- * [one component](example/routes/one-component.js)
- * [multiple components](example/routes/multiple-components.js)
+ * [one component](/example/routes/one-component.js)
+ * [multiple components](/example/routes/multiple-components.js)
 
-Checkout [example/README.md](example/README.md) more detail about the examples.
+Checkout [example/README.md](/example/README.md) more detail about the examples.
 
 ## Run Toga (quick start!)
 
