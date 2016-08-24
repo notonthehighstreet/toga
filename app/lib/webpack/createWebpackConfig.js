@@ -1,7 +1,8 @@
 module.exports = (deps) => {
   return function createWebpackConfig(
-    { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath, componentRoot}
+    { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath, componentFile}
     ) {
+    console.log(componentFile)
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
@@ -39,7 +40,7 @@ module.exports = (deps) => {
               'sass?outputStyle=expanded'].join('!'))
           },
           {
-            test: new RegExp(`.*${componentRoot.replace('./node_modules/', '')}\/.*\/index\.js$`),
+            test: new RegExp(`.*${componentFile}$`),
             loaders: ['toga']
           },
           { test: /\.svg$/, loader: 'svg-inline'}

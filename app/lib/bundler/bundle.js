@@ -15,10 +15,10 @@ module.exports = (deps) => {
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const mapPath = componentHelper.bundleId(components.map(component => component.name));
     // to do : when we allow multiple component sources, this (components[0].root) may break!
-    const componentRoot = components[0].root;
+    const componentFile = components[0].file.replace('./node_modules/', '');
     const outputFileSystem = memoryFS;
     const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
-// log(componentRoot)
+// log(componentFile)
     log(`${components.map(component => component.name).join('__')} ${minify ? 'min' : ''}`);
 
     function getAssets() {
@@ -38,7 +38,7 @@ module.exports = (deps) => {
     }
 
     return runWebpack({
-      isoPlugin, externals, minify, modulePaths, mapPath, outputFileSystem, componentRoot
+      isoPlugin, externals, minify, modulePaths, mapPath, outputFileSystem, componentFile
     })
       .then(getAssets);
   };
