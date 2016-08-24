@@ -17,4 +17,4 @@ COPY . $HOME/
 
 ENV NODE_ENV=production
 EXPOSE 8080
-CMD npm run precache -- --config './app/config/application.json' && npm start -- --config './app/config/application.json'
+CMD node ./script/docker_compose_start

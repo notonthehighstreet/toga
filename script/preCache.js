@@ -2,7 +2,7 @@
 require('babel-core/register');
 const breadboard = require('breadboard');
 
-breadboard({
+module.exports = breadboard({
   containerRoot: 'app',
   blacklist: ['newrelic'],
   substitutes: {
@@ -26,9 +26,7 @@ breadboard({
     const logger = getLogger();
 
     logger.info('Precaching complete');
-    process.exit(0);
   })
   .catch((e) => {
     process.stderr.write(e.stack);
-    process.exit(1);
   });

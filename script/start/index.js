@@ -8,4 +8,9 @@ if (config.syncServer.enabled) {
   require('./startDevSyncServer')();
 }
 
-startAppServer();
+if (config.preCache) {
+  require('../preCache').then(startAppServer);
+}
+else {
+  startAppServer();
+}

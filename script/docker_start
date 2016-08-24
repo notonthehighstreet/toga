@@ -1,2 +1,0 @@
-npm run precache -- --config './app/config/application.json' --config '../config/applicationOverrides.js'
-npm run start -- --config './app/config/application.json' --config '../config/applicationOverrides.js'

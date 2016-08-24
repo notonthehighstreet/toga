@@ -13,7 +13,7 @@
     "start": "DEBUG=toga,toga:* ./script/start/index.js --config ./app/config/application.json",
     "heroku": "nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/herokuOverrides.js",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/devOverrides.json",
-    "precache": "DEBUG=toga,toga:* ./script/preCache.js --config ./app/config/application.json --config ./app/config/devOverrides.json",
+    "precache": "DEBUG=toga,toga:* ./script/preCache.js --config ./app/config/application.json",
     "test": "npm run test-unit",
     "coverage": "nyc --require babel-core/register --all npm test",
     "codeclimate": "npm run coverage -- --reporter=lcov --reporter=text-lcov | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js",

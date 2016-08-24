@@ -1,2 +1,1 @@
-npm run precache -- --config './app/config/application.json'
-npm start -- --config './app/config/application.json'
+npm start -- --config './app/config/dockerOverrides.json'
