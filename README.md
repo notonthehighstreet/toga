@@ -20,7 +20,7 @@ This means you can include the latest components and technology in your existing
 ## What type of components?
 
 Currently, Toga supports any [React](https://github.com/facebook/react) component.
-This could be redux-based, a stateless function or *any component* built using React.
+This could be a [redux-based component](/tests/e2e/components/test-redux), a stateless function or *any component* built using React.
 
 As Javascript engineers are known to do crazy things inside components, like trying to import CSS *(what!?)* into Javascript.
 This can be pesky to set up, especially on the server.

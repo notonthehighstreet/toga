@@ -1517,7 +1517,7 @@
     },
     "es6-promise": {
       "version": "3.2.1",
-      "from": "es6-promise@>=3.0.2 <4.0.0",
+      "from": "es6-promise@latest",
       "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.2.1.tgz"
     },
     "es6-promisify": {

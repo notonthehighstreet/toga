@@ -12,9 +12,13 @@ As the example is a demo of how a separate app would consume components from Tog
 Each Route within this app showcases how to consume a different type of component.
 
  * A single components : http://localhost:3000/one
+    * Shows how to integrate a single component into your app
  * Multiple components : http://localhost:3000/multiple
- * Multiple components that talk to each other : http://localhost:3000/communication
- * Nested components : http://localhost:3000/nested
+    * Shows how to integrate a multiple components into your app
+ * Multiple Chatty components : http://localhost:3000/communication
+    * Shows how to integrate multiple components that talk/affect each other
+ * Redux component : http://localhost:3000/redux
+    * Shows how to integrate a Redux app/component into your own app
 
 ## Details
 
