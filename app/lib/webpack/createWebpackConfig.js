@@ -2,7 +2,6 @@ module.exports = (deps) => {
   return function createWebpackConfig(
     { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath, componentFile}
     ) {
-    console.log(componentFile)
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
