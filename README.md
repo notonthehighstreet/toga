@@ -48,10 +48,14 @@ Checkout [example/README.md](/example/README.md) more detail about the examples.
 
 This will run Toga, which contains a sample component :
 
- * `npm i notonthehighstreet/toga`
- * `brew install redis`
- * `npm run dev`
- * Go to `http://localhost:8080`
+```
+git clone git@github.com:notonthehighstreet/toga.git
+cd toga
+npm install
+brew install redis
+npm start
+```
+Go to `http://localhost:8080`
 
 ### Serving components from Toga
 
@@ -61,7 +65,7 @@ The components project also needs to linked to Toga using `npm link`.
   * run `npm link` in the root of your project
   * run `npm link project-name` from within toga
   * run `npm run dev -- --components=project-name`
-  * Go to `http://localhost:8080/v1/component-name`
+
 ## Contributing
 
  > More information about how to contribute and run the project locally.
