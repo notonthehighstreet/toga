@@ -1,0 +1,18 @@
+version: '2'
+services:
+  toga:
+    build:
+      context: .
+      dockerfile: ./DockerfileDev
+    image: toga-dev
+    ports:
+      - 8080:8080
+      - 3001:3001
+    volumes:
+      - ./app:/app
+      - ./components:/components
+      - ./script:/script
+    links:
+      - redis
+  redis:
+    image: redis

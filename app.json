@@ -1,0 +1,19 @@
+{
+  "name": "toga",
+  "scripts": {
+  },
+  "env": {
+    "REDIS_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-redis"
+  ]
+}

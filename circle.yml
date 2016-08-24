@@ -1,0 +1,28 @@
+machine:
+  pre:
+    - sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+  timezone:
+    Europe/London
+  node:
+    version: v6.2
+general:
+  artifacts:
+    - tests/reports
+    - tests/nightwatch/report
+dependencies:
+  pre:
+    - if [[ ! -e redis-2.4.18/src/redis-server ]]; then wget http://redis.googlecode.com/files/redis-2.4.18.tar.gz && tar xzf redis-2.4.18.tar.gz && cd redis-2.4.18 && make; fi
+  cache_directories:
+    - browserstack
+    - node_modules
+    - redis-2.4.18
+
+test:
+  override:
+    - npm run dev:
+        background: true
+    - npm run example:
+        background: true
+    - npm run test-unit
+#    - npm run test-integration
+#    - npm run test-e2e

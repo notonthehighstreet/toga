@@ -1,0 +1,19 @@
+FROM mhart/alpine-node:latest
+
+RUN apk add --update \
+    git \
+    openssh \
+    python \
+    python-dev \
+    build-base \
+  && rm -rf /var/cache/apk/*
+
+COPY package.json $HOME/
+
+RUN npm install
+RUN ln -sfn /config/newrelic.js $HOME/newrelic.js
+
+COPY . $HOME/
+
+EXPOSE 8080
+CMD npm run dev -- --config './app/config/dockerOverrides.json'

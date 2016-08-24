@@ -1,0 +1,16 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  csslint:
+    enabled: true
+  eslint:
+    enabled: true
+    channel: "eslint-2"
+    checks:
+      complexity:
+        enabled: false
+exclude_paths:
+- tests/**/*

@@ -1,0 +1,18 @@
+version: '2'
+services:
+  toga:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./app:/app
+      - ./components:/components
+      - ./script:/script
+    links:
+      - redis
+    environment:
+      - NODE_ENV=production
+  redis:
+    image: redis
