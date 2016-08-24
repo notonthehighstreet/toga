@@ -7,9 +7,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./app:/service/app
-      - ./components:/service/components
-      - ./script:/service/script
+      - ./app:/app
+      - ./components:/components
+      - ./script:/script
     links:
       - redis
     command: sh ./script/docker_compose_start
