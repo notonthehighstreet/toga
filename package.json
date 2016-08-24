@@ -19,12 +19,7 @@
     "codeclimate": "npm run coverage -- --reporter=lcov --reporter=text-lcov | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{tests/spec,components}/**/*.spec.js'",
-    "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.json --config './app/config/integrationOverrides.json'",
-    "test-e2e": "npm run nightwatch -- --env local",
-    "test-e2e-xb": "npm run nightwatch -- --env chrome_win",
-    "prenightwatch": "selenium-standalone install --version=2.53.1",
-    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js",
-    "flush-webpack-asset": "node ./script/flushWebpackAssetFiles"
+    "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.json --config './app/config/integrationOverrides.json'"
   },
   "pre-commit": [
     "lint",
