@@ -60,8 +60,8 @@ The components project also needs to linked to Toga using `npm link`.
 
   * run `npm link` in the root of your project
   * run `npm link project-name` from within toga
-  * run `npm start -- --components=project-name`
-
+  * run `npm run dev -- --components=project-name`
+  * Go to `http://localhost:8080/v1/component-name`
 ## Contributing
 
  > More information about how to contribute and run the project locally.
