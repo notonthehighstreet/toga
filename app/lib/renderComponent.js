@@ -10,8 +10,15 @@ module.exports = (deps) => {
     } = deps;
     const log = debug('toga:renderComponent');
     const component = getComponentInfo(componentName)[0];
-    if (!component) {
-      throw new NotFoundError(`${componentName} not found`);
+    function componentExists() {
+      const throwE = (()=> {
+        throw new NotFoundError(`${componentName} not found`);
+      });
+      return new Promise((resolve, reject) => {
+        return (component)
+          ? resolve(component)
+          : reject(throwE());
+      });
     }
     function requireComponent(componentPath) {
       try {
@@ -23,7 +30,8 @@ module.exports = (deps) => {
       }
     }
 
-    return pathsExist(component.file)
+    return componentExists()
+      .then(()=> pathsExist(component.file))
       .then((exists) => {
         if (exists) {
           const componentJS = requireComponent(component.requirePath);
