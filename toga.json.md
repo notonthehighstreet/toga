@@ -4,7 +4,7 @@
 
 This file is required to tell Toga more information about the components in you project.
 
-[Example toga.json](/toga.json)
+[Example toga.json](/components/toga.json)
 
 ## coreStyles (string: optional)
 
@@ -30,7 +30,7 @@ The vendor object requires a `componentName` and `bundle`.
 ### componentName (string)
 
 This is the name of the component which contains the vendor code.
-Take a look at our [example vendor component](/tests/components/vendor/index.js).
+Take a look at our [example vendor component](/tests/e2e/components/vendor/index.js).
 
 ### bundle (object)
 
@@ -67,7 +67,7 @@ This would make the following end-point:
 
 `http://toga-ip/v1/footer/assets/banner.jpg`
 
-[test-one/style.scss](/tests/components/test-one.scss) is an example of this in use.
+[test-one/style.scss](/tests/e2e/components/test-one/styles.scss) is an example of this in use.
 
 ### ignore (string)
 
