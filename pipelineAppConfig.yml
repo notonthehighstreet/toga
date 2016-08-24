@@ -1,0 +1,8 @@
+name: toga
+acceptanceTestJob:
+buildJob: pl-frontend-service-build
+buildContainerJob: pl-frontend-service-publish
+slackChannel: https://hooks.slack.com/services/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
+cdEnabledAfterPushToMaster: true
+autoEnvId: toga
+dependencies:
