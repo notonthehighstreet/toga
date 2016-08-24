@@ -8,7 +8,6 @@ RUN apk add --update \
     build-base \
   && rm -rf /var/cache/apk/*
 
-COPY packages $HOME/packages
 COPY package.json $HOME/
 
 RUN npm install --production

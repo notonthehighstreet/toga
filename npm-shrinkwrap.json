@@ -255,7 +255,7 @@
     },
     "babel-cli": {
       "version": "6.11.4",
-      "from": "babel-cli@>=6.4.0 <7.0.0",
+      "from": "babel-cli@>=6.11.4 <7.0.0",
       "resolved": "https://registry.npmjs.org/babel-cli/-/babel-cli-6.11.4.tgz",
       "dependencies": {
         "chalk": {
@@ -282,7 +282,7 @@
     },
     "babel-core": {
       "version": "6.13.2",
-      "from": "babel-core@>=6.4.0 <7.0.0",
+      "from": "babel-core@>=6.13.2 <7.0.0",
       "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.13.2.tgz"
     },
     "babel-generator": {
@@ -556,9 +556,9 @@
       "resolved": "https://registry.npmjs.org/babel-types/-/babel-types-6.13.0.tgz"
     },
     "babylon": {
-      "version": "6.9.0",
+      "version": "6.9.1",
       "from": "babylon@>=6.7.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.9.0.tgz"
+      "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.9.1.tgz"
     },
     "backo2": {
       "version": "1.0.2",
@@ -1517,7 +1517,7 @@
     },
     "es6-promise": {
       "version": "3.2.1",
-      "from": "es6-promise@>=3.2.1 <4.0.0",
+      "from": "es6-promise@>=3.0.2 <4.0.0",
       "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.2.1.tgz"
     },
     "es6-promisify": {
@@ -1580,9 +1580,9 @@
       "resolved": "https://registry.npmjs.org/espree/-/espree-3.1.7.tgz"
     },
     "esprima": {
-      "version": "2.7.2",
+      "version": "2.7.3",
       "from": "esprima@>=2.6.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.2.tgz"
+      "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz"
     },
     "esrecurse": {
       "version": "4.1.0",
@@ -5482,6 +5482,11 @@
       "from": "style-loader@>=0.13.1 <0.14.0",
       "resolved": "https://registry.npmjs.org/style-loader/-/style-loader-0.13.1.tgz"
     },
+    "styles-toolkit": {
+      "version": "0.0.10",
+      "from": "notonthehighstreet/styles-toolkit#v0.0.10",
+      "resolved": "git://github.com/notonthehighstreet/styles-toolkit.git#3fa0968b71a1b5236e39c50f08357877d541e64d"
+    },
     "superagent": {
       "version": "1.8.4",
       "from": "superagent@>=1.7.2 <2.0.0",
@@ -5619,7 +5624,7 @@
     "toga-loader": {
       "version": "1.0.0",
       "from": "notonthehighstreet/toga-loader",
-      "resolved": "git+ssh://git@github.com/notonthehighstreet/toga-loader.git#3cba2c67c2d9596ca2358b3f7b213c7f374a36f8"
+      "resolved": "git://github.com/notonthehighstreet/toga-loader.git#5e31d796ce57a2358538e12a0fe1e0fc47931e61"
     },
     "touch": {
       "version": "1.0.0",

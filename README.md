@@ -30,6 +30,8 @@ To render a component, you will need to :
 
   * Write a universal component e.g. [test-one](/tests/components/test-one/index.js)
   * Add a [toga.json](toga.json.md) file to the root of your components project
+  * for now, install required build tools
+    * `npm i -S node-sass webpack css-loader style-loader sass-loader notonthehighstreet/toga-loader babel-loader postcss-loader svg-inline-loader file-loader json-loader `
   * Run Toga (pointing it to your components directory)
   * include the toga-served component assets in your app
 
@@ -42,23 +44,23 @@ We have an example node app doing this for :
 
 Checkout [example/README.md](example/README.md) more detail about the examples.
 
+## Run Toga (quick start!)
+
+This will run Toga, which contains a sample component :
+
+ * `npm i notonthehighstreet/toga`
+ * `brew install redis`
+ * `npm run dev`
+ * Go to `http://localhost:8080`
+
 ### Serving components from Toga
 
 Add a `toga.json` file to the root of the project which contains the components.
+The components project also needs to linked to Toga using `npm link`.
 
-When starting Toga, be sure to add `-- --components=../project-name`. Thats it.
-
-For more information on how to ensure your components will work with Toga read [components.md](components.md)
-
-## Run Toga (quick start!)
-
-```nodejs
-npm i notonthehighstreet/toga
-brew install redis
-npm run dev
-```
-
-For more information and options to get Toga running, please see [Contributing.md](CONTRIBUTING.md)
+  * run `npm link` in the root of your project
+  * run `npm link project-name` from within toga
+  * run `npm start -- --components=project-name`
 
 ## Contributing
 

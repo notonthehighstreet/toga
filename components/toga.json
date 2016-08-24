@@ -1,0 +1,17 @@
+{
+  "coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.10/toolkit.css",
+  "vendor" : {
+    "componentName": "vendor",
+    "bundle": {
+      "react": "React",
+      "react-dom": "ReactDOM",
+      "react-bem-helper": "bemHelper"
+    }
+  },
+  "components": {
+    "isLocal": true,
+    "path": ".",
+    "public": "assets",
+    "ignore": "lib"
+  }
+}

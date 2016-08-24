@@ -5,8 +5,8 @@ module.exports = (deps) => {
       '/config/index': config,
       fs
     } = deps;
-    const { components } = config;
-    const root = components.path;
+    const { components: componentsConfig } = config;
+    const root = componentsConfig.path;
     const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];
 
     const getComponents = (componentNames) => {
@@ -15,18 +15,19 @@ module.exports = (deps) => {
     const isComponentFolder = ({ path, name, ignore }) => {
       return ignore.indexOf(name) < 0 && fs.statSync(`${path}/${name}`).isDirectory();
     };
+    const replaceCurrentDir = (dir) => dir.replace('/./', '/');
 
     if (allComponents.length === 0) {
       allComponents = fs.readdirSync(root)
-        .filter((name) => isComponentFolder({ path: root, name, ignore: components.ignore }))
+        .filter((name) => isComponentFolder({ path: root, name, ignore: componentsConfig.ignore }))
         .map((name) => {
           return {
             name,
-            root: './' + root,
-            path: './' + root + '/' + name,
-            file: './' + root + '/' + name + '/' + 'index.js',
-            public: './' + root + '/' + name + '/' + components.public,
-            requirePath: '../../' + root +'/'+ name + '/' + 'index.js',
+            root: replaceCurrentDir('./' + root),
+            path: replaceCurrentDir('./' + root + '/' + name),
+            file: replaceCurrentDir('./' + root + '/' + name + '/' + 'index.js'),
+            public: replaceCurrentDir('./' + root + '/' + name + '/' + componentsConfig.public),
+            requirePath: replaceCurrentDir('../../' + root +'/'+ name + '/' + 'index.js'),
           };
         });
     }
