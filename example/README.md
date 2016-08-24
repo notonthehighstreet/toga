@@ -49,7 +49,7 @@ We dont want the following to be included in every component js, so we set them 
  * React-Dom
  * React-bem-helper
 
-This was achieved by updating the [toga.json](/toga.json).
+This was achieved by updating the `toga.json`.
 To understand more about how to set this up take a look at [/toga.json.md](toga.json.md#vendor)
 
 
@@ -70,11 +70,11 @@ If you want to include multiple components it is :
 
 #### Core Styles
 
-If setup with the `coreStyles` string of the [/toga.json](toga.json) file, this end-point will be:
+If setup with the `coreStyles` string of the `toga.json` file, this end-point will be:
 
  `http://localhost:8080/v1/core.min.css`
 
-For more information on core styles read [/toga.json.md](toga.json.md#corestyles-string-optional)
+For more information on core styles read [/toga.json.md](/toga.json.md#corestyles-string-optional)
 
 
 ### HTML
