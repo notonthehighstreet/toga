@@ -74,7 +74,7 @@ If setup with the `coreStyles` string of the [/toga.json](toga.json) file, this 
 
  `http://localhost:8080/v1/core.min.css`
 
-For more information on core styles read [/toga.json.md](toga.json.md#corestyles-string-optional)
+For more information on core styles read [/toga.json.md](/toga.json.md#corestyles-string-optional)
 
 
 ### HTML
