@@ -3,15 +3,15 @@ var rp = require('request-promise');
 
 module.exports = function nested(req, res) {
   const scripts = [
-    'http://localhost:8080/v1/components-vendor-bundle.min.js',
-    'http://localhost:8080/v1/components.min.js?components=["test-nested"]'
+    'http://localhost:3001/v1/components-vendor-bundle.min.js',
+    'http://localhost:3001/v1/components.min.js?components=["test-nested"]'
   ];
   const styles = [
-    'http://localhost:8080/v1/core.css',
-    'http://localhost:8080/v1/components.min.css?components=["test-nested"]'
+    'http://localhost:3001/v1/core.css',
+    'http://localhost:3001/v1/components.min.css?components=["test-nested"]'
   ];
   Promise.all([
-    rp('http://localhost:8080/v1/test-nested.raw.html?props={"one":"head"}')
+    rp('http://localhost:3001/v1/test-nested.raw.html?props={"one":"head"}')
   ])
     .then(function(htmlStrings) {
       res.send(html({

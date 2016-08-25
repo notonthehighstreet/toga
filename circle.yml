@@ -19,10 +19,5 @@ dependencies:
 
 test:
   override:
-    - npm run dev:
-        background: true
-    - npm run example:
-        background: true
     - npm run test-unit
-#    - npm run test-integration
-#    - npm run test-e2e
+    - npm run test-e2e
