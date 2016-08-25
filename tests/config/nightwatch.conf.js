@@ -25,7 +25,11 @@ module.exports = (function(settings) {
     before: function(done) {
       return testServer
         .then(done)
-        .catch(done);
+        .catch((e)=>{
+          console.log(`e`, e);
+          done()
+          process.exit(1);
+        });
     },
     after: function(done) {
       return testServer.then(({ togaServer })=>{
