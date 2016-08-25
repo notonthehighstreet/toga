@@ -9,7 +9,7 @@
     "npm": "^3.10.3"
   },
   "scripts": {
-    "example": "node ./example",
+    "example": "node ./example --components=./tests/e2e",
     "start": "DEBUG=toga,toga:* ./script/start/index.js --config ./app/config/application.json",
     "heroku": "nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/herokuOverrides.js",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/devOverrides.json",
