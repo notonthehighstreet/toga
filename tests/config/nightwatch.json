@@ -1,0 +1,34 @@
+{
+  "src_folders" : ["tests/e2e/tests"],
+  "test_workers": {
+    "enabled": false,
+    "workers": "auto"
+  },
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : "node_modules/selenium-standalone/.selenium/selenium-server/2.53.1-server.jar"
+  },
+  "custom_commands_path" : "./tests/config/nightwatch",
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "127.0.0.1",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : false,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "project": "Toga",
+        "build": "build ",
+        "browserName": "phantomjs",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.local" : false,
+        "resolution": "1024x768"
+      }
+    }
+  }
+}

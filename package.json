@@ -9,7 +9,7 @@
     "npm": "^3.10.3"
   },
   "scripts": {
-    "example": "node ./example",
+    "example": "node ./example --components=./tests/e2e",
     "start": "DEBUG=toga,toga:* ./script/start/index.js --config ./app/config/application.json",
     "heroku": "nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/herokuOverrides.js",
     "dev": "DEBUG=toga,toga:* nodemon ./script/start/index.js -- --config ./app/config/application.json --config ./app/config/devOverrides.json",
@@ -17,13 +17,19 @@
     "test": "npm run test-unit",
     "coverage": "nyc --require babel-core/register --all npm test",
     "codeclimate": "npm run coverage -- --reporter=lcov --reporter=text-lcov | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js",
-    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint": "eslint .",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{tests/spec,components}/**/*.spec.js'",
-    "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.json --config './app/config/integrationOverrides.json'"
+    "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.json --config './app/config/integrationOverrides.json'",
+    "test-e2e": "npm run nightwatch -- --components=./tests/e2e",
+    "prenightwatch": "selenium-standalone install --version=2.53.1",
+    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [
     "lint",
     "coverage"
+  ],
+  "pre-push": [
+    "test-e2e"
   ],
   "nyc": {
     "include": [
@@ -115,8 +121,9 @@
     "nodemon": "^1.8.1",
     "nyc": "^6.6.1",
     "pre-commit": "1.1.2",
+    "pre-push": "^0.1.1",
     "react-addons-test-utils": "^15.3.0",
-    "selenium-standalone": "^5.4.1",
+    "selenium-standalone": "^5.6.1",
     "sinon": "1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.1.0"
