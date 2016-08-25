@@ -28,11 +28,11 @@ module.exports = bootstrapApp({
 
     return togaServer;
   })
-  .then(() => {
+  .then((togaServer) => {
     return new Promise((resolve)=> {
       return server.listen('3000', () => {
         console.log(`ExampleServer on port 3000' :`); //eslint-disable-line
-        resolve(server);
+        resolve({ exampleServer: server, togaServer });
       });
     });
   })
