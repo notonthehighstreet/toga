@@ -24,7 +24,7 @@
 * Node.js v6.2.2 - Recommend using NVM
 * npm v3.10.3
 * Redis i.e. `brew install redis`
-* PhantomJS i.e. `npm install -g phantomjs-prebuilt`
+* PhantomJS i.e. `brew install phantomjs` or `npm install -g phantomjs-prebuilt`
 
 #### Node Modules
 
