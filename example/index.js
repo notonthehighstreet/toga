@@ -1,6 +1,7 @@
 require('babel-core/register');
 var express = require('express');
 var one = require('./routes/one-component');
+var redux = require('./routes/redux-component');
 var multiple = require('./routes/multiple-components');
 var nested = require('./routes/nested-components');
 var multipleNested = require('./routes/multiple-nested-components');
@@ -9,6 +10,7 @@ var communication = require('./routes/communication-component');
 var bootstrapApp = require('../index');
 const server = express();
 
+server.get('/redux', redux);
 server.get('/one', one);
 server.get('/multiple', multiple);
 server.get('/multiple-nested', multipleNested);

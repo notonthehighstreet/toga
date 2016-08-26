@@ -1,0 +1,26 @@
+.toga-price {
+  color: #555;
+  vertical-align: top;
+  margin: 5px 0;
+}
+
+.toga-currency,
+.toga-price__amount,
+.toga-price__decimals {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.toga-currency {
+  font-size: 14px;
+  line-height: 14px;
+  margin-right: 1px;
+}
+.toga-price__amount {
+  font-size: 21px;
+  line-height: 21px;
+}
+.toga-price__decimals {
+  font-size: 14px;
+  line-height: 14px;
+}

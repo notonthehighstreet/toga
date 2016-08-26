@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { shallow, render } from 'enzyme';
 import Chance from 'chance';
-import Svg from '../';
+import Svg from './';
 
 const chance = new Chance();
 const svg = '<svg class="test-svg" xmlns="http://www.w3.org/2000/svg" />';

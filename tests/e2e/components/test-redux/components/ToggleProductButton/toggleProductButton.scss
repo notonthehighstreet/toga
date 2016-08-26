@@ -1,0 +1,26 @@
+.toga-toggle-product-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+
+  z-index: 1;
+
+  width: 13%;
+  height: 13%;
+  margin: 0 2%;
+
+  svg {
+    overflow: visible;
+  }
+
+  &--active {
+    fill: #05A6D4;
+  }
+
+  &--inactive {
+    fill: white;
+    stroke: black;
+    stroke-width: 15px;
+  }
+}
