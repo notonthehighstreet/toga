@@ -113,6 +113,16 @@ One Toga is running and you can hit the component endpoint, user the query `?pro
 
 `http://localhost:8080/v1/HelloWorld.html?props={"world":"waynes"}`
 
+## Troubleshooting
+
+#Windows 8.1 > users
+If you get one of the following errors
+`./script/start/index.js Permission denied`
+`Missing module './script/start/index'`
+It probably means, that the mount is failing and you should move your project to your home folder.
+For instance `c:\Users\youUserName\toga`.
+The reason for that is docker toolbox with virtualBox cannot mount folders outside of your home.
+
 
 ## Contributing
 
