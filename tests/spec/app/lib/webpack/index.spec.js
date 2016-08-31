@@ -24,6 +24,9 @@ describe('webpack/index', () => {
     createAssetsJson: assetsJsonStub
   });
   const fakeMapPath = chance.word();
+  const queue = function(run) {
+    return run();
+  };
 
   beforeEach(() => {
     deps = {
@@ -31,6 +34,7 @@ describe('webpack/index', () => {
       'webpack': fakeWebpack,
       'debug': fakeDebug,
       '/lib/webpack/createWebpackConfig': createConfigMock,
+      '/lib/webpack/queue': queue,
       '/lib/universalRendering/index': fakeUniversalRendering
     };
     subject = builder(deps);

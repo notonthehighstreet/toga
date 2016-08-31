@@ -5,6 +5,7 @@ module.exports = (deps) => {
     const {
       'es6-promisify': promisify,
       'webpack': webpack,
+      '/lib/webpack/queue': queue,
       '/lib/webpack/createWebpackConfig': createWebpackConfig,
       debug
     } = deps;
@@ -33,6 +34,6 @@ module.exports = (deps) => {
       return runner().then(outputWebpackErrors);
     }
 
-    return run();
+    return queue(run);
   };
 };
