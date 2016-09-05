@@ -9,9 +9,9 @@ services:
       - 8080:8080
       - 3001:3001
     volumes:
-      - ./app:/app
-      - ./components:/components
-      - ./script:/script
+      - ./app:/service/toga/app
+      - ./components:/service/toga/components
+      - ./script:/service/toga/script
     links:
       - redis
   redis:
