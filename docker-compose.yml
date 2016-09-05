@@ -7,9 +7,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./app:/app
-      - ./components:/components
-      - ./script:/script
+      - ./app:/service/toga/app
+      - ./components:/service/toga/components
+      - ./script:/service/toga/script
     links:
       - redis
     environment:

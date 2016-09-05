@@ -9,12 +9,13 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/*
 
 RUN mkdir -p $HOME/service/toga
-
-COPY . $HOME/service/toga
-
 WORKDIR $HOME/service/toga
+
+COPY package.json ./
+
 RUN npm install --production
-RUN ln -sfn /config/newrelic.js $HOME/newrelic.js
+
+COPY . ./
 
 ENV NODE_ENV=production
 EXPOSE 8080
