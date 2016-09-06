@@ -5,7 +5,8 @@ module.exports = (deps = {
   path: require('path'),
   semver: require('semver'),
   'deep-assign': require('deep-assign'),
-  'package.json': require('../../package.json')
+  'package.json': require('../../package.json'),
+  debug: require('debug')
 }) => {
   const {
     yargs: { argv },
@@ -13,12 +14,14 @@ module.exports = (deps = {
     'deep-assign': deepAssign,
     semver,
     '/logger': getLogger,
-    'package.json': {version: packageVersion, name: appName}
+    'package.json': {version: packageVersion, name: appName},
+    debug
     } = deps;
 
   if (cachedConfig) {
     return cachedConfig;
   }
+  const log = debug('toga:config');
 
   argv.components = argv.components || './components';
   const isLocal = argv.components.indexOf('.') === 0;
@@ -45,5 +48,8 @@ module.exports = (deps = {
   if (getLogger) {
     getLogger().info('Config read', configFilePaths, cachedConfig);
   }
+
+  log(JSON.stringify(cachedConfig, null, 2));
+
   return cachedConfig;
 };

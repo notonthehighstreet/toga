@@ -27,6 +27,7 @@ describe('config/index', () => {
       }
     },
     path: require('path'),
+    debug: require('debug'),
     semver: {
       major: semverMajorStub
     },
