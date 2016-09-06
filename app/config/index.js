@@ -17,6 +17,7 @@ module.exports = (deps = {
     'package.json': {version: packageVersion, name: appName},
     debug
     } = deps;
+  require('./environment');
 
   if (cachedConfig) {
     return cachedConfig;
@@ -31,7 +32,7 @@ module.exports = (deps = {
   const metaDataConfig = {apiVersion: apiVersion, appName};
 
   const toArray = value => Array.isArray(value) ? value : [value];
-  const configFilePaths = toArray(argv.config || './app/config/application.json');
+  const configFilePaths = toArray(argv.config || './app/config/application.js');
 
   const loadConfig = path => require(pathJoin(process.cwd(), path));
   const deepClone = obj => JSON.parse(JSON.stringify(obj));
