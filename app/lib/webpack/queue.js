@@ -5,44 +5,26 @@ module.exports = (deps) => {
     debug
   } = deps;
   const log = debug('toga:queue');
+  const collectGarbage = () => (global.gc) ? global.gc() : null;
+  const removeItemFromQueue = () => queue.splice(0, 1);
+
+  const runNextItem = () => {
+    log(`running item on queue : ${queue.length} item(s) queued`);
+    const queueItem = queue[0];
+    return queueItem.run()
+      .then(collectGarbage)
+      .then(removeItemFromQueue)
+      .then(() => !!queue.length && runNextItem())
+      .then(queueItem.resolve)
+      .catch(queueItem.reject);
+  };
 
   return function(run) {
     return new Promise((resolve, reject) => {
-      log('Adding element to queue');
-      var nr = queue.push({
-        runner: () => {
-          run().then(() => {
-            log('Running is done, que is ready for the next element');
-            queue.splice(0, 1);
-            if (global.gc) {
-              global.gc();
-            }
-
-            if (queue[0]) {
-              queue[0].runner();
-              log('Running element from queue');
-            }
-            resolve();
-          }, ()=> {
-            log('Running is done, que is ready for the next element');
-            queue.splice(0, 1);
-            if (global.gc) {
-              global.gc();
-            }
-
-            if (queue[0]) {
-              queue[0].runner();
-              log('Running element from queue');
-            }
-            reject();
-          });
-
-        }
-      });
-
-      if (nr === 1) {
-        log('Starting the first element in the queue');
-        queue[nr - 1].runner();
+      var queueLength = queue.push({ run, resolve, reject });
+      log(`Adding item to queue : ${queueLength}`);
+      if (queueLength === 1) {
+        runNextItem();
       }
     });
   };
