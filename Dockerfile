@@ -18,5 +18,6 @@ RUN npm install --production
 COPY . ./
 
 ENV NODE_ENV=production
+ENV TOGA_REDIS_HOST="redis"
 EXPOSE 8080
-CMD npm start -- --config './app/config/dockerOverrides.json'
+CMD npm start

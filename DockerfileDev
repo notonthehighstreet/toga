@@ -17,5 +17,6 @@ RUN npm install
 
 COPY . ./
 
+ENV TOGA_REDIS_HOST="redis"
 EXPOSE 8080
-CMD npm run dev -- --config './app/config/dockerOverrides.json'
+CMD npm run dev

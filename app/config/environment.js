@@ -9,4 +9,4 @@ setEnvDefault('TOGA_REDIS_HOST', 'localhost');
 setEnvDefault('TOGA_HONEYBADGER_APIKEY', 'its a secret');
 setEnvDefault('TOGA_NEWRELIC_LICENSE_KEY', '00000');
 setEnvDefault('TOGA_NEWRELIC_ENABLED', false);
-setEnvDefault('TOGA_LOGFILE', "./logs/application.logstash.log");
+setEnvDefault('TOGA_LOGFILE', './logs/application.logstash.log');
