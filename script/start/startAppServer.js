@@ -3,7 +3,12 @@ module.exports = function startAppServer() {
   const config = require('../../app/config/index')();
 
   if (config.newRelicEnabled) {
-    require('newrelic');
+    try {
+      require('newrelic');
+    }
+    catch(e) {
+      console.log(e); // eslint-disable-line
+    }
   }
 
   return bootstrapApp({
