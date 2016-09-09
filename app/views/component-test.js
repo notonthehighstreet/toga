@@ -2,6 +2,7 @@ module.exports = (deps) => {
   return ({componentDOM, componentName, props, coreStyles}) => {
     const config = deps['/config/index'];
     const apiVersionPrefix = `/v${config.apiVersion}`;
+    const encode = deps['entities'].encodeHTML;
 
     return `
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ module.exports = (deps) => {
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/components.css?components=["${componentName}"]'>
     </head>
     <body>
-    <div toga="${componentName}" props='${JSON.stringify(props)}'>${componentDOM}</div>
+    <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
     <script src='${apiVersionPrefix}/components-vendor-bundle.js?components=["${componentName}"]'></script>
     <script src='${apiVersionPrefix}/components.js?components=["${componentName}"]'></script>
     </body>

@@ -1,7 +1,7 @@
-module.exports = () => {
+module.exports = ({entities: {encodeHTML: encode}}) => {
   return function componentRaw({componentDOM, componentName, props}) {
     return `
-      <div toga="${componentName}" props='${JSON.stringify(props)}'>${componentDOM}</div>
+      <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
       `;
   };
 };
