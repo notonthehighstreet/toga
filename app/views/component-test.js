@@ -4,8 +4,7 @@ module.exports = (deps) => {
     const apiVersionPrefix = `/v${config.apiVersion}`;
     const encode = deps['entities'].encodeHTML;
 
-    return `
-<!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html dir="ltr" lang="en">
   <head>
     <meta charset="UTF-8">
