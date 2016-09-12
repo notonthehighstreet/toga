@@ -42,7 +42,9 @@ describe('bundler/index', () => {
   const fakeNotFoundError = sandbox.stub().throws();
   const fakeBundleError = sandbox.stub().throws();
   const fakeBundleId = sandbox.stub().returns(fakeMapPath);
-  const fakeComponentInfo = [{ path : chance.word(),  file: fakeModulePaths[0] }];
+  const fakeComponentRoot = chance.word();
+  const fakeComponentPath = chance.word();
+  const fakeComponentInfo = [{ root: fakeComponentRoot, path : fakeComponentPath,  file: fakeModulePaths[0] }];
   const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
   const fakeComponentHelper = {
     bundleId: fakeBundleId
@@ -162,6 +164,13 @@ describe('bundler/index', () => {
           });
         });
       });
+    });
+  });
+
+  describe('calls ', ()=> {
+    it('bundleHash with the component root', () => {
+      subject(fakeComponentsList);
+      expect(bundleHashMock).to.be.calledWith([fakeComponentRoot]);
     });
   });
 });

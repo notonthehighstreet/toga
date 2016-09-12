@@ -5,10 +5,7 @@ module.exports = (deps) => {
       'hash-files': hashFiles
     } = deps;
 
-    const files = paths.map(path => {
-      const glob = (path[0] === '.') ? path.slice(2) : path;
-      return `${glob}/**/*(!(*.webpack-assets.json))`;
-    });
+    const files = paths.map(path => `${path}/**/*(!(*.webpack-assets.json))`);
     hash = hash || hashFiles.sync({ files });
     return hash;
   };
