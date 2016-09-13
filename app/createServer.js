@@ -7,13 +7,16 @@ module.exports = (deps) => {
       '/routes/index': getRoutes,
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
+      '/middleware/etagCache': etagCache,
       compression
     } = deps;
     const app = express();
 
     hook.hook('.scss', () => {});
     app.set('Accept-Encoding', 'gzip');
+    app.set('etag', etagCache.returnHash);
     app.use(logRequests); //be first to ensure all requests are logged
+    app.use(etagCache.etagRequest);
     app.use(compression());
     app.use(domainMiddleware);
     app.use(getRoutes());
