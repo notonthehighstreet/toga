@@ -47,6 +47,7 @@ describe('etagCache', () => {
       etagRequest(fakeRequest, fakeResponse, nextStub);
 
       expect(sendStatusStub).to.be.calledWith(304);
+      expect(reqGetStub).to.be.calledWith('If-None-Match');
       expect(nextStub).to.not.have.been.called;
     });
 
