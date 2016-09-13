@@ -1,7 +1,7 @@
 module.exports = (deps) => {
   const {
     '/lib/getComponentInfo': getComponentInfo,
-    '/lib/bundler/buildHash': buildHash,
+    '/lib/bundler/buildHash': buildHash
   } = deps;
 
   const componentInfo = getComponentInfo();
