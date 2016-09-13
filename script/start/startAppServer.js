@@ -1,6 +1,9 @@
-module.exports = function startAppServer() {
-  const config = require('../../app/config/index')();
-  const bootstrapApp = require('../../index');
+require('babel-core/register');
+const getConfig = require('../../app/config/index');
+const bootstrapApp = require('../../index');
+
+module.exports = function startAppServer(componentsPath) {
+  const config = getConfig(componentsPath);
   return bootstrapApp({
     port: config.server.port,
     host: config.server.host
@@ -15,6 +18,7 @@ module.exports = function startAppServer() {
       return server;
     })
     .catch((e) => {
+      console.log(e); // eslint-disable-line
       process.stderr.write(e.stack);
       process.exit(1);
     });

@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+const log = require('./log');
+const spawn = require('child_process').spawn;
+var argv = require('yargs').argv;
+
+var commands = {
+  start: function(args) {
+    let togaJson;
+    let packageJson;
+    try {
+      togaJson = require(`${process.cwd()}/toga.json`);
+      packageJson = require(`${process.cwd()}/package.json`);
+    } catch (e){
+      log.onError('Toga requires a `toga.json` to be in the root of your project.');
+      process.exit(1);
+    }
+    const componentsPath = togaJson.components.path;
+    const startAppServer = require('../script/start/startAppServer.js')
+    log.info(componentsPath)
+    startAppServer(componentsPath)
+  },
+  build: function(args){
+
+  },
+  '--help': function() {
+    help(commands, '')
+  },
+  '--version': function() {
+    var pkg = require("../package.json");
+    log.info(pkg.version);
+  }
+};
+
+
+(function main() {
+  if (!argv._.length) return commands['--help']();
+  var command = argv._[0];
+  commands[command] && commands[command](argv);
+  !commands[command] && commands['--help']();
+})();

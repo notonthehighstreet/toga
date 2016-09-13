@@ -1,30 +1,21 @@
 let cachedConfig;
+const { argv } = require('yargs');
+const { join: pathJoin } = require('path');
+const semver = require('semver');
+const deepAssign = require('deep-assign');
+const debug = require('debug');
+const  {version: packageVersion, name: appName} = require('../../package.json');
 
-module.exports = (deps = {
-  yargs: require('yargs'),
-  path: require('path'),
-  semver: require('semver'),
-  'deep-assign': require('deep-assign'),
-  'package.json': require('../../package.json'),
-  debug: require('debug')
-}) => {
-  const {
-    yargs: { argv },
-    path: {join: pathJoin},
-    'deep-assign': deepAssign,
-    semver,
-    '/logger': getLogger,
-    'package.json': {version: packageVersion, name: appName},
-    debug
-    } = deps;
-  require('./environment');
-
+module.exports = (componentsPath) => {
   if (cachedConfig) {
     return cachedConfig;
   }
+
+  require('./environment');
+
   const log = debug('toga:config');
 
-  argv.components = argv.components || './components';
+  argv.components = argv.components || componentsPath || './components';
   const isLocal = argv.components.indexOf('.') === 0;
   const componentsJsonPath = isLocal ? argv.components : ('node_modules/' + argv.components);
   const componentConfig = require(`../../${componentsJsonPath}/toga.json`);
@@ -33,8 +24,7 @@ module.exports = (deps = {
 
   const toArray = value => Array.isArray(value) ? value : [value];
   const configFilePaths = toArray(argv.config || './app/config/application.js');
-
-  const loadConfig = path => require(pathJoin(process.cwd(), path));
+  const loadConfig = path => require(pathJoin(__dirname, '..', '..', path));
   const deepClone = obj => JSON.parse(JSON.stringify(obj));
   const configFiles = configFilePaths.map(loadConfig).map(deepClone);
 
@@ -45,10 +35,6 @@ module.exports = (deps = {
         path: componentsJsonPath + '/' + componentConfig.components.path
       }
     });
-
-  if (getLogger) {
-    getLogger().info('Config read', configFilePaths, cachedConfig);
-  }
 
   log(JSON.stringify(cachedConfig, null, 2));
 
