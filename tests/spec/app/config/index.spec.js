@@ -55,10 +55,10 @@ describe('config/index', () => {
   describe('config has not been accessed previously', () => {
     const fakeTogaJsonPath = chance.word();
     const fakeTogaJson = {
-      "components": {
-        "public": "assets",
-        "path": fakeTogaJsonPath,
-        "ignore": "lib"
+      'components': {
+        'public': 'assets',
+        'path': fakeTogaJsonPath,
+        'ignore': 'lib'
       }
     };
     beforeEach(() => {
@@ -95,7 +95,7 @@ describe('config/index', () => {
         subject = builder('./' + fakeComponentsPath);
         expect(subject.components.path).to.equal(`./${fakeComponentsPath}/${fakeTogaJsonPath}`);
       });
-    })
+    });
   });
 
   describe('config has already been accessed', () => {

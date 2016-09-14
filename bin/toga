@@ -2,21 +2,12 @@
 require('babel-core/register');
 const argv = require('yargs').argv;
 const debug = require('debug');
-const startAppServer = require('../script/start/startAppServer.js');
-debug.enable('toga:*');
+debug.enable('toga:cli');
 const log = debug('toga:cli');
+const start = require('./commands/start').default;
 
 var commands = {
-  start: function() {
-    let togaJson;
-    try {
-      togaJson = require(`${process.cwd()}/toga.json`);
-    } catch (e){
-      log('Toga requires a `toga.json` to be in the root of your project.');
-      process.exit(1);
-    }
-    startAppServer(togaJson.components.path)
-  },
+  start: () => start().catch(log),
   version: function() {
     var pkg = require("../package.json");
     log(`version: ${pkg.version}`);
