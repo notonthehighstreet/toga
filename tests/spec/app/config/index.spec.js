@@ -19,27 +19,13 @@ describe('config/index', () => {
     name: fakeAppName,
     version: '1.2.3'
   };
-  const deps = {
-    yargs: {
-      argv: {
-        config: configFiles,
-        components: componentsArg
-      }
-    },
-    path: require('path'),
-    debug: require('debug'),
-    semver: {
-      major: semverMajorStub
-    },
-    'deep-assign': require('deep-assign'),
-    'package.json': appMetaDataStub
-  };
 
   const fakeApiVersion = chance.natural();
   semverMajorStub.returns(fakeApiVersion);
   const fakeComponents = { path: chance.word() };
   const fakeDefaultComponents = { path: chance.word() };
   const fakeVendor = { [chance.word()] : chance.word() };
+  const fakeComponentsPath = chance.file();
   const fakeDefaultVendor = { [chance.word()] : chance.word() };
   const MockComponent = { components: fakeComponents, vendor: fakeVendor };
   const MockDefaultComponent = { components: fakeDefaultComponents, vendor: fakeDefaultVendor };
@@ -47,9 +33,9 @@ describe('config/index', () => {
   before(() => {
     mockery.registerMock(`../../node_modules/${componentsArg}/toga.json`, MockComponent);
     mockery.registerMock('../.././components/toga.json', MockDefaultComponent);
-    mockery.enable({
-      warnOnReplace: false,
-      warnOnUnregistered: false
+    mockery.registerMock('../../package.json', appMetaDataStub);
+    mockery.registerMock('semver', {
+      major: semverMajorStub
     });
   });
 
@@ -67,24 +53,60 @@ describe('config/index', () => {
   });
 
   describe('config has not been accessed previously', () => {
+    const fakeTogaJsonPath = chance.word();
+    const fakeTogaJson = {
+      "components": {
+        "public": "assets",
+        "path": fakeTogaJsonPath,
+        "ignore": "lib"
+      }
+    };
     beforeEach(() => {
+      mockery.registerMock(`../../node_modules/${fakeComponentsPath}/toga.json`, fakeTogaJson);
+      mockery.registerMock(`../.././${fakeComponentsPath}/toga.json`, fakeTogaJson);
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false
+      });
       builder = require('../../../../app/config/index');
-      subject = builder(Object.assign({}, deps));
     });
-    it('sets application name', () => {
-      let config = subject;
-      expect(config.appName).to.equal(fakeAppName);
+
+    context('when a componentPath is NOT passed as an arg', () => {
+      beforeEach(()=>{
+        subject = builder();
+      });
+
+      it('sets application name', () => {
+        expect(subject.appName).to.equal(fakeAppName);
+      });
+
+      it('sets api version', () => {
+        expect(subject.apiVersion).to.equal(fakeApiVersion);
+      });
     });
-    it('sets api version', () => {
-      let config = subject;
-      expect(config.apiVersion).to.equal(fakeApiVersion);
-    });
+
+    context('when a componentPath is passed as an arg', () => {
+      it('sets components.path version pointing to node_modules', () => {
+        subject = builder(fakeComponentsPath);
+        expect(subject.components.path).to.equal(`node_modules/${fakeComponentsPath}/${fakeTogaJsonPath}`);
+      });
+
+      it('sets components.path version pointing locally', () => {
+        subject = builder('./' + fakeComponentsPath);
+        expect(subject.components.path).to.equal(`./${fakeComponentsPath}/${fakeTogaJsonPath}`);
+      });
+    })
   });
+
   describe('config has already been accessed', () => {
     let firstReadConfig;
     beforeEach(() => {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false
+      });
       builder = require('../../../../app/config/index');
-      subject = builder(Object.assign({}, deps));
+      subject = builder();
       firstReadConfig = subject;
     });
 
@@ -95,20 +117,21 @@ describe('config/index', () => {
   });
   describe('passed one config file', () => {
     beforeEach(() => {
-      builder = require('../../../../app/config/index');
       configFiles = [
         './tests/spec/fixtures/config/a.json'
       ];
-      subject = builder(Object.assign({}, deps,
-        {
-          yargs: {
-            argv: {
-              config: configFiles,
-              components: componentsArg
-            }
-          }
-        })
-      );
+      mockery.registerMock('yargs', {
+        argv: {
+          config: configFiles,
+          components: componentsArg
+        }
+      });
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false
+      });
+      builder = require('../../../../app/config/index');
+      subject = builder();
     });
     it('contains the passed in config', () => {
       let config = subject;
@@ -133,21 +156,22 @@ describe('config/index', () => {
   describe('passed multiple config files', () => {
     describe('passed two different config files', () => {
       beforeEach(() => {
-        builder = require('../../../../app/config/index');
         configFiles = [
           './tests/spec/fixtures/config/a.json',
           './tests/spec/fixtures/config/b.json'
         ];
-        subject = builder(Object.assign({}, deps,
-          {
-            yargs: {
-              argv: {
-                config: configFiles,
-                components: componentsArg
-              }
-            }
-          })
-        );
+        mockery.registerMock('yargs', {
+          argv: {
+            config: configFiles,
+            components: componentsArg
+          }
+        });
+        mockery.enable({
+          warnOnReplace: false,
+          warnOnUnregistered: false
+        });
+        builder = require('../../../../app/config/index');
+        subject = builder();
       });
       it('merges the second config on top of the first config', () => {
         let config = subject;
@@ -173,22 +197,23 @@ describe('config/index', () => {
 
     describe('the same config is re-applied after other config', () => {
       beforeEach(() => {
-        builder = require('../../../../app/config/index');
         configFiles = [
           './tests/spec/fixtures/config/a.json',
           './tests/spec/fixtures/config/b.json',
           './tests/spec/fixtures/config/a.json'
         ];
-        subject = builder(Object.assign({}, deps,
-          {
-            yargs: {
-              argv: {
-                config: configFiles,
-                components: componentsArg
-              }
-            }
-          })
-        );
+        mockery.registerMock('yargs', {
+          argv: {
+            config: configFiles,
+            components: componentsArg
+          }
+        });
+        mockery.enable({
+          warnOnReplace: false,
+          warnOnUnregistered: false
+        });
+        builder = require('../../../../app/config/index');
+        subject = builder();
       });
       it('the third config overwrites changes made by the second', () => {
         let config = subject;
@@ -214,16 +239,17 @@ describe('config/index', () => {
 
     context('when a components arg isnt supplied', () => {
       beforeEach(() => {
+        mockery.registerMock('yargs', {
+          argv: {
+            config: [ './tests/spec/fixtures/config/a.json']
+          }
+        });
+        mockery.enable({
+          warnOnReplace: false,
+          warnOnUnregistered: false
+        });
         builder = require('../../../../app/config/index');
-        subject = builder(Object.assign({}, deps,
-          {
-            yargs: {
-              argv: {
-                config: [ './tests/spec/fixtures/config/a.json']
-              }
-            }
-          })
-        );
+        subject = builder();
       });
       it('loads the default config', () => {
         let config = subject;

@@ -14,7 +14,6 @@ module.exports = (componentsPath) => {
   require('./environment');
 
   const log = debug('toga:config');
-
   argv.components = argv.components || componentsPath || './components';
   const isLocal = argv.components.indexOf('.') === 0;
   const componentsJsonPath = isLocal ? argv.components : ('node_modules/' + argv.components);

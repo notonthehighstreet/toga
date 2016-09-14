@@ -1,6 +1,7 @@
-require('babel-core/register');
 const getConfig = require('../../app/config/index');
 const bootstrapApp = require('../../index');
+const debug = require('debug');
+const log = debug('toga:startAppServer');
 
 module.exports = function startAppServer(componentsPath) {
   const config = getConfig(componentsPath);
@@ -18,7 +19,7 @@ module.exports = function startAppServer(componentsPath) {
       return server;
     })
     .catch((e) => {
-      console.log(e); // eslint-disable-line
+      log(e);
       process.stderr.write(e.stack);
       process.exit(1);
     });

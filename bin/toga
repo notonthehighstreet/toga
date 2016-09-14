@@ -1,40 +1,37 @@
 #!/usr/bin/env node
-const log = require('./log');
-const spawn = require('child_process').spawn;
-var argv = require('yargs').argv;
+require('babel-core/register');
+const argv = require('yargs').argv;
+const debug = require('debug');
+const startAppServer = require('../script/start/startAppServer.js');
+debug.enable('toga:*');
+const log = debug('toga:cli');
 
 var commands = {
-  start: function(args) {
+  start: function() {
     let togaJson;
-    let packageJson;
     try {
       togaJson = require(`${process.cwd()}/toga.json`);
-      packageJson = require(`${process.cwd()}/package.json`);
     } catch (e){
-      log.onError('Toga requires a `toga.json` to be in the root of your project.');
+      log('Toga requires a `toga.json` to be in the root of your project.');
       process.exit(1);
     }
-    const componentsPath = togaJson.components.path;
-    const startAppServer = require('../script/start/startAppServer.js')
-    log.info(componentsPath)
-    startAppServer(componentsPath)
+    startAppServer(togaJson.components.path)
   },
-  build: function(args){
-
+  version: function() {
+    var pkg = require("../package.json");
+    log(`version: ${pkg.version}`);
   },
   '--help': function() {
-    help(commands, '')
-  },
-  '--version': function() {
-    var pkg = require("../package.json");
-    log.info(pkg.version);
+    log(`Run a Toga Server from the command line: 
+    $ toga start`);
   }
 };
 
 
 (function main() {
-  if (!argv._.length) return commands['--help']();
-  var command = argv._[0];
+  if (!argv._.length && !argv.version && !argv.v) return commands['--help']();
+  const isVersion = argv.version || argv.v;
+  const command = isVersion ? 'version' : argv._[0];
   commands[command] && commands[command](argv);
   !commands[command] && commands['--help']();
 })();
