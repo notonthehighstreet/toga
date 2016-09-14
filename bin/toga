@@ -4,7 +4,7 @@ const argv = require('yargs').argv;
 const debug = require('debug');
 debug.enable('toga:cli');
 const log = debug('toga:cli');
-const start = require('./commands/start').default;
+const start = require('./commands/start');
 
 var commands = {
   start: () => start().catch(log),

@@ -1,6 +1,6 @@
 const startAppServer = require('../../script/start/startAppServer.js');
 
-export default function() {
+module.exports = function() {
   let togaJson;
   try {
     togaJson = require(`${process.cwd()}/toga.json`);
@@ -9,4 +9,4 @@ export default function() {
     return Promise.reject('Toga requires a `toga.json` to be in the root of your project.');
   }
   return startAppServer(togaJson.components.path);
-}
+};
