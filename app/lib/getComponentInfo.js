@@ -23,11 +23,11 @@ module.exports = (deps) => {
         .map((name) => {
           return {
             name,
-            root: replaceCurrentDir('./' + root),
-            path: replaceCurrentDir('./' + root + '/' + name),
-            file: replaceCurrentDir('./' + root + '/' + name + '/' + 'index.js'),
-            public: replaceCurrentDir('./' + root + '/' + name + '/' + componentsConfig.public),
-            requirePath: replaceCurrentDir(process.cwd() + '/' + root +'/'+ name + '/' + 'index.js'),
+            root: replaceCurrentDir(root),
+            path: replaceCurrentDir(root + '/' + name),
+            file: replaceCurrentDir(root + '/' + name + '/' + 'index.js'),
+            public: replaceCurrentDir(root + '/' + name + '/' + componentsConfig.public),
+            requirePath: replaceCurrentDir(root +'/'+ name + '/' + 'index.js'),
           };
         });
     }

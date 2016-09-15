@@ -7,7 +7,7 @@ const log = debug('toga:cli');
 const start = require('./commands/start');
 
 var commands = {
-  start: () => start().catch(log),
+  start: (args) => start(args).catch(log),
   version: function() {
     var pkg = require("../package.json");
     log(`version: ${pkg.version}`);

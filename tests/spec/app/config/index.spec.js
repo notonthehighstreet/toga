@@ -25,14 +25,15 @@ describe('config/index', () => {
   const fakeComponents = { path: chance.word() };
   const fakeDefaultComponents = { path: chance.word() };
   const fakeVendor = { [chance.word()] : chance.word() };
-  const fakeComponentsPath = chance.file();
+  const fakeCWD = chance.word();
   const fakeDefaultVendor = { [chance.word()] : chance.word() };
   const MockComponent = { components: fakeComponents, vendor: fakeVendor };
   const MockDefaultComponent = { components: fakeDefaultComponents, vendor: fakeDefaultVendor };
+  process.cwd = sandbox.stub().returns(fakeCWD);
 
   before(() => {
-    mockery.registerMock(`../../node_modules/${componentsArg}/toga.json`, MockComponent);
-    mockery.registerMock('../.././components/toga.json', MockDefaultComponent);
+    mockery.registerMock(`${fakeCWD}/node_modules/${componentsArg}/toga.json`, MockComponent);
+    mockery.registerMock(`${fakeCWD}/components/toga.json`, MockDefaultComponent);
     mockery.registerMock('../../package.json', appMetaDataStub);
     mockery.registerMock('semver', {
       major: semverMajorStub
@@ -53,17 +54,11 @@ describe('config/index', () => {
   });
 
   describe('config has not been accessed previously', () => {
-    const fakeTogaJsonPath = chance.word();
-    const fakeTogaJson = {
-      'components': {
-        'public': 'assets',
-        'path': fakeTogaJsonPath,
-        'ignore': 'lib'
-      }
-    };
     beforeEach(() => {
-      mockery.registerMock(`../../node_modules/${fakeComponentsPath}/toga.json`, fakeTogaJson);
-      mockery.registerMock(`../.././${fakeComponentsPath}/toga.json`, fakeTogaJson);
+      mockery.registerMock(`${fakeCWD}/node_modules/components/toga.json`, MockDefaultComponent);
+      mockery.registerMock(`${fakeCWD}/node_modules/${fakeComponents.path}/toga.json`, MockComponent);
+      mockery.registerMock(`${fakeCWD}/components/toga.json`, MockDefaultComponent);
+      mockery.registerMock(`${fakeCWD}/${fakeComponents.path}/toga.json`, MockComponent);
       mockery.enable({
         warnOnReplace: false,
         warnOnUnregistered: false
@@ -87,13 +82,13 @@ describe('config/index', () => {
 
     context('when a componentPath is passed as an arg', () => {
       it('sets components.path version pointing to node_modules', () => {
-        subject = builder(fakeComponentsPath);
-        expect(subject.components.path).to.equal(`node_modules/${fakeComponentsPath}/${fakeTogaJsonPath}`);
+        subject = builder(fakeComponents.path);
+        expect(subject.components.path).to.equal(`${fakeCWD}/node_modules/${fakeComponents.path}/${fakeComponents.path}`);
       });
 
       it('sets components.path version pointing locally', () => {
-        subject = builder('./' + fakeComponentsPath);
-        expect(subject.components.path).to.equal(`./${fakeComponentsPath}/${fakeTogaJsonPath}`);
+        subject = builder('./' + fakeComponents.path);
+        expect(subject.components.path).to.equal(`${fakeCWD}/${fakeComponents.path}/${fakeComponents.path}`);
       });
     });
   });
@@ -146,7 +141,7 @@ describe('config/index', () => {
         },
         'components': {
           ...fakeComponents,
-          path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
+          path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
         },
         'vendor': fakeVendor
       };
@@ -187,7 +182,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
-            path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
+            path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
         };
@@ -229,7 +224,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
-            path: 'node_modules/' + componentsArg + '/' + fakeComponents.path
+            path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
         };
@@ -264,7 +259,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeDefaultComponents,
-            path: './components/' + fakeDefaultComponents.path
+            path: `${fakeCWD}/components/${fakeDefaultComponents.path}`
           },
           'vendor': fakeDefaultVendor
         };

@@ -3,8 +3,8 @@ const bootstrapApp = require('../../index');
 const debug = require('debug');
 const log = debug('toga:startAppServer');
 
-module.exports = function startAppServer(componentsPath) {
-  const config = getConfig(componentsPath);
+module.exports = function startAppServer(componentsPath, opts) {
+  const config = getConfig(componentsPath, opts);
   return bootstrapApp({
     port: config.server.port,
     host: config.server.host
