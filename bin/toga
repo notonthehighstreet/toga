@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+require('babel-core/register');
+const argv = require('yargs').argv;
+const debug = require('debug');
+debug.enable('toga:cli');
+const log = debug('toga:cli');
+const start = require('./commands/start');
+
+var commands = {
+  start: (args) => start(args).catch(log),
+  version: function() {
+    var pkg = require("../package.json");
+    log(`version: ${pkg.version}`);
+  },
+  '--help': function() {
+    log(`Run a Toga Server from the command line: 
+    $ toga start`);
+  }
+};
+
+
+(function main() {
+  if (!argv._.length && !argv.version && !argv.v) return commands['--help']();
+  const isVersion = argv.version || argv.v;
+  const command = isVersion ? 'version' : argv._[0];
+  commands[command] && commands[command](argv);
+  !commands[command] && commands['--help']();
+})();

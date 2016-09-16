@@ -18,6 +18,7 @@
     "coverage": "nyc --require babel-core/register --all npm test",
     "codeclimate": "npm run coverage -- --reporter=lcov --reporter=text-lcov | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js",
     "lint": "eslint .",
+    "test-cli": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts 'bin/**/*.spec.js'",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{tests/spec,tests/e2e,components}/**/*.spec.js'",
     "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.js --config './app/config/integrationOverrides.json'",
     "test-e2e": "npm run nightwatch -- --components=./tests/e2e",
@@ -26,6 +27,7 @@
   },
   "pre-commit": [
     "lint",
+    "test-cli",
     "coverage"
   ],
   "pre-push": [
@@ -55,7 +57,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-plugin-transform-react-jsx": "^6.4.0",
     "babel-preset-es2015": "^6.3.13",
-    "breadboard": "^7.0.0",
+    "breadboard": "^8.0.0",
     "bunyan": "^1.7.1",
     "compression": "^1.6.2",
     "css-loader": "^0.23.1",
@@ -100,7 +102,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.11",
     "webpack-isomorphic-tools": "^2.3.2",
-    "yargs": "3.32.0"
+    "yargs": "^3.32.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
@@ -129,5 +131,8 @@
     "sinon": "1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.1.0"
+  },
+  "bin": {
+    "toga": "./bin/toga"
   }
 }

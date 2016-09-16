@@ -3,7 +3,7 @@ module.exports = (deps) => {
   return function createIsoConfig(assetPath, assetsFilename) {
     const { path } = deps;
     return {
-      webpack_assets_file_path: path.join(__dirname, '..', '..', '..', assetPath, `/${assetsFilename}`),
+      webpack_assets_file_path: path.join(assetPath, `/${assetsFilename}`),
       assets: {
         asset_type: {
           extension: 'svg',

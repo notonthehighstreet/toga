@@ -1,6 +1,10 @@
-module.exports = function startAppServer() {
-  const config = require('../../app/config/index')();
-  const bootstrapApp = require('../../index');
+const getConfig = require('../../app/config/index');
+const bootstrapApp = require('../../index');
+const debug = require('debug');
+const log = debug('toga:startAppServer');
+
+module.exports = function startAppServer(componentsPath, opts) {
+  const config = getConfig(componentsPath, opts);
   return bootstrapApp({
     port: config.server.port,
     host: config.server.host
@@ -15,6 +19,7 @@ module.exports = function startAppServer() {
       return server;
     })
     .catch((e) => {
+      log(e);
       process.stderr.write(e.stack);
       process.exit(1);
     });
