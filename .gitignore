@@ -9,9 +9,11 @@ tmp
 /logs/*.json
 *.rdb
 coverage
+dist
 .nyc_output
 *.iml
 tests_output
 # webpack-isomorphic-tools
 webpack-stats.json
 webpack-assets.json
+node_modules/
