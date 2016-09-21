@@ -9,17 +9,20 @@ module.exports = breadboard({
     'package.json': require('../package.json')
   },
   entry: ({
+    '/config/index': config,
     '/lib/bundler/index': bundle,
     '/lib/getComponentInfo': getComponentInfo
   }) => {
     const components = getComponentInfo().map(componentInfo => componentInfo.name );
+    const preCacheComponentBundles = config.components.preCacheBundles ? config.components.preCacheBundles : [];
+    const componentsAndBundles = components.concat(preCacheComponentBundles);
     const buildBundles = (component) => {
       return Promise.all([
         bundle(component, { minify: true }).getAsset('scripts'),
         bundle(component).getAsset('scripts')
       ]);
     };
-    return Promise.all(components.map(buildBundles));
+    return Promise.all(componentsAndBundles.map(buildBundles));
   }
 })
   .then(({deps:{'/logger': getLogger}}) => {
