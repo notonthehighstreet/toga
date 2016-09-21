@@ -4,8 +4,9 @@ module.exports = (deps) => {
       '/lib/renderComponent': renderComponent,
       '/views/component-test': renderTestMarkup,
       '/views/component-raw': renderRawMarkup,
-      '/config/index': config
+      '/config/index': getConfig
     } = deps;
+    const config = getConfig();
     const { props, raw, componentName } = req;
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
     return renderComponent({ componentName, props })

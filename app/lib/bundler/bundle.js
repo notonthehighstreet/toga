@@ -3,11 +3,12 @@ module.exports = (deps) => {
     const {
       'es6-promisify': promisify,
       'memory-fs': MemoryFS,
-      '/config/index': config,
+      '/config/index': getConfig,
       '/lib/webpack/index': runWebpack,
       '/lib/utils/componentHelper': componentHelper,
       debug
     } = deps;
+    const config = getConfig();
 
     const log = debug('toga:bundle');
     const { vendor } = config;

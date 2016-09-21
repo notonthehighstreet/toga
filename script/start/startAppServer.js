@@ -1,4 +1,4 @@
-const getConfig = require('../../app/config/index');
+const getConfig = require('../../app/config/index')();
 const bootstrapApp = require('../../index');
 const debug = require('debug');
 const log = debug('toga:startAppServer');

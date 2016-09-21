@@ -13,7 +13,7 @@ const fakeWebpack = {
 };
 const fakeIsoPluginSpy = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
-const configMock = { minify: false };
+const configMock = () => ({ minify: false });
 const fakeExtractTextPluging = () => {};
 fakeExtractTextPluging.extract = () => {};
 

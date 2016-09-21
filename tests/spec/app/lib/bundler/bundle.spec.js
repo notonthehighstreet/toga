@@ -8,10 +8,10 @@ const fakeFile =  chance.file() ;
 const fakeModulePaths = [ fakeFile ];
 const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
 const fakeVendorFiles = { [chance.word()]: chance.word() };
-const configMock = { vendor: {
+const configMock = ()=> ({ vendor: {
   componentName:  fakeVendorBundleComponent.name,
   'bundle': fakeVendorFiles
-} };
+} });
 
 describe('runBundler', () => {
   const sandbox = sinon.sandbox.create();

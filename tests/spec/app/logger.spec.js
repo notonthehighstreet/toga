@@ -4,7 +4,7 @@ const chance = new require('chance')();
 
 describe('Logger', () => {
   const sandbox = sinon.sandbox.create();
-  const configStub = { appName: chance.word() };
+  const configStub = () => ({ appName: chance.word() });
   const createHoneybadgerStreamSpy = sandbox.spy();
   const fakeBunyan = {
     createLogger: sandbox.stub().returns({})

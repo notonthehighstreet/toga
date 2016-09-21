@@ -2,9 +2,10 @@ module.exports = (deps) => {
   return function set(key, value) {
     const {
       '/cache/redis/client': getClient,
-      '/config/index': config,
+      '/config/index': getConfig,
       debug
     } = deps;
+    const config = getConfig();
 
     const log = debug('toga:cache/set');
     log(key, Math.round(Buffer.byteLength(value, 'utf8')/1024 * 100) / 100 + ' kb');

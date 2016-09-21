@@ -6,18 +6,16 @@ const deepAssign = require('deep-assign');
 const debug = require('debug');
 const  {version: packageVersion, name: appName} = require('../../package.json');
 
-module.exports = (root, opts = {}) => {
+module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   if (cachedConfig) {
     return cachedConfig;
   }
-
   require('./environment');
 
   const log = debug('toga:config');
   argv.components = argv.components || root || './components';
   const basePath = argv.components.indexOf('.') === 0 ? '' : 'node_modules/';
   let componentsJsonPath = `${process.cwd()}/${basePath}${argv.components}/`.replace(/\/.\//g, '/');
-
   const componentConfig = require(`${componentsJsonPath}toga.json`);
   const apiVersion = semver.major(packageVersion);
   const metaDataConfig = {apiVersion: apiVersion, appName};

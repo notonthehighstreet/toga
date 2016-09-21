@@ -20,6 +20,6 @@ describe('cli start', () => {
   });
 
   it('returns a promise containing a path', () => {
-    return start().then((path) => expect(path).to.eq(fakePath));
+    return start({}).then((path) => expect(path).to.eq(fakePath));
   });
 });

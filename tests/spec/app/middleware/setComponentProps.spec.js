@@ -9,7 +9,7 @@ const componentName = chance.word();
 const component2Name = chance.word();
 
 const fakeVendorBundleComponent = chance.word();
-const configMock = { vendor: { componentName: fakeVendorBundleComponent } };
+const configMock = () => ({ vendor: { componentName: fakeVendorBundleComponent } });
 const subject = builder({
   '/config/index': configMock,
   '/lib/utils/errors': {BadRequestError}

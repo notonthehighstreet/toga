@@ -6,9 +6,10 @@ module.exports = (deps) => {
       '/middleware/getComponentAsset': getComponentAsset,
       '/middleware/getComponentHtml': getComponentHtml,
       '/lib/getComponentInfo': getComponentInfo,
-      '/config/index': config,
+      '/config/index': getConfig,
       '/middleware/setLocale': setLocale
     } = deps;
+    const config = getConfig();
 
     const router = express.Router();
     // to do: test this as it was in the wrong place!
