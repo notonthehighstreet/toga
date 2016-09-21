@@ -4,7 +4,7 @@ module.exports = (deps) => {
     const {
       '/cache/set': setCache,
       '/cache/get': getCache,
-      '/config/index': config,
+      '/config/index': getConfig,
       '/lib/bundler/buildHash': buildHash,
       '/lib/bundler/bundle': bundle,
       '/lib/getComponentInfo': getComponentInfo,
@@ -13,6 +13,7 @@ module.exports = (deps) => {
       '/lib/utils/componentHelper': componentHelper,
       debug
     } = deps;
+    const config = getConfig();
 
     const log = debug('toga:bundler/index'); // eslint-disable-line
 

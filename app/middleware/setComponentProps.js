@@ -1,8 +1,9 @@
 module.exports = (deps) => {
   const {
     '/lib/utils/errors': { BadRequestError },
-    '/config/index': config
+    '/config/index': getConfig
   } = deps;
+  const config = getConfig();
   const { vendor } = config;
 
   const setControllerName = (url) => {

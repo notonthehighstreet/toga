@@ -2,9 +2,10 @@ module.exports = (deps) => {
   let allComponents = [];
   return function getComponentInfo(componentsToFind) {
     const {
-      '/config/index': config,
+      '/config/index': getConfig,
       fs
     } = deps;
+    const config = getConfig();
     const { components: componentsConfig } = config;
     const root = componentsConfig.path;
     const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];

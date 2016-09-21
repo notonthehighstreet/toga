@@ -1,6 +1,7 @@
 module.exports = (deps) => {
   return ({componentDOM, componentName, props, coreStyles}) => {
-    const config = deps['/config/index'];
+    const getConfig = deps['/config/index'];
+    const config = getConfig();
     const apiVersionPrefix = `/v${config.apiVersion}`;
     const encode = deps['entities'].encodeHTML;
 

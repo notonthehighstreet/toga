@@ -2,8 +2,10 @@ let cachedClient;
 module.exports = (deps) => {
   const {
     ioredis: Redis,
-    '/config/index': config
+    '/config/index': getConfig
     } = deps;
+  const config = getConfig();
+
   const clientConfig = {
     // With ReadyCheck enabled, accessing Redis for the first time will not be
     // permitted until a ReadyCheck has been performed. This is only a concern

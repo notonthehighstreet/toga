@@ -63,7 +63,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index');
+      builder = require('../../../../app/config/index')();
     });
 
     context('when a componentPath is NOT passed as an arg', () => {
@@ -100,7 +100,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index');
+      builder = require('../../../../app/config/index')();
       subject = builder();
       firstReadConfig = subject;
     });
@@ -125,7 +125,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index');
+      builder = require('../../../../app/config/index')();
       subject = builder();
     });
     it('contains the passed in config', () => {
@@ -165,7 +165,7 @@ describe('config/index', () => {
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index');
+        builder = require('../../../../app/config/index')();
         subject = builder();
       });
       it('merges the second config on top of the first config', () => {
@@ -207,7 +207,7 @@ describe('config/index', () => {
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index');
+        builder = require('../../../../app/config/index')();
         subject = builder();
       });
       it('the third config overwrites changes made by the second', () => {
@@ -243,7 +243,7 @@ describe('config/index', () => {
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index');
+        builder = require('../../../../app/config/index')();
         subject = builder();
       });
       it('loads the default config', () => {

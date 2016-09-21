@@ -5,7 +5,7 @@ const builder = require('../../../../app/views/component-test');
 
 const sandbox = sinon.sandbox.create();
 const fakeApiVersion = chance.word();
-const fakeConfig = { apiVersion: fakeApiVersion };
+const fakeConfig = () => ({ apiVersion: fakeApiVersion });
 const fakeEntities = sandbox.stub();
 
 const deps = {

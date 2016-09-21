@@ -3,10 +3,11 @@ module.exports = (deps) => {
     const {
       'es6-promisify': promisify,
       '/cache/redis/client': getClient,
-      '/config/index': config,
+      '/config/index': getConfig,
       debug
     } = deps;
 
+    const config = getConfig();
     const log = debug('toga:cache/get');
     log(key);
 

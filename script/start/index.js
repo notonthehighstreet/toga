@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 require('babel-core/register');
-const config = require('../../app/config/index')();
+const config = require('../../app/config/index')()();
 if (config.newRelicEnabled) {
   try {
     require('newrelic');

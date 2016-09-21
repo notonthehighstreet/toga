@@ -22,7 +22,7 @@ describe('bundler/index', () => {
     'css.map' : sinon.match(/(\w*)\.css\.map/g)
   };
   const apiVersion = '3';
-  const configMock ={ apiVersion, componentsPath: fakeComponentsPath };
+  const configMock =()=> ({ apiVersion, componentsPath: fakeComponentsPath });
   const errorMessage = chance.word();
   const bundleFailureError = new Error(errorMessage);
   const bundleSuccessData = {
