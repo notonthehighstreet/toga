@@ -6,6 +6,7 @@ const sandbox = sinon.sandbox.create();
 
 let start;
 const fakePath = chance.word();
+const fakeLogEnv = chance.word();
 const fakeAppServer = sandbox.stub().returns(Promise.resolve(fakePath));
 global.process.cwd = sandbox.stub().returns('.');
 
@@ -25,5 +26,20 @@ describe('cli start', () => {
 
   it('uses the dist version of the scripts', () => {
     return start({}).then(() => expect(fakeAppServer).to.be.calledWith());
+  });
+
+  it('sets a default log location as root', () => {
+    return start({}).then(() => {
+      expect(process.env.TOGA_LOGFILE).to.equal('./toga.logstash.log');
+      delete process.env.TOGA_LOGFILE;
+    });
+  });
+
+  it('doesnt set a default log location if environment var exists', () => {
+    process.env.TOGA_LOGFILE = fakeLogEnv;
+    return start({}).then(() => {
+      expect(process.env.TOGA_LOGFILE).to.equal(fakeLogEnv);
+      delete process.env.TOGA_LOGFILE;
+    });
   });
 });
