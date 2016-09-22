@@ -1,7 +1,8 @@
 module.exports = () => {
   return {
     bundleId(component, { minify } = {}) {
-      return [].concat(component).join('__') + (minify ? '.min' : '');
+      const sortedComponents = Array.isArray(component) ? component.sort() : [component];
+      return sortedComponents.join('__') + (minify ? '.min' : '');
     }
   };
 };

@@ -29,4 +29,15 @@ describe('component helper path', () => {
     const componentPath = subject(randomComponentString, {minify: true});
     expect(componentPath).to.deep.eq(randomComponentString + '.min');
   });
+
+  it('builds multiple components path sorted in Unicode code point order', () => {
+    const component1 = chance.word();
+    const component2 = chance.word();
+    const componentsArray = [component1, component2 ];
+    const reverseComponentArray = [component2, component1];
+    const componentsPaths = subject(componentsArray);
+    const reverseComponentsPaths = subject(reverseComponentArray);
+
+    expect(componentsPaths).to.equal(reverseComponentsPaths);
+  });
 });
