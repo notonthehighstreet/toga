@@ -61,9 +61,7 @@ Checkout [example/README.md](/example/README.md) more detail about the examples.
 * Setup Your Components Project :
   * Write a universal component e.g. [test-one](/tests/e2e/components/test-one/index.js)
   * Add a [toga.json](/toga.json.md) file to the root of your components project
-  * Install required build tools
-    * `npm i -S node-sass webpack css-loader style-loader sass-loader notonthehighstreet/toga-loader babel-loader postcss-loader svg-inline-loader file-loader json-loader `
-* Link your project to Toga using `npm link`.
+* Link your project to Toga:
   * run `npm link` in the root of your project
   * run `npm link project-name` from within toga
 * Run Toga

@@ -6,3 +6,4 @@ packages/toga-loader/index.js
 packages/toga-loader/bootstrapper.js
 coverage/
 tests/support
+dist
