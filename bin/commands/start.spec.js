@@ -13,7 +13,7 @@ describe('cli start', () => {
 
   beforeEach(() => {
     sandbox.reset();
-    mockery.registerMock('../../script/start/startAppServer.js', fakeAppServer);
+    mockery.registerMock('../../dist/script/start/startAppServer.js', fakeAppServer);
     mockery.registerMock('./toga.json', { components: { path: fakePath } });
     mockery.enable();
     start = require('./start');
@@ -21,5 +21,9 @@ describe('cli start', () => {
 
   it('returns a promise containing a path', () => {
     return start({}).then((path) => expect(path).to.eq(fakePath));
+  });
+
+  it('uses the dist version of the scripts', () => {
+    return start({}).then(() => expect(fakeAppServer).to.be.calledWith());
   });
 });

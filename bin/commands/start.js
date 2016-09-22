@@ -1,4 +1,4 @@
-const startAppServer = require('../../script/start/startAppServer.js');
+const startAppServer = require('../../dist/script/start/startAppServer.js');
 
 module.exports = function(args) {
   try {
