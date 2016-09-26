@@ -168,9 +168,9 @@ describe('bundler/index', () => {
   });
 
   describe('calls ', ()=> {
-    it('bundleHash with the component root', () => {
+    it('bundleHash', () => {
       subject(fakeComponentsList);
-      expect(bundleHashMock).to.be.calledWith([fakeComponentRoot]);
+      expect(bundleHashMock).to.be.called;
     });
   });
 });
