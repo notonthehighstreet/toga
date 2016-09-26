@@ -18,6 +18,7 @@ module.exports = (deps) => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     ${coreStyles ? `<link rel="stylesheet" type="text/css" href='${coreStyles}'>` : ''}
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/components.css?components=["${componentName}"]'>
+    <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/components-vendor-bundle.css?components=["${componentName}"]'>
     </head>
     <body>
     <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
