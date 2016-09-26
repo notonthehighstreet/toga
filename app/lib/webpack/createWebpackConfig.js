@@ -42,7 +42,8 @@ module.exports = (deps) => {
             test: componentFiles.map(file => new RegExp(`.*${file}$`)),
             loaders: ['toga']
           },
-          { test: /\.svg$/, loader: 'svg-inline'}
+          { test: /\.svg$/, loader: 'svg-inline'},
+          { test: /\.woff(2)?$/, loader: 'url?mimetype=application/font-woff' }
         ]
       },
       plugins: [
