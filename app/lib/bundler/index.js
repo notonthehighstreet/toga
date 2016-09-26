@@ -23,7 +23,7 @@ module.exports = (deps) => {
     const getCacheId = (assetType) => (
       `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}.${assetType}`
     );
-    const togaHash = buildHash(components.map(component => component.root));
+    const togaHash = buildHash();
     const modulePaths = components.map(component => component.file);
 
     function getAsset(assetType) {

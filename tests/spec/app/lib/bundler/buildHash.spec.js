@@ -12,13 +12,16 @@ const randomComponentsPath = chance.file();
 const randomComponentsPaths = [randomComponentsPath];
 const fakeHash = chance.word();
 
+const getConfigStub = sandbox.stub().returns({components: { path: randomComponentsPath}});
+
 function requireUncached(module) {
   delete require.cache[require.resolve(module)];
   return require(module);
 }
 
 const deps = {
-  'hash-files': hashfilesStub
+  'hash-files': hashfilesStub,
+  '/config/index': getConfigStub
 };
 describe('buildHash', () => {
 
@@ -36,15 +39,15 @@ describe('buildHash', () => {
   it('returns a promise with a hash', () => {
     subject = builder(deps);
     hashfilesStub.sync.returns(fakeHash);
-    return expect(subject(randomComponentsPaths)).to.equal(fakeHash);
+    return expect(subject()).to.equal(fakeHash);
   });
 
   it('does not call file hash when hash set', () => {
     subject = builder(deps);
 
     hashfilesStub.sync.returns('Blah');
-    subject(randomComponentsPaths);
-    subject(randomComponentsPaths);
+    subject();
+    subject();
 
     expect(hashfilesStub.sync.calledOnce).to.equal(true);
   });
@@ -52,13 +55,13 @@ describe('buildHash', () => {
   it('return hash when we call it second time and served from cache', () => {
     subject = builder(deps);
     hashfilesStub.sync.returns('AnotherHashOfTheFiles');
-    subject(randomComponentsPaths);
+    subject();
     expect(subject(randomComponentsPaths)).to.equal('AnotherHashOfTheFiles');
   });
 
   it('called with correct glob', () => {
     subject = builder(deps);
-    subject(randomComponentsPaths);
-    expect(hashfilesStub.sync).to.be.calledWith({ files: [`${randomComponentsPath}/**/*(!(*.webpack-assets.json))`] });
+    subject();
+    expect(hashfilesStub.sync).to.be.calledWith({ files: `${randomComponentsPath}/**/*(!(webpack-assets.json))` });
   });
 });
