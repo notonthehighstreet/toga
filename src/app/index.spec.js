@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import Chance from 'chance';
-import builder from '../../../app/index';
-import { fakePath, fakeLogger, fakeDebug, fakePromise } from '../commonMocks';
+import builder from './index';
+import { fakePath, fakeLogger, fakeDebug, fakePromise } from '../../tests/commonMocks';
 
 const chance = new Chance();
 const sandbox = sinon.sandbox.create();

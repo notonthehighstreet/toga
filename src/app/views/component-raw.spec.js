@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../app/views/component-raw');
+const builder = require('./component-raw');
 
 const sandbox = sinon.sandbox.create();
 const apiVersion = chance.word();

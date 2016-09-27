@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const subject = require('../../../../app/middleware/getServerStatus')();
+const subject = require('./getServerStatus')();
 
 describe('getServerStatus', () => {
   const jsonSpy = sinon.spy();

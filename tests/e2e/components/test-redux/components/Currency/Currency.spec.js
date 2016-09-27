@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import Currency from './Currency';
-import helper from 'tests/helper';
+import helper from '../../../../../../tests/helper';
 
 const {expect} = helper;
 

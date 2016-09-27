@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/bundler/index');
-import { fakeResolve, fakeReject, fakeLogger } from '../../../commonMocks';
+const builder = require('./index');
+import { fakeResolve, fakeReject, fakeLogger } from '../../../../tests/commonMocks';
 
 describe('bundler/index', () => {
   const sandbox = sinon.sandbox.create();

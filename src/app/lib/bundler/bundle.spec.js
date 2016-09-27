@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/bundler/bundle');
-import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../commonMocks';
+const builder = require('./bundle');
+import { fakePromisify, fakePromise, fakeResolve, fakeReject, fakeDebug } from '../../../../tests/commonMocks';
 
 const fakeFile =  chance.file() ;
 const fakeModulePaths = [ fakeFile ];

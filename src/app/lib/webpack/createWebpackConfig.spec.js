@@ -1,4 +1,4 @@
-const builder = require('../../../../../app/lib/webpack/createWebpackConfig');
+const builder = require('./createWebpackConfig');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const chance = new require('chance')();

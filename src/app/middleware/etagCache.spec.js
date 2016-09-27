@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const builder = require('../../../../app/middleware/etagCache');
+const builder = require('./etagCache');
 const Chance = require('chance');
 const chance = new Chance();
 

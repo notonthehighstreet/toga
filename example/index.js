@@ -7,7 +7,7 @@ var nested = require('./routes/nested-components');
 var multipleNested = require('./routes/multiple-nested-components');
 var communication = require('./routes/communication-component');
 
-var bootstrapApp = require('../index');
+var bootstrapApp = require('../src/index');
 const server = express();
 
 server.get('/redux', redux);

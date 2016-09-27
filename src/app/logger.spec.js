@@ -12,7 +12,7 @@ describe('Logger', () => {
   let subject;
 
   beforeEach(() => {
-    const builder = require('../../../app/logger');
+    const builder = require('./logger');
 
     subject = builder({
       '/config/index': configStub,

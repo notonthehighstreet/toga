@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/webpack/index');
-import { fakePromisify, fakeWebpack, fakeReject, fakeDebug, fakePromise } from '../../../commonMocks';
+const builder = require('./index');
+import { fakePromisify, fakeWebpack, fakeReject, fakeDebug, fakePromise } from '../../../../tests/commonMocks';
 
 describe('webpack/index', () => {
   const sandbox = sinon.sandbox.create();

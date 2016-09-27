@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/universalRendering/index');
-import { fakePromise } from '../../../commonMocks';
+const builder = require('./index');
+import { fakePromise, fakeDebug } from '../../../../tests/commonMocks';
 
 describe('universalRendering/index', () => {
   const sandbox = sinon.sandbox.create();
@@ -22,7 +22,8 @@ describe('universalRendering/index', () => {
       'webpack-isomorphic-tools': isoStub,
       'webpack-isomorphic-tools/plugin': IsomorphicToolsPluginMock,
       '/lib/universalRendering/createWebpackAssetsJson': fakeCreateJson,
-      '/lib/universalRendering/createIsoConfig': createIsoConfigMock
+      '/lib/universalRendering/createIsoConfig': createIsoConfigMock,
+      debug: fakeDebug,
     };
     subject = builder(deps);
   });

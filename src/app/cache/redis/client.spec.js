@@ -24,8 +24,8 @@ describe('redis client', () => {
   };
 
   beforeEach(() => {
-    delete require.cache[require.resolve('../../../../../app/cache/redis/client')];
-    builder = require('../../../../../app/cache/redis/client');
+    delete require.cache[require.resolve('./client')];
+    builder = require('./client');
     subject = builder(deps);
   });
   afterEach(() => {

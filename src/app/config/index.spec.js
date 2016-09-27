@@ -34,7 +34,7 @@ describe('config/index', () => {
   before(() => {
     mockery.registerMock(`${fakeCWD}/node_modules/${componentsArg}/toga.json`, MockComponent);
     mockery.registerMock(`${fakeCWD}/components/toga.json`, MockDefaultComponent);
-    mockery.registerMock('../../package.json', appMetaDataStub);
+    mockery.registerMock('../../../package.json', appMetaDataStub);
     mockery.registerMock('semver', {
       major: semverMajorStub
     });
@@ -46,7 +46,7 @@ describe('config/index', () => {
   });
 
   beforeEach(() => {
-    delete require.cache[require.resolve('../../../../app/config/index')];
+    delete require.cache[require.resolve('./index')];
   });
 
   afterEach(()=>{
@@ -63,7 +63,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index')();
+      builder = require('./index')();
     });
 
     context('when a componentPath is NOT passed as an arg', () => {
@@ -100,7 +100,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index')();
+      builder = require('./index')();
       subject = builder();
       firstReadConfig = subject;
     });
@@ -113,7 +113,7 @@ describe('config/index', () => {
   describe('passed one config file', () => {
     beforeEach(() => {
       configFiles = [
-        './tests/spec/fixtures/config/a.json'
+        '../tests/spec/fixtures/config/a.json'
       ];
       mockery.registerMock('yargs', {
         argv: {
@@ -125,7 +125,7 @@ describe('config/index', () => {
         warnOnReplace: false,
         warnOnUnregistered: false
       });
-      builder = require('../../../../app/config/index')();
+      builder = require('./index')();
       subject = builder();
     });
     it('contains the passed in config', () => {
@@ -152,8 +152,8 @@ describe('config/index', () => {
     describe('passed two different config files', () => {
       beforeEach(() => {
         configFiles = [
-          './tests/spec/fixtures/config/a.json',
-          './tests/spec/fixtures/config/b.json'
+          '../tests/spec/fixtures/config/a.json',
+          '../tests/spec/fixtures/config/b.json'
         ];
         mockery.registerMock('yargs', {
           argv: {
@@ -165,7 +165,7 @@ describe('config/index', () => {
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index')();
+        builder = require('./index')();
         subject = builder();
       });
       it('merges the second config on top of the first config', () => {
@@ -193,9 +193,9 @@ describe('config/index', () => {
     describe('the same config is re-applied after other config', () => {
       beforeEach(() => {
         configFiles = [
-          './tests/spec/fixtures/config/a.json',
-          './tests/spec/fixtures/config/b.json',
-          './tests/spec/fixtures/config/a.json'
+          '../tests/spec/fixtures/config/a.json',
+          '../tests/spec/fixtures/config/b.json',
+          '../tests/spec/fixtures/config/a.json'
         ];
         mockery.registerMock('yargs', {
           argv: {
@@ -207,7 +207,7 @@ describe('config/index', () => {
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index')();
+        builder = require('./index')();
         subject = builder();
       });
       it('the third config overwrites changes made by the second', () => {
@@ -236,14 +236,14 @@ describe('config/index', () => {
       beforeEach(() => {
         mockery.registerMock('yargs', {
           argv: {
-            config: [ './tests/spec/fixtures/config/a.json']
+            config: [ '../tests/spec/fixtures/config/a.json']
           }
         });
         mockery.enable({
           warnOnReplace: false,
           warnOnUnregistered: false
         });
-        builder = require('../../../../app/config/index')();
+        builder = require('./index')();
         subject = builder();
       });
       it('loads the default config', () => {

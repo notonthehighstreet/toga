@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Chance from 'chance';
-import builder from '../../../../../app/lib/universalRendering/createIsoConfig';
+import builder from './createIsoConfig';
 
 const chance = new Chance();
 const fakeAssetsName = chance.file();

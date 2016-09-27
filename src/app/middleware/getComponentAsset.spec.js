@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 import Chance from 'chance';
 const chance = new Chance();
-const builder = require('../../../../app/middleware/getComponentAsset');
+const builder = require('./getComponentAsset');
 
 const sandbox = sinon.sandbox.create();
 const bundlerGetAssetsStub = sandbox.stub();

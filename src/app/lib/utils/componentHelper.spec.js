@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const chance = new require('chance')();
-const builder = require('../../../../../app/lib/utils/componentHelper');
+const builder = require('./componentHelper');
 let subject;
 
 describe('component helper path', () => {

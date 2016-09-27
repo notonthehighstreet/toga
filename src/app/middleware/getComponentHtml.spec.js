@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const builder = require('../../../../app/middleware/getComponentHtml');
+const builder = require('./getComponentHtml');
 import Chance from 'chance';
-import { fakeResolve } from '../../commonMocks';
+import { fakeResolve } from '../../../tests/commonMocks';
 
 const chance = new Chance();
 

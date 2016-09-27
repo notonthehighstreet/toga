@@ -9,7 +9,7 @@ module.exports = (deps) => {
       debug
     } = deps;
 
-    const log = debug('toga:universalRendering'); // esling-disable-line
+    const log = debug('toga:universalRendering'); // eslint-disable-line
     const assetsFilename = 'webpack-assets.json';
 
     function isoPlugin(componentPath) {

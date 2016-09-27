@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const mockery = require('mockery');
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('../../../../app/lib/renderComponent');
-import { fakeResolve, fakeDebug } from '../../commonMocks';
+const builder = require('./renderComponent');
+import { fakeResolve, fakeDebug } from '../../../tests/commonMocks';
 
 const sandbox = sinon.sandbox.create();
 

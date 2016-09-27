@@ -8,7 +8,7 @@ module.exports = (deps) => {
       path,
       '/lib/universalRendering/index': getUniversalRendering,
       '/lib/bundler/bundle': bundle,
-      '/lib/utils/pathsExist': pathsExist
+      // '/lib/utils/pathsExist': pathsExist
     } = deps;
 
     const log = debug('toga:CreateWebpackAssets'); // eslint-disable-line
@@ -32,7 +32,6 @@ module.exports = (deps) => {
     //       : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
     //   });
     });
-
 
     const readAssetFiles = components.map(getAssetsJson);
     const strToJson = results => results.map(jsonStr => JSON.parse(jsonStr));

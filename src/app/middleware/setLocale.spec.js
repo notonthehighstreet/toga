@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const subject = require('../../../../app/middleware/setLocale')();
+const subject = require('./setLocale')();
 
 describe('setLocale', () => {
   const sandbox = sinon.sandbox.create();

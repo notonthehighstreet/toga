@@ -27,7 +27,7 @@ describe('buildHash', () => {
 
   beforeEach(() => {
     sandbox.reset();
-    builder = requireUncached('../../../../../app/lib/bundler/buildHash');
+    builder = requireUncached('./buildHash');
   });
 
   it('generates a hash when no hash set', () => {
