@@ -1,7 +1,5 @@
-const breadboard = require('breadboard');
-
-module.exports = function bootstrap(initialState) {
-  const breadboardOptions = {
+module.exports = function breadboardConfig(initialState) {
+  return {
     entry: '/index',
     containerRoot: 'src/app',
     initialState: initialState,
@@ -10,6 +8,4 @@ module.exports = function bootstrap(initialState) {
       'package.json': require('../package.json')
     }
   };
-
-  return breadboard(breadboardOptions);
 };

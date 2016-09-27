@@ -5,9 +5,11 @@ module.exports = (deps) => {
       'webpack-isomorphic-tools': IsomorphicTools,
       'webpack-isomorphic-tools/plugin': IsomorphicToolsPlugin,
       '/lib/universalRendering/createWebpackAssetsJson': createWebpackAssetsJson,
-      '/lib/universalRendering/createIsoConfig': createIsoConfig
+      '/lib/universalRendering/createIsoConfig': createIsoConfig,
+      debug
     } = deps;
 
+    const log = debug('toga:universalRendering'); // esling-disable-line
     const assetsFilename = 'webpack-assets.json';
 
     function isoPlugin(componentPath) {

@@ -2,7 +2,7 @@
 const breadboard = require('breadboard');
 
 module.exports = breadboard({
-  containerRoot: 'src/app',
+  containerRoot: 'dist/app',
   blacklist: ['newrelic'],
   substitutes: {
     'package.json': require('../../package.json')
