@@ -9,8 +9,6 @@ module.exports = (deps) => {
     } = deps;
     const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
 
-    console.log(`componentsRegEx`, componentsRegEx)
-
     let config = {
       devtool: 'source-map',
       entry: {

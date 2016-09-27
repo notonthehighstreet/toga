@@ -5,8 +5,7 @@ module.exports = (deps) => {
       '/lib/getComponentInfo': getComponentInfo,
       '/lib/universalRendering/index': getUniversalRendering,
       '/logger': getLogger,
-      debug,
-      path
+      debug
     } = deps;
 
     const log = debug('toga:startup');
@@ -18,7 +17,7 @@ module.exports = (deps) => {
 
     return universalRendering.createAssetsJson(components)
       .then((repoRoot) => {
-        return universalRendering.server(path.join(__dirname, '../..'), repoRoot);
+        return universalRendering.server(process.cwd(), repoRoot);
       })
       .then(() => {
         return new Promise((resolve) => {

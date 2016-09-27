@@ -8,6 +8,7 @@ module.exports = (deps) => {
     const config = getConfig();
     const { components: componentsConfig } = config;
     const root = componentsConfig.path;
+    const base = componentsConfig.base;
     const componentToFindArr = Array.isArray(componentsToFind) ? componentsToFind : [componentsToFind];
 
     const getComponents = (componentNames) => {
@@ -17,13 +18,13 @@ module.exports = (deps) => {
       return ignore.indexOf(name) < 0 && fs.statSync(`${path}/${name}`).isDirectory();
     };
     const replaceCurrentDir = (dir) => dir.replace(/\/.\//g, '/');
-
     if (allComponents.length === 0) {
       allComponents = fs.readdirSync(root)
         .filter((name) => isComponentFolder({ path: root, name, ignore: componentsConfig.ignore }))
         .map((name) => {
           return {
             name,
+            base: replaceCurrentDir(base),
             root: replaceCurrentDir(root),
             path: replaceCurrentDir(root + '/' + name),
             file: replaceCurrentDir(root + '/' + name + '/' + 'index.js'),

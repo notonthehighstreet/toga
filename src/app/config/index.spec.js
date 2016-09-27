@@ -145,6 +145,7 @@ describe('config/index', () => {
         },
         'components': {
           ...fakeComponents,
+          base: `${fakeCWD}/node_modules/`,
           path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
         },
         'vendor': fakeVendor
@@ -186,6 +187,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
+            base: `${fakeCWD}/node_modules/`,
             path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
@@ -228,6 +230,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeComponents,
+            base: `${fakeCWD}/node_modules/`,
             path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
@@ -263,6 +266,7 @@ describe('config/index', () => {
           },
           'components': {
             ...fakeDefaultComponents,
+            base: `${fakeCWD}/`,
             path: `${fakeCWD}/components/${fakeDefaultComponents.path}`
           },
           'vendor': fakeDefaultVendor

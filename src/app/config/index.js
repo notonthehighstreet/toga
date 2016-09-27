@@ -15,7 +15,8 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   const log = debug('toga:config');
   argv.components = argv.components || root || './components';
   const basePath = argv.components.indexOf('.') === 0 ? '' : 'node_modules/';
-  let componentsJsonPath = `${process.cwd()}/${basePath}${argv.components}/`.replace(/\/.\//g, '/');
+  const componentsBase  = `${process.cwd()}/${basePath}`.replace(/\/.\//g, '/');
+  const componentsJsonPath = `${componentsBase}${argv.components}/`.replace(/\/.\//g, '/');
   const componentConfig = require(`${componentsJsonPath}toga.json`);
   const apiVersion = semver.major(packageVersion);
   const metaDataConfig = {apiVersion: apiVersion, appName};
@@ -31,7 +32,8 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
     { ...componentConfig,
       components: {
         ...componentConfig.components,
-        path: (componentsJsonPath + componentsPath).replace(/\/.\//g, '/')
+        path: (componentsJsonPath + componentsPath).replace(/\/.\//g, '/'),
+        base: componentsBase
       }
     });
 

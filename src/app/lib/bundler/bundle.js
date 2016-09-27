@@ -15,10 +15,10 @@ module.exports = (deps) => {
     const memoryFS = new MemoryFS();
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const mapPath = componentHelper.bundleId(components.map(component => component.name));
-    const componentFiles = components.map(component => component.file.replace('./node_modules/', ''));
+    const componentFiles = components.map(component => component.file.replace(component.base, ''));
     const outputFileSystem = memoryFS;
     const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
-// log(componentFiles)
+
     log(`${components.map(component => component.name).join('__')} ${minify ? 'min' : ''}`);
 
     function getAssets() {
