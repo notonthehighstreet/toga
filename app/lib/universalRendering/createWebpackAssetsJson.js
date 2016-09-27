@@ -24,13 +24,15 @@ module.exports = (deps) => {
       componentsRoot = component.root;
       const isoPlugin = universalRendering.isoPlugin(component.path);
       const componentAssetFilePath = path.join(component.path, assetsFile);
-      return (pathsExist(componentAssetFilePath))
-        .then((exists)=>{
-          return exists
-            ? readFile(componentAssetFilePath)
-            : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
-        });
+      return bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => readFile(componentAssetFilePath));
+    //        return (pathsExist(componentAssetFilePath))
+    //   .then((exists)=>{
+    //     return exists
+    //       ? readFile(componentAssetFilePath)
+    //       : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
+    //   });
     });
+
 
     const readAssetFiles = components.map(getAssetsJson);
     const strToJson = results => results.map(jsonStr => JSON.parse(jsonStr));
