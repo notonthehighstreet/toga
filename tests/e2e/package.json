@@ -1,0 +1,9 @@
+{
+  "name": "test-components",
+  "version": "1.0.0",
+  "description": "A set of components to enab;e tru e2e testing",
+  "engines": {
+    "node": "^6.2.2",
+    "npm": "^3.10.3"
+  }
+}

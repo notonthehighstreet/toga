@@ -41,13 +41,6 @@ It should map directly to what is being set within your `vendor` component.
 
 This object is needed to tell Toga about where the components reside within your project.
 
-### isLocal (string: optional)
-
-By default, this is `false`, and this would be what we recommend.
-
-`isLocal` should only be used if your components live within the Toga project.
-This is why in our example it is `true`, so that by default in loads the example components.
-
 ### path (string)
 
 This should be the path of the directory where the components reside within the project.
