@@ -7,6 +7,9 @@ module.exports = (deps) => {
       autoprefixer,
       webpack
     } = deps;
+    const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
+
+    console.log(`componentsRegEx`, componentsRegEx)
 
     let config = {
       devtool: 'source-map',
@@ -39,7 +42,7 @@ module.exports = (deps) => {
               'sass?outputStyle=expanded'].join('!'))
           },
           {
-            test: componentFiles.map(file => new RegExp(`.*${file}$`)),
+            test: componentsRegEx,
             loaders: ['toga']
           },
           { test: /\.svg$/, loader: 'svg-inline'},
