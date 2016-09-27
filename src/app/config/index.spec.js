@@ -29,7 +29,7 @@ describe('config/index', () => {
   const fakeDefaultVendor = { [chance.word()] : chance.word() };
   const MockComponent = { components: fakeComponents, vendor: fakeVendor };
   const MockDefaultComponent = { components: fakeDefaultComponents, vendor: fakeDefaultVendor };
-  process.cwd = sandbox.stub().returns(fakeCWD);
+  let oldCWD;
 
   before(() => {
     mockery.registerMock(`${fakeCWD}/node_modules/${componentsArg}/toga.json`, MockComponent);
@@ -38,11 +38,15 @@ describe('config/index', () => {
     mockery.registerMock('semver', {
       major: semverMajorStub
     });
+    oldCWD = process.cwd;
+    process.cwd = sandbox.stub().returns(fakeCWD);
+
   });
 
   after(() => {
     mockery.deregisterAll();
     mockery.disable();
+    process.cwd = oldCWD;
   });
 
   beforeEach(() => {

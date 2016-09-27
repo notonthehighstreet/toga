@@ -18,10 +18,10 @@ describe('component helper path', () => {
   it('should build paths for multiple components', () => {
     const component1 = chance.word();
     const component2 = chance.word();
-    const componentsArray = [component1, component2 ];
+    const componentsArray = [component1, component2].sort();
     const componentsPaths = subject(componentsArray);
 
-    expect(componentsPaths).to.deep.equal(`${component1}__${component2}`);
+    expect(componentsPaths).to.deep.equal(`${componentsArray.join('__')}`);
   });
 
   it('should build path including minified suffix ', () => {

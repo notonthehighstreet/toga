@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import Chance from 'chance';
 import builder from './index';
-import { fakePath, fakeLogger, fakeDebug, fakePromise } from '../../tests/commonMocks';
+import { fakeLogger, fakeDebug, fakePromise } from '../../tests/commonMocks';
 
 const chance = new Chance();
 const sandbox = sinon.sandbox.create();
@@ -22,7 +22,7 @@ const subject = builder({
   '/lib/universalRendering/index': fakeUniversalRendering,
   '/logger': fakeLogger,
   debug: fakeDebug,
-  path: fakePath
+  path: require('path')
 });
 
 describe('App index', () => {
@@ -36,7 +36,7 @@ describe('App index', () => {
 
   it('uses the isomorphic tools server', () => {
     return subject({}).then(() => {
-      expect(universalServerStub).to.have.been.called;
+      expect(universalServerStub).to.have.been.calledWith(process.cwd(), undefined);
     });
   });
 

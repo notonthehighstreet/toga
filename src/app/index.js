@@ -18,7 +18,7 @@ module.exports = (deps) => {
 
     return universalRendering.createAssetsJson(components)
       .then((repoRoot) => {
-        return universalRendering.server(path.join(__dirname, '..'), repoRoot);
+        return universalRendering.server(path.join(__dirname, '../..'), repoRoot);
       })
       .then(() => {
         return new Promise((resolve) => {
