@@ -4,7 +4,7 @@ const { join: pathJoin } = require('path');
 const semver = require('semver');
 const deepAssign = require('deep-assign');
 const debug = require('debug');
-const  {version: packageVersion, name: appName} = require('../../package.json');
+const  {version: packageVersion, name: appName} = require('../../../package.json');
 
 module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   if (cachedConfig) {
