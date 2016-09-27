@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-require('babel-core/register');
 const breadboard = require('breadboard');
 
 module.exports = breadboard({
