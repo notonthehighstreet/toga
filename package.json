@@ -13,7 +13,7 @@
     "predev": "npm run build",
     "install:selenium": "selenium-standalone install --version=2.53.1",
     "link:e2e-tests": "cd tests/e2e; npm link; cd ..; npm link test-components;",
-    "postinstall": "npm run build && npm run install:selenium && npm run link:e2e-tests",
+    "postinstall": "npm run build && npm run install:selenium",
     "example": "node ./example --components=./tests/e2e",
     "start": "DEBUG=toga,toga:* node  --expose-gc ./dist/script/start/index.js --config ./app/config/application.js",
     "heroku": "nodemon ./script/start/index.js -- --config ./app/config/application.js --config ./app/config/herokuOverrides.js",
@@ -26,7 +26,8 @@
     "test-cli": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts 'bin/**/*.spec.js'",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{tests/spec,tests/e2e,components}/**/*.spec.js'",
     "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.js --config './app/config/integrationOverrides.json'",
-    "test-e2e": "npm run nightwatch -- --components=./tests/e2e",
+    "pretest-e2e": "npm run link:e2e-tests",
+    "test-e2e": "npm run nightwatch -- --components=test-components",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "pre-commit": [
