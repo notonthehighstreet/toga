@@ -4,10 +4,9 @@ const prodConfig = require('./config');
 require('babel-core/register');
 
 module.exports = function bootstrap(initialState) {
-
-  const breadboardOptions = process.env.SOURCE === 'dist'
-    ? prodConfig(initialState)
-    : devConfig(initialState);
+  const breadboardOptions = process.env.TOGA_SOURCE === 'dev'
+    ? devConfig(initialState)
+    : prodConfig(initialState);
 
   return breadboard(breadboardOptions);
 };
