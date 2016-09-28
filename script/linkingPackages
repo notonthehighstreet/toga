@@ -1,4 +1,0 @@
-cd packages/toga-loader
-npm link
-cd ../../
-npm link toga-loader

@@ -1,5 +1,5 @@
 import {toggleProduct} from './';
-import helper from 'tests/helper';
+import helper from '../../../../../tests/helper';
 
 const {chance, expect} = helper;
 const findActionPayload = (actions, type) => actions.find(e => e.type === type).payload;

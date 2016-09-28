@@ -1,4 +1,4 @@
-import helper from 'tests/helper';
+import helper from '../../../../../tests/helper';
 import productsReducer from '../reducers/products';
 
 const {expect, chance} = helper;

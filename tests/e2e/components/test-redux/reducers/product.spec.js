@@ -1,4 +1,4 @@
-import helper from 'tests/helper';
+import helper from '../../../../../tests/helper';
 import productReducer from '../reducers/product';
 import {productToggled} from '../actions';
 
