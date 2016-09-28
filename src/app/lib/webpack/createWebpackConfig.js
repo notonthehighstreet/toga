@@ -8,7 +8,6 @@ module.exports = (deps) => {
       webpack
     } = deps;
     const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
-
     let config = {
       devtool: 'source-map',
       entry: {

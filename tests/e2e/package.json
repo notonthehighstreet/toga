@@ -1,5 +1,5 @@
 {
-  "name": "test-components",
+  "name": "e2e",
   "version": "1.0.0",
   "description": "A set of components to enab;e tru e2e testing",
   "engines": {
