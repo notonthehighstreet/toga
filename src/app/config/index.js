@@ -38,6 +38,8 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
     });
 
   log(JSON.stringify(cachedConfig, null, 2));
+  log('NODE_ENV', process.env.NODE_ENV);
+  log('TOGA_ENVIRONMENT', process.env.TOGA_ENVIRONMENT);
 
   return cachedConfig;
 };
