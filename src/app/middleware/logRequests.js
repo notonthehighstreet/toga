@@ -7,7 +7,8 @@ module.exports = (deps) => {
     const logger = getLogger();
     logger.info({
       url: req.url,
-      query: req.query
+      query: req.query,
+      start: req.get('X-Request-Start')
     });
     next();
   };
