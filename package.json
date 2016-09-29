@@ -98,6 +98,7 @@
     "redux-multi": "^0.1.12",
     "redux-thunk": "^2.1.0",
     "request-promise": "^2.0.0",
+    "response-time": "^2.3.1",
     "sass-loader": "^3.2.0",
     "semver": "5.1.0",
     "style-loader": "^0.13.1",

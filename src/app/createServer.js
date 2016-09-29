@@ -8,10 +8,12 @@ module.exports = (deps) => {
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
       '/middleware/etagCache': etagCache,
+      'response-time': responseTime,
       compression
     } = deps;
     const app = express();
 
+    app.use(responseTime());
     hook.hook('.scss', () => {});
     app.set('Accept-Encoding', 'gzip');
     app.set('etag', etagCache.returnHash);
