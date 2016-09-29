@@ -26,7 +26,7 @@
     "test-cli": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts 'bin/**/*.spec.js'",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{src,tests/e2e,components}/**/*.spec.js'",
     "test-integration": "_mocha -t 7000 --opts ./tests/config/mocha.opts 'tests/integration/**/*.spec.js' --config ./app/config/application.js --config './app/config/integrationOverrides.json'",
-    "pretest-e2e": "npm run link:e2e && npm run install:selenium",
+    "pretest-e2e": "npm run build && npm run link:e2e && npm run install:selenium",
     "test-e2e": "npm run nightwatch -- --components=e2e",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
