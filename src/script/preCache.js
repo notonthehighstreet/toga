@@ -10,16 +10,18 @@ module.exports = breadboard({
   entry: ({
     '/config/index': getConfig,
     '/lib/bundler/index': bundle,
-    '/lib/getComponentInfo': getComponentInfo
+    '/lib/getComponentInfo': getComponentInfo,
+    '/lib/renderComponent': renderComponent
   }) => {
     const config = getConfig();
     const components = getComponentInfo().map(componentInfo => componentInfo.name );
     const preCacheComponentBundles = config.components && config.components.preCacheBundles ? config.components.preCacheBundles : [];
     const componentsAndBundles = components.concat(preCacheComponentBundles);
-    const buildBundles = (component) => {
+    const buildBundles = (componentName) => {
       return Promise.all([
-        bundle(component, { minify: true }).getAsset('scripts'),
-        bundle(component).getAsset('scripts')
+        bundle(componentName, { minify: true }).getAsset('scripts'),
+        bundle(componentName).getAsset('scripts'),
+        renderComponent({ componentName, props: {}})
       ]);
     };
     return Promise.all(componentsAndBundles.map(buildBundles));
