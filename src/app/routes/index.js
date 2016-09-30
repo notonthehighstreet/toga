@@ -2,7 +2,7 @@ module.exports = (deps) => {
   return function getRoutes() {
     const {
       'express': express,
-      '/routes/serverStatus': createServerStatusRouter,
+      '/routes/utils': createUtilsRouter,
       '/routes/components': createComponentsRouter,
       '/config/index': getConfig
       } = deps;
@@ -11,7 +11,7 @@ module.exports = (deps) => {
     const appRouter = express.Router();
 
     appRouter.get('/', (req, res) => res.redirect('/v1/HelloWorld.html'));
-    appRouter.use(createServerStatusRouter());
+    appRouter.use(createUtilsRouter());
     appRouter.use(`/v${apiVersion}`, createComponentsRouter());
 
     return appRouter;
