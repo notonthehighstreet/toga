@@ -58,7 +58,7 @@ module.exports = (deps) => {
           'last 2 Chrome versions',
           'last 2 Firefox versions',
           'edge 13',
-          'ios_saf 9.0-9.2',
+          'ios_saf >= 8',
           'ie_mob 11',
           'Android >= 4'
         ],
