@@ -4,7 +4,6 @@ const subject = require('./getServerStatus')();
 
 describe('getServerStatus', () => {
   const jsonSpy = sinon.spy();
-  const nextSpy = sinon.spy();
   const requestSpy = {};
   const responseSpy = {
     json: jsonSpy
@@ -14,8 +13,7 @@ describe('getServerStatus', () => {
   };
 
   it('returns a json payload with healthy status', () => {
-    subject(requestSpy, responseSpy, nextSpy);
+    subject(requestSpy, responseSpy);
     expect(jsonSpy).to.have.been.calledWith(expectedJSONResponse);
-    expect(nextSpy).to.have.been.calledOnce;
   });
 });
