@@ -34,7 +34,7 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              `css?sourceMap&-url${minify ? '&minimize' : ''}`,
+              `css?-autoprefixer&sourceMap&-url${minify ? '&minimize' : ''}`,
               'postcss',
               'sass?outputStyle=expanded'].join('!'))
           },
@@ -58,7 +58,7 @@ module.exports = (deps) => {
           'last 2 Chrome versions',
           'last 2 Firefox versions',
           'edge 13',
-          'ios_saf >= 8',
+          'ios_saf > 8',
           'ie_mob 11',
           'Android >= 4'
         ],
