@@ -14,7 +14,7 @@ module.exports = (deps) => {
     const getComponents = (componentNames) => {
       return allComponents.filter(component => componentNames.indexOf(component.name)>-1);
     };
-    const isComponentFolder = ({ path, name, ignore }) => {
+    const isComponentFolder = ({ path, name, ignore = '' }) => {
       return ignore.indexOf(name) < 0 && fs.statSync(`${path}/${name}`).isDirectory();
     };
     const replaceCurrentDir = (dir) => dir.replace(/\/.\//g, '/');
