@@ -62,7 +62,7 @@ This would make the following end-point:
 
 [test-one/style.scss](/tests/e2e/components/test-one/styles.scss) is an example of this in use.
 
-### ignore (string)
+### ignore (string: optional)
 
 As mentioned aboth (in the `path` section), by default, every sub-directory is treated as a component.
 If you have any directories within this `path` directory that is not a component, you should tell Toga here.
