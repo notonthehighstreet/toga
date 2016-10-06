@@ -10,8 +10,7 @@ module.exports = breadboard({
   entry: ({
     '/config/index': getConfig,
     '/lib/bundler/index': bundle,
-    '/lib/getComponentInfo': getComponentInfo,
-    '/lib/renderComponent': renderComponent
+    '/lib/getComponentInfo': getComponentInfo
   }) => {
     const config = getConfig();
     const components = getComponentInfo().map(componentInfo => componentInfo.name );
@@ -20,8 +19,7 @@ module.exports = breadboard({
     const buildBundles = (componentName) => {
       return Promise.all([
         bundle(componentName, { minify: true }).getAsset('scripts'),
-        bundle(componentName).getAsset('scripts'),
-        renderComponent({ componentName, props: {}})
+        bundle(componentName).getAsset('scripts')
       ]);
     };
     return Promise.all(componentsAndBundles.map(buildBundles));
