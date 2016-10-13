@@ -15,7 +15,10 @@ module.exports = (deps) => {
 
     log(`${components.length} components`);
 
-    return universalRendering.createAssetsJson(components)
+    return Promise.resolve()
+      .then(() => {
+        return universalRendering.createAssetsJson(components);
+      })
       .then((repoRoot) => {
         return universalRendering.server(process.cwd(), repoRoot);
       })
