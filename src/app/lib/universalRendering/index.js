@@ -21,8 +21,8 @@ module.exports = (deps) => {
       return isoTools.server(path);
     }
 
-    function createAssetsJson(componentsInfoArray) {
-      return createWebpackAssetsJson(componentsInfoArray, assetsFilename);
+    function createAssetsJson(componentsInfoArray, options) {
+      return createWebpackAssetsJson(componentsInfoArray, assetsFilename, options);
     }
 
     return { isoPlugin, server, assetsFilename, createAssetsJson };

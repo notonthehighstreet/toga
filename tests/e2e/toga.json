@@ -1,5 +1,5 @@
 {
-  "coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.0.10/toolkit.css",
+  "coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.2.2/toolkit.css",
   "vendor" : {
     "componentName": "vendor",
     "bundle": {
