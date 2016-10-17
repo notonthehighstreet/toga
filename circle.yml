@@ -17,5 +17,8 @@ dependencies:
 
 test:
   override:
-    - npm run test-unit
+    - npm run test-cli
+    - npm run test-unit  -- --reporter mocha-junit-reporter:
+       environment:
+         MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
     - npm run test-e2e
