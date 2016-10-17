@@ -903,6 +903,11 @@
         }
       }
     },
+    "charenc": {
+      "version": "0.0.1",
+      "from": "charenc@>=0.0.1 <0.1.0",
+      "resolved": "https://registry.npmjs.org/charenc/-/charenc-0.0.1.tgz"
+    },
     "cheerio": {
       "version": "0.20.0",
       "from": "cheerio@>=0.20.0 <0.21.0",
@@ -1238,6 +1243,11 @@
       "version": "2.2.4",
       "from": "cross-spawn-async@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/cross-spawn-async/-/cross-spawn-async-2.2.4.tgz"
+    },
+    "crypt": {
+      "version": "0.0.1",
+      "from": "crypt@>=0.0.1 <0.1.0",
+      "resolved": "https://registry.npmjs.org/crypt/-/crypt-0.0.1.tgz"
     },
     "cryptiles": {
       "version": "0.2.2",
@@ -3823,6 +3833,11 @@
       "from": "math-expression-evaluator@>=1.2.14 <2.0.0",
       "resolved": "https://registry.npmjs.org/math-expression-evaluator/-/math-expression-evaluator-1.2.14.tgz"
     },
+    "md5": {
+      "version": "2.2.1",
+      "from": "md5@>=2.1.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/md5/-/md5-2.2.1.tgz"
+    },
     "media-typer": {
       "version": "0.3.0",
       "from": "media-typer@0.3.0",
@@ -6349,6 +6364,11 @@
       "version": "2.0.0",
       "from": "xdg-basedir@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/xdg-basedir/-/xdg-basedir-2.0.0.tgz"
+    },
+    "xml": {
+      "version": "1.0.1",
+      "from": "xml@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/xml/-/xml-1.0.1.tgz"
     },
     "xml-name-validator": {
       "version": "2.0.1",
