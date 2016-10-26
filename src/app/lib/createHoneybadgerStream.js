@@ -2,19 +2,17 @@ module.exports = (deps) => {
   return function createHoneybadgerStream() {
     const {
       stream,
-      honeybadger: Honeybadger,
+      honeybadger: honeybadger,
       debug,
       '/config/index': getConfig
     } = deps;
     const config = getConfig();
 
     const d = debug('toga:honeybadger');
-    const hb = new Honeybadger({
+    const hb = honeybadger.configure({
       apiKey: config.honeybadger.apiKey,
       developmentEnvironments: ['development', 'testing'],
-      server: {
-        'environment_name': config.honeybadger.environment
-      }
+      environment: config.honeybadger.environment
     });
 
     return new stream.Writable({
@@ -30,7 +28,7 @@ module.exports = (deps) => {
           res: bunyanMessage.res
         };
         d('Sending error to Honeybadger %o', bunyanMessage.err);
-        hb.send(bunyanMessage.err, errorMeta);
+        hb.notify(bunyanMessage.err, errorMeta);
         hb.on('sent', next);
       }
     });
