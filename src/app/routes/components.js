@@ -7,11 +7,13 @@ module.exports = (deps) => {
       '/middleware/getComponentHtml': getComponentHtml,
       '/lib/getComponentInfo': getComponentInfo,
       '/config/index': getConfig,
+      '/logger': getLogger,
       '/middleware/setLocale': setLocale
     } = deps;
     const config = getConfig();
-
+    const logger = getLogger();
     const router = express.Router();
+
     // to do: test this as it was in the wrong place!
     const MAP_URL = '/:components.(min\.)components.?(css|js).map';
     const HTML_URL = '/:componentName.(raw\.)?html';
@@ -19,7 +21,10 @@ module.exports = (deps) => {
 
     const serveStatic = (req, res, next) => {
       const { component } = req.params;
-      return express.static(`${getComponentInfo(component)[0].public}`)(req, res, next);
+      const staticPath = (getComponentInfo(component)[0])
+        ? getComponentInfo(component)[0].public
+        : logger.error({ params: req.params, components: getComponentInfo(component) }, `No ComponentInfo found: ${component}`);
+      return express.static(staticPath)(req, res, next);
     };
 
     router.use(setLocale);

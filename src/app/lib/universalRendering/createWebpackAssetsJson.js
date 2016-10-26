@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function createWebpackAssetsJson(components, assetsFile) {
+  return function createWebpackAssetsJson(components, assetsFile, options = {}) {
     const {
       'es6-promisify': promisify,
       'deep-assign': deepAssign,
@@ -8,7 +8,7 @@ module.exports = (deps) => {
       path,
       '/lib/universalRendering/index': getUniversalRendering,
       '/lib/bundler/bundle': bundle,
-      // '/lib/utils/pathsExist': pathsExist
+      '/lib/utils/pathsExist': pathsExist
     } = deps;
 
     const log = debug('toga:CreateWebpackAssets'); // eslint-disable-line
@@ -24,13 +24,13 @@ module.exports = (deps) => {
       componentsRoot = component.root;
       const isoPlugin = universalRendering.isoPlugin(component.path);
       const componentAssetFilePath = path.join(component.path, assetsFile);
-      return bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => readFile(componentAssetFilePath));
-    //        return (pathsExist(componentAssetFilePath))
-    //   .then((exists)=>{
-    //     return exists
-    //       ? readFile(componentAssetFilePath)
-    //       : bundle([component], { isoPlugin, modulePaths, minify: false }).then(() => getAssetsJson(component));
-    //   });
+      return pathsExist(componentAssetFilePath)
+        .then((exists)=> (
+          options.always || !exists
+            ? bundle([component], { isoPlugin, modulePaths, minify: false })
+            : Promise.resolve()
+        ))
+        .then(() => readFile(componentAssetFilePath));
     });
 
     const readAssetFiles = components.map(getAssetsJson);
