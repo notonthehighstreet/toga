@@ -2,13 +2,19 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const builder = require('./errors');
 
+const logger = sinon.stub().returns( { error: () => {} } );
+
+const deps = {
+  '/logger': logger,
+};
+
 describe('Errors/index', () => {
   const sandbox = sinon.sandbox.create();
   let subject;
 
   describe('NotFoundError', () => {
     beforeEach(() => {
-      subject = builder().NotFoundError;
+      subject = builder(deps).NotFoundError;
     });
 
     afterEach(() => {
@@ -37,7 +43,7 @@ describe('Errors/index', () => {
 
   describe('BadRequestError', () => {
     beforeEach(() => {
-      subject = builder().BadRequestError;
+      subject = builder(deps).BadRequestError;
     });
 
     afterEach(() => {
