@@ -43,7 +43,6 @@ describe('Create Webpack Config', () => {
       modulePaths: fakeModulePaths
     });
     expect(config.plugins.length).to.equal(3);
-    expect(config.entry.components).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
     expect(config.output.sourceMapFilename).to.equal('.[file].map');
   });
@@ -128,5 +127,10 @@ describe('Create Webpack Config', () => {
       expect(result.plugins.length).to.equal(4);
       expect(result.plugins[3]).to.equal(fakeIsoPluginSpy);
     });
+  });
+
+  it('includes babel polyfill to entry', () => {
+    const result = subject({isoPlugin: fakeIsoPluginSpy});
+    expect(result.entry.components).to.include('babel-polyfill');
   });
 });

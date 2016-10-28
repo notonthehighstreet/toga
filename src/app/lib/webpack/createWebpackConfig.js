@@ -11,7 +11,7 @@ module.exports = (deps) => {
     let config = {
       devtool: 'source-map',
       entry: {
-        components: modulePaths
+        components: ['babel-polyfill', modulePaths]
       },
       externals: externals,
       output: {
