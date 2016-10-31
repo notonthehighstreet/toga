@@ -54,6 +54,7 @@
     "async": "^1.5.0",
     "autoprefixer": "^6.3.3",
     "axios": "^0.13.1",
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.1",
     "babel-plugin-transform-builtin-extend": "^1.1.0",
