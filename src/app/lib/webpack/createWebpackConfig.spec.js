@@ -16,14 +16,15 @@ const fakeAutoPrefixer = sandbox.stub();
 const configMock = () => ({ minify: false });
 const fakeExtractTextPluging = () => {};
 fakeExtractTextPluging.extract = () => {};
+let fakeModulePaths = [];
 
 describe('Create Webpack Config', () => {
   let subject;
   const definePluginSpy = sandbox.spy(fakeWebpack, 'DefinePlugin');
   const uglifyJsPluginSpy = sandbox.spy(fakeWebpack.optimize, 'UglifyJsPlugin');
-  const fakeModulePaths = [];
 
   beforeEach(() => {
+    fakeModulePaths = [];
     subject = builder({
       webpack: fakeWebpack,
       autoprefixer: fakeAutoPrefixer,
@@ -43,7 +44,6 @@ describe('Create Webpack Config', () => {
       modulePaths: fakeModulePaths
     });
     expect(config.plugins.length).to.equal(3);
-    expect(config.entry.components).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
     expect(config.output.sourceMapFilename).to.equal('.[file].map');
   });

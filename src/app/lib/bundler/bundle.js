@@ -19,6 +19,10 @@ module.exports = (deps) => {
     const outputFileSystem = memoryFS;
     const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
 
+    if(modulePaths && components[0].name !== vendor.componentName) {
+      modulePaths.unshift('babel-polyfill');
+    }
+
     log(`${components.map(component => component.name).join('__')} ${minify ? 'min' : ''}`);
 
     function getAssets() {

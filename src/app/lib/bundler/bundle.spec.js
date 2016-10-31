@@ -203,4 +203,22 @@ describe('runBundler', () => {
       });
     });
   });
+
+  context('babel-polyfill', () => {
+    const stubModulePath = chance.word();
+
+    it('added to non vendor', () => {
+      result = subject(components, { modulePaths: [stubModulePath] });
+      return result.then(() => {
+        expect(fakeRunWebpack).to.be.calledWith(sinon.match({ modulePaths: ['babel-polyfill', stubModulePath] }));
+      });
+    });
+
+    it('not added to vendor', () => {
+      const vendor = subject([fakeVendorBundleComponent], { modulePaths: [stubModulePath] });
+      return vendor.then(() => {
+        expect(fakeRunWebpack).to.be.calledWith(sinon.match({ modulePaths: [stubModulePath] }));
+      });
+    });
+  });
 });
