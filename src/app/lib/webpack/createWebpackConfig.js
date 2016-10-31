@@ -69,7 +69,7 @@ module.exports = (deps) => {
       )]
     };
 
-    if(config.entry.components) {
+    if(config.entry.components && config.entry.components.indexOf('babel-polyfill') === -1 && componentFiles === []) {
       config.entry.components.unshift('babel-polyfill');
     }
 
