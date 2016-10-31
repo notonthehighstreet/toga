@@ -6,15 +6,12 @@ module.exports = (deps) => {
       '/lib/getComponentInfo': getComponentInfo,
       '/lib/utils/errors': { NotFoundError, InternalServerError },
       '/lib/utils/pathsExist': pathsExist,
-      '/logger': getLogger,
       debug
     } = deps;
     const log = debug('toga:renderComponent');
     const component = getComponentInfo(componentName)[0];
     function componentExists() {
       const throwE = (()=> {
-        const logger = getLogger();
-        logger(`${componentName} not found`);
         throw new NotFoundError(`${componentName} not found`);
       });
       return new Promise((resolve, reject) => {

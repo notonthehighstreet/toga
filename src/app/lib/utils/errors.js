@@ -1,4 +1,11 @@
-module.exports = () => {
+module.exports = (deps) => {
+
+  const {
+    '/logger': getLogger
+  } = deps;
+
+  const logger = getLogger();
+
   function extendError(msg) {
     this.name = this.constructor.name;
     if (msg !== null) {
@@ -10,6 +17,9 @@ module.exports = () => {
     else {
       this.stack = (new Error(msg)).stack;
     }
+
+    logger.error(this);
+
   }
 
   class NotFoundError extends Error {
