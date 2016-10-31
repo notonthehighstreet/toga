@@ -11,7 +11,7 @@ module.exports = (deps) => {
     let config = {
       devtool: 'source-map',
       entry: {
-        components: ['babel-polyfill', modulePaths]
+        components: modulePaths
       },
       externals: externals,
       output: {
@@ -68,6 +68,10 @@ module.exports = (deps) => {
       }
       )]
     };
+
+    if(config.entry.components) {
+      config.entry.components.unshift('babel-polyfill');
+    }
 
     if (isoPlugin) {
       config.plugins.push(isoPlugin);

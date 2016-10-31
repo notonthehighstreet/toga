@@ -130,7 +130,7 @@ describe('Create Webpack Config', () => {
   });
 
   it('includes babel polyfill to entry', () => {
-    const result = subject({isoPlugin: fakeIsoPluginSpy});
+    const result = subject({isoPlugin: fakeIsoPluginSpy, modulePaths: fakeModulePaths});
     expect(result.entry.components).to.include('babel-polyfill');
   });
 });
