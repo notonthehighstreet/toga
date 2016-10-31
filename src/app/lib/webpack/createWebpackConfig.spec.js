@@ -129,9 +129,4 @@ describe('Create Webpack Config', () => {
       expect(result.plugins[3]).to.equal(fakeIsoPluginSpy);
     });
   });
-
-  // it('includes babel polyfill to entry', () => {
-  //   const result = subject({isoPlugin: fakeIsoPluginSpy, modulePaths: fakeModulePaths});
-  //   expect(result.entry.components).to.include('babel-polyfill');
-  // });
 });
