@@ -13,7 +13,7 @@ module.exports = (deps) => {
     if(req.get('If-None-Match') === hash) {
       if(config.newRelicEnabled) {
         const newRelic = require('newrelic');
-        newRelic.setControllerName('ETAG 304 Not Modified');
+        newRelic.setControllerName(`ETAG 304: ${req.path}`);
       }
       res.sendStatus(304);
     }
