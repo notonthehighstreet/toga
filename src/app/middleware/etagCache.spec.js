@@ -12,6 +12,7 @@ const components = ['1'];
 getComponentInfoStub.returns(components);
 buildHashStub.returns(hash);
 const reqGetStub = sandbox.stub().returns(hash);
+const configStub = sandbox.stub().returns({ newRelicEnabled: false});
 
 const fakeRequest = {
   get: reqGetStub
@@ -25,7 +26,8 @@ const nextStub = sandbox.stub();
 
 const subject = builder({
   '/lib/getComponentInfo': getComponentInfoStub,
-  '/lib/bundler/buildHash': buildHashStub
+  '/lib/bundler/buildHash': buildHashStub,
+  '/config/index': configStub
 });
 
 describe('etagCache', () => {
