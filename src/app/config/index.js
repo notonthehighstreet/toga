@@ -30,6 +30,7 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
 
   cachedConfig = deepAssign({}, metaDataConfig, ...configFiles,
     { ...componentConfig,
+      environment: process.env.NODE_ENV,
       components: {
         ...componentConfig.components,
         path: (componentsJsonPath + componentsPath).replace(/\/.\//g, '/'),

@@ -20,6 +20,7 @@ module.exports = (deps) => {
     const { apiVersion } = config;
     const minify = opts.minify || false;
     const components = getComponentInfo(componentNames);
+
     const getCacheId = (assetType) => (
       `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}.${assetType}`
     );
@@ -27,12 +28,21 @@ module.exports = (deps) => {
     const modulePaths = components.map(component => component.file);
 
     function getAsset(assetType) {
-      return getCache(getCacheId(assetType))
-        .then((data) => data || bundleAndSave(assetType));
+      return (config.environment === 'development')
+        ? bundleDev(assetType)
+        : getCache(getCacheId(assetType))
+            .then((data) => data || bundleAndSave(assetType));
     }
 
     function saveAsset(assetType, bundles) {
       return setCache(getCacheId(assetType), bundles[assetType]);
+    }
+
+    function bundleDev(assetType) {
+      return bundle(components, { modulePaths, minify })
+        .then((assets) => {
+          return assets[assetType];
+        });
     }
 
     function bundleAndSave(assetType) {
