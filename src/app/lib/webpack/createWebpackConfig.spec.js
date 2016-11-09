@@ -59,15 +59,15 @@ describe('Create Webpack Config', () => {
 
   context('when definitions are passed', () => {
     it('creates config object with definitions', () => {
-      const fakeDefinitions = {
+      const fakeDefinitions = [{
         [chance.word()]: chance.word()
-      };
+      }];
       const result = subject({
         modulePaths: [],
         definitions: fakeDefinitions
       });
 
-      expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
+      expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions[0]);
       expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
     });
   });

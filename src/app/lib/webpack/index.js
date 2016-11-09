@@ -1,6 +1,6 @@
 module.exports = (deps) => {
   return function runWebpack({
-    isoPlugin, modulePaths, mapPath, externals, minify, outputFileSystem, componentFiles
+    isoPlugin, modulePaths, mapPath, externals, minify, outputFileSystem, componentFiles, definitions
   } = {}) {
     const {
       'es6-promisify': promisify,
@@ -26,7 +26,7 @@ module.exports = (deps) => {
 
     function run() {
       const webpackConfig = createWebpackConfig({
-        isoPlugin, modulePaths, mapPath, externals, minify, componentFiles
+        isoPlugin, modulePaths, mapPath, externals, minify, componentFiles, definitions
       });
       const compiler = webpack(webpackConfig);
       compiler.outputFileSystem = outputFileSystem;

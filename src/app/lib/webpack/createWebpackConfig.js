@@ -83,8 +83,10 @@ module.exports = (deps) => {
         'process.env': { NODE_ENV: JSON.stringify('production') }
       }));
     }
-    if (definitions) {
-      config.plugins.push(new webpack.DefinePlugin(definitions));
+    if (definitions && Array.isArray(definitions)) {
+      definitions.forEach(definition => {
+        config.plugins.push(new webpack.DefinePlugin(definition));
+      });
     }
 
     return config;

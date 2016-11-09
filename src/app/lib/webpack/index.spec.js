@@ -58,6 +58,7 @@ describe('webpack/index', () => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
+          definitions: undefined,
           isoPlugin: fakeIsoPlugin,
           minify: true,
           mapPath: fakeMapPath,
@@ -86,6 +87,7 @@ describe('webpack/index', () => {
       return result.then(() => {
         expect(createConfigMock).to.be.calledWith({
           externals: undefined,
+          definitions: undefined,
           isoPlugin: undefined,
           minify: true,
           mapPath: undefined,

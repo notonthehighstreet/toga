@@ -150,6 +150,7 @@ describe('runBundler', () => {
       return result.then(()=>{
         expect(fakeRunWebpack).to.be.calledWith({
           externals: [],
+          definitions: undefined,
           mapPath: fakeMapPath,
           minify: undefined,
           isoPlugin: fakeIsoPlugin,
@@ -164,6 +165,7 @@ describe('runBundler', () => {
       return result.then(()=>{
         expect(fakeRunWebpack).to.be.calledWith({
           externals: [],
+          definitions: undefined,
           mapPath: fakeMapPath,
           minify: undefined,
           isoPlugin: undefined,
@@ -178,6 +180,7 @@ describe('runBundler', () => {
       return result.then(()=>{
         expect(fakeRunWebpack).to.be.calledWith({
           externals: [],
+          definitions: undefined,
           mapPath: fakeMapPath,
           minify: undefined,
           isoPlugin: undefined,
@@ -193,7 +196,28 @@ describe('runBundler', () => {
       return result.then(() => {
         expect(fakeRunWebpack).to.be.calledWith({
           externals: fakeVendorFiles,
+          definitions: undefined,
           minify: true,
+          mapPath: fakeMapPath,
+          isoPlugin: undefined,
+          modulePaths: undefined,
+          outputFileSystem: memoryFsMock(),
+          componentFiles: [fakeComponentFiles]
+        });
+      });
+    });
+
+    it('adds environment variables as definitions', () => {
+      const mockEnvVar = chance.word();
+      deps['/config/index'] = () => Object.assign({}, configMock(), { environmentVars: [ mockEnvVar ]});
+      result = subject(components);
+      return result.then(() => {
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: fakeVendorFiles,
+          definitions: [{
+            'process.env': { [mockEnvVar]: JSON.stringify(true) }
+          }],
+          minify: undefined,
           mapPath: fakeMapPath,
           isoPlugin: undefined,
           modulePaths: undefined,
