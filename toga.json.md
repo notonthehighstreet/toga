@@ -79,3 +79,12 @@ E.g. ```
   ["HelloWorld","FooBar"]
 ]
 ```
+
+
+## environmentVars (array: optional)
+
+An array of environment variables you would like passed from the server to the client.
+
+E.g. ```
+"environmentVars" : ["FIXTURES"]
+```

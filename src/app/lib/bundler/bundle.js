@@ -16,6 +16,12 @@ module.exports = (deps) => {
     const mFSReadfile = promisify(memoryFS.readFile.bind(memoryFS));
     const mapPath = componentHelper.bundleId(components.map(component => component.name));
     const componentFiles = components.map(component => component.file.replace(component.base, ''));
+    let definitions;
+    if (config.environmentVars) {
+      definitions = config.environmentVars.map(envVar => ({
+        'process.env': { [envVar]: JSON.stringify(true) }
+      }));
+    }
     const outputFileSystem = memoryFS;
     const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
 
@@ -42,7 +48,7 @@ module.exports = (deps) => {
     }
 
     return runWebpack({
-      isoPlugin, externals, minify, modulePaths, mapPath, outputFileSystem, componentFiles
+      isoPlugin, externals, minify, modulePaths, mapPath, outputFileSystem, componentFiles, definitions
     })
       .then(getAssets);
   };
