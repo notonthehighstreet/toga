@@ -42,7 +42,7 @@ module.exports = (deps) => {
             test: componentsRegEx,
             loaders: ['toga']
           },
-          { test: /\.svg$/, loader: 'svg-inline'},
+          { test: /\.svg$/, loader: 'svg-inline?removeSVGTagAttrs=false'},
           { test: /\.woff(2)?$/, loader: 'url?mimetype=application/font-woff' }
         ]
       },
