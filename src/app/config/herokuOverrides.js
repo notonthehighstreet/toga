@@ -3,5 +3,6 @@ module.exports = {
     'port': process.env.PORT,
     'host': '0.0.0.0'
   },
-  'redis': process.env.REDIS_URL
+  'redis': process.env.REDIS_URL,
+  'redisKeyTTL': 60,
 };
