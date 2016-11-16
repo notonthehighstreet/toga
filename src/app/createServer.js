@@ -4,6 +4,7 @@ module.exports = (deps) => {
       'express': express,
       'express-domain-middleware': domainMiddleware,
       'node-hook': hook,
+      'svg-inline-loader': SvgLoader,
       '/routes/index': getRoutes,
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
@@ -15,6 +16,10 @@ module.exports = (deps) => {
 
     app.use(responseTime());
     hook.hook('.scss', () => {});
+    hook.hook('.svg', (source) => {
+      const markup = SvgLoader.getExtractedSVG(source, { removeSVGTagAttrs: false });
+      return 'module.exports = ' + JSON.stringify(markup);
+    });
     app.set('Accept-Encoding', 'gzip');
     app.set('etag', etagCache.returnHash);
     app.use(logRequests); //be first to ensure all requests are logged

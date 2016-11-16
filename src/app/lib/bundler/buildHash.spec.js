@@ -62,6 +62,6 @@ describe('buildHash', () => {
   it('called with correct glob', () => {
     subject = builder(deps);
     subject();
-    expect(hashfilesStub.sync).to.be.calledWith({ files: `${randomComponentsPath}/**/*(!(webpack-assets.json))` });
+    expect(hashfilesStub.sync).to.be.calledWith({ files: `${randomComponentsPath}/**/*` });
   });
 });
