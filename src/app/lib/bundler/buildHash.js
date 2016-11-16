@@ -7,7 +7,7 @@ module.exports = (deps) => {
     } = deps;
     const config = getConfig();
 
-    const files = `${config.components.path}/**/*(!(webpack-assets.json))`;
+    const files = `${config.components.path}/**/*`;
     hash = hash || hashFiles.sync({ files });
     return hash;
   };

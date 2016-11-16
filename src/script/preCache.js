@@ -11,15 +11,13 @@ module.exports = breadboard({
     '/config/index': getConfig,
     '/lib/bundler/index': bundle,
     '/lib/getComponentInfo': getComponentInfo,
-    '/lib/universalRendering/index': getUniversalRendering
   }) => {
     const config = getConfig();
-    const universalRendering = getUniversalRendering();
     const allComponents = getComponentInfo();
     const componentNames = allComponents.map(componentInfo => componentInfo.name );
     const preCacheComponentBundles = config.components && config.components.preCacheBundles ? config.components.preCacheBundles : [];
     const componentsAndBundles = componentNames.concat(preCacheComponentBundles);
-    const promises = [universalRendering.createAssetsJson(allComponents, { always: true })];
+    const promises = [];
     componentsAndBundles.forEach((componentName) => {
       promises.push(bundle(componentName, { minify: true }).getAsset('scripts'));
       promises.push(bundle(componentName).getAsset('scripts'));
