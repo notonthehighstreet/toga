@@ -17,3 +17,4 @@ tests_output
 webpack-stats.json
 webpack-assets.json
 node_modules/
+ga-key.p12
