@@ -1,15 +1,16 @@
 module.exports = (deps) => {
   const {
     '/lib/utils/errors': { BadRequestError },
-    '/config/index': getConfig
+    '/config/index': getConfig,
+    url
   } = deps;
   const config = getConfig();
   const { vendor } = config;
 
-  const setControllerName = (url) => {
+  const setControllerName = (reqUrl) => {
     if(config.newRelicEnabled) {
       const newRelic = require('newrelic');
-      newRelic.setControllerName(url);
+      newRelic.setControllerName(url.parse(reqUrl).pathname);
     }
   };
 

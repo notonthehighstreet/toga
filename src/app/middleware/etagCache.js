@@ -1,7 +1,8 @@
 module.exports = (deps) => {
   const {
     '/lib/bundler/buildHash': buildHash,
-    '/config/index': getConfig
+    '/config/index': getConfig,
+    url
   } = deps;
 
   const config = getConfig();
@@ -13,7 +14,7 @@ module.exports = (deps) => {
     if(req.get('If-None-Match') === hash) {
       if(config.newRelicEnabled) {
         const newRelic = require('newrelic');
-        newRelic.setControllerName(`ETAG 304: ${req.path}`);
+        newRelic.setControllerName(`ETAG 304: ${url.parse(req.path).pathname}`);
       }
       res.sendStatus(304);
     }
