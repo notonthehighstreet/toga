@@ -36,7 +36,6 @@ describe('bundler/index', () => {
   const bundleHashMock = sandbox.spy(() => componentHash);
   const getCacheHitMock = fakeResolve(getCachedValue);
   const getCacheMissMock = fakeResolve(cacheMissError);
-  const fakePathsExist = fakeResolve(true);
   const fakeModulePaths = [chance.file()];
   const fakeMapPath = chance.word();
   const fakeNotFoundError = sandbox.stub().throws();
@@ -58,7 +57,6 @@ describe('bundler/index', () => {
       '/lib/bundler/bundle': bundleSuccessMock,
       '/config/index': configMock,
       '/lib/getComponentInfo': fakeGetComponentInfo,
-      '/lib/utils/pathsExist': fakePathsExist,
       '/lib/utils/componentHelper': fakeComponentHelper,
       '/lib/utils/errors': {
         NotFoundError: fakeNotFoundError,
@@ -116,7 +114,6 @@ describe('bundler/index', () => {
             result = subject(fakeComponentsList).getAsset(assetType);
 
             return result.then((componentBundle) => {
-              expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
               expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
               expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: false, modulePaths: fakeModulePaths });
               expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: false });
@@ -135,7 +132,6 @@ describe('bundler/index', () => {
             result = subject(fakeComponentsList, { minify: true }).getAsset(assetType);
 
             return result.then((componentBundle) => {
-              expect(fakePathsExist).to.have.been.calledWith(fakeModulePaths);
               expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
               expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: true, modulePaths: fakeModulePaths });
               expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: true });

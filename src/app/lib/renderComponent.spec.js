@@ -3,7 +3,7 @@ const mockery = require('mockery');
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('./renderComponent');
-import { fakeResolve, fakeDebug } from '../../../tests/commonMocks';
+import { fakeDebug } from '../../../tests/commonMocks';
 
 const sandbox = sinon.sandbox.create();
 
@@ -31,7 +31,6 @@ const deps = {
   'react-dom/server': {
     renderToString: renderReactStub
   },
-  '/lib/utils/pathsExist': fakeResolve(true),
   '/lib/utils/errors': {
     NotFoundError: fakeNotFoundError,
     InternalServerError: fakeInternalServerError
@@ -91,25 +90,6 @@ describe('renderComponent', () => {
       });
     });
   });
-
-  context('when the path does not exist', () => {
-    beforeEach(()=>{
-      deps['/lib/utils/pathsExist'] = fakeResolve(false);
-      subject = builder(deps);
-      actualSubjectReturnValue = subject({
-        componentName: fakeComponentName,
-        props: fakeComponentProps
-      });
-    });
-
-    it('throws an error', () => {
-      return actualSubjectReturnValue.catch((error) => {
-        expect(fakeNotFoundError).to.have.been.called;
-        expect(error).to.be.an.instanceOf(Error);
-      });
-    });
-
-  });
 });
 
 describe('when the component uses export default', () => {
@@ -124,7 +104,6 @@ describe('when the component uses export default', () => {
     mockery.disable();
   });
   beforeEach(() => {
-    deps['/lib/utils/pathsExist'] = fakeResolve(true);
     subject = builder(deps);
     actualSubjectReturnValue = subject({
       componentName: fakeComponentName,
