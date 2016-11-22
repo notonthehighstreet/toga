@@ -10,6 +10,7 @@ module.exports = (deps) => {
       '/middleware/logRequests': logRequests,
       '/middleware/etagCache': etagCache,
       'response-time': responseTime,
+      path,
       compression
     } = deps;
     const app = express();
@@ -22,7 +23,21 @@ module.exports = (deps) => {
     });
     app.set('Accept-Encoding', 'gzip');
     app.set('etag', etagCache.returnHash);
-    app.set('Cache-Control', 'public, max-age=86400'); // 24 hours
+    app.use(function(req, res, next) {
+      let maxAge;
+      const minute = 120;
+      const hour = minute * 60;
+      const file = path.parse(req.originalUrl);
+
+      switch (file.ext) {
+        case '.html' : maxAge = minute * 15; break;
+        case '.css' : maxAge = minute * 15; break;
+        case '.js' : maxAge = minute * 15; break;
+        default : maxAge = hour * 24;
+      }
+      res.setHeader('Cache-Control', `public, max-age=${maxAge}`);
+      next();
+    });
     app.use(logRequests); //be first to ensure all requests are logged
     app.use(etagCache.etagRequest);
     app.use(compression());
