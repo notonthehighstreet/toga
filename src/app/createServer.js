@@ -22,6 +22,7 @@ module.exports = (deps) => {
     });
     app.set('Accept-Encoding', 'gzip');
     app.set('etag', etagCache.returnHash);
+    app.set('Cache-Control', 'public, max-age=86400'); // 24 hours
     app.use(logRequests); //be first to ensure all requests are logged
     app.use(etagCache.etagRequest);
     app.use(compression());
