@@ -1,4 +1,7 @@
-FROM mhart/alpine-node:6
+FROM mhart/alpine-node:6.2
+
+RUN node -v
+RUN npm -v
 
 RUN apk add --update \
     git \
