@@ -13,7 +13,7 @@ module.exports = {
   "logFile": process.env.TOGA_LOGFILE,
   "honeybadger": {
     "environment": process.env.TOGA_ENVIRONMENT,
-    "apiKey": process.env.TOGA_HONEYBADGER_APIKEY
+    "apiKey": process.env.TOGA_HONEYBADGER_KEY
   },
   "syncServer": {
     "enabled": false
