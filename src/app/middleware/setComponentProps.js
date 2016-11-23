@@ -14,18 +14,18 @@ module.exports = (deps) => {
     }
   };
 
-  const encodeJson = (encodedConfig) => {
-    return (encodedConfig === undefined)
+  const encodeJson = (props) => {
+    return (props === undefined)
       ? {}
-      : JSON.parse(decodeURIComponent(encodedConfig));
+      : JSON.parse(props);
   };
 
-  const parse = (json, next) => {
+  const parse = (props, next) => {
     try {
-      return encodeJson(json);
+      return encodeJson(props);
     }
     catch(error) {
-      return next(new BadRequestError(`Props is not valid JSON: ${json}`));
+      return next(new BadRequestError(`Invalid props: ${props}`, error));
     }
   };
 

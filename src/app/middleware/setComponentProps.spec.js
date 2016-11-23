@@ -58,10 +58,10 @@ describe('setComponentProps', () => {
     describe('when the props query param matches a request param', () => {
       describe('and the param is valid encoded json', () => {
         const props = {'hello': 'world'};
-        const encodedProps = encodeURIComponent(JSON.stringify(props));
+        const stringifiedProps = JSON.stringify(props);
         const fakeRequest = {
           query: {
-            props: encodedProps
+            props: stringifiedProps
           },
           params: {
 
@@ -71,12 +71,10 @@ describe('setComponentProps', () => {
         it('returns a props created from the json', () => {
           subject.html(fakeRequest, responseMock, nextSpy);
           expect(fakeRequest.props).to.deep.eq(props);
-          expect(nextSpy.args[0] instanceof BadRequestError).to.be.false;
         });
       });
-      describe('and the props contains a \'+\' character', () => {
+      describe('and the props contain un-encoded characters', () => {
         const props = encodeURIComponent(JSON.stringify({'csrf': 'sGm23r+w4t4.[]]}'}));
-        const expectedProps = {'csrf': 'sGm23r+w4t4.[]]}'};
         const fakeRequest = {
           query: {
             props
@@ -86,10 +84,10 @@ describe('setComponentProps', () => {
           },
           path: '/components-vendor-bundle.js'
         };
-        it('should not convert it to a space character', () => {
+        it('should return bad request error', () => {
           subject.html(fakeRequest, responseMock, nextSpy);
-          expect(fakeRequest.props).to.deep.eq(expectedProps);
-          expect(nextSpy).to.have.been.calledOnce;
+          let firstCallArguments = nextSpy.args[0];
+          expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
         });
       });
       describe('and the param is in-valid encoded json', () => {
@@ -194,9 +192,9 @@ describe('setComponentProps', () => {
 
     it('detects it as a toga component', () => {
       const fakeComponentName = [chance.word()];
-      const fakeComponents = encodeURIComponent(JSON.stringify(fakeComponentName));
+      const stringifiedComponents = JSON.stringify(fakeComponentName);
       const requestMock = {
-        query: { components: fakeComponents},
+        query: { components: stringifiedComponents},
         params: {componentName: 'components'}
       };
 
