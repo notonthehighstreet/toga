@@ -24,7 +24,7 @@ module.exports = (deps) => {
       const staticPath = (getComponentInfo(component)[0])
         ? getComponentInfo(component)[0].public
         : logger.error({ params: req.params, components: getComponentInfo(component) }, `No ComponentInfo found: ${component}`);
-      return express.static(staticPath)(req, res, next);
+      return express.static(staticPath, { maxAge: 86400000 })(req, res, next); // 24 hours
     };
 
     router.use(setLocale);
