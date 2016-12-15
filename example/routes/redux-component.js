@@ -1,5 +1,5 @@
-var html = require('../template/html');
-var rp = require('request-promise');
+const html = require('../template/html');
+const { getAssets, getHtml } = require('../utils');
 
 const props = {
   'initialState': {
@@ -20,23 +20,19 @@ const props = {
 };
 
 module.exports = function one(req, res) {
-  const scripts = [
-    'http://localhost:3001/v1/components-vendor-bundle.min.js',
-    'http://localhost:3001/v1/test-redux.min.js'
-  ];
-  const styles = [
-    'http://localhost:3001/v1/core.css',
-    'http://localhost:3001/v1/test-redux.min.css'
-  ];
-  Promise.all([
-    rp(`http://localhost:3001/v1/test-redux.raw.html?props=${JSON.stringify(props)}`)
-  ])
-    .then(function(htmlStrings) {
+  let assets;
+  Promise.resolve()
+    .then(getAssets)
+    .then(({ scripts, styles }) => {
+      assets = { scripts, styles };
+      return getHtml([`test-redux.raw.html?props=${JSON.stringify(props)}`]);
+    })
+    .then((htmlStrings) => {
       res.send(html({
         id: 'test-redux',
         body: htmlStrings.join('<hr/>'),
-        scripts: scripts,
-        styles: styles
+        scripts: assets.scripts,
+        styles: assets.styles
       }));
     })
     .catch(function(err) {

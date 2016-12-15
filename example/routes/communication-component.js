@@ -1,24 +1,20 @@
-var html = require('../template/html');
-var rp = require('request-promise');
+const html = require('../template/html');
+const { getAssets, getHtml } = require('../utils');
 
 module.exports = function one(req, res) {
-  const scripts = [
-    'http://localhost:3001/v1/components-vendor-bundle.min.js',
-    'http://localhost:3001/v1/components.min.js?components=["test-communication"]'
-  ];
-  const styles = [
-    'http://localhost:3001/v1/core.css',
-    'http://localhost:3001/v1/components.min.css?components=["test-communication"]'
-  ];
-  Promise.all([
-    rp('http://localhost:3001/v1/test-communication.raw.html')
-  ])
-    .then(function(htmlStrings) {
+  let assets;
+  Promise.resolve()
+    .then(getAssets)
+    .then(({ scripts, styles }) => {
+      assets = { scripts, styles };
+      return getHtml(['test-communication.raw.html']);
+    })
+    .then((htmlStrings) => {
       res.send(html({
         id: 'communication',
         body: htmlStrings.join('<hr/>'),
-        scripts: scripts,
-        styles: styles
+        scripts: assets.scripts,
+        styles: assets.styles
       }));
     })
     .catch(function(err) {

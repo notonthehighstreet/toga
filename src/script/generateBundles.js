@@ -2,7 +2,7 @@
 const breadboard = require('breadboard');
 
 module.exports = breadboard({
-  containerRoot: 'dist/app',
+  containerRoot: 'src/app',
   blacklist: ['newrelic'],
   substitutes: {
     'package.json': require('../../package.json')
@@ -12,15 +12,20 @@ module.exports = breadboard({
     '/lib/bundler/index': bundle,
     '/lib/getComponentInfo': getComponentInfo,
   }) => {
-    const config = getConfig();
+    const { components, vendor } = getConfig();
     const allComponents = getComponentInfo();
     const componentNames = allComponents.map(componentInfo => componentInfo.name );
-    const preCacheComponentBundles = config.components && config.components.preCacheBundles ? config.components.preCacheBundles : [];
-    const componentsAndBundles = componentNames.concat(preCacheComponentBundles);
+
+    // deprecate `preCacheBundles` once consumers have moved toga.json to `bundles`
+    const preCacheBundles = components && components.preCacheBundles ? components.preCacheBundles : [];
+
+    const componentBundles = components && components.bundles ? components.bundles : [];
+    const allComponentsBundle = [componentNames.filter((name) => name !== vendor.componentName)];
+    const componentsAndBundles = componentNames.concat(allComponentsBundle).concat(componentBundles).concat(preCacheBundles);
     const promises = [];
     componentsAndBundles.forEach((componentName) => {
-      promises.push(bundle(componentName, { minify: true }).getAsset('scripts'));
-      promises.push(bundle(componentName).getAsset('scripts'));
+      promises.push(bundle(componentName, {minify: true}));
+      promises.push(bundle(componentName));
     });
     return Promise.all(promises);
   }

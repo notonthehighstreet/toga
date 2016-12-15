@@ -1,23 +1,23 @@
 module.exports = (deps) => {
   return function createWebpackConfig(
-    { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath, componentFiles = []}
+    { isoPlugin, modulePaths, definitions, externals = [], minify, componentFiles = [], filename }
     ) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
       webpack
     } = deps;
+
     const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
     let config = {
       devtool: 'source-map',
       entry: {
-        components: modulePaths
+        [filename]: modulePaths
       },
       externals: externals,
       output: {
         filename: '[name].js',
-        path: '/',
-        sourceMapFilename: `${mapPath || ''}${minify ? '.min': ''}.[file].map`
+        path: './dist/components/'
       },
       module: {
         loaders: [

@@ -68,14 +68,13 @@ As mentioned aboth (in the `path` section), by default, every sub-directory is t
 If you have any directories within this `path` directory that is not a component, you should tell Toga here.
 
 
-### preCacheBundles (array: optional)
+### Bundles (array: optional)
 
-An array of component bundles that you want to bundling during the preCache phase.
-This means that when requesting multiple components it will not compile them when the consumer requests them.
+An array of component bundles that you want bundling.
 Each bundle is an array of component names.
 
 E.g. ```
-"preCacheBundles" : [
-  ["HelloWorld","FooBar"]
+"bundles" : [
+  ["HelloWorld","FooBar"],
 ]
 ```

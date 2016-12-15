@@ -23,7 +23,6 @@ describe('webpack/index', () => {
     server: universalServerStub,
     createAssetsJson: assetsJsonStub
   });
-  const fakeMapPath = chance.word();
   const queue = function(run) {
     return run();
   };
@@ -50,8 +49,7 @@ describe('webpack/index', () => {
         isoPlugin: fakeIsoPlugin,
         externals: fakeVendorFiles,
         modulePaths: fakeModulePaths,
-        mapPath: fakeMapPath,
-        minify: true,
+        minify: false,
         componentFiles: [fakeComponentsFile]
       });
       return result.then(() => {
@@ -59,8 +57,8 @@ describe('webpack/index', () => {
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
           isoPlugin: fakeIsoPlugin,
-          minify: true,
-          mapPath: fakeMapPath,
+          filename: undefined,
+          minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeComponentsFile]
         });
@@ -84,14 +82,8 @@ describe('webpack/index', () => {
     it('minifies content', () => {
       result = subject({ minify: true });
       return result.then(() => {
-        expect(createConfigMock).to.be.calledWith({
-          externals: undefined,
-          isoPlugin: undefined,
-          minify: true,
-          mapPath: undefined,
-          modulePaths: undefined,
-          componentFiles: undefined
-        });
+        const configArg = createConfigMock.lastCall.args[0];
+        expect(configArg.minify).to.equal(true);
       });
     });
   });

@@ -11,6 +11,9 @@
   "components": {
     "path": "./components",
     "public": "assets",
-    "ignore": "lib"
+    "ignore": "lib",
+    "bundles": [
+      ["svg", "test-communication", "test-multiple", "test-nested", "test-one", "test-redux", "test-svg"]
+    ]
   }
 }

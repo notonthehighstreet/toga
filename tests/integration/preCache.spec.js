@@ -22,7 +22,7 @@ const redisClientConfig = {
 const startApp = require('./startTestServer');
 let app;
 
-describe('preCache', () => {
+describe('bundle', () => {
   before((done) => {
     app = startApp();
     app.then(() => {

@@ -2,6 +2,7 @@ const builder = require('./createWebpackConfig');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const chance = new require('chance')();
+const fakeFileName = chance.word();
 const sandbox = sinon.sandbox.create();
 const fakeWebpack = {
   optimize: {
@@ -40,12 +41,12 @@ describe('Create Webpack Config', () => {
 
   it('creates a basic config', () => {
     const config = subject({
-      modulePaths: fakeModulePaths
+      modulePaths: fakeModulePaths,
+      filename: fakeFileName
     });
     expect(config.plugins.length).to.equal(3);
-    expect(config.entry.components).to.equal(fakeModulePaths);
+    expect(config.entry[fakeFileName]).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
-    expect(config.output.sourceMapFilename).to.equal('.[file].map');
   });
 
   it('has sourceMaps enabled', () => {
@@ -54,7 +55,6 @@ describe('Create Webpack Config', () => {
       mapPath: fakeMapPath
     });
     expect(config.devtool).to.equal('source-map');
-    expect(config.output.sourceMapFilename).to.equal(`${fakeMapPath}.[file].map`);
   });
 
   context('when definitions are passed', () => {
@@ -98,7 +98,6 @@ describe('Create Webpack Config', () => {
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
-      expect(config.output.sourceMapFilename).to.equal('.min.[file].map');
     });
     it('creates config with NODE_ENV set to production', () => {
       const config = subject({

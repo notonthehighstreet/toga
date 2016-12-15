@@ -9,11 +9,13 @@ const sandbox = sinon.sandbox.create();
 
 let actualSubjectReturnValue;
 const fakeRenderedComponent = chance.word();
+
 const fakeModulePaths = [chance.file()];
 let fakeComponentName = chance.word();
 const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
 const fakeComponentInfo = [{ requirePath : fakeRelativeComponentPath, path : chance.word(),  file: fakeModulePaths[0],  name: chance.word() }];
 const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
+
 const fakeReact = chance.word();
 const reactStub = sandbox.stub().returns(fakeReact);
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);

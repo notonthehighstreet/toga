@@ -5,10 +5,6 @@ module.exports = {
     "port": 8080,
     "host": "0.0.0.0"
   },
-  "redis": {
-    "host": process.env.TOGA_REDIS_HOST,
-    "port": 6379
-  },
   "newRelicEnabled": process.env.TOGA_NEWRELIC_ENABLED,
   "logFile": process.env.TOGA_LOGFILE,
   "honeybadger": {
@@ -17,7 +13,5 @@ module.exports = {
   },
   "syncServer": {
     "enabled": false
-  },
-  "redisKeyTTL": 604800,
-  "preCache": true
+  }
 };

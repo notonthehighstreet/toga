@@ -34,17 +34,11 @@ Install node module dependencies
 
 ### Running the Servers
 
-#### Redis
-
-Ensure redis is running
-
-`redis-server`
-
-#### Precache components
+#### Bundle components
 
 To have all components ready for serving without compiling on the fly, run
 
-`npm run precache`
+`npm run bundle`
 
 #### Run the prod server
 
