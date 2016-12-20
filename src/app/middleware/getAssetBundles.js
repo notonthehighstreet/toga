@@ -1,31 +1,19 @@
 module.exports = (deps) => {
   const {
     '/lib/bundler/bundleFilename': bundleFilename,
-    '/config/index': getConfig,
-    '/lib/getComponentInfo': getComponentInfo,
+    '/config/index': getConfig
   } = deps;
 
   return function getAssetBundles(req, res) {
-    const { vendor } = getConfig();
-
-    const allComponents = getComponentInfo();
-    const componentNames = allComponents
-      .filter((componentInfo) => componentInfo.name !== 'vendor')
-      .map(componentInfo => componentInfo.name);
-
-    const allComponentsFileName = bundleFilename(componentNames, { minify: true });
-    const vendorFileName = bundleFilename([vendor.componentName], { minify: true });
-
-    res.json({
-      'all': {
-        'js': [
-          `${vendorFileName}.js`,
-          `${allComponentsFileName}.js`,
-        ],
-        'css': [
-          `${allComponentsFileName}.css`,
-        ]
-      }
+    const { components = {} } = getConfig();
+    const jsonResponse = {};
+    (components.bundles || []).forEach(bundle => {
+      const filename = bundleFilename(bundle.name, { minify: true });
+      jsonResponse[bundle.name] = {
+        js: `${filename}.js`,
+        css: `${filename}.css`
+      };
     });
+    res.json(jsonResponse);
   };
 };

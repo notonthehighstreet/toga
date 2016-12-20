@@ -12,7 +12,6 @@ const fakeWebpack = {
   },
   DefinePlugin: function() {}
 };
-const fakeIsoPluginSpy = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
 const configMock = () => ({ minify: false });
 const fakeExtractTextPluging = () => {};
@@ -106,26 +105,6 @@ describe('Create Webpack Config', () => {
       });
       expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
       expect(definePluginSpy).to.be.calledWith({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } });
-    });
-  });
-
-  context('when isoPlugin is NOT passed', () => {
-    it('creates config without isoPlugin plugin', () => {
-      const result = subject({
-        modulePaths: []
-      });
-      expect(result.plugins.length).to.equal(3);
-    });
-  });
-
-  context('when isoPlugin IS passes', () => {
-    it('creates config with isoPlugin plugin', () => {
-      const result = subject({
-        modulePaths: [],
-        isoPlugin: fakeIsoPluginSpy
-      });
-      expect(result.plugins.length).to.equal(4);
-      expect(result.plugins[3]).to.equal(fakeIsoPluginSpy);
     });
   });
 });

@@ -8,7 +8,12 @@ const fakeApiVersion = chance.word();
 const fakeConfig = () => ({ apiVersion: fakeApiVersion });
 const fakeEntities = sandbox.stub();
 
+const bundleFilenameStub = sandbox.stub();
+const bundleFileName = chance.word();
+bundleFilenameStub.returns(bundleFileName);
+
 const deps = {
+  '/lib/bundler/bundleFilename': bundleFilenameStub,
   '/config/index': fakeConfig,
   'entities': { encodeHTML : fakeEntities }
 };
@@ -42,13 +47,12 @@ describe('renderComponent', () => {
 
   it('renders a stylesheet', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/v${fakeApiVersion}/components.css?components=["${componentName}"]'>`);
+    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/v${fakeApiVersion}/${bundleFileName}.css`);
   });
 
   it('renders scripts', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<script src='/v${fakeApiVersion}/components-vendor-bundle.js?components=["${componentName}"]'></script>`);
-    expect(html).to.contain(`<script src='/v${fakeApiVersion}/components.js?components=["${componentName}"]'></script>`);
+    expect(html).to.contain(`<script src='/v${fakeApiVersion}/${bundleFileName}.js`);
   });
 
   it('component encodes props', () => {

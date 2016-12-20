@@ -9,23 +9,25 @@ module.exports = breadboard({
   },
   entry: ({
     '/config/index': getConfig,
-    '/lib/bundler/index': bundle,
+    '/lib/bundler/index': buildBundle,
     '/lib/getComponentInfo': getComponentInfo,
   }) => {
-    const { components, vendor } = getConfig();
+    const { components = {} } = getConfig();
+    const bundles = components.bundles || [];
+
+    // create bundle for each individual component
     const allComponents = getComponentInfo();
-    const componentNames = allComponents.map(componentInfo => componentInfo.name );
+    allComponents.forEach(componentInfo => {
+      bundles.push({
+        name: componentInfo.name,
+        components: [componentInfo.name]
+      });
+    } );
 
-    // deprecate `preCacheBundles` once consumers have moved toga.json to `bundles`
-    const preCacheBundles = components && components.preCacheBundles ? components.preCacheBundles : [];
-
-    const componentBundles = components && components.bundles ? components.bundles : [];
-    const allComponentsBundle = [componentNames.filter((name) => name !== vendor.componentName)];
-    const componentsAndBundles = componentNames.concat(allComponentsBundle).concat(componentBundles).concat(preCacheBundles);
     const promises = [];
-    componentsAndBundles.forEach((componentName) => {
-      promises.push(bundle(componentName, {minify: true}));
-      promises.push(bundle(componentName));
+    bundles.forEach((bundle) => {
+      promises.push(buildBundle(bundle, {minify: true}));
+      promises.push(buildBundle(bundle));
     });
     return Promise.all(promises);
   }

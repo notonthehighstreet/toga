@@ -1,6 +1,6 @@
 module.exports = (deps) => {
   return function createWebpackConfig(
-    { isoPlugin, modulePaths, definitions, externals = [], minify, componentFiles = [], filename }
+    { modulePaths, definitions, externals = [], minify, componentFiles = [], filename }
     ) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
@@ -69,9 +69,6 @@ module.exports = (deps) => {
       )]
     };
 
-    if (isoPlugin) {
-      config.plugins.push(isoPlugin);
-    }
     if (minify) {
       config.plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,

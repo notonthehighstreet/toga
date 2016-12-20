@@ -17,9 +17,7 @@ describe('webpack/index', () => {
   const fakeVendorFiles = { [chance.word()]: chance.word() };
   const universalServerStub = sandbox.stub();
   const assetsJsonStub = fakePromise;
-  const fakeIsoPlugin = sandbox.spy();
   const fakeUniversalRendering = sandbox.stub().returns({
-    isoPlugin: fakeIsoPlugin,
     server: universalServerStub,
     createAssetsJson: assetsJsonStub
   });
@@ -46,7 +44,6 @@ describe('webpack/index', () => {
   context('when the bundle is successful', () => {
     it('passes through options', () => {
       result = subject({
-        isoPlugin: fakeIsoPlugin,
         externals: fakeVendorFiles,
         modulePaths: fakeModulePaths,
         minify: false,
@@ -56,7 +53,6 @@ describe('webpack/index', () => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          isoPlugin: fakeIsoPlugin,
           filename: undefined,
           minify: false,
           modulePaths: fakeModulePaths,

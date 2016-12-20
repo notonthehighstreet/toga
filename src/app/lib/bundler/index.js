@@ -1,12 +1,29 @@
 module.exports = (deps) => {
-
-  return function togaBundle(componentNames, opts = {}) {
+  return function buildBundle(bundle, opts = { }) {
     const {
-      '/lib/bundler/bundle': bundle,
-      '/lib/utils/errors': { BundleError }
-    } = deps;
+      '/config/index': getConfig,
+      '/lib/webpack/index': runWebpack,
+      '/lib/bundler/bundleFilename': bundleFilename,
+      '/lib/getComponentInfo': getComponentInfo,
+      '/lib/utils/errors': { BundleError },
+      debug
+      } = deps;
 
-    return bundle(componentNames, opts)
+    const components = getComponentInfo(bundle.components);
+    const minify = opts.minify || false;
+    const log = debug('toga:bundle');
+    const { vendor } = getConfig();
+    const filename = bundleFilename(bundle.name, { minify });
+
+    log(filename);
+
+    const componentFiles = components.map(component => component.file.replace(component.base, ''));
+    const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
+    const modulePaths = components.map(component => component.file);
+
+    return runWebpack({
+      externals, minify, modulePaths, componentFiles, filename
+    })
       .catch((err) => {
         throw new BundleError(err.message);
       });

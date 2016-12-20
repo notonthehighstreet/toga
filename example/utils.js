@@ -4,10 +4,14 @@ function getAssets(bundle = 'all') {
   return rp('http://localhost:3001/asset-bundles')
     .then((response) => {
       const assets = JSON.parse(response);
-      const scripts = assets[bundle].js.map((jsFile) => `http://localhost:3001/v1/${jsFile}`);
-      const styles = assets[bundle].css.map((cssFile) => `http://localhost:3001/v1/${cssFile}`);
-      return { scripts, styles };
-    });
+      const scripts = [
+        `http://localhost:3001/v1/${assets['vendor'].js}`,
+        `http://localhost:3001/v1/${assets[bundle].js}`
+      ];
+      const styles = [`http://localhost:3001/v1/${assets[bundle].css}`];
+      return {scripts, styles};
+    })
+    .catch(e => console.log(e)); // eslint-disable-line no-console
 }
 
 function getHtml(endPoints) {

@@ -1,13 +1,12 @@
 module.exports = (deps) => {
-  return function bundleFilename(componentNames, { minify = false }) {
+  return function bundleFilename(bundleName, { minify } = {}) {
     const {
       '/config/index': getConfig,
-      '/lib/bundler/buildHash': buildHash,
-      '/lib/utils/componentHelper': componentHelper,
+      '/lib/bundler/buildHash': buildHash
       } = deps;
 
     const { apiVersion } = getConfig();
     const togaHash = buildHash();
-    return `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}`;
+    return `${bundleName}-${togaHash}-${apiVersion}${minify ? '.min' : ''}`;
   };
 };

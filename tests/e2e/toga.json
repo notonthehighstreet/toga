@@ -13,7 +13,17 @@
     "public": "assets",
     "ignore": "lib",
     "bundles": [
-      ["svg", "test-communication", "test-multiple", "test-nested", "test-one", "test-redux", "test-svg"]
-    ]
+      {
+        "name": "all",
+        "components": [
+          "svg",
+          "test-communication",
+          "test-multiple",
+          "test-nested",
+          "test-one",
+          "test-redux",
+          "test-svg"
+        ]
+      }]
   }
 }
