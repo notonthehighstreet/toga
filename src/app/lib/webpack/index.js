@@ -19,9 +19,6 @@ module.exports = (deps) => {
       if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.errors)) {
         webpackOutput.compilation.errors.forEach(error => log(error));
       }
-      if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.warnings)) {
-        webpackOutput.compilation.warnings.forEach(warning => log(warning));
-      }
     }
 
     function run() {
