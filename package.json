@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production babel src -d dist",
-    "prestart": "npm run build && npm run bundle",
+    "prestart": "npm run build",
     "preexample": "npm run build",
     "install:selenium": "selenium-standalone install --version=2.53.1",
     "link:e2e": "cd tests/e2e; npm link; cd ..; npm link e2e;",
