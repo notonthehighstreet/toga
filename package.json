@@ -84,6 +84,7 @@
     "json-loader": "^0.5.4",
     "loader-utils": "^0.2.12",
     "memory-fs": "0.3.0",
+    "moment": "^2.17.1",
     "newrelic": "^1.25.4",
     "node-hook": "^0.4.0",
     "node-sass": "^3.4.2",
