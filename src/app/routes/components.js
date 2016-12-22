@@ -37,7 +37,7 @@ module.exports = (deps) => {
       .get(HTML_URL, getComponentHtml);
 
     router.use('/:component/assets', serveStatic);
-    router.use('/', express.static('dist/components/', { maxAge: oneDay * 365 }));
+    router.use('/', express.static('dist/components/', { maxAge: oneDay * 365, etag: false }));
 
     return router;
   };
