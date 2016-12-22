@@ -2,12 +2,13 @@
 
 const generateBundles = require('generateBundles');
 const s3 = require('s3');
+const { aws } = require('../../config/application.json');
 
 generateBundles.then(() => {
   const client = s3.createClient({
     s3Options: {
-      accessKeyId: process.env.S3_TOGA_ACCESS_KEY,
-      secretAccessKey: process.env.S3_TOGA_SECRET,
+      accessKeyId: aws.key,
+      secretAccessKey: aws.secret,
           // any other options are passed to new AWS.S3()
           // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#constructor-property
     }
@@ -17,7 +18,7 @@ generateBundles.then(() => {
     localDir: 'dist/components',
     s3Params: {
       ACL:'public-read',
-      Bucket: process.env.S3_TOGA_BUCKET,
+      Bucket: aws.bucket,
       Prefix: 'toga-assets/'
           // other options supported by putObject, except Body and ContentLength.
           // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
