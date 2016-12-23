@@ -75,6 +75,9 @@ Each bundle is an array of component names.
 
 E.g. ```
 "bundles" : [
-  ["HelloWorld","FooBar"],
+  {
+    "name": "products-page",
+    "components": ["social-share", "campaign-badge"]
+  }
 ]
 ```
