@@ -6,8 +6,7 @@ module.exports = (deps) => {
       '/middleware/getComponentHtml': getComponentHtml,
       '/lib/getComponentInfo': getComponentInfo,
       '/config/index': getConfig,
-      '/logger': getLogger,
-      '/middleware/setLocale': setLocale
+      '/logger': getLogger
     } = deps;
     const config = getConfig();
     const logger = getLogger();
@@ -27,7 +26,6 @@ module.exports = (deps) => {
       return express.static(staticPath, { maxAge: oneDay / 24 / 4 })(req, res, next); // 24 hours
     };
 
-    router.use(setLocale);
     router.use(MAP_URL, setComponentProps.map);
     router.use(ASSETS_URL, setComponentProps.asset);
     router.use(HTML_URL, setComponentProps.html);
