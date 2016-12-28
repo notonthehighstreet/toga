@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const generateBundles = require('generateBundles');
+const generateBundles = require('./generateBundles');
 const s3 = require('s3');
 const { aws } = require('../../config/application.json');
 
