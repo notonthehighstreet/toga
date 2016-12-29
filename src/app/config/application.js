@@ -13,5 +13,11 @@ module.exports = {
   },
   "syncServer": {
     "enabled": false
+  },
+  "aws": {
+    "key": process.env.TOGA_AWS_ACCESS_KEY,
+    "secret": process.env.TOGA_AWS_SECRET_KEY,
+    "bucket": process.env.TOGA_AWS_BUCKET,
+    "region": process.env.TOGA_AWS_REGION
   }
 };
