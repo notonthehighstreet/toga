@@ -91,7 +91,8 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName
+          filename: bundleFileName,
+          bundleName: undefined
         });
       });
     });
@@ -108,7 +109,8 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName
+          filename: bundleFileName,
+          bundleName: undefined
         });
       });
     });
@@ -122,7 +124,8 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName
+          filename: bundleFileName,
+          bundleName: undefined
         });
       });
     });

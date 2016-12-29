@@ -56,7 +56,8 @@ describe('webpack/index', () => {
           filename: undefined,
           minify: false,
           modulePaths: fakeModulePaths,
-          componentFiles: [fakeComponentsFile]
+          componentFiles: [fakeComponentsFile],
+          bundleName: undefined
         });
       });
     });

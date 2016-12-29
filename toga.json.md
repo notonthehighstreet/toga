@@ -48,20 +48,6 @@ This should be the path of the directory where the components reside within the 
 Toga will read this directory and try to render every sub-directory as a component.
 Currently it assumes the entrance point to each component is `index.js`.
 
-### public (string)
-
-`public` is the name of the directory inside your component where any public assets reside.
-Toga will then provide an end-point for these assets.
-
-e.g. You have a `footer` component which, within its css, uses a `banner.jpg` as a background image.
-As banner.jpg lives in an assets folder you should set `"public": "assets",`.
-
-This would make the following end-point:
-
-`http://toga-ip/v1/footer/assets/banner.jpg`
-
-[test-one/style.scss](/tests/e2e/components/test-one/styles.scss) is an example of this in use.
-
 ### ignore (string: optional)
 
 As mentioned aboth (in the `path` section), by default, every sub-directory is treated as a component.

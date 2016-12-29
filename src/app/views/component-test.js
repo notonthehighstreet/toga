@@ -1,8 +1,8 @@
 module.exports = (deps) => {
   return ({componentDOM, componentName, props, coreStyles}) => {
     const getConfig = deps['/config/index'];
-    const config = getConfig();
-    const apiVersionPrefix = `/v${config.apiVersion}`;
+    const { apiVersion, vendor = {} } = getConfig();
+    const apiVersionPrefix = `/v${apiVersion}`;
     const encode = deps['entities'].encodeHTML;
     const bundleFilename = deps['/lib/bundler/bundleFilename'];
     const filename = bundleFilename(componentName);
@@ -20,12 +20,12 @@ module.exports = (deps) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     ${coreStyles ? `<link rel="stylesheet" type="text/css" href='${coreStyles}'>` : ''}
-    <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/${filename}.css'>
+    <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/${componentName}/${filename}.css'>
     </head>
     <body>
     <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
-    <script src='${apiVersionPrefix}/${vendorFilename}.js'></script>
-    <script src='${apiVersionPrefix}/${filename}.js'></script>
+    <script src='${apiVersionPrefix}/${vendor.componentName}/${vendorFilename}.js'></script>
+    <script src='${apiVersionPrefix}/${componentName}/${filename}.js'></script>
     </body>
     </html>
     `;

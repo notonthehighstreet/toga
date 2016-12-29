@@ -22,7 +22,7 @@ module.exports = (deps) => {
     const modulePaths = components.map(component => component.file);
 
     return runWebpack({
-      externals, minify, modulePaths, componentFiles, filename
+      externals, minify, modulePaths, componentFiles, filename, bundleName: bundle.name
     })
       .catch((err) => {
         throw new BundleError(err.message);

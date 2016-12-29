@@ -10,7 +10,6 @@
   },
   "components": {
     "path": "./components",
-    "public": "assets",
     "ignore": "lib",
     "bundles": [
       {
