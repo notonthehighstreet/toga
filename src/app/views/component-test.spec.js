@@ -14,7 +14,7 @@ const bundleFileName = chance.word();
 bundleFilenameStub.returns(bundleFileName);
 
 const deps = {
-  '/lib/bundler/bundleFilename': bundleFilenameStub,
+  '/lib/utils/bundleFilename': bundleFilenameStub,
   '/config/index': fakeConfig,
   'entities': { encodeHTML : fakeEntities }
 };

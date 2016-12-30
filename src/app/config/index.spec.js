@@ -146,7 +146,8 @@ describe('config/index', () => {
         'components': {
           ...fakeComponents,
           base: `${fakeCWD}/node_modules/`,
-          path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
+          path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`,
+          packageJson: `${fakeCWD}/node_modules/${componentsArg}/package.json`
         },
         'vendor': fakeVendor
       };
@@ -188,6 +189,7 @@ describe('config/index', () => {
           'components': {
             ...fakeComponents,
             base: `${fakeCWD}/node_modules/`,
+            packageJson: `${fakeCWD}/node_modules/${componentsArg}/package.json`,
             path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
@@ -231,6 +233,7 @@ describe('config/index', () => {
           'components': {
             ...fakeComponents,
             base: `${fakeCWD}/node_modules/`,
+            packageJson: `${fakeCWD}/node_modules/${componentsArg}/package.json`,
             path: `${fakeCWD}/node_modules/${componentsArg}/${fakeComponents.path}`
           },
           'vendor': fakeVendor
@@ -267,6 +270,7 @@ describe('config/index', () => {
           'components': {
             ...fakeDefaultComponents,
             base: `${fakeCWD}/`,
+            packageJson: `${fakeCWD}/components/package.json`,
             path: `${fakeCWD}/components/${fakeDefaultComponents.path}`
           },
           'vendor': fakeDefaultVendor

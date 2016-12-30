@@ -1,6 +1,6 @@
 module.exports = (deps) => {
   const {
-    '/lib/bundler/bundleFilename': bundleFilename,
+    '/lib/utils/bundleFilename': bundleFilename,
     '/config/index': getConfig
   } = deps;
 

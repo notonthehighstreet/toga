@@ -68,7 +68,7 @@ describe('runBundler', () => {
       '/config/index': configMock,
       '/lib/getComponentInfo': fakeGetComponentInfo,
       '/lib/webpack/index': fakeRunWebpack,
-      '/lib/bundler/bundleFilename': bundleFilenameStub,
+      '/lib/utils/bundleFilename': bundleFilenameStub,
       'debug': fakeDebug,
       '/lib/utils/errors': {
         NotFoundError: fakeNotFoundError,

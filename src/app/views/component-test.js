@@ -4,7 +4,7 @@ module.exports = (deps) => {
     const { apiVersion, vendor = {} } = getConfig();
     const apiVersionPrefix = `/v${apiVersion}`;
     const encode = deps['entities'].encodeHTML;
-    const bundleFilename = deps['/lib/bundler/bundleFilename'];
+    const bundleFilename = deps['/lib/utils/bundleFilename'];
     const filename = bundleFilename(componentName);
     const vendorFilename = bundleFilename('vendor');
 

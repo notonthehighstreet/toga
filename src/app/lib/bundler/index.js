@@ -3,7 +3,7 @@ module.exports = (deps) => {
     const {
       '/config/index': getConfig,
       '/lib/webpack/index': runWebpack,
-      '/lib/bundler/bundleFilename': bundleFilename,
+      '/lib/utils/bundleFilename': bundleFilename,
       '/lib/getComponentInfo': getComponentInfo,
       '/lib/utils/errors': { BundleError },
       debug

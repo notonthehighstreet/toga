@@ -33,7 +33,8 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
       components: {
         ...componentConfig.components,
         path: (componentsJsonPath + componentsPath).replace(/\/.\//g, '/'),
-        base: componentsBase
+        base: componentsBase,
+        packageJson: componentsJsonPath + 'package.json'
       }
     });
 
