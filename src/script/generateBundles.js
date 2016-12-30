@@ -35,7 +35,7 @@ module.exports = breadboard({
   .then(({deps:{'/logger': getLogger}}) => {
     const logger = getLogger();
 
-    logger.info('Precaching complete');
+    logger.info('Bundling complete');
   })
   .catch((e) => {
     process.stderr.write(e.stack);

@@ -5,9 +5,11 @@ const debug = require('debug');
 debug.enable('toga:cli');
 const log = debug('toga:cli');
 const start = require('./commands/start');
+const bundle = require('./commands/bundle');
 
 var commands = {
   start: (args) => start(args).catch(log),
+  bundle: (args) => bundle(args).catch(log),
   version: function() {
     var pkg = require("../package.json");
     log(`version: ${pkg.version}`);
@@ -23,6 +25,15 @@ var commands = {
   if (!argv._.length && !argv.version && !argv.v) return commands['--help']();
   const isVersion = argv.version || argv.v;
   const command = isVersion ? 'version' : argv._[0];
+
+    // check repo is a valid toga repo first
+    try {
+        require(`${process.cwd()}/toga.json`);
+    }
+    catch (e) {
+        return Promise.reject('Toga requires a `toga.json` to be in the root of your project.');
+    }
+
   commands[command] && commands[command](argv);
   !commands[command] && commands['--help']();
 })();
