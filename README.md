@@ -84,7 +84,7 @@ You can pass props to components, just like you would any React component.
 
 One Toga is running and you can hit the component endpoint, user the query `?props={"prop-name":"prop-value"}` in the address bar (props must be valid JSON).  For example:
 
-`http://localhost:8080/v1/HelloWorld.html?props={"world":"waynes"}`
+`http://localhost:8080/HelloWorld.html?props={"world":"waynes"}`
 
 
 ## Contributing

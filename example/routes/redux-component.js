@@ -5,7 +5,7 @@ const props = {
   'initialState': {
     'products': [
       {
-        'image': 'http://localhost:3001/v1/test-redux/assets/comic-book.jpg',
+        'image': 'http://localhost:3001/test-redux/assets/comic-book.jpg',
         'title': 'Superhero Comic Book',
         'price': {
           'currency': 'GBP',

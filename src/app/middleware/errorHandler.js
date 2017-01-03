@@ -16,7 +16,7 @@ module.exports = (deps) => {
       res.status(404).send(`<h1>404</h1>
           <p>${err.message.toString()}</p>
           <h2>Which component were you looking for?</h2>
-          <ul>${components.map(component => `<li><a href="/v1/${component}.html">${component}</a></li>`).join('')}</ul>
+          <ul>${components.map(component => `<li><a href="/${component}.html">${component}</a></li>`).join('')}</ul>
       `);
       logger.warn(errObj);
       break;

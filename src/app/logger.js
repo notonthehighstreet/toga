@@ -30,8 +30,9 @@ module.exports = (deps) => {
     }
 
     if (!logger) {
+      // todo: should logger live in the consuming project i.e. noths-components?
       logger = bunyan.createLogger({
-        name: config.appName,
+        name: 'Toga', // todo : should this now be the consuming project i.e. noths components?
         streams: createDefaultLogStreamsConfig(),
         serializers: bunyan.stdSerializers
       });

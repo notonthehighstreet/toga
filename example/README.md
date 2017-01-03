@@ -48,7 +48,7 @@ To understand more about how to set this up take a look at [/toga.json.md](toga.
 
 Our example app make a call to Toga for the html :
 
- `http://localhost:8080/v1/component-name.raw.html`
+ `http://localhost:8080/component-name.raw.html`
 
 Some of our examples appends a `props` query string which is a JSON object.
 These props are passed down to the component and affect how the server renders the HTML.

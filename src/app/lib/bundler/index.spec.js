@@ -15,9 +15,7 @@ const fakeModulePaths = [ fakeFile ];
 const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
 const fakeVendorFiles = [{ [chance.word()]: chance.word() }];
 
-const fakeApiVersion = chance.word();
 const configMock = ()=> ({
-  apiVersion: fakeApiVersion,
   vendor: {
     componentName:  fakeVendorBundleComponent.name,
     'bundle': fakeVendorFiles

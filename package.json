@@ -1,6 +1,6 @@
 {
   "name": "noths-toga",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "A modular set of components and pages for the Notonthehighstreet frontend which are exposed as either raw assets or pre-rendered.",
   "main": "dist/index.js",
   "repository": "https://github.com/notonthehighstreet/toga",
@@ -102,7 +102,6 @@
     "response-time": "^2.3.1",
     "s3": "^4.4.0",
     "sass-loader": "^3.2.0",
-    "semver": "5.1.0",
     "style-loader": "^0.13.1",
     "styles-toolkit": "github:notonthehighstreet/styles-toolkit#v0.2.2",
     "svg-inline-loader": "^0.6.1",

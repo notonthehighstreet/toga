@@ -4,9 +4,8 @@ const chance = new require('chance')();
 const builder = require('./component-test');
 
 const sandbox = sinon.sandbox.create();
-const fakeApiVersion = chance.word();
 const fakeVendorName = chance.word();
-const fakeConfig = () => ({ apiVersion: fakeApiVersion, vendor: { componentName : fakeVendorName } });
+const fakeConfig = () => ({ vendor: { componentName : fakeVendorName } });
 const fakeEntities = sandbox.stub();
 
 const bundleFilenameStub = sandbox.stub();
@@ -48,12 +47,12 @@ describe('renderComponent', () => {
 
   it('renders a stylesheet', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/v${fakeApiVersion}/${componentName}/${bundleFileName}.css`);
+    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/${componentName}/${bundleFileName}.css`);
   });
 
   it('renders scripts', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<script src='/v${fakeApiVersion}/${fakeVendorName}/${bundleFileName}.js`);
+    expect(html).to.contain(`<script src='/${fakeVendorName}/${bundleFileName}.js`);
   });
 
   it('component encodes props', () => {

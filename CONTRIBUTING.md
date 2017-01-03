@@ -55,7 +55,7 @@ All components can be previewed once the servers are up and running using the lo
 
 To view Components, any required props must be set within the context of that component using the url. e.g.
 
-`http://localhost:8080/v1/button.html?context={"children":"button text","fullWidth":true,"size":"large"}`
+`http://localhost:8080/button.html?context={"children":"button text","fullWidth":true,"size":"large"}`
 
 ### Testing
 

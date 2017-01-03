@@ -9,19 +9,9 @@ const mockery = require('mockery');
 describe('config/index', () => {
   let subject;
   let builder;
-  let semverMajorStub = sandbox.stub();
   let configFiles = [];
   let componentsArg = chance.word();
 
-  const fakeAppName = chance.word();
-
-  let appMetaDataStub = {
-    name: fakeAppName,
-    version: '1.2.3'
-  };
-
-  const fakeApiVersion = chance.natural();
-  semverMajorStub.returns(fakeApiVersion);
   const fakeComponents = { path: chance.word() };
   const fakeDefaultComponents = { path: chance.word() };
   const fakeVendor = { [chance.word()] : chance.word() };
@@ -34,10 +24,6 @@ describe('config/index', () => {
   before(() => {
     mockery.registerMock(`${fakeCWD}/node_modules/${componentsArg}/toga.json`, MockComponent);
     mockery.registerMock(`${fakeCWD}/components/toga.json`, MockDefaultComponent);
-    mockery.registerMock('../../../package.json', appMetaDataStub);
-    mockery.registerMock('semver', {
-      major: semverMajorStub
-    });
     oldCWD = process.cwd;
     process.cwd = sandbox.stub().returns(fakeCWD);
 
@@ -70,27 +56,13 @@ describe('config/index', () => {
       builder = require('./index')();
     });
 
-    context('when a componentPath is NOT passed as an arg', () => {
-      beforeEach(()=>{
-        subject = builder();
-      });
-
-      it('sets application name', () => {
-        expect(subject.appName).to.equal(fakeAppName);
-      });
-
-      it('sets api version', () => {
-        expect(subject.apiVersion).to.equal(fakeApiVersion);
-      });
-    });
-
     context('when a componentPath is passed as an arg', () => {
-      it('sets components.path version pointing to node_modules', () => {
+      it('sets components.path pointing to node_modules', () => {
         subject = builder(fakeComponents.path);
         expect(subject.components.path).to.equal(`${fakeCWD}/node_modules/${fakeComponents.path}/${fakeComponents.path}`);
       });
 
-      it('sets components.path version pointing locally', () => {
+      it('sets components.path pointing locally', () => {
         subject = builder('./' + fakeComponents.path);
         expect(subject.components.path).to.equal(`${fakeCWD}/${fakeComponents.path}/${fakeComponents.path}`);
       });
@@ -135,8 +107,6 @@ describe('config/index', () => {
     it('contains the passed in config', () => {
       let config = subject;
       let expectedConfig = {
-        'apiVersion': fakeApiVersion,
-        'appName': fakeAppName,
         'name': 'a',
         'bar': 'foo',
         'nested': {
@@ -177,8 +147,6 @@ describe('config/index', () => {
       it('merges the second config on top of the first config', () => {
         let config = subject;
         let expectedConfig = {
-          'apiVersion': fakeApiVersion,
-          'appName': fakeAppName,
           'name': 'b',
           'foo': 'bar',
           'bar': 'foo',
@@ -221,8 +189,6 @@ describe('config/index', () => {
       it('the third config overwrites changes made by the second', () => {
         let config = subject;
         let expectedConfig = {
-          'apiVersion': fakeApiVersion,
-          'appName': fakeAppName,
           'name': 'a',
           'foo': 'bar',
           'bar': 'foo',
@@ -259,8 +225,6 @@ describe('config/index', () => {
       it('loads the default config', () => {
         let config = subject;
         let expectedConfig = {
-          'apiVersion': fakeApiVersion,
-          'appName': fakeAppName,
           'name': 'a',
           'bar': 'foo',
           'nested': {

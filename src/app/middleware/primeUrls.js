@@ -15,7 +15,7 @@ module.exports = (deps) => {
 
     const primeUrl = (componentName) => {
       componentsPrimed[componentName] = true;
-      return axios.get(`/v${config.apiVersion}/${componentName}.raw.html`, {
+      return axios.get(`/${componentName}.raw.html`, {
         baseURL: `http://${config.server.host}:${config.server.port}`
       });
     };

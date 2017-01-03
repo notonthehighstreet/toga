@@ -11,10 +11,6 @@ export const fakePath = {
   join: sandbox.spy()
 };
 
-export const fakeSemver = {
-  major: sandbox.stub()
-};
-
 export const fakeLogger = () => {
   return {
     error: sandbox.spy()

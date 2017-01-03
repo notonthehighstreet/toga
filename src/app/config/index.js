@@ -1,10 +1,8 @@
 let cachedConfig;
 const { argv } = require('yargs');
 const { join: pathJoin } = require('path');
-const semver = require('semver');
 const deepAssign = require('deep-assign');
 const debug = require('debug');
-const  {version: packageVersion, name: appName} = require('../../../package.json');
 
 module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   if (cachedConfig) {
@@ -18,8 +16,6 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   const componentsBase  = `${process.cwd()}/${basePath}`.replace(/\/.\//g, '/');
   const componentsJsonPath = `${componentsBase}${argv.components}/`.replace(/\/.\//g, '/');
   const componentConfig = require(`${componentsJsonPath}toga.json`);
-  const apiVersion = semver.major(packageVersion);
-  const metaDataConfig = {apiVersion: apiVersion, appName};
 
   const toArray = value => Array.isArray(value) ? value : [value];
   const configFilePaths = toArray(argv.config || './app/config/application.js');
@@ -28,7 +24,7 @@ module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
   const configFiles = configFilePaths.map(loadConfig).map(deepClone);
   const componentsPath = opts.path || componentConfig.components.path;
 
-  cachedConfig = deepAssign({}, metaDataConfig, ...configFiles,
+  cachedConfig = deepAssign({}, ...configFiles,
     { ...componentConfig,
       components: {
         ...componentConfig.components,
