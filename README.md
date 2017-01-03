@@ -68,7 +68,7 @@ The endpoint to get the assets for a single component is can be found using the 
 
  * `http://localhost:8080/asset-bundles`
 
-This URL will tell you what bundles are available (which is determined form your `toga.json` file).  
+This URL will tell you what bundles are available (which is determined form your `toga.json` file).
 This files will be available on the server address prefix i.e. `http://localhost:8080/v1/`
 
 ### Vendor Bundles

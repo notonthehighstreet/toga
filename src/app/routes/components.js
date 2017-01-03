@@ -3,10 +3,8 @@ module.exports = (deps) => {
     const {
       'express': express,
       '/middleware/setComponentProps': setComponentProps,
-      '/middleware/getComponentHtml': getComponentHtml,
-      '/config/index': getConfig
+      '/middleware/getComponentHtml': getComponentHtml
     } = deps;
-    const config = getConfig();
     const router = express.Router();
     const oneDay = 86400000;
     const MAP_URL = '/:components.(min\.)components.?(css|js).map';
@@ -17,9 +15,7 @@ module.exports = (deps) => {
     router.use(ASSETS_URL, setComponentProps.asset);
     router.use(HTML_URL, setComponentProps.html);
 
-    router
-      .get('/core(\.min)?.css', (req, res) => res.redirect(config.coreStyles))
-      .get(HTML_URL, getComponentHtml);
+    router.get(HTML_URL, getComponentHtml);
 
     router.use('/', express.static('dist/components/', { maxAge: oneDay * 365, etag: false }));
 

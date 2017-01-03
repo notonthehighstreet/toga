@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return ({componentDOM, componentName, props, coreStyles}) => {
+  return ({componentDOM, componentName, props}) => {
     const getConfig = deps['/config/index'];
     const { apiVersion, vendor = {} } = getConfig();
     const apiVersionPrefix = `/v${apiVersion}`;
@@ -19,7 +19,7 @@ module.exports = (deps) => {
     <title>Toga Test - ${componentName}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    ${coreStyles ? `<link rel="stylesheet" type="text/css" href='${coreStyles}'>` : ''}
+    <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/${vendor.componentName}/${vendorFilename}.css'>
     <link rel="stylesheet" type="text/css" href='${apiVersionPrefix}/${componentName}/${filename}.css'>
     </head>
     <body>
