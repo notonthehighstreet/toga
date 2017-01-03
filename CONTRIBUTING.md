@@ -23,7 +23,6 @@
 
 * Node.js v6.2.2 - Recommend using NVM
 * npm v3.10.3
-* Redis i.e. `brew install redis`
 * PhantomJS i.e. `brew install phantomjs` or `npm install -g phantomjs-prebuilt`
 
 #### Node Modules
@@ -65,15 +64,12 @@ Our unit tests are written with the help of [Enzyme](https://github.com/airbnb/e
 
  * `npm run lint`
  * `npm run test-unit` or `npm run test-unit -- --watch`
- * `npm run test-integration`
 
 #### e2e
 
 We have end-to-end tests which uses [Nightwatch](https://github.com/nightwatchjs/nightwatch)
- and [PhantomJS](https://github.com/ariya/phantomjs) and also need the servers running first :
+ and [PhantomJS](https://github.com/ariya/phantomjs) :
 
- * `npm run dev`
- * `npm run example`
  * `npm run test-e2e`
 
 

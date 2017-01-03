@@ -6,19 +6,6 @@ This file is required to tell Toga more information about the components in you 
 
 [Example toga.json](/components/toga.json)
 
-## coreStyles (string: optional)
-
-Often, in order for your components to look 100% correct, they will rely on an existing stylesheet.
-Toga provides a `coreStyles` option so that when viewing your components within Toga, they have these styles applied.
-
- `"coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.2.1/toolkit.css"`
-
-Once supplied, Toga also provides this as convenience URL which is a redirect to the `coreStyles`.  This URl is available at
-
-`http://localhost:8080/v1/core.css`
-
-This mean your apps (which consume components) won't need to be redeployed to get the latest styles,
-simply update Toga and all consuming apps will be updated automatically.
 
 ## vendor (object)
 

@@ -5,8 +5,6 @@ machine:
     Europe/London
   node:
     version: v6.3
-  services:
-    - redis
 general:
   artifacts:
     - tests/reports

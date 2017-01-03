@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   toga:
     build:
@@ -10,9 +10,5 @@ services:
       - ./app:/service/toga/app
       - ./components:/service/toga/components
       - ./script:/service/toga/script
-    links:
-      - redis
     environment:
       - NODE_ENV=production
-  redis:
-    image: redis

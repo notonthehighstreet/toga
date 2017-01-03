@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   toga:
     build:
@@ -7,8 +7,4 @@ services:
     image: toga-dev
     ports:
       - 8080:8080
-    links:
-      - redis
     command: npm run test
-  redis:
-    image: redis
