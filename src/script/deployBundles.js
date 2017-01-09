@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const s3 = require('s3');
-const { aws } = require('../app/config/application');
+const { aws, assets } = require('../app/config/application');
 
 const client = s3.createClient({
   s3Options: {
@@ -18,7 +18,7 @@ const params = {
     ACL:'public-read',
     Bucket: aws.bucket,
     CacheControl: `max-age=${60*60*24*365}`,
-    Prefix: 'toga-assets/'
+    Prefix: assets.prefix
         // other options supported by putObject, except Body and ContentLength.
         // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
   }

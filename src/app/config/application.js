@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const server = require('./server');
-const assetsHost = require('./assetsHost');
+const { assetsPrefix, assetsHost } = require('./assets');
 
 module.exports = {
   "server": server,
@@ -21,6 +21,7 @@ module.exports = {
     "region": process.env.TOGA_AWS_REGION
   },
   "assets": {
+    "prefix": assetsPrefix(),
     "host": assetsHost()
   }
 };

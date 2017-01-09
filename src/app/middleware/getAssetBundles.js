@@ -10,8 +10,8 @@ module.exports = (deps) => {
     (components.bundles || []).forEach(bundle => {
       const filename = bundleFilename(bundle.name, { minify: true });
       jsonResponse[bundle.name] = {
-        js: `//${assets.host}/${bundle.name}/${filename}.js`,
-        css: `//${assets.host}/${bundle.name}/${filename}.css`
+        js: `//${assets.host}/${assets.prefix}${bundle.name}/${filename}.js`,
+        css: `//${assets.host}/${assets.prefix}${bundle.name}/${filename}.css`
       };
     });
     res.json(jsonResponse);
