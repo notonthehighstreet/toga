@@ -38,7 +38,7 @@ describe('assetsPrefix', () => {
       sandbox.restore();
     });
     it('returns toga assets prefix', () => {
-      expect(assetsPrefix()).to.equal('toga_assets/');
+      expect(assetsPrefix()).to.equal('toga-assets/');
     });
   });
 });

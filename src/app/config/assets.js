@@ -5,5 +5,5 @@ module.exports.assetsHost = () => {
 };
 
 module.exports.assetsPrefix = () => {
-  return process.env.TOGA_ASSETS_HOST ? 'toga_assets/' : '';
+  return process.env.TOGA_ASSETS_HOST ? 'toga-assets/' : '';
 };
