@@ -18,30 +18,34 @@ module.exports = (deps) => {
         path: `./dist/components/${bundleName}`
       },
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.js$/,
-            loader: 'babel',
+            loader: 'babel-loader',
             exclude: /node_modules/
           },
           {
             test: /\.json$/,
-            loaders: ['json']
+            loaders: ['json-loader']
           },
           {
             test: /\.scss$/,
             exclude: /node_modules/,
-            loader: ExtractTextPlugin.extract('style', [
-              `css?-autoprefixer&sourceMap${minify ? '&minimize' : ''}`,
-              'postcss',
-              'sass?outputStyle=expanded'].join('!'))
+            loader: ExtractTextPlugin.extract({
+              fallbackLoader: 'style-loader',
+              loader: [
+                'css-loader?-autoprefixer',
+                'postcss-loader',
+                'sass-loader'
+              ]
+            })
           },
           {
             test: componentsRegEx,
-            loaders: ['toga']
+            loaders: ['toga-loader']
           },
-          {test: /\.svg$/, loader: 'svg-inline?removeSVGTagAttrs=false'},
-          {test: /\.woff(2)?$/, loader: 'url?mimetype=application/font-woff'},
+          {test: /\.svg$/, loader: 'svg-inline-loader?removeSVGTagAttrs=false'},
+          {test: /\.woff(2)?$/, loader: 'url-loader?mimetype=application/font-woff'},
           {
             test: /\.(jpe?g|png|gif)$/i,
             loaders: [
@@ -51,26 +55,28 @@ module.exports = (deps) => {
         ]
       },
       plugins: [
-        new ExtractTextPlugin('[name].css', { allChunks: true }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurrenceOrderPlugin(true)
-      ],
-      postcss: [autoprefixer({
-        browsers: [
-          'safari 9',
-          'ie 10-11',
-          'last 2 Chrome versions',
-          'last 2 Firefox versions',
-          'edge 13',
-          'ios_saf >= 8',
-          'ie_mob 11',
-          'Android >= 4'
-        ],
-        cascade: false,
-        add: true,
-        remove: true
-      }
-      )]
+        new ExtractTextPlugin({ filename: '[name].css', allChunks: true }),
+        new webpack.LoaderOptionsPlugin({
+          options: {
+            postcss: [autoprefixer({
+              browsers: [
+                'safari 9',
+                'ie 10-11',
+                'last 2 Chrome versions',
+                'last 2 Firefox versions',
+                'edge 13',
+                'ios_saf >= 8',
+                'ie_mob 11',
+                'Android >= 4'
+              ],
+              cascade: false,
+              add: true,
+              remove: true
+            }
+          )]
+          }
+        })
+      ]
     };
 
     if (minify) {
@@ -81,7 +87,7 @@ module.exports = (deps) => {
         }
       }));
       config.plugins.push(new webpack.DefinePlugin({
-        'process.env': {NODE_ENV: JSON.stringify('production')}
+        'process.env.NODE_ENV': JSON.stringify('production')
       }));
     }
     if (definitions) {
