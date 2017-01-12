@@ -11,7 +11,7 @@
   "scripts": {
     "prestart": "npm run build",
     "preexample": "npm run build",
-    "prebundle": "rm -rf dist/components",
+    "prebundle": "npm run build && rm -rf dist/components",
     "pretest-e2e": "npm run build && npm run install:selenium",
     "postinstall": "npm run build",
     "install:selenium": "selenium-standalone install --version=2.53.1",
