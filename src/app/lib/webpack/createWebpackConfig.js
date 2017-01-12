@@ -34,11 +34,11 @@ module.exports = (deps) => {
             loader: ExtractTextPlugin.extract({
               fallbackLoader: 'style-loader',
               loader: [
-                `css-loader?-autoprefixer&sourceMap${minify ? '&minimize' : ''}`,
+                'css-loader?-autoprefixer',
                 'postcss-loader',
                 'sass-loader'
               ]
-             })
+            })
           },
           {
             test: componentsRegEx,
@@ -56,7 +56,6 @@ module.exports = (deps) => {
       },
       plugins: [
         new ExtractTextPlugin({ filename: '[name].css', disable: false, allChunks: true }),
-        new webpack.optimize.DedupePlugin(),
         new webpack.LoaderOptionsPlugin({
           options: {
             postcss: [autoprefixer({
@@ -75,7 +74,7 @@ module.exports = (deps) => {
               remove: true
             }
           )]
-         }
+          }
         })
       ]
     };
@@ -88,7 +87,7 @@ module.exports = (deps) => {
         }
       }));
       config.plugins.push(new webpack.DefinePlugin({
-        'process.env': {NODE_ENV: JSON.stringify('production')}
+        'process.env.NODE_ENV': JSON.stringify('production')
       }));
     }
     if (definitions) {

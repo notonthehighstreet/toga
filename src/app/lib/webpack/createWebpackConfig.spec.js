@@ -5,9 +5,8 @@ const chance = new require('chance')();
 const fakeFileName = chance.word();
 const sandbox = sinon.sandbox.create();
 const fakeWebpack = {
+  LoaderOptionsPlugin: function() {},
   optimize: {
-    DedupePlugin: function() {},
-    OccurrenceOrderPlugin: function() {},
     UglifyJsPlugin: function() {}
   },
   DefinePlugin: function() {}
@@ -43,7 +42,7 @@ describe('Create Webpack Config', () => {
       modulePaths: fakeModulePaths,
       filename: fakeFileName
     });
-    expect(config.plugins.length).to.equal(3);
+    expect(config.plugins.length).to.equal(2);
     expect(config.entry[fakeFileName]).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
   });
@@ -67,7 +66,7 @@ describe('Create Webpack Config', () => {
       });
 
       expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
-      expect(result.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(result.plugins[2]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
     });
   });
 
@@ -96,15 +95,15 @@ describe('Create Webpack Config', () => {
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
-      expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(config.plugins[2]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
     it('creates config with NODE_ENV set to production', () => {
       const config = subject({
         modulePaths: [],
         minify: true
       });
-      expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
-      expect(definePluginSpy).to.be.calledWith({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } });
+      expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(definePluginSpy).to.be.calledWith({ 'process.env.NODE_ENV': JSON.stringify('production')  });
     });
   });
 });
