@@ -5,13 +5,13 @@ module.exports = (deps) => {
   } = deps;
 
   return function getAssetBundles(req, res) {
-    const { components = {} } = getConfig();
+    const { assets, components = {} } = getConfig();
     const jsonResponse = {};
     (components.bundles || []).forEach(bundle => {
       const filename = bundleFilename(bundle.name, { minify: true });
       jsonResponse[bundle.name] = {
-        js: `${bundle.name}/${filename}.js`,
-        css: `${bundle.name}/${filename}.css`
+        js: `//${assets.host}/${bundle.name}/${filename}.js`,
+        css: `//${assets.host}/${bundle.name}/${filename}.css`
       };
     });
     res.json(jsonResponse);
