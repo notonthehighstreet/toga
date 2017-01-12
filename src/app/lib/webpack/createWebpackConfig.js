@@ -55,7 +55,7 @@ module.exports = (deps) => {
         ]
       },
       plugins: [
-        new ExtractTextPlugin({ filename: '[name].css', disable: false, allChunks: true }),
+        new ExtractTextPlugin({ filename: '[name].css', allChunks: true }),
         new webpack.LoaderOptionsPlugin({
           options: {
             postcss: [autoprefixer({
