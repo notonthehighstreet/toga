@@ -1,3 +1,5 @@
+const { assetUrl } = require('../lib/utils/assetUrl');
+
 module.exports = (deps) => {
   const {
     '/lib/utils/bundleFilename': bundleFilename,
@@ -5,13 +7,13 @@ module.exports = (deps) => {
   } = deps;
 
   return function getAssetBundles(req, res) {
-    const { assets, components = {} } = getConfig();
+    const { components = {} } = getConfig();
     const jsonResponse = {};
     (components.bundles || []).forEach(bundle => {
       const filename = bundleFilename(bundle.name, { minify: true });
       jsonResponse[bundle.name] = {
-        js: `//${assets.host}/${assets.prefix}${bundle.name}/${filename}.js`,
-        css: `//${assets.host}/${assets.prefix}${bundle.name}/${filename}.css`
+        js: `${assetUrl()}${bundle.name}/${filename}.js`,
+        css: `${assetUrl()}${bundle.name}/${filename}.css`
       };
     });
     res.json(jsonResponse);
