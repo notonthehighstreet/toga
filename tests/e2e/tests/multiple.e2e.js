@@ -14,7 +14,7 @@ module.exports = {
   ['first component renders an image'](browser) {
     browser.expect.element('.toga-test-one').to.be.present;
     browser.getCssProperty('.toga-test-one', 'backgroundImage', function(result) {
-      this.assert.ok(result.value.indexOf('http://localhost:3001/v1/test-one/assets/images/product_mosaic.jpg')>-1);
+      this.assert.ok(result.value.indexOf('http://localhost:3001/all/product_mosaic')>-1);
     });
   },
 
@@ -26,7 +26,7 @@ module.exports = {
   ['second component renders an image'](browser) {
     browser.expect.element('.toga-test-multiple').to.be.present;
     browser.getCssProperty('.toga-test-multiple', 'backgroundImage', function(result) {
-      this.assert.ok(result.value.indexOf('http://localhost:3001/v1/test-multiple/assets/images/product_mosaic.jpg')>-1);
+      this.assert.ok(result.value.indexOf('http://localhost:3001/all/product_mosaic')>-1);
     });
   },
 

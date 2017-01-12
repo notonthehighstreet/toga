@@ -4,12 +4,9 @@ const chance = new require('chance')();
 const builder = require('./component-raw');
 
 const sandbox = sinon.sandbox.create();
-const apiVersion = chance.word();
-const fakeConfig = { apiVersion: apiVersion };
 const fakeEntities = sandbox.stub();
 
 const deps = {
-  '/config/index': fakeConfig,
   'entities': { encodeHTML : fakeEntities }
 };
 let subject = builder(deps);

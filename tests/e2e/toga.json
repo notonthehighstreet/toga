@@ -1,5 +1,4 @@
 {
-  "coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.2.2/toolkit.css",
   "vendor" : {
     "componentName": "vendor",
     "bundle": {
@@ -10,7 +9,19 @@
   },
   "components": {
     "path": "./components",
-    "public": "assets",
-    "ignore": "lib"
+    "ignore": "lib",
+    "bundles": [
+      {
+        "name": "all",
+        "components": [
+          "svg",
+          "test-communication",
+          "test-multiple",
+          "test-nested",
+          "test-one",
+          "test-redux",
+          "test-svg"
+        ]
+      }]
   }
 }

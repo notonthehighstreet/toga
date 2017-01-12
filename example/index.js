@@ -6,9 +6,13 @@ var multiple = require('./routes/multiple-components');
 var nested = require('./routes/nested-components');
 var multipleNested = require('./routes/multiple-nested-components');
 var communication = require('./routes/communication-component');
-
 var bootstrapApp = require('../src/index');
+
 const server = express();
+const breadboardConfig = {
+  port: 3001,
+  host: 'localhost'
+};
 
 server.get('/redux', redux);
 server.get('/one', one);
@@ -17,10 +21,9 @@ server.get('/multiple-nested', multipleNested);
 server.get('/nested', nested);
 server.get('/communication', communication);
 
-module.exports = bootstrapApp({
-  port: 3001,
-  host: 'localhost'
-})
+module.exports = Promise.resolve()
+  .then(() => require('../src/script/generateBundles'))
+  .then(() => bootstrapApp(breadboardConfig))
   .then(({deps: {'/logger': getLogger}, entryResolveValue: togaServer}) => {
     const host = togaServer.address().address;
     const port = togaServer.address().port;

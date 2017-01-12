@@ -4,11 +4,16 @@ const chance = new require('chance')();
 const builder = require('./component-test');
 
 const sandbox = sinon.sandbox.create();
-const fakeApiVersion = chance.word();
-const fakeConfig = () => ({ apiVersion: fakeApiVersion });
+const fakeVendorName = chance.word();
+const fakeConfig = () => ({ vendor: { componentName : fakeVendorName } });
 const fakeEntities = sandbox.stub();
 
+const bundleFilenameStub = sandbox.stub();
+const bundleFileName = chance.word();
+bundleFilenameStub.returns(bundleFileName);
+
 const deps = {
+  '/lib/utils/bundleFilename': bundleFilenameStub,
   '/config/index': fakeConfig,
   'entities': { encodeHTML : fakeEntities }
 };
@@ -42,13 +47,12 @@ describe('renderComponent', () => {
 
   it('renders a stylesheet', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/v${fakeApiVersion}/components.css?components=["${componentName}"]'>`);
+    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/${componentName}/${bundleFileName}.css`);
   });
 
   it('renders scripts', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<script src='/v${fakeApiVersion}/components-vendor-bundle.js?components=["${componentName}"]'></script>`);
-    expect(html).to.contain(`<script src='/v${fakeApiVersion}/components.js?components=["${componentName}"]'></script>`);
+    expect(html).to.contain(`<script src='/${fakeVendorName}/${bundleFileName}.js`);
   });
 
   it('component encodes props', () => {

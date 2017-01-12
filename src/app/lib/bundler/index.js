@@ -1,54 +1,31 @@
 module.exports = (deps) => {
-
-  return function togaBundle(componentNames, opts = {}) {
+  return function buildBundle(bundle, opts = { }) {
     const {
-      '/cache/set': setCache,
-      '/cache/get': getCache,
       '/config/index': getConfig,
-      '/lib/bundler/buildHash': buildHash,
-      '/lib/bundler/bundle': bundle,
+      '/lib/webpack/index': runWebpack,
+      '/lib/utils/bundleFilename': bundleFilename,
       '/lib/getComponentInfo': getComponentInfo,
       '/lib/utils/errors': { BundleError },
-      '/lib/utils/componentHelper': componentHelper
-    } = deps;
-    const config = getConfig();
+      debug
+      } = deps;
 
-    const { apiVersion } = config;
+    const components = getComponentInfo(bundle.components);
     const minify = opts.minify || false;
-    const components = getComponentInfo(componentNames);
-    const getCacheId = (assetType) => (
-      `${apiVersion}-${togaHash}-${componentHelper.bundleId(componentNames, { minify })}.${assetType}`
-    );
-    const togaHash = buildHash();
+    const log = debug('toga:bundle');
+    const { vendor } = getConfig();
+    const filename = bundleFilename(bundle.name, { minify });
+
+    log(filename);
+
+    const componentFiles = components.map(component => component.file.replace(component.base, ''));
+    const externals = components.length === 1 && components[0].name === vendor.componentName ? [] : vendor.bundle;
     const modulePaths = components.map(component => component.file);
 
-    function getAsset(assetType) {
-      return getCache(getCacheId(assetType))
-        .then((data) => data || bundleAndSave(assetType));
-    }
-
-    function saveAsset(assetType, bundles) {
-      return setCache(getCacheId(assetType), bundles[assetType]);
-    }
-
-    function bundleAndSave(assetType) {
-      let assets;
-      return bundle(components, { modulePaths, minify })
-        .then((bundles) => {
-          assets = bundles;
-          return Promise.all([
-            saveAsset('js', assets),
-            saveAsset('css', assets),
-            saveAsset('js.map', assets),
-            saveAsset('css.map', assets)
-          ]);
-        }).then(() => {
-          return assets[assetType];
-        }).catch((err) => {
-          throw new BundleError(err.message);
-        });
-    }
-
-    return { getAsset };
+    return runWebpack({
+      externals, minify, modulePaths, componentFiles, filename, bundleName: bundle.name
+    })
+      .catch((err) => {
+        throw new BundleError(err.message);
+      });
   };
 };

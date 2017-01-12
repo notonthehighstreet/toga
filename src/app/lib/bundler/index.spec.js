@@ -2,67 +2,150 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('./index');
-import { fakeResolve, fakeReject, fakeLogger } from '../../../../tests/commonMocks';
+import { fakePromise, fakeDebug, fakeReject } from '../../../../tests/commonMocks';
 
-describe('bundler/index', () => {
-  const sandbox = sinon.sandbox.create();
+const sandbox = sinon.sandbox.create();
+
+const bundleFilenameStub = sandbox.stub();
+const bundleFileName = chance.word();
+bundleFilenameStub.returns(bundleFileName);
+
+const fakeFile =  chance.file() ;
+const fakeModulePaths = [ fakeFile ];
+const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
+const fakeVendorFiles = [{ [chance.word()]: chance.word() }];
+
+const configMock = ()=> ({
+  vendor: {
+    componentName:  fakeVendorBundleComponent.name,
+    'bundle': fakeVendorFiles
+  }
+});
+
+let fakeComponentName = chance.word();
+const fakeRelativeComponentPath = `../../components/${fakeComponentName}`;
+const fakeComponentInfo = [{ requirePath : fakeRelativeComponentPath, path : chance.word(),  file: fakeModulePaths[0],  name: chance.word() }];
+let fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
+
+describe('runBundler', () => {
   let deps;
   let subject;
   let result;
+  let fakeRunWebpack;
+
   let fakeComponentsList;
-  const setCacheMock = fakeResolve();
-  const getCachedValue = 'cached value';
-  const cacheMissError = null;
-  const componentHash = chance.word();
-  const fakeComponentsPath = chance.word();
-  const match = {
-    js : sinon.match(/(\w*)\.js/g),
-    'js.map' : sinon.match(/(\w*)\.js\.map/g),
-    css : sinon.match(/(\w*)\.css/g),
-    'css.map' : sinon.match(/(\w*)\.css\.map/g)
-  };
-  const apiVersion = '3';
-  const configMock =()=> ({ apiVersion, componentsPath: fakeComponentsPath });
   const errorMessage = chance.word();
   const bundleFailureError = new Error(errorMessage);
-  const bundleSuccessData = {
-    js: chance.word(),
-    css: chance.word(),
-    'js.map': chance.word(),
-    'css.map': chance.word()
-  };
-  const bundleSuccessMock = fakeResolve(bundleSuccessData);
   const bundleFailureMock = fakeReject(bundleFailureError);
-  const bundleHashMock = sandbox.spy(() => componentHash);
-  const getCacheHitMock = fakeResolve(getCachedValue);
-  const getCacheMissMock = fakeResolve(cacheMissError);
-  const fakeModulePaths = [chance.file()];
-  const fakeMapPath = chance.word();
   const fakeNotFoundError = sandbox.stub().throws();
   const fakeBundleError = sandbox.stub().throws();
-  const fakeBundleId = sandbox.stub().returns(fakeMapPath);
-  const fakeComponentRoot = chance.word();
-  const fakeComponentPath = chance.word();
-  const fakeComponentInfo = [{ root: fakeComponentRoot, path : fakeComponentPath,  file: fakeModulePaths[0] }];
-  const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
-  const fakeComponentHelper = {
-    bundleId: fakeBundleId
-  };
+  const fakeComponentFiles = chance.file();
+  const component = { name: chance.word(), file: fakeComponentFiles };
+  const components = [component];
+  const componentBundle = chance.word();
+  const stylesBundle = chance.word();
+  const componentMapBundle = chance.word();
+  const stylesMapBundle = chance.word();
+  const readdirSyncStub = sandbox.stub().returns(fakeModulePaths);
+  const readFileStub = sandbox.stub();
+  const existsSyncStub = sandbox.stub();
+  const memoryFsMock = sandbox.stub();
+  readFileStub.withArgs('/components.js', 'utf8').returns(Promise.resolve(componentBundle));
+  readFileStub.withArgs('/components.css', 'utf8').returns(Promise.resolve(stylesBundle));
+  readFileStub.withArgs('/components.js.map', 'utf8').returns(Promise.resolve(componentMapBundle));
+  readFileStub.withArgs('/components.css.map', 'utf8').returns(Promise.resolve(stylesMapBundle));
+  memoryFsMock.returns({
+    readdirSync: readdirSyncStub,
+    readFile : readFileStub,
+    existsSync : existsSyncStub
+  });
+
   beforeEach(() => {
+    fakeRunWebpack = fakePromise;
     deps = {
-      '/cache/get': getCacheHitMock,
-      '/cache/set': setCacheMock,
-      '/logger': fakeLogger,
-      '/lib/bundler/buildHash': bundleHashMock,
-      '/lib/bundler/bundle': bundleSuccessMock,
       '/config/index': configMock,
       '/lib/getComponentInfo': fakeGetComponentInfo,
-      '/lib/utils/componentHelper': fakeComponentHelper,
+      '/lib/webpack/index': fakeRunWebpack,
+      '/lib/utils/bundleFilename': bundleFilenameStub,
+      'debug': fakeDebug,
       '/lib/utils/errors': {
         NotFoundError: fakeNotFoundError,
         BundleError: fakeBundleError
-      },
-      'debug': () => () => {}
+      }
+    };
+  });
+
+  afterEach(()=>{
+    sandbox.reset();
+  });
+
+  describe('runWebpack options are passed correctly', () => {
+    it('sets the defaults', () => {
+      subject = builder(deps);
+      result = subject(components);
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: fakeVendorFiles,
+          minify: false,
+          modulePaths: fakeModulePaths,
+          componentFiles: [fakeFile],
+          filename: bundleFileName,
+          bundleName: undefined
+        });
+      });
+    });
+
+    it('sets the externals webpack option to an empty array if the component is vendor', () => {
+      const fakeVendorComponentInfo = [{ name: fakeVendorBundleComponent.name, requirePath : fakeRelativeComponentPath, path : chance.word(),  file: fakeModulePaths[0] }];
+      deps['/lib/getComponentInfo'] =  sandbox.stub().returns(fakeVendorComponentInfo);
+      subject = builder(deps);
+
+      result = subject([fakeVendorBundleComponent]);
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: [],
+          minify: false,
+          modulePaths: fakeModulePaths,
+          componentFiles: [fakeFile],
+          filename: bundleFileName,
+          bundleName: undefined
+        });
+      });
+    });
+
+    it('sets the externals webpack option to the fake vendors bundle if the component is NOT vendor', () => {
+      subject = builder(deps);
+      result = subject(components, {});
+      return result.then(()=>{
+        expect(fakeRunWebpack).to.be.calledWith({
+          externals: fakeVendorFiles,
+          minify: false,
+          modulePaths: fakeModulePaths,
+          componentFiles: [fakeFile],
+          filename: bundleFileName,
+          bundleName: undefined
+        });
+      });
+    });
+
+    it('minifies content', () => {
+      subject = builder(deps);
+      result = subject(components, { minify: true });
+      return result.then(() => {
+        const webpackConfigArg = fakeRunWebpack.lastCall.args[0];
+        expect(webpackConfigArg.minify).to.equal(true);
+      });
+    });
+  });
+
+  describe('the bundle is not successful', () => {
+
+    deps = {
+      '/lib/bundler/bundle': bundleFailureMock,
+      '/lib/utils/errors': {
+        NotFoundError: fakeNotFoundError,
+        BundleError: fakeBundleError
+      }
     };
     subject = builder(deps);
     fakeComponentsList = chance.pickset([
@@ -71,102 +154,15 @@ describe('bundler/index', () => {
       chance.word(),
       chance.word()
     ], 2);
-  });
 
-  afterEach(() => {
-    sandbox.reset();
-  });
+    it('returns an error', () => {
+      result = subject(fakeComponentsList);
 
-  context('when a single component are requested', () => {
-    describe('and the bundle is cached', () => {
-      it('returns the bundle', () => {
-        return subject(chance.word()).getAsset('js')
-          .then((freshVendorBundle) => {
-            return expect(freshVendorBundle).to.be.eq(getCachedValue);
-          });
+      return result.catch((error) => {
+        expect(fakeNotFoundError).not.to.have.been.called;
+        expect(fakeBundleError).to.have.been.calledWith(errorMessage);
+        expect(error).to.be.an.instanceOf(Error);
       });
-    });
-  });
-
-  context('when multiple components are requested', () => {
-    const assetType = 'js';
-
-    describe('and the bundle is cached', () => {
-      it('returns the bundle', () => {
-        return subject(fakeComponentsList).getAsset(assetType)
-          .then((freshVendorBundle) => {
-            expect(bundleSuccessMock).not.to.be.called;
-            return expect(freshVendorBundle).to.be.eq(getCachedValue);
-          });
-      });
-    });
-
-    describe('and the bundle is not cached', () => {
-      describe('and the bundle is successful', () => {
-        beforeEach(() => {
-          deps['/cache/get'] = getCacheMissMock;
-          deps['/lib/bundler/bundle'] = bundleSuccessMock;
-          subject = builder(deps);
-        });
-
-        context('when NOT minified', ()=>{
-          it('returns the bundle + adds the bundles to the cache', () => {
-            result = subject(fakeComponentsList).getAsset(assetType);
-
-            return result.then((componentBundle) => {
-              expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
-              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: false, modulePaths: fakeModulePaths });
-              expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: false });
-              expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
-
-              expect(setCacheMock).to.have.callCount(4);
-              expect(setCacheMock.firstCall).to.have.been.calledWithMatch(match.js, bundleSuccessData['js']);
-              expect(setCacheMock.secondCall).to.have.been.calledWithMatch(match.css, bundleSuccessData['css']);
-              expect(setCacheMock.thirdCall).to.have.been.calledWithMatch(match['js.map'], bundleSuccessData['js.map']);
-              expect(setCacheMock.lastCall).to.have.been.calledWithMatch(match['css.map'], bundleSuccessData['css.map']);
-            });
-          });
-        });
-        context('when minified', ()=>{
-          it('returns the bundle + adds the bundles to the cache', () => {
-            result = subject(fakeComponentsList, { minify: true }).getAsset(assetType);
-
-            return result.then((componentBundle) => {
-              expect(fakeGetComponentInfo).to.have.been.calledWith(fakeComponentsList);
-              expect(bundleSuccessMock).to.have.been.calledWith(fakeComponentInfo,  { minify: true, modulePaths: fakeModulePaths });
-              expect(fakeComponentHelper.bundleId).to.have.been.calledWith(fakeComponentsList,  { minify: true });
-              expect(componentBundle).to.be.eq(bundleSuccessData[assetType]);
-
-              expect(setCacheMock).to.have.callCount(8);
-            });
-          });
-        });
-      });
-
-      describe('and the bundle is not successful', () => {
-        beforeEach(() => {
-          deps['/cache/get'] = getCacheMissMock;
-          deps['/lib/bundler/bundle'] = bundleFailureMock;
-          subject = builder(deps);
-        });
-
-        it('returns an error', () => {
-          result = subject(fakeComponentsList).getAsset('js');
-
-          return result.catch((error) => {
-            expect(fakeNotFoundError).not.to.have.been.called;
-            expect(fakeBundleError).to.have.been.calledWith(errorMessage);
-            expect(error).to.be.an.instanceOf(Error);
-          });
-        });
-      });
-    });
-  });
-
-  describe('calls ', ()=> {
-    it('bundleHash', () => {
-      subject(fakeComponentsList);
-      expect(bundleHashMock).to.be.called;
     });
   });
 });

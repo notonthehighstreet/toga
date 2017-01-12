@@ -172,7 +172,7 @@ describe('setComponentProps', () => {
       };
 
       subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.equal(fakeComponentName);
+      expect(requestMock.components[0]).to.equal(fakeComponentName);
       expect(nextSpy).to.have.been.calledOnce;
     });
 
@@ -210,7 +210,7 @@ describe('setComponentProps', () => {
       };
 
       subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.equal(fakeVendorBundleComponent);
+      expect(requestMock.components[0]).to.equal(fakeVendorBundleComponent);
       expect(nextSpy).to.have.been.calledOnce;
     });
 

@@ -47,10 +47,10 @@ module.exports = (deps) => {
     },
     asset(req, res, next) {
       setControllerName(req.originalUrl);
-      const qComponents = parse(req.query.components, next);
-      const pComponentName = req.params.componentName;
-      const components = pComponentName === 'components-vendor-bundle' ? vendor.componentName : pComponentName;
-      req.components = pComponentName === 'components' ? qComponents : components;
+      const queryComponents = parse(req.query.components, next);
+      const paramsComponentName = req.params.componentName;
+      const components = paramsComponentName === 'components-vendor-bundle' ? [vendor.componentName] : [paramsComponentName];
+      req.components = paramsComponentName === 'components' ? queryComponents : components;
       req.assetType = req.params[1];
       req.minify = !!req.params[0];
       next();

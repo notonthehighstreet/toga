@@ -23,7 +23,6 @@
 
 * Node.js v6.2.2 - Recommend using NVM
 * npm v3.10.3
-* Redis i.e. `brew install redis`
 * PhantomJS i.e. `brew install phantomjs` or `npm install -g phantomjs-prebuilt`
 
 #### Node Modules
@@ -34,17 +33,11 @@ Install node module dependencies
 
 ### Running the Servers
 
-#### Redis
-
-Ensure redis is running
-
-`redis-server`
-
-#### Precache components
+#### Bundle components
 
 To have all components ready for serving without compiling on the fly, run
 
-`npm run precache`
+`npm run bundle`
 
 #### Run the prod server
 
@@ -62,7 +55,7 @@ All components can be previewed once the servers are up and running using the lo
 
 To view Components, any required props must be set within the context of that component using the url. e.g.
 
-`http://localhost:8080/v1/button.html?context={"children":"button text","fullWidth":true,"size":"large"}`
+`http://localhost:8080/button.html?context={"children":"button text","fullWidth":true,"size":"large"}`
 
 ### Testing
 
@@ -71,15 +64,12 @@ Our unit tests are written with the help of [Enzyme](https://github.com/airbnb/e
 
  * `npm run lint`
  * `npm run test-unit` or `npm run test-unit -- --watch`
- * `npm run test-integration`
 
 #### e2e
 
 We have end-to-end tests which uses [Nightwatch](https://github.com/nightwatchjs/nightwatch)
- and [PhantomJS](https://github.com/ariya/phantomjs) and also need the servers running first :
+ and [PhantomJS](https://github.com/ariya/phantomjs) :
 
- * `npm run dev`
- * `npm run example`
  * `npm run test-e2e`
 
 

@@ -6,19 +6,6 @@ This file is required to tell Toga more information about the components in you 
 
 [Example toga.json](/components/toga.json)
 
-## coreStyles (string: optional)
-
-Often, in order for your components to look 100% correct, they will rely on an existing stylesheet.
-Toga provides a `coreStyles` option so that when viewing your components within Toga, they have these styles applied.
-
- `"coreStyles": "//cdn.notonthehighstreet.com/styles-toolkit/0.2.1/toolkit.css"`
-
-Once supplied, Toga also provides this as convenience URL which is a redirect to the `coreStyles`.  This URl is available at
-
-`http://localhost:8080/v1/core.css`
-
-This mean your apps (which consume components) won't need to be redeployed to get the latest styles,
-simply update Toga and all consuming apps will be updated automatically.
 
 ## vendor (object)
 
@@ -48,34 +35,22 @@ This should be the path of the directory where the components reside within the 
 Toga will read this directory and try to render every sub-directory as a component.
 Currently it assumes the entrance point to each component is `index.js`.
 
-### public (string)
-
-`public` is the name of the directory inside your component where any public assets reside.
-Toga will then provide an end-point for these assets.
-
-e.g. You have a `footer` component which, within its css, uses a `banner.jpg` as a background image.
-As banner.jpg lives in an assets folder you should set `"public": "assets",`.
-
-This would make the following end-point:
-
-`http://toga-ip/v1/footer/assets/banner.jpg`
-
-[test-one/style.scss](/tests/e2e/components/test-one/styles.scss) is an example of this in use.
-
 ### ignore (string: optional)
 
 As mentioned aboth (in the `path` section), by default, every sub-directory is treated as a component.
 If you have any directories within this `path` directory that is not a component, you should tell Toga here.
 
 
-### preCacheBundles (array: optional)
+### Bundles (array: optional)
 
-An array of component bundles that you want to bundling during the preCache phase.
-This means that when requesting multiple components it will not compile them when the consumer requests them.
+An array of component bundles that you want bundling.
 Each bundle is an array of component names.
 
 E.g. ```
-"preCacheBundles" : [
-  ["HelloWorld","FooBar"]
+"bundles" : [
+  {
+    "name": "products-page",
+    "components": ["social-share", "campaign-badge"]
+  }
 ]
 ```

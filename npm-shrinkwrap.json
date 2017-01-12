@@ -2871,11 +2871,6 @@
       "from": "invert-kv@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/invert-kv/-/invert-kv-1.0.0.tgz"
     },
-    "ioredis": {
-      "version": "2.4.0",
-      "from": "ioredis@>=2.2.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/ioredis/-/ioredis-2.4.0.tgz"
-    },
     "ip": {
       "version": "1.1.4",
       "from": "ip@>=1.1.2 <2.0.0",

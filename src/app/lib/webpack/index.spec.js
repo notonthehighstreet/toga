@@ -17,13 +17,10 @@ describe('webpack/index', () => {
   const fakeVendorFiles = { [chance.word()]: chance.word() };
   const universalServerStub = sandbox.stub();
   const assetsJsonStub = fakePromise;
-  const fakeIsoPlugin = sandbox.spy();
   const fakeUniversalRendering = sandbox.stub().returns({
-    isoPlugin: fakeIsoPlugin,
     server: universalServerStub,
     createAssetsJson: assetsJsonStub
   });
-  const fakeMapPath = chance.word();
   const queue = function(run) {
     return run();
   };
@@ -47,22 +44,20 @@ describe('webpack/index', () => {
   context('when the bundle is successful', () => {
     it('passes through options', () => {
       result = subject({
-        isoPlugin: fakeIsoPlugin,
         externals: fakeVendorFiles,
         modulePaths: fakeModulePaths,
-        mapPath: fakeMapPath,
-        minify: true,
+        minify: false,
         componentFiles: [fakeComponentsFile]
       });
       return result.then(() => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          isoPlugin: fakeIsoPlugin,
-          minify: true,
-          mapPath: fakeMapPath,
+          filename: undefined,
+          minify: false,
           modulePaths: fakeModulePaths,
-          componentFiles: [fakeComponentsFile]
+          componentFiles: [fakeComponentsFile],
+          bundleName: undefined
         });
       });
     });
@@ -84,14 +79,8 @@ describe('webpack/index', () => {
     it('minifies content', () => {
       result = subject({ minify: true });
       return result.then(() => {
-        expect(createConfigMock).to.be.calledWith({
-          externals: undefined,
-          isoPlugin: undefined,
-          minify: true,
-          mapPath: undefined,
-          modulePaths: undefined,
-          componentFiles: undefined
-        });
+        const configArg = createConfigMock.lastCall.args[0];
+        expect(configArg.minify).to.equal(true);
       });
     });
   });

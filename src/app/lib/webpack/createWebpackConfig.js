@@ -1,23 +1,21 @@
 module.exports = (deps) => {
-  return function createWebpackConfig(
-    { isoPlugin, modulePaths, definitions, externals = [], minify, mapPath, componentFiles = []}
-    ) {
+  return function createWebpackConfig({modulePaths, definitions, externals = [], minify, componentFiles = [], filename, bundleName}) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
       autoprefixer,
       webpack
     } = deps;
+
     const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
     let config = {
       devtool: 'source-map',
       entry: {
-        components: modulePaths
+        [filename]: modulePaths
       },
       externals: externals,
       output: {
         filename: '[name].js',
-        path: '/',
-        sourceMapFilename: `${mapPath || ''}${minify ? '.min': ''}.[file].map`
+        path: `./dist/components/${bundleName}`
       },
       module: {
         loaders: [
@@ -34,7 +32,7 @@ module.exports = (deps) => {
             test: /\.scss$/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', [
-              `css?-autoprefixer&sourceMap&-url${minify ? '&minimize' : ''}`,
+              `css?-autoprefixer&sourceMap${minify ? '&minimize' : ''}`,
               'postcss',
               'sass?outputStyle=expanded'].join('!'))
           },
@@ -42,12 +40,18 @@ module.exports = (deps) => {
             test: componentsRegEx,
             loaders: ['toga']
           },
-          { test: /\.svg$/, loader: 'svg-inline?removeSVGTagAttrs=false'},
-          { test: /\.woff(2)?$/, loader: 'url?mimetype=application/font-woff' }
+          {test: /\.svg$/, loader: 'svg-inline?removeSVGTagAttrs=false'},
+          {test: /\.woff(2)?$/, loader: 'url?mimetype=application/font-woff'},
+          {
+            test: /\.(jpe?g|png|gif)$/i,
+            loaders: [
+              'file-loader?name=[name].[hash].[ext]'
+            ]
+          }
         ]
       },
       plugins: [
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin('[name].css', { allChunks: true }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(true)
       ],
@@ -69,9 +73,6 @@ module.exports = (deps) => {
       )]
     };
 
-    if (isoPlugin) {
-      config.plugins.push(isoPlugin);
-    }
     if (minify) {
       config.plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
@@ -80,7 +81,7 @@ module.exports = (deps) => {
         }
       }));
       config.plugins.push(new webpack.DefinePlugin({
-        'process.env': { NODE_ENV: JSON.stringify('production') }
+        'process.env': {NODE_ENV: JSON.stringify('production')}
       }));
     }
     if (definitions) {

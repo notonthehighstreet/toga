@@ -9,10 +9,14 @@ const hashfilesStub = sandbox.stub();
 hashfilesStub.sync = sandbox.stub();
 
 const randomComponentsPath = chance.file();
+const randomPackageJson = chance.file();
 const randomComponentsPaths = [randomComponentsPath];
 const fakeHash = chance.word();
+let fakeBundleName;
 
-const getConfigStub = sandbox.stub().returns({components: { path: randomComponentsPath}});
+const getConfigStub = sandbox.stub().returns({
+  components: { path: randomComponentsPath, packageJson: randomPackageJson },
+});
 
 function requireUncached(module) {
   delete require.cache[require.resolve(module)];
@@ -23,23 +27,24 @@ const deps = {
   'hash-files': hashfilesStub,
   '/config/index': getConfigStub
 };
-describe('buildHash', () => {
+describe('bundleFilename', () => {
 
   beforeEach(() => {
     sandbox.reset();
-    builder = requireUncached('./buildHash');
+    builder = requireUncached('./bundleFilename');
+    fakeBundleName = chance.word();
   });
 
   it('generates a hash when no hash set', () => {
     subject = builder(deps);
-    subject(randomComponentsPaths);
+    subject(fakeBundleName);
     expect(hashfilesStub.sync.calledWith(sinon.match.object)).to.equal(true);
   });
 
   it('returns a promise with a hash', () => {
     subject = builder(deps);
     hashfilesStub.sync.returns(fakeHash);
-    return expect(subject()).to.equal(fakeHash);
+    return expect(subject(fakeBundleName)).to.equal(`${fakeBundleName}-${fakeHash}`);
   });
 
   it('does not call file hash when hash set', () => {
@@ -56,12 +61,12 @@ describe('buildHash', () => {
     subject = builder(deps);
     hashfilesStub.sync.returns('AnotherHashOfTheFiles');
     subject();
-    expect(subject(randomComponentsPaths)).to.equal('AnotherHashOfTheFiles');
+    expect(subject(randomComponentsPaths)).to.contain('AnotherHashOfTheFiles');
   });
 
   it('called with correct glob', () => {
     subject = builder(deps);
     subject();
-    expect(hashfilesStub.sync).to.be.calledWith({ files: `${randomComponentsPath}/**/*` });
+    expect(hashfilesStub.sync).to.be.calledWith({ files: [`${randomComponentsPath}/**/*`, randomPackageJson, './package.json'] });
   });
 });

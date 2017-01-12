@@ -3,15 +3,13 @@ module.exports = (deps) => {
     const {
       '/lib/renderComponent': renderComponent,
       '/views/component-test': renderTestMarkup,
-      '/views/component-raw': renderRawMarkup,
-      '/config/index': getConfig
+      '/views/component-raw': renderRawMarkup
     } = deps;
-    const config = getConfig();
     const { props, raw, componentName } = req;
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
     return renderComponent({ componentName, props })
       .then((opts) => {
-        const html = renderer({ ...opts, coreStyles: config.coreStyles });
+        const html = renderer({ ...opts });
         res.set('Content-Type', 'text/html');
         res.send(html);
       })

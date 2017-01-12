@@ -17,6 +17,5 @@ RUN npm install
 
 COPY . ./
 
-ENV TOGA_REDIS_HOST="redis"
 EXPOSE 8080
 CMD npm run dev

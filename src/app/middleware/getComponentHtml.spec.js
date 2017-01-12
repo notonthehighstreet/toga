@@ -25,15 +25,11 @@ describe('getComponentRawHtml middleware', () => {
   const fakeRenderRawMarkup = sandbox.stub().returns(rawRenderResposne);
   const fakeRenderTestMarkup = sandbox.stub().returns(testRenderResposne);
   const NotFoundError = sandbox.stub();
-  const styleURL = chance.word();
-  const coreStyles = styleURL;
-  const fakeConfig = () =>  ({ coreStyles });
   const subject = builder({
     '/lib/renderComponent': renderComponentStub,
     '/views/component-raw': fakeRenderRawMarkup,
     '/views/component-test': fakeRenderTestMarkup,
-    '/lib/utils/errors': { NotFoundError },
-    '/config/index': fakeConfig
+    '/lib/utils/errors': { NotFoundError }
   });
 
   afterEach(() => {
@@ -47,7 +43,7 @@ describe('getComponentRawHtml middleware', () => {
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
-      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
+      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props});
     });
   });
@@ -60,7 +56,7 @@ describe('getComponentRawHtml middleware', () => {
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
-      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
+      expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });
@@ -72,7 +68,7 @@ describe('getComponentRawHtml middleware', () => {
     return subject(fakeReq, fakeRes, fakeNext).then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
       expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
-      expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions, coreStyles: styleURL});
+      expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
     });
   });

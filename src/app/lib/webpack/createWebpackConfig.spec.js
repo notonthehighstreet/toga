@@ -2,6 +2,7 @@ const builder = require('./createWebpackConfig');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const chance = new require('chance')();
+const fakeFileName = chance.word();
 const sandbox = sinon.sandbox.create();
 const fakeWebpack = {
   optimize: {
@@ -11,7 +12,6 @@ const fakeWebpack = {
   },
   DefinePlugin: function() {}
 };
-const fakeIsoPluginSpy = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
 const configMock = () => ({ minify: false });
 const fakeExtractTextPluging = () => {};
@@ -40,12 +40,12 @@ describe('Create Webpack Config', () => {
 
   it('creates a basic config', () => {
     const config = subject({
-      modulePaths: fakeModulePaths
+      modulePaths: fakeModulePaths,
+      filename: fakeFileName
     });
     expect(config.plugins.length).to.equal(3);
-    expect(config.entry.components).to.equal(fakeModulePaths);
+    expect(config.entry[fakeFileName]).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
-    expect(config.output.sourceMapFilename).to.equal('.[file].map');
   });
 
   it('has sourceMaps enabled', () => {
@@ -54,7 +54,6 @@ describe('Create Webpack Config', () => {
       mapPath: fakeMapPath
     });
     expect(config.devtool).to.equal('source-map');
-    expect(config.output.sourceMapFilename).to.equal(`${fakeMapPath}.[file].map`);
   });
 
   context('when definitions are passed', () => {
@@ -98,7 +97,6 @@ describe('Create Webpack Config', () => {
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
-      expect(config.output.sourceMapFilename).to.equal('.min.[file].map');
     });
     it('creates config with NODE_ENV set to production', () => {
       const config = subject({
@@ -107,26 +105,6 @@ describe('Create Webpack Config', () => {
       });
       expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
       expect(definePluginSpy).to.be.calledWith({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } });
-    });
-  });
-
-  context('when isoPlugin is NOT passed', () => {
-    it('creates config without isoPlugin plugin', () => {
-      const result = subject({
-        modulePaths: []
-      });
-      expect(result.plugins.length).to.equal(3);
-    });
-  });
-
-  context('when isoPlugin IS passes', () => {
-    it('creates config with isoPlugin plugin', () => {
-      const result = subject({
-        modulePaths: [],
-        isoPlugin: fakeIsoPluginSpy
-      });
-      expect(result.plugins.length).to.equal(4);
-      expect(result.plugins[3]).to.equal(fakeIsoPluginSpy);
     });
   });
 });

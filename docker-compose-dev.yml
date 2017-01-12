@@ -12,7 +12,3 @@ services:
       - ./app:/service/toga/app
       - ./components:/service/toga/components
       - ./script:/service/toga/script
-    links:
-      - redis
-  redis:
-    image: redis
