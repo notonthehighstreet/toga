@@ -9,10 +9,9 @@ var communication = require('./routes/communication-component');
 var bootstrapApp = require('../src/index');
 
 const server = express();
-const breadboardConfig = {
-  port: 3001,
-  host: 'localhost'
-};
+const host = 'localhost';
+const port = process.env.TOGA_SERVER_PORT || 3001;
+const breadboardConfig = { port, host };
 
 server.get('/redux', redux);
 server.get('/one', one);
@@ -25,8 +24,6 @@ module.exports = Promise.resolve()
   .then(() => require('../src/script/generateBundles'))
   .then(() => bootstrapApp(breadboardConfig))
   .then(({deps: {'/logger': getLogger}, entryResolveValue: togaServer}) => {
-    const host = togaServer.address().address;
-    const port = togaServer.address().port;
     const logger = getLogger();
 
     logger.info('TogaServer listening at http://%s:%s', host, port);

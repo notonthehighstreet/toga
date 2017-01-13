@@ -1,3 +1,5 @@
+const { assetUrl } = require('../lib/utils/assetUrl');
+
 module.exports = (deps) => {
   const {
     '/lib/utils/bundleFilename': bundleFilename,
@@ -13,8 +15,8 @@ module.exports = (deps) => {
     allBundles.forEach(bundle => {
       const filename = bundleFilename(bundle.name, { minify: true });
       jsonResponse[bundle.name] = {
-        js: `${bundle.name}/${filename}.js`,
-        css: `${bundle.name}/${filename}.css`
+        js: `${assetUrl()}/${bundle.name}/${filename}.js`,
+        css: `${assetUrl()}/${bundle.name}/${filename}.css`
       };
     });
     res.json(jsonResponse);
