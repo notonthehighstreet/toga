@@ -1,9 +1,11 @@
 /* eslint-disable */
 
-const server = require('./server');
-
 module.exports = {
-  "server": server,
+  "server": {
+    "port": process.env.TOGA_SERVER_PORT || 8080,
+    "host": 'localhost'
+  },
+  "assetsHost": process.env.TOGA_ASSETS_HOST,
   "newRelicEnabled": process.env.TOGA_NEWRELIC_ENABLED,
   "logFile": process.env.TOGA_LOGFILE,
   "honeybadger": {
