@@ -1,8 +1,8 @@
-const { server, assetsHost } = require('../../config/application');
+const { server, assets } = require('../../config/application');
 
 module.exports.assetUrl = () => {
-  if (assetsHost) {
-    return `//${assetsHost}/toga-assets`;
+  if (assets.host) {
+    return `//${assets.host}/${assets.prefix}`;
   }
   else {
     return `//${server.host}:${server.port}`;
