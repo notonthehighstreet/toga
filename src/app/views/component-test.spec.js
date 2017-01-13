@@ -47,12 +47,12 @@ describe('renderComponent', () => {
 
   it('renders a stylesheet', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/${componentName}/${bundleFileName}.css`);
+    expect(html).to.contain(`<link rel="stylesheet" type="text/css" href='/${componentName}/${bundleFileName}.min.css`);
   });
 
   it('renders scripts', () => {
     html = subject({componentDOM, componentName, props});
-    expect(html).to.contain(`<script src='/${fakeVendorName}/${bundleFileName}.js`);
+    expect(html).to.contain(`<script src='/${fakeVendorName}/${bundleFileName}.min.js`);
   });
 
   it('component encodes props', () => {

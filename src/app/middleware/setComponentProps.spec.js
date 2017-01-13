@@ -6,7 +6,6 @@ const chance = new Chance();
 
 function BadRequestError() {}
 const componentName = chance.word();
-const component2Name = chance.word();
 
 const fakeVendorBundleComponent = chance.word();
 const configMock = () => ({ vendor: { componentName: fakeVendorBundleComponent } });
@@ -106,123 +105,6 @@ describe('setComponentProps', () => {
           return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
         });
       });
-    });
-  });
-
-  describe('when the map props is requested', () => {
-
-    it('detects it as a component and sets the componentPath ', () => {
-      const minify = true;
-      const requestMock = {
-        query: {},
-        params: {0: minify, 1: 'assetType', components: `${componentName}__${component2Name}`}
-      };
-
-      subject.map(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.deep.equal([componentName, component2Name]);
-      expect(requestMock.assetType).to.eq('assetType.map');
-      expect(requestMock.minify).to.eq(true);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('sets minify to false', () => {
-      const minify = false;
-      const requestMock = {
-        query: {},
-        params: {0: minify, 1: 'assetType', components: `${componentName}__${component2Name}`}
-      };
-
-      subject.map(requestMock, responseMock, nextSpy);
-      expect(requestMock.minify).to.eq(false);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-  });
-
-  describe('when the asset props is requested', () => {
-
-    it('passes correct assetType', () => {
-      const assetType = chance.word();
-      const requestMock = {
-        query: {},
-        params: {1: assetType, componentName: `${componentName}__${component2Name}`}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.assetType).to.eq(assetType);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('detects it as a minified component', () => {
-      const minify = true;
-      const requestMock = {
-        query: {},
-        params: {0: minify, componentName: `${componentName}__${component2Name}`}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.minify).to.equal(true);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('detects it as a toga components alternate url', () => {
-      const fakeComponentName = chance.word();
-      const requestMock = {
-        query: {},
-        params: {componentName: fakeComponentName}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components[0]).to.equal(fakeComponentName);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('detects broken component json', () => {
-      const fakeComponentName = chance.word();
-      const fakeComponents = fakeComponentName;
-      const requestMock = {
-        query: { components: fakeComponents},
-        params: {componentName: 'components'}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.deep.equal(undefined);
-      const firstCallArguments = nextSpy.args[0];
-      return expect(firstCallArguments[0] instanceof BadRequestError).to.be.true;
-    });
-
-    it('detects it as a toga component', () => {
-      const fakeComponentName = [chance.word()];
-      const stringifiedComponents = JSON.stringify(fakeComponentName);
-      const requestMock = {
-        query: { components: stringifiedComponents},
-        params: {componentName: 'components'}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components).to.deep.equal(fakeComponentName);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('detects it as a vendor component', () => {
-      const requestMock = {
-        query: {},
-        params: {componentName: 'components-vendor-bundle'}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.components[0]).to.equal(fakeVendorBundleComponent);
-      expect(nextSpy).to.have.been.calledOnce;
-    });
-
-    it('sets minify to false', () => {
-      const minify = false;
-      const requestMock = {
-        query: {},
-        params: { 0: minify, 1: 'js', componentName: `${componentName}__${component2Name}`}
-      };
-
-      subject.asset(requestMock, responseMock, nextSpy);
-      expect(requestMock.minify).to.eq(false);
     });
   });
 });

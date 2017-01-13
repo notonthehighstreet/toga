@@ -27,7 +27,6 @@ module.exports = breadboard({
     const promises = [];
     bundles.forEach((bundle) => {
       promises.push(buildBundle(bundle, {minify: true}));
-      promises.push(buildBundle(bundle));
     });
     return Promise.all(promises);
   }

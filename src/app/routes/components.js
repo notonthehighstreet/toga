@@ -6,18 +6,12 @@ module.exports = (deps) => {
       '/middleware/getComponentHtml': getComponentHtml
     } = deps;
     const router = express.Router();
-    const oneDay = 86400000;
-    const MAP_URL = '/:components.(min\.)components.?(css|js).map';
-    const HTML_URL = '/:componentName.(raw\.)?html';
-    const ASSETS_URL = '/:componentName.(min\.)?(css|js)';
 
-    router.use(MAP_URL, setComponentProps.map);
-    router.use(ASSETS_URL, setComponentProps.asset);
-    router.use(HTML_URL, setComponentProps.html);
+    router.use('/:componentName.(raw\.)?html', setComponentProps.html);
+    router.get('/:componentName.(raw\.)?html', getComponentHtml);
 
-    router.get(HTML_URL, getComponentHtml);
-
-    router.use('/', express.static('dist/components/', { maxAge: oneDay * 365, etag: false }));
+    // needed for dev
+    router.use('/', express.static('dist/components/', { etag: false }));
 
     return router;
   };
