@@ -2,7 +2,7 @@ const { assetUrl } = require('../utils/assetUrl');
 
 module.exports = (deps) => {
   return function createWebpackConfig({
-    modulePaths, externals = [], minify, componentFiles = [], bundleName
+    entry, externals = [], minify, rules = []
   }) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
@@ -11,14 +11,10 @@ module.exports = (deps) => {
       webpack,
     } = deps;
 
-    const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
-
     let config = {
       devtool: 'source-map',
-      entry: {
-        [bundleName]: modulePaths
-      },
-      externals: externals,
+      entry,
+      externals,
       output: {
         filename: `[name]/[name]-[hash]${minify ? '.min' : ''}.js`,
         path: './dist/components'
@@ -45,10 +41,6 @@ module.exports = (deps) => {
                 'sass-loader'
               ]
             })
-          },
-          {
-            test: componentsRegEx,
-            loaders: ['toga-loader']
           },
           {test: /\.svg$/, loader: 'svg-inline-loader?removeSVGTagAttrs=false'},
           {test: /\.woff(2)?$/, loader: 'url-loader?mimetype=application/font-woff'},
@@ -110,6 +102,9 @@ module.exports = (deps) => {
       config.plugins.push(new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       }));
+    }
+    if (rules) {
+      config.module.rules = config.module.rules.concat(rules);
     }
 
     return config;

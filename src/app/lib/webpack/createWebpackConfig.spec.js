@@ -45,7 +45,6 @@ describe('Create Webpack Config', () => {
       bundleName: fakeBundleName
     });
     expect(config.plugins.length).to.equal(3);
-    expect(config.entry[fakeBundleName]).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
   });
 
