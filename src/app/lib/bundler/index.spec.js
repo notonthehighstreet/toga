@@ -6,10 +6,6 @@ import { fakePromise, fakeDebug, fakeReject } from '../../../../tests/commonMock
 
 const sandbox = sinon.sandbox.create();
 
-const bundleFilenameStub = sandbox.stub();
-const bundleFileName = chance.word();
-bundleFilenameStub.returns(bundleFileName);
-
 const fakeFile =  chance.file() ;
 const fakeModulePaths = [ fakeFile ];
 const fakeVendorBundleComponent = { name : chance.word(), file: fakeFile };
@@ -66,7 +62,6 @@ describe('runBundler', () => {
       '/config/index': configMock,
       '/lib/getComponentInfo': fakeGetComponentInfo,
       '/lib/webpack/index': fakeRunWebpack,
-      '/lib/utils/bundleFilename': bundleFilenameStub,
       'debug': fakeDebug,
       '/lib/utils/errors': {
         NotFoundError: fakeNotFoundError,
@@ -89,7 +84,6 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName,
           bundleName: undefined
         });
       });
@@ -107,7 +101,6 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName,
           bundleName: undefined
         });
       });
@@ -122,7 +115,6 @@ describe('runBundler', () => {
           minify: false,
           modulePaths: fakeModulePaths,
           componentFiles: [fakeFile],
-          filename: bundleFileName,
           bundleName: undefined
         });
       });

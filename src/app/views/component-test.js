@@ -1,11 +1,8 @@
 module.exports = (deps) => {
-  return ({componentDOM, componentName, props}) => {
-    const getConfig = deps['/config/index'];
-    const { vendor = {} } = getConfig();
+  return ({ componentDOM, componentName, props, bundles }) => {
     const encode = deps['entities'].encodeHTML;
-    const bundleFilename = deps['/lib/utils/bundleFilename'];
-    const filename = bundleFilename(componentName);
-    const vendorFilename = bundleFilename('vendor');
+    const bundle = bundles[componentName];
+    const vendorBundle = bundles['vendor'];
 
     return `<!DOCTYPE html>
   <html dir="ltr" lang="en">
@@ -18,13 +15,13 @@ module.exports = (deps) => {
     <title>Toga Test - ${componentName}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href='${vendor.componentName}/${vendorFilename}.min.css'>
-    <link rel="stylesheet" type="text/css" href='${componentName}/${filename}.min.css'>
+    ${ vendorBundle ? `<link rel="stylesheet" type="text/css" href='${vendorBundle.css}'>` : '' }
+    <link rel="stylesheet" type="text/css" href='${bundle.css}'>
     </head>
     <body>
     <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
-    <script src='${vendor.componentName}/${vendorFilename}.min.js'></script>
-    <script src='${componentName}/${filename}.min.js'></script>
+    ${ vendorBundle ? `<script src='${vendorBundle.js}'></script>` : '' }
+    <script src='${bundle.js}'></script>
     </body>
     </html>
     `;

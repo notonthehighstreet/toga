@@ -12,6 +12,7 @@
     "prestart": "npm run build",
     "preexample": "npm run build",
     "prebundle": "npm run build && rm -rf dist/components",
+    "pretest": "npm run bundle",
     "pretest-e2e": "npm run build && npm run install:selenium",
     "postinstall": "npm run build",
     "install:selenium": "selenium-standalone install --version=2.53.1",
@@ -52,6 +53,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "assets-webpack-plugin": "^3.5.0",
     "async": "^1.5.0",
     "autoprefixer": "^6.3.3",
     "axios": "^0.13.1",
@@ -78,7 +80,6 @@
     "extract-text-webpack-plugin": "git+https://github.com/webpack/extract-text-webpack-plugin.git#dcd418a90c620ac83de3d489eaf9352a9c218b4a",
     "file-loader": "^0.9.0",
     "glob": "^6.0.4",
-    "hash-files": "^1.1.1",
     "honeybadger": "0.9.1",
     "json-loader": "^0.5.4",
     "loader-utils": "^0.2.12",

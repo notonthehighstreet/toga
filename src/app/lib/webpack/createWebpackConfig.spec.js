@@ -2,7 +2,7 @@ const builder = require('./createWebpackConfig');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const chance = new require('chance')();
-const fakeFileName = chance.word();
+const fakeBundleName = chance.word();
 const sandbox = sinon.sandbox.create();
 const fakeWebpack = {
   LoaderOptionsPlugin: function() {},
@@ -11,6 +11,7 @@ const fakeWebpack = {
   },
   DefinePlugin: function() {}
 };
+const fakeAssetsPlugin = sandbox.stub();
 const fakeAutoPrefixer = sandbox.stub();
 const configMock = () => ({ minify: false });
 const fakeExtractTextPluging = () => {};
@@ -26,6 +27,7 @@ describe('Create Webpack Config', () => {
     subject = builder({
       webpack: fakeWebpack,
       autoprefixer: fakeAutoPrefixer,
+      'assets-webpack-plugin': fakeAssetsPlugin,
       'extract-text-webpack-plugin': fakeExtractTextPluging,
       '/config/index': configMock
     });
@@ -40,10 +42,10 @@ describe('Create Webpack Config', () => {
   it('creates a basic config', () => {
     const config = subject({
       modulePaths: fakeModulePaths,
-      filename: fakeFileName
+      bundleName: fakeBundleName
     });
-    expect(config.plugins.length).to.equal(2);
-    expect(config.entry[fakeFileName]).to.equal(fakeModulePaths);
+    expect(config.plugins.length).to.equal(3);
+    expect(config.entry[fakeBundleName]).to.equal(fakeModulePaths);
     expect(config.externals.length).to.eq(0);
   });
 
@@ -53,30 +55,6 @@ describe('Create Webpack Config', () => {
       mapPath: fakeMapPath
     });
     expect(config.devtool).to.equal('source-map');
-  });
-
-  context('when definitions are passed', () => {
-    it('creates config object with definitions', () => {
-      const fakeDefinitions = {
-        [chance.word()]: chance.word()
-      };
-      const result = subject({
-        modulePaths: [],
-        definitions: fakeDefinitions
-      });
-
-      expect(definePluginSpy).to.have.been.calledWith(fakeDefinitions);
-      expect(result.plugins[2]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
-    });
-  });
-
-  context('when definitions are not passed', () => {
-    it('creates config object without definitions', () => {
-      subject({
-        modulePaths: []
-      });
-      expect(definePluginSpy).not.to.have.been.called;
-    });
   });
 
   context('when in non-minify mode', () => {
@@ -95,14 +73,14 @@ describe('Create Webpack Config', () => {
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
-      expect(config.plugins[2]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
+      expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
     it('creates config with NODE_ENV set to production', () => {
       const config = subject({
         modulePaths: [],
         minify: true
       });
-      expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
+      expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);
       expect(definePluginSpy).to.be.calledWith({ 'process.env.NODE_ENV': JSON.stringify('production')  });
     });
   });

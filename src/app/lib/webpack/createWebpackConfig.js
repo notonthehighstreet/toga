@@ -1,21 +1,27 @@
+const { assetUrl } = require('../utils/assetUrl');
+
 module.exports = (deps) => {
-  return function createWebpackConfig({modulePaths, definitions, externals = [], minify, componentFiles = [], filename, bundleName}) {
+  return function createWebpackConfig({
+    modulePaths, externals = [], minify, componentFiles = [], bundleName
+  }) {
     const {
       'extract-text-webpack-plugin': ExtractTextPlugin,
+      'assets-webpack-plugin': AssetsPlugin,
       autoprefixer,
-      webpack
+      webpack,
     } = deps;
 
     const componentsRegEx = componentFiles.map(file => new RegExp(`.*${file}$`));
+
     let config = {
       devtool: 'source-map',
       entry: {
-        [filename]: modulePaths
+        [bundleName]: modulePaths
       },
       externals: externals,
       output: {
-        filename: '[name].js',
-        path: `./dist/components/${bundleName}`
+        filename: `[name]/[name]-[hash]${minify ? '.min' : ''}.js`,
+        path: './dist/components'
       },
       module: {
         rules: [
@@ -49,13 +55,13 @@ module.exports = (deps) => {
           {
             test: /\.(jpe?g|png|gif)$/i,
             loaders: [
-              'file-loader?name=[name].[hash].[ext]'
+              'file-loader?name=[name]/[name]-[hash].[ext]'
             ]
           }
         ]
       },
       plugins: [
-        new ExtractTextPlugin({ filename: '[name].css', allChunks: true }),
+        new ExtractTextPlugin({ filename: '[name]/[name]-[hash].css', allChunks: true }),
         new webpack.LoaderOptionsPlugin({
           options: {
             postcss: [autoprefixer({
@@ -75,7 +81,21 @@ module.exports = (deps) => {
             }
           )]
           }
-        })
+        }),
+        new AssetsPlugin({ filename: 'dist/components/bundles.json', update: true,
+          processOutput: function(assets) {
+            Object.keys(assets)
+              .forEach((bundle) => {
+                const url = `${assetUrl()}/`;
+                if (assets[bundle].css && assets[bundle].css.indexOf(url) < 0) {
+                  assets[bundle].css = url + assets[bundle].css;
+                }
+                if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
+                  assets[bundle].js = url + assets[bundle].js;
+                }
+              });
+            return  JSON.stringify(assets);
+          }})
       ]
     };
 
@@ -83,15 +103,13 @@ module.exports = (deps) => {
       config.plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         compress: {
+          warnings: false,
           drop_debugger: false // eslint-disable-line
         }
       }));
       config.plugins.push(new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       }));
-    }
-    if (definitions) {
-      config.plugins.push(new webpack.DefinePlugin(definitions));
     }
 
     return config;

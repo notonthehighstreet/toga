@@ -1,24 +1,8 @@
-const { assetUrl } = require('../lib/utils/assetUrl');
+const bundles = require(process.cwd() + '/dist/components/bundles.json');
 
-module.exports = (deps) => {
-  const {
-    '/lib/utils/bundleFilename': bundleFilename,
-    '/config/index': getConfig,
-    '/lib/getComponentInfo': getComponentInfo
-  } = deps;
-
+module.exports = () => {
+  // route should be deprecated in favour of getting bundles from CDN
   return function getAssetBundles(req, res) {
-    const { components = {} } = getConfig();
-    const allComponents = getComponentInfo();
-    const jsonResponse = {};
-    const allBundles = allComponents.concat(components.bundles);
-    allBundles.forEach(bundle => {
-      const filename = bundleFilename(bundle.name, { minify: true });
-      jsonResponse[bundle.name] = {
-        js: `${assetUrl()}/${bundle.name}/${filename}.js`,
-        css: `${assetUrl()}/${bundle.name}/${filename}.css`
-      };
-    });
-    res.json(jsonResponse);
+    res.json(bundles);
   };
 };

@@ -1,7 +1,5 @@
 module.exports = (deps) => {
-  return function runWebpack({
-    modulePaths, externals, minify, componentFiles, filename, bundleName
-  } = {}) {
+  return function runWebpack(webpackOptions) {
     const {
       'es6-promisify': promisify,
       'webpack': webpack,
@@ -19,12 +17,13 @@ module.exports = (deps) => {
       if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.errors)) {
         webpackOutput.compilation.errors.forEach(error => log(error));
       }
+      if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.warnings)) {
+        webpackOutput.compilation.warnings.forEach(warning => log(warning));
+      }
     }
 
     function run() {
-      const webpackConfig = createWebpackConfig({
-        modulePaths, externals, minify, componentFiles, filename, bundleName
-      });
+      const webpackConfig = createWebpackConfig(webpackOptions);
       log(webpackConfig);
       const compiler = webpack(webpackConfig);
       const runner = promisify(compiler.run.bind(compiler));

@@ -53,11 +53,9 @@ describe('webpack/index', () => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
-          filename: undefined,
-          minify: false,
           modulePaths: fakeModulePaths,
-          componentFiles: [fakeComponentsFile],
-          bundleName: undefined
+          minify: false,
+          componentFiles: [fakeComponentsFile]
         });
       });
     });
