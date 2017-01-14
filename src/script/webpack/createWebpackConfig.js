@@ -1,16 +1,12 @@
-const { assetUrl } = require('../utils/assetUrl');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AssetsPlugin = require('assets-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const { assetUrl } = require('./assetUrl');
 
-module.exports = (deps) => {
-  return function createWebpackConfig({
+module.exports = ({
     entry, externals = [], minify, rules = []
-  }) {
-    const {
-      'extract-text-webpack-plugin': ExtractTextPlugin,
-      'assets-webpack-plugin': AssetsPlugin,
-      autoprefixer,
-      webpack,
-    } = deps;
-
+  }) => {
     let config = {
       devtool: 'source-map',
       entry,
@@ -108,5 +104,4 @@ module.exports = (deps) => {
     }
 
     return config;
-  };
 };

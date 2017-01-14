@@ -1,8 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('./index');
-import { fakeDebug } from '../../../../tests/commonMocks';
+const subject = require('./index');
 
 const sandbox = sinon.sandbox.create();
 const webpackFailureError = chance.word();
@@ -12,22 +11,19 @@ const fakeWebpack  = sandbox.stub().returns({
 const webpackFailureMock = sandbox.stub().returns({
   run: (callback) => callback(webpackFailureError)
 });
+const fakeDebug = () => () => {
+  return {
+    log: sandbox.stub()
+  };
+};
 
 describe('webpack/index', () => {
-  let deps;
-  let subject;
   let result;
   const createConfigMock = sandbox.spy();
   const fakeModulePaths = [ chance.file() ];
   const fakeVendorFiles = { [chance.word()]: chance.word() };
 
   beforeEach(() => {
-    deps = {
-      'webpack': fakeWebpack,
-      'debug': fakeDebug,
-      '/lib/webpack/createWebpackConfig': createConfigMock,
-    };
-    subject = builder(deps);
   });
 
   afterEach(()=>{

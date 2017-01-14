@@ -40,8 +40,7 @@ describe('Create Webpack Config', () => {
   });
 
   it('creates a basic config', () => {
-    const config = subject({
-      modulePaths: fakeModulePaths,
+    const config = createWebpackConfig({
       bundleName: fakeBundleName
     });
     expect(config.plugins.length).to.equal(3);
@@ -50,16 +49,14 @@ describe('Create Webpack Config', () => {
 
   it('has sourceMaps enabled', () => {
     const fakeMapPath = chance.word();
-    const config = subject({
-      mapPath: fakeMapPath
+    const config = createWebpackConfig({
     });
     expect(config.devtool).to.equal('source-map');
   });
 
   context('when in non-minify mode', () => {
     it('creates config without UglifyJs plugin', () => {
-      subject({
-        modulePaths: []
+      createWebpackConfig({
       });
       expect(uglifyJsPluginSpy).not.to.have.been.called;
     });
@@ -67,16 +64,14 @@ describe('Create Webpack Config', () => {
 
   context('when in minify mode', () => {
     it('creates config with UglifyJs plugin', () => {
-      const config = subject({
-        modulePaths: [],
+      const config = createWebpackConfig({
         minify: true
       });
       expect(uglifyJsPluginSpy).to.have.been.calledOnce;
       expect(config.plugins[3]).to.be.an.instanceof(fakeWebpack.optimize.UglifyJsPlugin);
     });
     it('creates config with NODE_ENV set to production', () => {
-      const config = subject({
-        modulePaths: [],
+      const config = createWebpackConfig({
         minify: true
       });
       expect(config.plugins[4]).to.be.an.instanceof(fakeWebpack.DefinePlugin);

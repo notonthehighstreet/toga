@@ -1,4 +1,4 @@
-const { server, assets } = require('../../config/application');
+const { server, assets } = require('../../app/config/application');
 
 module.exports.assetUrl = () => {
   if (assets.host) {

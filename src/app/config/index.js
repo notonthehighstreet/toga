@@ -4,7 +4,7 @@ const { join: pathJoin } = require('path');
 const deepAssign = require('deep-assign');
 const debug = require('debug');
 
-module.exports = (deps) => (root, opts = {}) => { // eslint-disable-line
+module.exports = () => (root, opts = {}) => {
   if (cachedConfig) {
     return cachedConfig;
   }
