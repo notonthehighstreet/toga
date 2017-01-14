@@ -1,9 +1,7 @@
 module.exports = (deps) => {
   return function runWebpack(webpackOptions) {
     const {
-      'es6-promisify': promisify,
       'webpack': webpack,
-      '/lib/webpack/queue': queue,
       '/lib/webpack/createWebpackConfig': createWebpackConfig,
       debug
     } = deps;
@@ -22,14 +20,16 @@ module.exports = (deps) => {
       }
     }
 
-    function run() {
-      const webpackConfig = createWebpackConfig(webpackOptions);
-      log(webpackConfig);
-      const compiler = webpack(webpackConfig);
-      const runner = promisify(compiler.run.bind(compiler));
-      return runner().then(outputWebpackErrors);
-    }
+    const webpackConfig = createWebpackConfig(webpackOptions);
+    log(webpackConfig);
+    const runner = () => new Promise((resolve, reject) => {
+      webpack(webpackConfig).run((err, stats) => {
+        return err
+          ? reject(err)
+          : resolve(stats);
+      });
+    });
 
-    return queue(run);
+    return runner().then(outputWebpackErrors);
   };
 };

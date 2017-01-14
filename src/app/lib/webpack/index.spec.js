@@ -2,37 +2,30 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
 const builder = require('./index');
-import { fakePromisify, fakeWebpack, fakeReject, fakeDebug, fakePromise } from '../../../../tests/commonMocks';
+import { fakeDebug } from '../../../../tests/commonMocks';
+
+const sandbox = sinon.sandbox.create();
+const webpackFailureError = chance.word();
+const fakeWebpack  = sandbox.stub().returns({
+  run: (callback) => callback()
+});
+const webpackFailureMock = sandbox.stub().returns({
+  run: (callback) => callback(webpackFailureError)
+});
 
 describe('webpack/index', () => {
-  const sandbox = sinon.sandbox.create();
   let deps;
   let subject;
   let result;
-  const webpackFailureError = {};
-  const webpackFailureMock = () => ({ run: fakeReject(webpackFailureError) });
   const createConfigMock = sandbox.spy();
-  const fakeComponentsFile = chance.file();
   const fakeModulePaths = [ chance.file() ];
   const fakeVendorFiles = { [chance.word()]: chance.word() };
-  const universalServerStub = sandbox.stub();
-  const assetsJsonStub = fakePromise;
-  const fakeUniversalRendering = sandbox.stub().returns({
-    server: universalServerStub,
-    createAssetsJson: assetsJsonStub
-  });
-  const queue = function(run) {
-    return run();
-  };
 
   beforeEach(() => {
     deps = {
-      'es6-promisify': fakePromisify,
       'webpack': fakeWebpack,
       'debug': fakeDebug,
       '/lib/webpack/createWebpackConfig': createConfigMock,
-      '/lib/webpack/queue': queue,
-      '/lib/universalRendering/index': fakeUniversalRendering
     };
     subject = builder(deps);
   });
@@ -46,16 +39,14 @@ describe('webpack/index', () => {
       result = subject({
         externals: fakeVendorFiles,
         modulePaths: fakeModulePaths,
-        minify: false,
-        componentFiles: [fakeComponentsFile]
+        minify: false
       });
       return result.then(() => {
         expect(createConfigMock).to.be.called;
         expect(createConfigMock).to.be.calledWith({
           externals: fakeVendorFiles,
           modulePaths: fakeModulePaths,
-          minify: false,
-          componentFiles: [fakeComponentsFile]
+          minify: false
         });
       });
     });

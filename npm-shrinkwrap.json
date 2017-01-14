@@ -43,9 +43,9 @@
       "resolved": "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
     },
     "ansi-regex": {
-      "version": "2.0.0",
+      "version": "2.1.1",
       "from": "ansi-regex@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz"
     },
     "ansi-styles": {
       "version": "2.2.1",
@@ -1033,11 +1033,6 @@
       "version": "3.3.1",
       "from": "es6-promise@>=3.2.1 <4.0.0",
       "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.3.1.tgz"
-    },
-    "es6-promisify": {
-      "version": "3.0.0",
-      "from": "es6-promisify@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/es6-promisify/-/es6-promisify-3.0.0.tgz"
     },
     "escape-html": {
       "version": "1.0.3",
@@ -3458,9 +3453,9 @@
       "resolved": "https://registry.npmjs.org/qs/-/qs-6.2.0.tgz"
     },
     "query-string": {
-      "version": "4.3.0",
+      "version": "4.3.1",
       "from": "query-string@>=4.1.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.3.0.tgz"
+      "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.3.1.tgz"
     },
     "querystring": {
       "version": "0.2.0",
@@ -3886,9 +3881,9 @@
       "resolved": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
     },
     "sshpk": {
-      "version": "1.10.1",
+      "version": "1.10.2",
       "from": "sshpk@>=1.7.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.10.1.tgz",
+      "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.10.2.tgz",
       "dependencies": {
         "asn1": {
           "version": "0.2.3",

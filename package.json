@@ -74,7 +74,6 @@
     "deep-assign": "^2.0.0",
     "entities": "^1.1.1",
     "es6-promise": "^3.2.1",
-    "es6-promisify": "^3.0.0",
     "express": "^4.13.3",
     "express-domain-middleware": "0.1.0",
     "extract-text-webpack-plugin": "git+https://github.com/webpack/extract-text-webpack-plugin.git#dcd418a90c620ac83de3d489eaf9352a9c218b4a",
