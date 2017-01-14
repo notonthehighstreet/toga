@@ -15,7 +15,6 @@ const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfo
 
 const { components = {}, vendor } = getConfig();
 const entry = {};
-const vendorEntry = {};
 const bundles = components.bundles || [];
 const componentsRegEx = [];
 
@@ -23,17 +22,11 @@ const componentsRegEx = [];
 const allComponents = getComponentInfo();
 allComponents.forEach(component => {
   componentsRegEx.push(new RegExp(`.*${component.file.replace(component.base, '')}$`));
-  if (component.name === vendor.componentName) {
-    vendorEntry[component.name] = component.file;
-  }
-  else {
-    entry[component.name] = component.file;
-  }
+  entry[component.name] = component.file;
 });
 
 // create entry points for each bundle
 bundles
-  .filter(component => component.name !== vendor.componentName)
   .forEach((bundle) => {
     const bundleComponents = getComponentInfo(bundle.components);
     componentsRegEx.concat(bundleComponents.map(component => component.file.replace(component.base, '')));
@@ -45,11 +38,7 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-const promises = [];
-promises.push(runWebpack({ externals: vendor.bundle, minify: true, entry, rules }));
-promises.push(runWebpack({ externals: [], minify: true, entry: vendorEntry, rules }));
-
-module.exports = Promise.all(promises)
+module.exports = runWebpack({ minify: true, entry, rules, commonsChunkName: vendor.componentName })
   .then(() => {
     log('Bundling complete');
   })

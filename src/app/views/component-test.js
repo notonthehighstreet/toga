@@ -15,7 +15,7 @@ module.exports = (deps) => {
     <title>Toga Test - ${componentName}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    ${ vendorBundle ? `<link rel="stylesheet" type="text/css" href='${vendorBundle.css}'>` : '' }
+    ${ vendorBundle && vendorBundle.css ? `<link rel="stylesheet" type="text/css" href='${vendorBundle.css}'>` : '' }
     <link rel="stylesheet" type="text/css" href='${bundle.css}'>
     </head>
     <body>

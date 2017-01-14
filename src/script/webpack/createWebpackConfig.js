@@ -5,12 +5,12 @@ const webpack = require('webpack');
 const { assetUrl } = require('./assetUrl');
 
 module.exports = ({
-    entry, externals = [], minify, rules = []
+    entry, minify, rules = [], commonsChunkName
   }) => {
     let config = {
+      cache: true,
       devtool: 'source-map',
       entry,
-      externals,
       output: {
         filename: `[name]/[name]-[hash]${minify ? '.min' : ''}.js`,
         path: './dist/components'
@@ -49,6 +49,7 @@ module.exports = ({
         ]
       },
       plugins: [
+        new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: "[name]/[name]-[hash].js",  minChunks: Infinity}),
         new ExtractTextPlugin({ filename: '[name]/[name]-[hash].css', allChunks: true }),
         new webpack.LoaderOptionsPlugin({
           options: {
