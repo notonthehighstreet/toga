@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const debug = require('debug');
+const fs = require('fs');
 const log = debug('toga:generateBundles');
 const getConfig = require('../app/config')();
 const runWebpack = require('./webpack');
@@ -39,7 +40,12 @@ const rules = [{
 }];
 
 module.exports = runWebpack({ minify: true, entry, rules, commonsChunkName: vendor.componentName })
-  .then(() => {
+  .then((stats) => {
+    fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
+      if(err) {
+        return log(err);
+      }
+    });
     log('Bundling complete');
   })
   .catch(process.stderr.write);

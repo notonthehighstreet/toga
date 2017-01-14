@@ -4,16 +4,17 @@ const createWebpackConfig = require('./createWebpackConfig');
 
 const log = debug('toga:runWebpack');
 
-function outputWebpackErrors(webpackOutput) {
-  if (!webpackOutput) {
+function outputWebpackErrors(stats) {
+  if (!stats) {
     return;
   }
-  if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.errors)) {
-    webpackOutput.compilation.errors.forEach(error => log(error));
+  if (stats.compilation && Array.isArray(stats.compilation.errors)) {
+    stats.compilation.errors.forEach(error => log(error));
   }
-  if (webpackOutput.compilation && Array.isArray(webpackOutput.compilation.warnings)) {
-    webpackOutput.compilation.warnings.forEach(warning => log(warning));
+  if (stats.compilation && Array.isArray(stats.compilation.warnings)) {
+    stats.compilation.warnings.forEach(warning => log(warning));
   }
+  return stats;
 }
 
 module.exports = (webpackOptions) => {
