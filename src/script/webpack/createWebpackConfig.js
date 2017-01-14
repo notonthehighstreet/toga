@@ -12,7 +12,7 @@ module.exports = ({
       devtool: 'source-map',
       entry,
       output: {
-        filename: `[name]/[name]-[hash]${minify ? '.min' : ''}.js`,
+        filename: `[name]/[name]-[chunkhash]${minify ? '.min' : ''}.js`,
         path: './dist/components'
       },
       module: {
@@ -49,8 +49,9 @@ module.exports = ({
         ]
       },
       plugins: [
-        new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: "[name]/[name]-[hash].js",  minChunks: Infinity}),
-        new ExtractTextPlugin({ filename: '[name]/[name]-[hash].css', allChunks: true }),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: "[name]/[name]-[chunkhash].js",  minChunks: Infinity}),
+        new ExtractTextPlugin({ filename: '[name]/[name]-[contenthash].css', allChunks: true }),
         new webpack.LoaderOptionsPlugin({
           options: {
             postcss: [autoprefixer({
@@ -93,7 +94,11 @@ module.exports = ({
         sourceMap: true,
         compress: {
           warnings: false,
-          drop_debugger: false // eslint-disable-line
+          drop_debugger: false, // eslint-disable-line,
+          screw_ie8: true
+        },
+        output: {
+          comments: false,
         }
       }));
       config.plugins.push(new webpack.DefinePlugin({
