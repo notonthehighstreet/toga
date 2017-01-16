@@ -14,7 +14,7 @@ const getComponentInfoDeps = {
 };
 const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfoDeps);
 
-const { components = {}, vendor } = getConfig();
+const { components = {}, vendor, dev } = getConfig();
 const entry = {};
 const bundles = components.bundles || [];
 const componentsRegEx = [];
@@ -39,7 +39,7 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-module.exports = runWebpack({ minify: true, entry, rules, commonsChunkName: vendor.componentName })
+module.exports = runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName })
   .then((stats) => {
     fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
       if(err) {
