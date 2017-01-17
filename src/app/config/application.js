@@ -3,9 +3,12 @@
 module.exports = {
   "server": {
     "port": process.env.TOGA_SERVER_PORT || 8080,
-    "host": 'localhost'
+    "host": process.env.TOGA_SERVER_HOST || '0.0.0.0'
   },
-  "assetsHost": process.env.TOGA_ASSETS_HOST,
+  "assets": {
+    "host": process.env.TOGA_ASSETS_HOST,
+    "prefix": 'toga-assets'
+  },
   "newRelicEnabled": process.env.TOGA_NEWRELIC_ENABLED,
   "logFile": process.env.TOGA_LOGFILE,
   "honeybadger": {
