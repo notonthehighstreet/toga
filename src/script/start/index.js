@@ -14,4 +14,4 @@ if (config.syncServer.enabled) {
   require('./startDevSyncServer')();
 }
 
-require('../generateBundles').then(startAppServer);
+startAppServer();

@@ -9,7 +9,7 @@
     "npm": "^3.10.3"
   },
   "scripts": {
-    "prestart": "npm run build",
+    "prestart": "npm run bundle",
     "preexample": "npm run build",
     "prebundle": "npm run build && rm -rf dist/components",
     "pretest-unit": "npm run bundle",
