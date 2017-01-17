@@ -3,7 +3,7 @@
 module.exports = {
   "server": {
     "port": process.env.TOGA_SERVER_PORT || 8080,
-    "host": 'localhost'
+    "host": process.env.TOGA_SERVER_HOST || '0.0.0.0'
   },
   "assets": {
     "host": process.env.TOGA_ASSETS_HOST,

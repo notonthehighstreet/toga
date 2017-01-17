@@ -9,6 +9,7 @@ require('babel-core/register')({
 const hook = require('node-hook').hook;
 hook('.scss', (source, filename) => `console.log("${filename}");`);
 
+process.env.TOGA_SERVER_HOST = 'localhost';
 const testServer = require('../../example/index.js');
 
 module.exports = (function(settings) {
