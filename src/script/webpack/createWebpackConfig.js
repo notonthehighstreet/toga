@@ -8,14 +8,14 @@ const { assetUrl } = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = ({
-    entry, minify, rules = [], commonsChunkName
+    entry, minify, rules = [], commonsChunkName = 'vendor'
   }) => {
   let config = {
     cache: true,
     devtool: 'source-map',
     entry,
     output: {
-      filename: `[name]/[name]-[chunkhash]${minify ? '.min' : ''}.js`,
+      filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components'
     },
     module: {
@@ -46,7 +46,7 @@ module.exports = ({
         {
           test: /\.(jpe?g|png|gif)$/i,
           loaders: [
-            'file-loader?name=[name]/[name]-[hash].[ext]'
+            'file-loader?name=[name]-[hash].[ext]'
           ]
         }
       ]
@@ -54,8 +54,8 @@ module.exports = ({
     plugins: [
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
-      new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: '[name]/[name]-[chunkhash].js',  minChunks: Infinity}),
-      new ExtractTextPlugin({ filename: '[name]/[name]-[contenthash].css', allChunks: true }),
+      new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: '[name]-[chunkhash].js',  minChunks: Infinity}),
+      new ExtractTextPlugin({ filename: '[name]-[contenthash].css', allChunks: true }),
       new webpack.LoaderOptionsPlugin({
         options: {
           postcss: [autoprefixer({
