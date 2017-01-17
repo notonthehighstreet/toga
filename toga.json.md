@@ -12,17 +12,12 @@ This file is required to tell Toga more information about the components in you 
 As components normally share some 3rd party code, the `vendor` object is here to allow Toga to extract this code away from the components code.
 This allows the component JS to stay as small possible.
 
-The vendor object requires a `componentName` and `bundle`.
+The vendor object requires a `componentName`.
 
 ### componentName (string)
 
 This is the name of the component which contains the vendor code.
 Take a look at our [example vendor component](/tests/e2e/components/vendor/index.js).
-
-### bundle (object)
-
-This object states a mapping between the node-module being required and the global variable name.
-It should map directly to what is being set within your `vendor` component.
 
 ## components (object)
 
