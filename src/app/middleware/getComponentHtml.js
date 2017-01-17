@@ -1,3 +1,5 @@
+const bundles = require(process.cwd() + '/dist/components/bundles.json');
+
 module.exports = (deps) => {
   return function getRawComponentHtml(req, res, next) {
     const {
@@ -9,7 +11,7 @@ module.exports = (deps) => {
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
     return renderComponent({ componentName, props })
       .then((opts) => {
-        const html = renderer({ ...opts });
+        const html = renderer({ ...opts, bundles });
         res.set('Content-Type', 'text/html');
         res.send(html);
       })

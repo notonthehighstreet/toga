@@ -1,41 +1,51 @@
 #!/usr/bin/env node
-const breadboard = require('breadboard');
+const debug = require('debug');
+const fs = require('fs');
+const log = debug('toga:generateBundles');
+const getConfig = require('../app/config')();
+const runWebpack = require('./webpack');
+const { NotFoundError } = require('../app/lib/utils/errors')({
+  '/logger': () => ({ error: log })
+});
+const getComponentInfoDeps = {
+  '/config/index': getConfig,
+  '/lib/utils/errors': { NotFoundError },
+  fs: require('fs')
+};
+const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfoDeps);
 
-module.exports = breadboard({
-  containerRoot: 'dist/app',
-  blacklist: ['newrelic'],
-  substitutes: {
-    'package.json': require('../../package.json')
-  },
-  entry: ({
-    '/config/index': getConfig,
-    '/lib/bundler/index': buildBundle,
-    '/lib/getComponentInfo': getComponentInfo,
-  }) => {
-    const { components = {} } = getConfig();
-    const bundles = components.bundles || [];
+const { components = {}, vendor, dev } = getConfig();
+const entry = {};
+const bundles = components.bundles || [];
+const componentsRegEx = [];
 
-    // create bundle for each individual component
-    const allComponents = getComponentInfo();
-    allComponents.forEach(componentInfo => {
-      bundles.push({
-        name: componentInfo.name,
-        components: [componentInfo.name]
-      });
-    } );
+// create entry point for each individual component
+const allComponents = getComponentInfo();
+allComponents.forEach(component => {
+  componentsRegEx.push(new RegExp(`.*${component.file.replace(component.base, '')}$`));
+  entry[component.name] = component.file;
+});
 
-    const promises = [];
-    bundles.forEach((bundle) => {
-      promises.push(buildBundle(bundle, {minify: true}));
-    });
-    return Promise.all(promises);
-  }
-})
-  .then(({deps:{'/logger': getLogger}}) => {
-    const logger = getLogger();
-
-    logger.info('Bundling complete');
-  })
-  .catch((e) => {
-    process.stderr.write(e.stack);
+// create entry points for each bundle
+bundles
+  .forEach((bundle) => {
+    const bundleComponents = getComponentInfo(bundle.components);
+    componentsRegEx.concat(bundleComponents.map(component => component.file.replace(component.base, '')));
+    entry[bundle.name] = bundleComponents.map(component => component.file);
   });
+
+const rules = [{
+  test: componentsRegEx,
+  loaders: ['toga-loader']
+}];
+
+module.exports = runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName })
+  .then((stats) => {
+    fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
+      if(err) {
+        return log(err);
+      }
+    });
+    log('Bundling complete');
+  })
+  .catch(process.stderr.write);
