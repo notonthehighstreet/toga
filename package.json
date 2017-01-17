@@ -133,6 +133,7 @@
     "nyc": "^6.6.1",
     "pre-commit": "1.1.2",
     "pre-push": "^0.1.1",
+    "proxyquire": "^1.7.10",
     "react-addons-test-utils": "^15.3.0",
     "selenium-standalone": "^5.6.1",
     "sinon": "1.17.3",

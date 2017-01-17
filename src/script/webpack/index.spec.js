@@ -1,29 +1,27 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const subject = require('./index');
+const proxyquire = require('proxyquire');
 
 const sandbox = sinon.sandbox.create();
-const webpackFailureError = chance.word();
+const createConfigMock = sandbox.spy();
 const fakeWebpack  = sandbox.stub().returns({
   run: (callback) => callback()
 });
+
+const webpackFailureError = chance.word();
 const webpackFailureMock = sandbox.stub().returns({
   run: (callback) => callback(webpackFailureError)
 });
-const fakeDebug = () => () => {
-  return {
-    log: sandbox.stub()
-  };
-};
 
 describe('webpack/index', () => {
-  let result;
-  const createConfigMock = sandbox.spy();
-  const fakeModulePaths = [ chance.file() ];
-  const fakeVendorFiles = { [chance.word()]: chance.word() };
+  let subject;
 
   beforeEach(() => {
+    subject = proxyquire('./index', {
+      './createWebpackConfig': createConfigMock,
+      'webpack': fakeWebpack
+    });
   });
 
   afterEach(()=>{
@@ -32,16 +30,10 @@ describe('webpack/index', () => {
 
   context('when the bundle is successful', () => {
     it('passes through options', () => {
-      result = subject({
-        externals: fakeVendorFiles,
-        modulePaths: fakeModulePaths,
+      return subject({
         minify: false
-      });
-      return result.then(() => {
-        expect(createConfigMock).to.be.called;
+      }).then(() => {
         expect(createConfigMock).to.be.calledWith({
-          externals: fakeVendorFiles,
-          modulePaths: fakeModulePaths,
           minify: false
         });
       });
@@ -50,11 +42,14 @@ describe('webpack/index', () => {
 
   context('when the bundle is not successful', () => {
     beforeEach(() => {
-      deps['webpack'] = webpackFailureMock;
-      result = subject({});
+      subject = proxyquire('./index', {
+        './createWebpackConfig': createConfigMock,
+        'webpack': webpackFailureMock
+      });
     });
+
     it('throws an error', () => {
-      return result.catch((error) => {
+      return subject({}).catch((error) => {
         return expect(error).to.be.eq(webpackFailureError);
       });
     });
@@ -62,8 +57,7 @@ describe('webpack/index', () => {
 
   describe('webpack options are passed correctly', () => {
     it('minifies content', () => {
-      result = subject({ minify: true });
-      return result.then(() => {
+      return subject({ minify: true }).then(() => {
         const configArg = createConfigMock.lastCall.args[0];
         expect(configArg.minify).to.equal(true);
       });
