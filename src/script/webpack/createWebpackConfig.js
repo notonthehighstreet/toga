@@ -5,6 +5,7 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const { assetUrl } = require('./assetUrl');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = ({
     entry, minify, rules = [], commonsChunkName
@@ -51,6 +52,7 @@ module.exports = ({
       ]
     },
     plugins: [
+      new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: '[name]/[name]-[chunkhash].js',  minChunks: Infinity}),
       new ExtractTextPlugin({ filename: '[name]/[name]-[contenthash].css', allChunks: true }),
