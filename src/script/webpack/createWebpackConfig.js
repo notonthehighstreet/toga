@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+const Visualizer = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
@@ -54,6 +55,9 @@ module.exports = ({
     plugins: [
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
+      new Visualizer({
+        filename: '../webpack-components-stats.html'
+      }),
       new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: '[name]-[chunkhash].js',  minChunks: Infinity}),
       new ExtractTextPlugin({ filename: '[name]-[contenthash].css', allChunks: true }),
       new webpack.LoaderOptionsPlugin({
