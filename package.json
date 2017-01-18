@@ -10,10 +10,10 @@
   },
   "scripts": {
     "prestart": "npm run bundle",
-    "preexample": "npm run build",
+    "preexample": "TOGA_ASSETS_URL=localhost:3001 npm run bundle -- --components=./tests/e2e",
     "prebundle": "npm run build && rm -rf dist/components",
     "pretest-unit": "npm run bundle",
-    "pretest-e2e": "npm run build && npm run install:selenium",
+    "pretest-e2e": "npm run preexample && npm run install:selenium",
     "install:selenium": "selenium-standalone install --version=2.53.1",
     "build": "NODE_ENV=production babel src -d dist",
     "start": "DEBUG=toga,toga:* NODE_ENV=production node  --expose-gc ./dist/script/start/index.js --config ./app/config/application.js",

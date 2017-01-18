@@ -21,7 +21,6 @@ server.get('/nested', nested);
 server.get('/communication', communication);
 
 module.exports = Promise.resolve()
-  .then(() => require('../src/script/generateBundles'))
   .then(() => bootstrapApp(breadboardConfig))
   .then(({deps: {'/logger': getLogger}, entryResolveValue: togaServer}) => {
     const logger = getLogger();

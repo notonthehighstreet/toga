@@ -1,7 +1,11 @@
 const { assets } = require('../../app/config/application');
 
 module.exports.assetUrl = () => {
-  return (assets.host)
-    ? `//${assets.host}/${assets.prefix}`
-    : '';
+  if (assets.url) {
+    return `//${assets.url}`;
+  }
+  if (assets.host) {
+    return `//${assets.host}/${assets.prefix}`;
+  }
+  return '';
 };

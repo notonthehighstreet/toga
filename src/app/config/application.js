@@ -6,6 +6,7 @@ module.exports = {
     "host": process.env.TOGA_SERVER_HOST || '0.0.0.0'
   },
   "assets": {
+    "url": process.env.TOGA_ASSETS_URL,
     "host": process.env.TOGA_ASSETS_HOST,
     "prefix": 'toga-assets'
   },
