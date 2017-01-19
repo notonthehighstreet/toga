@@ -1,10 +1,10 @@
 const html = require('../template/html');
 const { getAssets, getHtml } = require('../utils');
 
-module.exports = function one(req, res) {
+module.exports = function communication(req, res) {
   let assets;
   Promise.resolve()
-    .then(getAssets)
+    .then(() => getAssets(['test-communication']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
       return getHtml(['test-communication.raw.html']);

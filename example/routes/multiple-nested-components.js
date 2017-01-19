@@ -4,7 +4,7 @@ const { getAssets, getHtml } = require('../utils');
 module.exports = function multipleNested(req, res) {
   let assets;
   return Promise.resolve()
-    .then(getAssets)
+    .then(() => getAssets(['test-nested', 'test-one']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
       return getHtml([

@@ -3,8 +3,8 @@ const { getAssets, getHtml } = require('../utils');
 
 module.exports = function multiple(req, res) {
   let assets;
-  Promise.resolve()
-    .then(getAssets)
+  return Promise.resolve()
+    .then(() => getAssets(['test-one', 'test-multiple']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
       return getHtml([

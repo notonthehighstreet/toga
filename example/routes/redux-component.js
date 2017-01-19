@@ -21,8 +21,8 @@ const props = {
 
 module.exports = function one(req, res) {
   let assets;
-  Promise.resolve()
-    .then(getAssets)
+  return Promise.resolve()
+    .then(() => getAssets(['test-redux']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
       return getHtml([`test-redux.raw.html?props=${JSON.stringify(props)}`]);

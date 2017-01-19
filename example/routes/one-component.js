@@ -3,8 +3,8 @@ const { getAssets, getHtml } = require('../utils');
 
 module.exports = function one(req, res) {
   let assets;
-  Promise.resolve()
-    .then(getAssets)
+  return Promise.resolve()
+    .then(() => getAssets(['test-one']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
       return getHtml(['test-one.raw.html?props={"one":"toe"}']);
