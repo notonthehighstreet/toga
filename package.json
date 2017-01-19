@@ -9,7 +9,6 @@
     "npm": "^3.10.3"
   },
   "scripts": {
-    "prestart": "npm run bundle",
     "preexample": "TOGA_ASSETS_URL=localhost:3001 npm run bundle -- --components=./tests/e2e",
     "prebundle": "npm run build && rm -rf dist/components",
     "pretest-unit": "npm run bundle",
