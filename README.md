@@ -87,6 +87,13 @@ One Toga is running and you can hit the component endpoint, user the query `?pro
 `http://localhost:8080/HelloWorld.html?props={"world":"waynes"}`
 
 
+## Analysing your build
+
+Once you have created your bundle (`npm run bundle -- --components=./components-dir`), a web-page will be generated which allows you to see what files are included in your bundles.
+This allows you to see if a small library is accidentally bloating your package.
+
+it will be generated in : `/dist/webpack-components-stats.html`
+
 ## Contributing
 
  > More information about how to contribute and run the project locally.

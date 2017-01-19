@@ -104,6 +104,7 @@
     "toga-loader": "github:notonthehighstreet/toga-loader#v1.0.3",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.0",
+    "webpack-visualizer-plugin": "^0.1.10",
     "yargs": "^6.6.0"
   },
   "devDependencies": {
