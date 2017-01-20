@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+const path = require('path');
 const Visualizer = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -7,6 +8,7 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const { assetUrl } = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 module.exports = ({
     entry, minify, rules = [], commonsChunkName = 'vendor'
@@ -80,7 +82,14 @@ module.exports = ({
           )]
         }
       }),
-      new AssetsPlugin({ filename: 'dist/components/bundles.json', update: true,
+      new ManifestRevisionPlugin(path.join('dist', 'webpack-assets-manifest.json'), {
+        rootAssetPath: './components',
+        extensionsRegex: /\.(jpe?g|png|gif)$/i,
+      }),
+      new AssetsPlugin({
+        filename: 'dist/components/bundles.json',
+        assetsRegex: /\.(jpe?g|png|gif)\?./i,
+        update: true,
         processOutput: function(assets) {
           Object.keys(assets)
               .forEach((bundle) => {

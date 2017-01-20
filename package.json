@@ -52,7 +52,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "assets-webpack-plugin": "^3.5.0",
+    "assets-webpack-plugin": "^3.5.1",
     "async": "^1.5.0",
     "autoprefixer": "^6.3.3",
     "axios": "^0.13.1",
@@ -78,8 +78,10 @@
     "extract-text-webpack-plugin": "v2.0.0-beta.5",
     "file-loader": "^0.9.0",
     "honeybadger": "0.9.1",
+    "isomorphic-loader": "^1.6.1",
     "json-loader": "^0.5.4",
     "loader-utils": "^0.2.12",
+    "manifest-revision-webpack-plugin": "^0.3.0",
     "newrelic": "^1.25.4",
     "node-hook": "^0.4.0",
     "node-sass": "^4.3.0",
@@ -105,6 +107,7 @@
     "toga-loader": "github:notonthehighstreet/toga-loader#v1.0.3",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.0",
+    "webpack-isomorphic-tools": "^2.6.6",
     "webpack-visualizer-plugin": "^0.1.10",
     "yargs": "^6.6.0"
   },
