@@ -14,7 +14,7 @@ const fakeConfig = {
   assets : { prefix: chance.word() }
 };
 
-describe.only('deployBundle', () => {
+describe('deployBundle', () => {
 
   beforeEach(() => {
     proxyquire('./deployBundles',  {

@@ -36,7 +36,7 @@ module.exports = ({
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style-loader',
             loader: [
-              'css-loader?-autoprefixer',
+              `css-loader?-autoprefixer${minify ? '&minimize' : ''}`,
               'postcss-loader',
               'sass-loader'
             ]
@@ -58,8 +58,8 @@ module.exports = ({
       new Visualizer({
         filename: '../webpack-components-stats.html'
       }),
-      new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: '[name]-[chunkhash].js',  minChunks: Infinity}),
-      new ExtractTextPlugin({ filename: '[name]-[contenthash].css', allChunks: true }),
+      new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,  minChunks: Infinity}),
+      new ExtractTextPlugin({ filename: `[name]-[contenthash]${minify ? '.min' : ''}.css`, allChunks: true }),
       new webpack.LoaderOptionsPlugin({
         options: {
           postcss: [autoprefixer({
