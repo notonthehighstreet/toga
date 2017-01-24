@@ -13,6 +13,7 @@ const subject = builder({
   '/createServer': fakeCreateServer,
   '/lib/getComponentInfo': fakeGetComponentInfo,
   '/logger': fakeLogger,
+  'webpack-isomorphic-tools': require('webpack-isomorphic-tools'),
   debug: fakeDebug,
   path: require('path')
 });
