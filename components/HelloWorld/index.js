@@ -5,11 +5,7 @@ import logo from './assets/logo.png';
 import retinaLogo from './assets/logo@2x.png';
 import retinaLogoSm from './assets/logo-sm@2x.png';
 import logoSm from './assets/logo-sm.png';
-// const logo  ='./assets/logo.png';
-// const retinaLogo  ='./assets/logo@2x.png';
-// const retinaLogoSm  ='./assets/logo-sm@2x.png';
-// const logoSm  ='./assets/logo-sm.png';
-//
+
 import './styles.scss';
 
 const bem = bemHelper({name: 'hello-toga'});
