@@ -1,4 +1,4 @@
-const manifest = require(process.cwd() + '/dist/webpack-assets-manifest.json');
+// const manifest = require(process.cwd() + '/dist/webpack-assets-manifest.json');
 
 module.exports = (deps) => {
   return function createServer() {
@@ -17,14 +17,14 @@ module.exports = (deps) => {
 
     app.use(responseTime());
     hook.hook('.png', (source, file) => {
-      const asset = file.replace(process.cwd(), '.');
-      const fingerPrintedAsset = manifest.assets[asset] || manifest.assets[asset.replace('./','')]
-      return `
-        console.log('${file}')
-        console.log('${asset}')
-        console.log('${fingerPrintedAsset}')
-        module.exports = "${fingerPrintedAsset}"
-      `;
+    //   const asset = file.replace(process.cwd(), '.');
+    //   const fingerPrintedAsset = manifest.assets[asset] || manifest.assets[asset.replace('./','')]
+      return ``;
+    //     console.log('${file}')
+    //     console.log('${asset}')
+    //     console.log('${fingerPrintedAsset}')
+    //     module.exports = "${fingerPrintedAsset}"
+    //   `;
     });
     hook.hook('.scss', () => {});
     hook.hook('.svg', (source) => {
