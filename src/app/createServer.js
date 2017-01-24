@@ -1,5 +1,3 @@
-const manifest = require(process.cwd() + '/dist/webpack-assets-manifest.json');
-
 module.exports = (deps) => {
   return function createServer() {
     const {
@@ -11,18 +9,11 @@ module.exports = (deps) => {
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
       'response-time': responseTime,
-      '/config/index': getConfig,
       compression
     } = deps;
     const app = express();
-    const { components = {} } = getConfig();
 
     app.use(responseTime());
-    hook.hook('.png', (source, file) => {
-      const asset = file.replace(process.cwd(), '.').replace(components.path, '.');
-      const fingerPrintedAsset = manifest.assets[asset];
-      return `module.exports = "${fingerPrintedAsset}"`;
-    });
     hook.hook('.scss', () => {});
     hook.hook('.svg', (source) => {
       const markup = SvgLoader.getExtractedSVG(source, { removeSVGTagAttrs: false });
