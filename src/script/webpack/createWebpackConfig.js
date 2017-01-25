@@ -1,16 +1,22 @@
 /* eslint-disable camelcase */
+const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
+const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
+  {
+    assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
+  }
+);
 
 const Visualizer = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
-const { assetUrl } = require('./assetUrl');
+const {assetUrl} = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = ({
-    entry, minify, rules = [], commonsChunkName = 'vendor'
-  }) => {
+  entry, minify, rules = [], commonsChunkName = 'vendor'
+}) => {
   let config = {
     cache: true,
     devtool: 'source-map',
@@ -42,8 +48,8 @@ module.exports = ({
             ]
           })
         },
-          {test: /\.svg$/, loader: 'svg-inline-loader?removeSVGTagAttrs=false'},
-          {test: /\.woff(2)?$/, loader: 'url-loader?mimetype=application/font-woff'},
+        {test: /\.svg$/, loader: 'svg-inline-loader?removeSVGTagAttrs=false'},
+        {test: /\.woff(2)?$/, loader: 'url-loader?mimetype=application/font-woff'},
         {
           test: /\.(jpe?g|png|gif)$/i,
           loaders: [
@@ -53,13 +59,21 @@ module.exports = ({
       ]
     },
     plugins: [
+      webpack_isomorphic_tools_plugin,
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new Visualizer({
         filename: '../webpack-components-stats.html'
       }),
-      new webpack.optimize.CommonsChunkPlugin({ name: commonsChunkName, filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,  minChunks: Infinity}),
-      new ExtractTextPlugin({ filename: `[name]-[contenthash]${minify ? '.min' : ''}.css`, allChunks: true }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: commonsChunkName,
+        filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
+        minChunks: Infinity
+      }),
+      new ExtractTextPlugin({
+        filename: `[name]-[contenthash]${minify ? '.min' : ''}.css`,
+        allChunks: true
+      }),
       new webpack.LoaderOptionsPlugin({
         options: {
           postcss: [autoprefixer({
@@ -80,20 +94,22 @@ module.exports = ({
           )]
         }
       }),
-      new AssetsPlugin({ filename: 'dist/components/bundles.json', update: true,
+      new AssetsPlugin({
+        filename: 'dist/components/bundles.json', update: true,
         processOutput: function(assets) {
           Object.keys(assets)
-              .forEach((bundle) => {
-                const url = `${assetUrl()}/`;
-                if (assets[bundle].css && assets[bundle].css.indexOf(url) < 0) {
-                  assets[bundle].css = url + assets[bundle].css;
-                }
-                if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
-                  assets[bundle].js = url + assets[bundle].js;
-                }
-              });
-          return  JSON.stringify(assets);
-        }})
+            .forEach((bundle) => {
+              const url = `${assetUrl()}/`;
+              if (assets[bundle].css && assets[bundle].css.indexOf(url) < 0) {
+                assets[bundle].css = url + assets[bundle].css;
+              }
+              if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
+                assets[bundle].js = url + assets[bundle].js;
+              }
+            });
+          return JSON.stringify(assets);
+        }
+      })
     ]
   };
 

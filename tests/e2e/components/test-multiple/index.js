@@ -1,5 +1,10 @@
 import React from 'react';
 
+import logo from './assets/logo.png';
+import retinaLogo from './assets/logo@2x.png';
+import retinaLogoSm from './assets/logo-sm@2x.png';
+import logoSm from './assets/logo-sm.png';
+
 import './styles.scss';
 
 module.exports = class TestMultiple extends React.Component {
@@ -32,6 +37,11 @@ module.exports = class TestMultiple extends React.Component {
         onMouseOut={() => this.onMouseOver(false)}
         onClick={() => this.onClick()}
       >
+        <picture>
+          <source media="(max-width: 767px)" srcSet={`${logoSm}, ${retinaLogoSm} 2x`} />
+          <img src={logo} srcSet={`${logo}, ${retinaLogo} 2x`} alt="not on the high street.com" />
+        </picture>
+
         <div>
           <h2>Example: Multiple Components on the same page</h2>
           <p>This example is used to test a HTML page which contains 2 components.</p>
