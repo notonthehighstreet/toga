@@ -11,7 +11,6 @@
   "scripts": {
     "preexample": "TOGA_ASSETS_URL=localhost:3001 npm run bundle -- --components=./tests/e2e",
     "prebundle": "npm run build && rm -rf dist/components",
-    "pretest-unit": "npm run bundle",
     "pretest-e2e": "npm run preexample && npm run install:selenium",
     "predev": "npm run bundle --  --config ./app/config/devOverrides.js",
     "install:selenium": "selenium-standalone install --version=2.53.1",
