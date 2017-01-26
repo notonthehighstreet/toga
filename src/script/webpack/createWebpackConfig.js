@@ -1,11 +1,6 @@
 /* eslint-disable camelcase */
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
-const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
-  {
-    assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
-  }
-);
-
 const Visualizer = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -13,6 +8,18 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const {assetUrl} = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+
+const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
+  {
+    assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
+  }
+);
+const data = {
+  title: 'My Static Site',
+  routes: [
+    '/'
+  ]
+};
 
 module.exports = ({
   entry, minify, rules = [], commonsChunkName = 'vendor'
@@ -24,7 +31,8 @@ module.exports = ({
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
-      publicPath: assetUrl() + '/'
+      publicPath: assetUrl() + '/',
+      libraryTarget: 'umd'
     },
     module: {
       rules: [
