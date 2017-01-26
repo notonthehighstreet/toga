@@ -8,11 +8,14 @@ module.exports = (deps) => {
       '/routes/index': getRoutes,
       '/middleware/errorHandler': errorHandler,
       '/middleware/logRequests': logRequests,
+      '/middleware/etagCache': etagCache,
       'response-time': responseTime,
       compression
     } = deps;
     const app = express();
 
+    app.set('etag', etagCache.returnHash);
+    app.use(etagCache.etagRequest);
     app.use(responseTime());
     hook.hook('.scss', () => {});
     hook.hook('.svg', (source) => {
