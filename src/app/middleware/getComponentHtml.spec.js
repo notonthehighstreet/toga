@@ -1,3 +1,5 @@
+const bundles = require('../../../dist/components/bundles.json');
+
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const builder = require('./getComponentHtml');
@@ -18,7 +20,7 @@ describe('getComponentRawHtml middleware', () => {
   };
 
   const fakeNext = sandbox.stub();
-  const fakeRenderOptions = { some: 'option', bundles: {}};
+  const fakeRenderOptions = { some: 'option', bundles };
   const rawRenderResposne = chance.word();
   const testRenderResposne = chance.word();
   const renderComponentStub = fakeResolve(fakeRenderOptions);

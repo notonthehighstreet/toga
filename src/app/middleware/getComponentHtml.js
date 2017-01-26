@@ -1,10 +1,4 @@
-let bundles;
-try {
-  bundles = require(process.cwd() + '/dist/components/bundles.json');
-}
-catch(e) {
-  bundles = {};
-}
+const bundles = require(process.cwd() + '/dist/components/bundles.json');
 
 module.exports = (deps) => {
   return function getRawComponentHtml(req, res, next) {
