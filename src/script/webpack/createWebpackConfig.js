@@ -14,12 +14,6 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
     assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
   }
 );
-const data = {
-  title: 'My Static Site',
-  routes: [
-    '/'
-  ]
-};
 
 module.exports = ({
   entry, minify, rules = [], commonsChunkName = 'vendor'
@@ -68,6 +62,7 @@ module.exports = ({
       ]
     },
     plugins: [
+      new StaticSiteGeneratorPlugin(Object.keys(entry)[0], [Object.keys(entry)[0] + '.html']),
       webpack_isomorphic_tools_plugin,
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
