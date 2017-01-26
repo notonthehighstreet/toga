@@ -23,7 +23,8 @@ module.exports = ({
     entry,
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
-      path: './dist/components'
+      path: './dist/components',
+      publicPath: assetUrl() + '/'
     },
     module: {
       rules: [
