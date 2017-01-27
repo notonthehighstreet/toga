@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 
 import HelloWorld from './HelloWorld';
-import HelloWorld2 from './HelloWorld2';
 
 import templateBB from '../src/app/views/component-raw';
 import entities from 'entities';
 const template = templateBB({ entities });
 
-export const components = { HelloWorld, HelloWorld2 };
+export const components = { HelloWorld };
 
 function render(componentName, locals) {
   const Component = components[componentName];
