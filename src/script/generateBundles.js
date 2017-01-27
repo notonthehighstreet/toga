@@ -39,8 +39,14 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-module.exports = runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName })
-  .then((stats) => {
+
+const promises = [];
+promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName }));
+promises.push(runWebpack({ entry:  { static: './components/static.js'} }));
+
+module.exports = Promise.all(promises)
+  .then(([ assetsBundlingStats ]) => {
+    const stats = assetsBundlingStats;
     fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
       if(err) {
         return log(err);

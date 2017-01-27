@@ -1,4 +1,9 @@
 /* eslint-disable camelcase */
+const hook = require('node-hook');
+hook.hook('.png', ()=>(''));
+hook.hook('.svg', ()=>(''));
+hook.hook('.scss', ()=>(''));
+
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
 const Visualizer = require('webpack-visualizer-plugin');
@@ -8,6 +13,13 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const {assetUrl} = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const { components: staticComponents } = require('../../../components/static');
+
+const buildHashDeps = {
+  'hash-files': require('hash-files'),
+  '/config/index': require('../../app/config')()
+};
+const hash = require('../../app/lib/utils/buildHash')(buildHashDeps)();
 
 const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
   {
@@ -16,12 +28,12 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
 );
 
 module.exports = ({
-  entry, minify, rules = [], commonsChunkName = 'vendor'
+  entry, minify, rules = [], commonsChunkName
 }) => {
   let config = {
     cache: true,
     devtool: 'source-map',
-    entry: { static: './components/static.js'},
+    entry,
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
@@ -62,20 +74,11 @@ module.exports = ({
       ]
     },
     plugins: [
-      new StaticSiteGeneratorPlugin('static', [
-        'HelloWorld',
-        'HelloWorld2'
-      ]),
       webpack_isomorphic_tools_plugin,
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new Visualizer({
         filename: '../webpack-components-stats.html'
-      }),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: commonsChunkName,
-        filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
-        minChunks: Infinity
       }),
       new ExtractTextPlugin({
         filename: `[name]-[contenthash]${minify ? '.min' : ''}.css`,
@@ -113,12 +116,30 @@ module.exports = ({
               if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
                 assets[bundle].js = url + assets[bundle].js;
               }
+              if (assets[bundle] && staticComponents[bundle]) {
+                assets[bundle].html = `${url}${bundle}-${hash}.html`;
+              }
             });
           return JSON.stringify(assets);
         }
       })
     ]
   };
+
+  if (commonsChunkName) {
+    config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+      name: commonsChunkName,
+      filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
+      minChunks: Infinity
+    }))
+  }
+
+  if (entry.static) {
+    config.plugins.push(new StaticSiteGeneratorPlugin('static',
+      Object.keys(staticComponents)
+        .map(componentName=>`${componentName}-${hash}.html`)
+    ));
+  }
 
   if (minify) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({

@@ -18,7 +18,7 @@ function render(componentName, locals) {
 }
 
 export default (locals, callback) => {
-  const componentName = locals.path;
+  const componentName = locals.path.split('-')[0];
   const componentDOM = render(componentName);
   callback(null, template({ componentDOM, componentName, props: {} }));
 };
