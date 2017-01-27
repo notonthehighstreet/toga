@@ -21,7 +21,7 @@ module.exports = ({
   let config = {
     cache: true,
     devtool: 'source-map',
-    entry,
+    entry: { static: './components/static.js'},
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
@@ -62,7 +62,10 @@ module.exports = ({
       ]
     },
     plugins: [
-      new StaticSiteGeneratorPlugin(Object.keys(entry)[0], [Object.keys(entry)[0] + '.html']),
+      new StaticSiteGeneratorPlugin('static', [
+        'HelloWorld',
+        'HelloWorld2'
+      ]),
       webpack_isomorphic_tools_plugin,
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(),
