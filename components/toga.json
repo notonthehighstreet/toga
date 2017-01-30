@@ -10,5 +10,6 @@
   "components": {
     "path": ".",
     "ignore": "lib"
-  }
+  },
+  "staticComponents": ["HelloWorld"]
 }

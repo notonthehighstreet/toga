@@ -14,7 +14,7 @@ const getComponentInfoDeps = {
 };
 const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfoDeps);
 
-const { components = {}, vendor, dev } = getConfig();
+const { components = {}, staticComponents, vendor, dev } = getConfig();
 const entry = {};
 const bundles = components.bundles || [];
 const componentsRegEx = [];
@@ -39,8 +39,32 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-module.exports = runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName })
-  .then((stats) => {
+const requireComponents = () => {
+  const staticLocals = {};
+  if (staticComponents) {
+    staticComponents.forEach(componentName => {
+      const requirePath = getComponentInfo(componentName)[0].requirePath;
+      staticLocals[componentName] = require(requirePath);
+    });
+  }
+  return staticLocals;
+};
+
+let stats;
+module.exports = Promise.resolve()
+  .then(() => {
+    return runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents  });
+  })
+  .then((assetsBundlingStats) => {
+    stats = assetsBundlingStats;
+    const universalHelper = require('./ssr-helper');
+    return universalHelper();
+  })
+  .then(() => {
+    const staticLocals = (staticComponents) ? requireComponents(staticComponents) : { };
+    return runWebpack({ entry:  { static: './src/script/webpack/staticRender.js' }, staticComponents, staticLocals });
+  })
+  .then(() => {
     fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
       if(err) {
         return log(err);

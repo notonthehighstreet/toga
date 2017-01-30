@@ -49,3 +49,11 @@ E.g. ```
   }
 ]
 ```
+
+## staticComponents (array: optional)
+
+An array of components that should have there respective .html files generated at build time
+
+E.g. ```
+"staticComponents" : ["header", "footer"]
+```

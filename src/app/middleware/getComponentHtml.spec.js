@@ -1,4 +1,4 @@
-const bundles = require('../../../dist/components/bundles.json');
+const bundles = require('../../../dist/components/asset-bundles.json');
 
 const expect = require('chai').expect;
 const sinon = require('sinon');

@@ -1,11 +1,6 @@
 /* eslint-disable camelcase */
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
-const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
-  {
-    assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
-  }
-);
-
 const Visualizer = require('webpack-visualizer-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -14,8 +9,20 @@ const webpack = require('webpack');
 const {assetUrl} = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
+const buildHashDeps = {
+  'hash-files': require('hash-files'),
+  '/config/index': require('../../app/config')()
+};
+const hash = require('../../app/lib/utils/buildHash')(buildHashDeps)();
+
+const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
+  {
+    assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
+  }
+);
+
 module.exports = ({
-  entry, minify, rules = [], commonsChunkName = 'vendor'
+  entry, minify, rules = [], commonsChunkName, staticComponents, staticLocals
 }) => {
   let config = {
     cache: true,
@@ -24,7 +31,8 @@ module.exports = ({
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
-      publicPath: assetUrl() + '/'
+      publicPath: assetUrl() + '/',
+      libraryTarget: 'umd'
     },
     module: {
       rules: [
@@ -66,11 +74,6 @@ module.exports = ({
       new Visualizer({
         filename: '../webpack-components-stats.html'
       }),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: commonsChunkName,
-        filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
-        minChunks: Infinity
-      }),
       new ExtractTextPlugin({
         filename: `[name]-[contenthash]${minify ? '.min' : ''}.css`,
         allChunks: true
@@ -96,7 +99,7 @@ module.exports = ({
         }
       }),
       new AssetsPlugin({
-        filename: 'dist/components/bundles.json', update: true,
+        filename: 'dist/components/asset-bundles.json', update: true,
         processOutput: function(assets) {
           Object.keys(assets)
             .forEach((bundle) => {
@@ -107,12 +110,30 @@ module.exports = ({
               if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
                 assets[bundle].js = url + assets[bundle].js;
               }
+              if (assets[bundle] && staticComponents && staticComponents.includes(bundle)) {
+                assets[bundle].html = `${url}${bundle}-${hash}.html`;
+              }
             });
           return JSON.stringify(assets);
         }
       })
     ]
   };
+
+  if (commonsChunkName) {
+    config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+      name: commonsChunkName,
+      filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
+      minChunks: Infinity
+    }));
+  }
+
+  if (entry && entry.static && staticComponents) {
+    config.plugins.push(new StaticSiteGeneratorPlugin('static',
+      staticComponents.map(componentName=>`${componentName}-${hash}.html`),
+      staticLocals
+    ));
+  }
 
   if (minify) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({

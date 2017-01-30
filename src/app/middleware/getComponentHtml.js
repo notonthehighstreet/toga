@@ -1,4 +1,4 @@
-const bundles = require(process.cwd() + '/dist/components/bundles.json');
+const bundles = require(process.cwd() + '/dist/components/asset-bundles.json');
 
 module.exports = (deps) => {
   return function getRawComponentHtml(req, res, next) {
