@@ -14,7 +14,7 @@ const getComponentInfoDeps = {
 };
 const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfoDeps);
 
-const { components = {}, vendor, dev } = getConfig();
+const { components = {}, staticComponents, vendor, dev } = getConfig();
 const entry = {};
 const bundles = components.bundles || [];
 const componentsRegEx = [];
@@ -39,10 +39,11 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-
 const promises = [];
-promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName }));
-promises.push(runWebpack({ entry:  { static: './components/static.js'} }));
+promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents: staticComponents.components  }));
+if (staticComponents) {
+  promises.push(runWebpack({ entry:  { static: staticComponents.file }, staticComponents: staticComponents.components }));
+}
 
 module.exports = Promise.all(promises)
   .then(([ assetsBundlingStats ]) => {

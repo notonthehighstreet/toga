@@ -7,10 +7,10 @@ import templateBB from '../src/app/views/component-raw';
 import entities from 'entities';
 const template = templateBB({ entities });
 
-export const components = { HelloWorld };
+export const staticComponents = { HelloWorld };
 
 function render(componentName, locals) {
-  const Component = components[componentName];
+  const Component = staticComponents[componentName];
   return ReactDomServer.renderToString(
     React.createElement(Component.default || Component, locals)
   );

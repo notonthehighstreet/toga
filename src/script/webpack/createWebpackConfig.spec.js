@@ -40,7 +40,7 @@ describe('Create Webpack Config', () => {
   it('creates a basic config', () => {
     const config = createWebpackConfig({
     });
-    expect(config.plugins.length).to.equal(8);
+    expect(config.plugins.length).to.equal(7);
   });
 
   it('has sourceMaps enabled', () => {

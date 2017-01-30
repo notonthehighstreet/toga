@@ -24,8 +24,26 @@ module.exports = () => (root, opts = {}) => {
   const configFiles = configFilePaths.map(loadConfig).map(deepClone);
   const componentsPath = opts.path || componentConfig.components.path;
 
+  if (componentConfig.staticComponents) {
+    const staticFile = (componentsJsonPath + componentsPath).replace(/\/.\//g, '/') + '/' + componentConfig.staticComponents.file;
+    try {
+      const { staticComponents } = require(staticFile);
+      componentConfig.staticComponents.file = staticFile;
+      componentConfig.staticComponents.components = staticComponents;
+    }
+    catch(e) {
+      componentConfig.staticComponents = {};
+    }
+  }
+  else {
+    componentConfig.staticComponents = {};
+  }
+
   cachedConfig = deepAssign({}, ...configFiles,
     { ...componentConfig,
+      staticComponents: {
+        ...componentConfig.staticComponents
+      },
       components: {
         ...componentConfig.components,
         path: (componentsJsonPath + componentsPath).replace(/\/.\//g, '/'),

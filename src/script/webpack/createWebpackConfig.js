@@ -13,7 +13,6 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const {assetUrl} = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const { components: staticComponents } = require('../../../components/static');
 
 const buildHashDeps = {
   'hash-files': require('hash-files'),
@@ -28,7 +27,7 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
 );
 
 module.exports = ({
-  entry, minify, rules = [], commonsChunkName
+  entry, minify, rules = [], commonsChunkName, staticComponents
 }) => {
   let config = {
     cache: true,
@@ -116,7 +115,7 @@ module.exports = ({
               if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
                 assets[bundle].js = url + assets[bundle].js;
               }
-              if (assets[bundle] && staticComponents[bundle]) {
+              if (assets[bundle] && staticComponents && staticComponents[bundle]) {
                 assets[bundle].html = `${url}${bundle}-${hash}.html`;
               }
             });
@@ -131,10 +130,10 @@ module.exports = ({
       name: commonsChunkName,
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       minChunks: Infinity
-    }))
+    }));
   }
 
-  if (entry.static) {
+  if (entry && entry.static && staticComponents) {
     config.plugins.push(new StaticSiteGeneratorPlugin('static',
       Object.keys(staticComponents)
         .map(componentName=>`${componentName}-${hash}.html`)

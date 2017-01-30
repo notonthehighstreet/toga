@@ -10,5 +10,8 @@
   "components": {
     "path": ".",
     "ignore": "lib"
+  },
+  "staticComponents": {
+    "file" :  "static.js"
   }
 }
