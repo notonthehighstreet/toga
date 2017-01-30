@@ -99,7 +99,7 @@ module.exports = ({
         }
       }),
       new AssetsPlugin({
-        filename: 'dist/components/bundles.json', update: true,
+        filename: 'dist/components/asset-bundles.json', update: true,
         processOutput: function(assets) {
           Object.keys(assets)
             .forEach((bundle) => {

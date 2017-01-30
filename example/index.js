@@ -23,7 +23,7 @@ server.get('/communication', communication);
 const { getHtml } = require('./utils');
 
 server.get('/static', function staticServer(req, res) {
-  const bundles = require('../dist/components/bundles.json');
+  const bundles = require('../dist/components/asset-bundles.json');
   const vendorBundle = bundles.vendor;
   const componentName = 'test-multiple';
   const bundle = bundles[componentName];
@@ -53,7 +53,7 @@ server.get('/static', function staticServer(req, res) {
       `);
     })
     .catch(e => {
-      throw Error(e); 
+      throw Error(e);
     });
 });
 server.use('/', express.static('dist/components'));
