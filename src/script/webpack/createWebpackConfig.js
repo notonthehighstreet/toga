@@ -1,14 +1,4 @@
 /* eslint-disable camelcase */
-const SvgLoader = require('svg-inline-loader');
-
-const hook = require('node-hook');
-hook.hook('.png', (source, filename)=>(`module.exports = '${filename}'`));
-hook.hook('.scss', () => {});
-hook.hook('.svg', (source) => {
-  const markup = SvgLoader.getExtractedSVG(source, { removeSVGTagAttrs: false });
-  return 'module.exports = ' + JSON.stringify(markup);
-});
-
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
 const Visualizer = require('webpack-visualizer-plugin');

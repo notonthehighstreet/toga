@@ -1,6 +1,20 @@
 #!/usr/bin/env node
 const debug = require('debug');
 const fs = require('fs');
+const SvgLoader = require('svg-inline-loader');
+const IsomorphicTools = require('webpack-isomorphic-tools');
+const hook = require('node-hook');
+
+hook.hook('.scss', () => {});
+hook.hook('.svg', (source) => {
+  const markup = SvgLoader.getExtractedSVG(source, { removeSVGTagAttrs: false });
+  return 'module.exports = ' + JSON.stringify(markup);
+});
+const isoConfig = {
+  assets: { images: { extensions: ['png', 'jpg', 'gif', 'ico'] } }
+};
+const isoTools = new IsomorphicTools(isoConfig);
+
 const log = debug('toga:generateBundles');
 const getConfig = require('../app/config')();
 const runWebpack = require('./webpack');
@@ -39,21 +53,30 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-let staticLocals = {};
-if (staticComponents) {
-  staticComponents.forEach(componentName => {
-    const requirePath = getComponentInfo(componentName)[0].requirePath;
-    staticLocals[componentName] = require(requirePath);
-  });
-}
+const requireComponents = () => {
+  const staticLocals = {};
+  if (staticComponents) {
+    staticComponents.forEach(componentName => {
+      const requirePath = getComponentInfo(componentName)[0].requirePath;
+      staticLocals[componentName] = require(requirePath);
+    });
+  }
+  return staticLocals;
+};
 
-const promises = [];
-promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents, staticLocals  }));
-if (staticComponents) {
-  promises.push(runWebpack({ entry:  { static: './src/script/webpack/staticRender.js' }, staticComponents, staticLocals }));
-}
-
-module.exports = Promise.all(promises)
+module.exports = Promise.resolve()
+  .then(() => {
+    return isoTools.server(process.cwd());
+  })
+  .then(() => {
+    const staticLocals = requireComponents(staticComponents);
+    const promises = [];
+    promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents, staticLocals  }));
+    if (staticComponents) {
+      promises.push(runWebpack({ entry:  { static: './src/script/webpack/staticRender.js' }, staticComponents, staticLocals }));
+    }
+    return Promise.all(promises);
+  })
   .then(([ assetsBundlingStats ]) => {
     const stats = assetsBundlingStats;
     fs.writeFile(process.cwd() + '/dist/webpack-components-stats.json', JSON.stringify(stats.toJson({chunkModules: true})), function(err) {
