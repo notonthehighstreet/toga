@@ -23,5 +23,6 @@
           "test-svg"
         ]
       }]
-  }
+  },
+  "staticComponents": ["test-multiple"]
 }

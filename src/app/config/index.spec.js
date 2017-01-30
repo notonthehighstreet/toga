@@ -113,7 +113,6 @@ describe('config/index', () => {
           'value': 123,
           'specificValue': 'a'
         },
-        'staticComponents': {},
         'components': {
           ...fakeComponents,
           base: `${fakeCWD}/node_modules/`,
@@ -155,7 +154,6 @@ describe('config/index', () => {
             'value': 555,
             'specificValue': 'a'
           },
-          'staticComponents': {},
           'components': {
             ...fakeComponents,
             base: `${fakeCWD}/node_modules/`,
@@ -198,7 +196,6 @@ describe('config/index', () => {
             'value': 123,
             'specificValue': 'a'
           },
-          'staticComponents': {},
           'components': {
             ...fakeComponents,
             base: `${fakeCWD}/node_modules/`,
@@ -234,7 +231,6 @@ describe('config/index', () => {
             'value': 123,
             'specificValue': 'a'
           },
-          'staticComponents': {},
           'components': {
             ...fakeDefaultComponents,
             base: `${fakeCWD}/`,

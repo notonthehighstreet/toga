@@ -39,10 +39,18 @@ const rules = [{
   loaders: ['toga-loader']
 }];
 
-const promises = [];
-promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents: staticComponents.components  }));
+let staticLocals = {};
 if (staticComponents) {
-  promises.push(runWebpack({ entry:  { static: staticComponents.file }, staticComponents: staticComponents.components }));
+  staticComponents.forEach(componentName => {
+    const requirePath = getComponentInfo(componentName)[0].requirePath;
+    staticLocals[componentName] = require(requirePath);
+  });
+}
+
+const promises = [];
+promises.push(runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents, staticLocals  }));
+if (staticComponents) {
+  promises.push(runWebpack({ entry:  { static: './src/script/webpack/staticRender.js' }, staticComponents, staticLocals }));
 }
 
 module.exports = Promise.all(promises)

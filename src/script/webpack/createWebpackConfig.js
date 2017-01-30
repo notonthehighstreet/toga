@@ -1,8 +1,13 @@
 /* eslint-disable camelcase */
+const SvgLoader = require('svg-inline-loader');
+
 const hook = require('node-hook');
-hook.hook('.png', ()=>(''));
-hook.hook('.svg', ()=>(''));
-hook.hook('.scss', ()=>(''));
+hook.hook('.png', (source, filename)=>(`module.exports = '${filename}'`));
+hook.hook('.scss', () => {});
+hook.hook('.svg', (source) => {
+  const markup = SvgLoader.getExtractedSVG(source, { removeSVGTagAttrs: false });
+  return 'module.exports = ' + JSON.stringify(markup);
+});
 
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const Webpack_isomorphic_tools_plugin = require('webpack-isomorphic-tools/plugin');
@@ -27,7 +32,7 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
 );
 
 module.exports = ({
-  entry, minify, rules = [], commonsChunkName, staticComponents
+  entry, minify, rules = [], commonsChunkName, staticComponents, staticLocals
 }) => {
   let config = {
     cache: true,
@@ -115,7 +120,7 @@ module.exports = ({
               if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
                 assets[bundle].js = url + assets[bundle].js;
               }
-              if (assets[bundle] && staticComponents && staticComponents[bundle]) {
+              if (assets[bundle] && staticComponents && staticComponents.includes(bundle)) {
                 assets[bundle].html = `${url}${bundle}-${hash}.html`;
               }
             });
@@ -135,8 +140,8 @@ module.exports = ({
 
   if (entry && entry.static && staticComponents) {
     config.plugins.push(new StaticSiteGeneratorPlugin('static',
-      Object.keys(staticComponents)
-        .map(componentName=>`${componentName}-${hash}.html`)
+      staticComponents.map(componentName=>`${componentName}-${hash}.html`),
+      staticLocals
     ));
   }
 

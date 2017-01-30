@@ -31,7 +31,11 @@ function getAssets(bundles = ['all']) {
 }
 
 function getHtml(endPoints) {
-  const urls = endPoints.map(endPoint => rp(`http://${host}:${port}/${endPoint}`));
+  const urls = endPoints.map(endPoint => {
+    return (endPoint.indexOf('http://') > -1)
+      ?  rp(endPoint)
+      : rp(`http://${host}:${port}/${endPoint}`);
+  });
   return Promise.all(urls);
 }
 

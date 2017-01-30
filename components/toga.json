@@ -11,7 +11,5 @@
     "path": ".",
     "ignore": "lib"
   },
-  "staticComponents": {
-    "file" :  "static.js"
-  }
+  "staticComponents": ["HelloWorld"]
 }
