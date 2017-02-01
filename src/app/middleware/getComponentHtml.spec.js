@@ -41,6 +41,7 @@ describe('getComponentRawHtml middleware', () => {
   it('passes props', () => {
     fakeReq.props = { [chance.word()]: chance.word() };
     fakeRes.set.returns(fakeRes);
+    fakeReq.preview = true;
     const result = subject(fakeReq, fakeRes, fakeNext);
     return result.then(()=> {
       expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
@@ -52,7 +53,7 @@ describe('getComponentRawHtml middleware', () => {
 
   it('responds with the rendered test component', () => {
     delete fakeReq.props;
-    fakeReq.raw = false;
+    fakeReq.preview = true;
     fakeRes.set.returns(fakeRes);
     const result = subject(fakeReq, fakeRes, fakeNext);
     return result.then(()=> {
@@ -72,6 +73,16 @@ describe('getComponentRawHtml middleware', () => {
       expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
       expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
       expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined});
+    });
+  });
+
+  it('calls next when a static asset', () => {
+    delete fakeReq.props;
+    fakeReq.preview = false;
+    fakeReq.raw = false;
+    const result = subject(fakeReq, fakeRes, fakeNext);
+    return result.then(()=> {
+      expect(fakeNext).to.have.been.calledOnce;
     });
   });
 });

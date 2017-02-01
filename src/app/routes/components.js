@@ -7,8 +7,8 @@ module.exports = (deps) => {
     } = deps;
     const router = express.Router();
 
-    router.use('/:componentName.(raw\.)?html', setComponentProps.html);
-    router.get('/:componentName.(raw\.)?html', getComponentHtml);
+    router.use('/:componentName.(raw\.|preview\.)?html', setComponentProps.html);
+    router.get('/:componentName.(raw\.|preview\.)?html', getComponentHtml);
 
     // needed for dev
     router.use('/', express.static('dist/components/', { etag: false }));
