@@ -34,7 +34,8 @@ module.exports = (deps) => {
       req.componentName = req.params.componentName;
       req.props = parse(req.query.props, next);
       req.assetType = 'html';
-      req.raw = !!req.params[0];
+      req.raw = /raw/.test(req.params[0]);
+      req.preview = /preview/.test(req.params[0]);
       next();
     }
   };

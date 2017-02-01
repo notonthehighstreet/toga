@@ -48,9 +48,16 @@ describe('setComponentProps', () => {
     });
 
     it('sets the raw to true', () => {
-      requestMock.params[0] = true;
+      requestMock.params[0] = 'raw';
       subject.html(requestMock, responseMock, nextSpy);
       expect(requestMock.raw).to.eq(true);
+      expect(nextSpy).to.have.been.calledOnce;
+    });
+
+    it('sets the preview to true', () => {
+      requestMock.params[0] = 'preview';
+      subject.html(requestMock, responseMock, nextSpy);
+      expect(requestMock.preview).to.eq(true);
       expect(nextSpy).to.have.been.calledOnce;
     });
 
