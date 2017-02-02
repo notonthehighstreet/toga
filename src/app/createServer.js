@@ -14,7 +14,12 @@ module.exports = (deps) => {
     } = deps;
     const app = express();
 
-    app.set('etag', etagCache.returnHash);
+    function setEtag(req, res, next) {
+      res.set('etag', etagCache.returnHash());
+      next();
+    }
+
+    app.use(setEtag);
     app.use(etagCache.etagRequest);
     app.use(responseTime());
     hook.hook('.scss', () => {});
