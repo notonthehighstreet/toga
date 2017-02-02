@@ -23,5 +23,10 @@ module.exports = (deps) => {
     }
   };
 
-  return { etagRequest, returnHash };
+  const setETagHeader = (req, res, next) => {
+    res.set('etag', returnHash());
+    next();
+  };
+
+  return { etagRequest, returnHash, setETagHeader };
 };
