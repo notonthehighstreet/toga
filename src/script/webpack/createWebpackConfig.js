@@ -32,7 +32,7 @@ module.exports = ({
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
       publicPath: assetUrl() + '/',
-      libraryTarget: 'amd'
+      libraryTarget: (entry && entry.static && staticComponents) ? 'umd': 'var'
     },
     module: {
       rules: [
