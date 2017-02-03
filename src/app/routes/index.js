@@ -7,7 +7,7 @@ module.exports = (deps) => {
       } = deps;
     const appRouter = express.Router();
 
-    appRouter.get('/', (req, res) => res.redirect('/HelloWorld.html'));
+    appRouter.get('/', (req, res) => res.redirect('/HelloWorld.preview.html'));
     appRouter.use(createUtilsRouter());
     appRouter.use('/', createComponentsRouter());
 
