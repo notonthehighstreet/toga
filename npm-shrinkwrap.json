@@ -4298,9 +4298,9 @@
       "resolved": "https://registry.npmjs.org/to-fast-properties/-/to-fast-properties-1.0.2.tgz"
     },
     "toga-loader": {
-      "version": "1.0.3",
-      "from": "notonthehighstreet/toga-loader#v1.0.3",
-      "resolved": "git://github.com/notonthehighstreet/toga-loader.git#a16ff10f3139e317bc40a8394bdf6cf5614ffc64"
+      "version": "1.0.4",
+      "from": "notonthehighstreet/toga-loader#v1.0.4",
+      "resolved": "git://github.com/notonthehighstreet/toga-loader.git#a9425d06b0db2fbeeaf58af05a51a1605d6f0603"
     },
     "tough-cookie": {
       "version": "2.3.2",

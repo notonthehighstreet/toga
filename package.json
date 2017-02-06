@@ -103,7 +103,7 @@
     "style-loader": "^0.13.1",
     "styles-toolkit": "0.4.10",
     "svg-inline-loader": "^0.7.1",
-    "toga-loader": "github:notonthehighstreet/toga-loader#v1.0.3",
+    "toga-loader": "github:notonthehighstreet/toga-loader#v1.0.4",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.0",
     "webpack-isomorphic-tools": "^2.6.6",
