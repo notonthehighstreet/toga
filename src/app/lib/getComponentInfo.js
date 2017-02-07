@@ -39,7 +39,7 @@ module.exports = (deps) => {
           });
     };
 
-    if (allComponents.length === 0){
+    if (allComponents.length === 0) {
       allComponents = getAllComponents();
     }
     return componentsToFind ? getComponents(componentToFindArr) : allComponents;

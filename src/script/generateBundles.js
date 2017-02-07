@@ -12,50 +12,49 @@ const { NotFoundError } = require('../app/lib/utils/errors')({
 const getComponentInfoDeps = {
   '/config/index': getConfig,
   '/lib/utils/errors': { NotFoundError },
-  fs: require('fs')
+  fs
 };
 const getComponentInfo = require('../app/lib/getComponentInfo')(getComponentInfoDeps);
 
 const { components = {}, staticComponents, vendor, dev } = getConfig();
 
-export const requireComponents = () => {
+const requireComponents = (componentNames) => {
   const staticLocals = {};
-  if (staticComponents) {
-    staticComponents.forEach(componentName => {
-      const requirePath = getComponentInfo(componentName)[0].requirePath;
-      staticLocals[componentName] = require(requirePath);
+  if (componentNames) {
+    componentNames.forEach(componentName => {
+      const componentInfo = getComponentInfo(componentName)[0];
+      try {
+        staticLocals[componentName] = require(componentInfo.requirePath);
+      }
+      catch (e) {
+        throw `Could not find ${componentName} or ${componentInfo}`;
+      }
     });
   }
   return staticLocals;
 };
 
-export const createComponentsRegEx = (components=[], bundles=[]) => {
-  const componentsRegEx = [];
-  components.forEach(component => {
+const createComponentsRegEx = (componentsInfo=[]) => {
+  let componentsRegEx = [];
+  componentsInfo.forEach(component => {
     componentsRegEx.push(new RegExp(`.*${component.file.replace(component.base, '')}$`));
   });
-  bundles
-    .forEach((bundle) => {
-      const bundleComponents = getComponentInfo(bundle.components);
-      componentsRegEx.concat(bundleComponents.map(component => component.file.replace(component.base, '')));
-    });
   return componentsRegEx;
 };
 
-export const createTogaLoaderRules = (components=[], bundles=[]) => {
-  const componentsRegEx = createComponentsRegEx(components, bundles);
+const createTogaLoaderRules = (componentsInfo=[]) => {
+  const componentsRegEx = createComponentsRegEx(componentsInfo);
   return [{
     test: componentsRegEx,
     loaders: ['toga-loader']
   }];
 };
 
-export const createEntryPoints = (components=[], bundles=[]) => {
+const createEntryPoints = (componentsInfo=[], bundles=[]) => {
   const entry = {};
-  components.forEach(component => {
+  componentsInfo.forEach(component => {
     entry[component.name] = component.file;
   });
-
   bundles
     .forEach((bundle) => {
       const bundleComponents = getComponentInfo(bundle.components);
@@ -66,6 +65,11 @@ export const createEntryPoints = (components=[], bundles=[]) => {
 
 module.exports = Promise.resolve()
   .then(() => {
+    const rules = createTogaLoaderRules(getComponentInfo());
+    const entry = createEntryPoints(getComponentInfo(), components.bundles);
+    return runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents  });
+  })
+  .then(() => {
     const universalHelper = require('./ssr-helper');
     return universalHelper();
   })
@@ -75,11 +79,11 @@ module.exports = Promise.resolve()
     return runWebpack({ entry:  { static: togaSrcRender }, staticComponents, staticLocals });
   })
   .then(() => {
-    const rules = createTogaLoaderRules(getComponentInfo(), components.bundles);
-    const entry = createEntryPoints(getComponentInfo(), components.bundles);
-    return runWebpack({ minify: !dev, entry, rules, commonsChunkName: vendor.componentName, staticComponents  });
-  })
-  .then(() => {
     log('Bundling complete');
   })
   .catch(process.stderr.write);
+
+module.exports.createTogaLoaderRules = createTogaLoaderRules;
+module.exports.createComponentsRegEx = createComponentsRegEx;
+module.exports.createEntryPoints = createEntryPoints;
+module.exports.requireComponents = requireComponents;
