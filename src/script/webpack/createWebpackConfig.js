@@ -155,7 +155,7 @@ module.exports = ({
 
   Object.keys(process.env).forEach((variable) => {
     if(variable.startsWith('TOGA_BASE_URL')) {
-      environmentVariables[`process.env.${variable}`] = process.env[variable];
+      environmentVariables[`process.env.${variable}`] = JSON.stringify(process.env[variable]);
     }
   });
 

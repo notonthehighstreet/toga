@@ -103,4 +103,44 @@ describe('Create Webpack Config', () => {
       expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.NODE_ENV': JSON.stringify('production')  });
     });
   });
+
+  context.only('when environment variables are passed in', () => {
+    let originalEnv = process.env
+    beforeEach(() => {
+
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it('adds toga base urls to defineplugin', () => {
+      process.env.TOGA_BASE_URL_CART = 'cartURL';
+      const config = createWebpackConfig({});
+
+      expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.TOGA_BASE_URL_CART': JSON.stringify('cartURL')  });
+    });
+
+    it('does not add non-toga base urls', () => {
+      process.env.NOT_TOGA_BASE_URL_CART = 'envvar';
+      const config = createWebpackConfig({});
+
+      expect(fakeWebpack.DefinePlugin).to.not.be.calledWith({ 'process.env.NOT_TOGA_BASE_URL_CART': JSON.stringify('envvar') });
+    });
+
+    it('adds multiple environment variables', () => {
+      process.env.TOGA_BASE_URL_CART = 'envvar';
+      process.env.TOGA_BASE_URL_LIST = 'listvar';
+      const config = createWebpackConfig({});
+
+      expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.NOT_TOGA_BASE_URL_CART': JSON.stringify('envvar'), 'process.env.TOGA_BASE_URL_LIST': JSON.stringify('listvar') });
+    });
+
+    it('adds baseurls and node_env to production with minify', () => {
+      process.env.TOGA_BASE_URL_CART = 'cartURL';
+      const config = createWebpackConfig({minify: true});
+
+      expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.TOGA_BASE_URL_CART': JSON.stringify('cartURL'), 'process.env.NODE_ENV': JSON.stringify('production') });
+    });
+  });
 });
