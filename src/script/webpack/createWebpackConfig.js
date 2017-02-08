@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
-const {assetUrl} = require('./assetUrl');
+const assetUrl = require('./assetUrl');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const buildHashDeps = {
@@ -31,7 +31,7 @@ module.exports = ({
     output: {
       filename: `[name]-[chunkhash]${minify ? '.min' : ''}.js`,
       path: './dist/components',
-      publicPath: assetUrl() + '/',
+      publicPath: assetUrl.cdn(),
       libraryTarget: (entry && entry.static && staticComponents) ? 'umd': 'var'
     },
     module: {
@@ -103,15 +103,16 @@ module.exports = ({
         processOutput: function(assets) {
           Object.keys(assets)
             .forEach((bundle) => {
-              const url = `${assetUrl()}/`;
-              if (assets[bundle].css && assets[bundle].css.indexOf(url) < 0) {
-                assets[bundle].css = url + assets[bundle].css;
+              const cdnUrl = assetUrl.cdn();
+              const htmlUrl = assetUrl.s3() || assetUrl.cdn();
+              if (assets[bundle].css && assets[bundle].css.indexOf(cdnUrl) < 0) {
+                assets[bundle].css = cdnUrl + assets[bundle].css;
               }
-              if (assets[bundle].js && assets[bundle].js.indexOf(url) < 0) {
-                assets[bundle].js = url + assets[bundle].js;
+              if (assets[bundle].js && assets[bundle].js.indexOf(cdnUrl) < 0) {
+                assets[bundle].js = cdnUrl + assets[bundle].js;
               }
               if (assets[bundle] && staticComponents && staticComponents.includes(bundle)) {
-                assets[bundle].html = `${url}${bundle}-${hash}.html`;
+                assets[bundle].html = `${htmlUrl}${bundle}-${hash}.html`;
               }
             });
           return JSON.stringify(assets);
