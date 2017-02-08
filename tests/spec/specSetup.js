@@ -6,6 +6,7 @@ const chaiEnzyme = require('chai-enzyme');
 
 hook('.scss', () => {});
 hook('.svg', () => {});
+hook('.png', () => {});
 
 chai.use(chaiAsPromised);
 chai.use(chaiEnzyme());

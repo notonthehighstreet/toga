@@ -25,10 +25,7 @@ module.exports = (deps) => {
     };
 
     const getAllComponents = () => {
-      if (allComponents.length > 0) {
-        return allComponents;
-      }
-      allComponents = fs.readdirSync(root)
+      return fs.readdirSync(root)
           .filter((name) => isComponentFolder({ path: root, name, ignore: componentsConfig.ignore }))
           .map((name) => {
             return {
@@ -40,9 +37,11 @@ module.exports = (deps) => {
               requirePath: replaceCurrentDir(root +'/'+ name + '/' + 'index.js'),
             };
           });
-      return allComponents;
     };
 
-    return componentsToFind ? getComponents(componentToFindArr) : getAllComponents();
+    if (allComponents.length === 0) {
+      allComponents = getAllComponents();
+    }
+    return componentsToFind ? getComponents(componentToFindArr) : allComponents;
   };
 };
