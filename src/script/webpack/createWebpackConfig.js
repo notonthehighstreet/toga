@@ -21,6 +21,8 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
   }
 );
 
+const environmentVariables = {};
+
 module.exports = ({
   entry, minify, rules = [], commonsChunkName, staticComponents, staticLocals
 }) => {
@@ -147,9 +149,20 @@ module.exports = ({
         comments: false,
       }
     }));
-    config.plugins.push(new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }));
+
+    environmentVariables['process.env.NODE_ENV'] = JSON.stringify('production');
+  }
+
+  Object.keys(process.env).forEach((variable) => {
+    if(variable.startsWith('TOGA_BASE_URL')) {
+      environmentVariables[`process.env.${variable}`] = process.env[variable];
+    }
+  });
+
+  if(Object.keys(environmentVariables).length > 0 ) {
+    config.plugins.push(new webpack.DefinePlugin(
+      environmentVariables
+    ));
   }
   if (rules) {
     config.module.rules = config.module.rules.concat(rules);
