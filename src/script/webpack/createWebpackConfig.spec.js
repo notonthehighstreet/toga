@@ -30,7 +30,7 @@ const resetEnvs = () => {
   delete process.env.TOGA_BASE_URL_LIST;
   delete process.env.TOGA_BASE_URL_CART;
   delete process.env.NOT_TOGA_BASE_URL;
-
+  delete process.env.TOGA_ENVIRONMENT;
 };
 
 describe('Create Webpack Config', () => {
@@ -39,6 +39,7 @@ describe('Create Webpack Config', () => {
 
   });
   afterEach(() => {
+    resetEnvs();
     sandbox.reset();
   });
   after(() => {
@@ -48,7 +49,7 @@ describe('Create Webpack Config', () => {
   it('creates a basic config', () => {
     const config = createWebpackConfig({
     });
-    expect(config.plugins.length).to.equal(7);
+    expect(config.plugins.length).to.equal(8);
   });
 
   it('has sourceMaps enabled', () => {
@@ -154,6 +155,14 @@ describe('Create Webpack Config', () => {
       config = createWebpackConfig({minify: true});
 
       expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.TOGA_BASE_URL_CART': JSON.stringify('cartURL'), 'process.env.NODE_ENV': JSON.stringify('production') });
+    });
+
+    it('adds process.env.TOGA_ENVIRONEMNT if added', () => {
+      resetEnvs();
+      process.env.TOGA_ENVIRONMENT = 'qa';
+      config = createWebpackConfig({});
+
+      expect(fakeWebpack.DefinePlugin).to.be.calledWith({ 'process.env.TOGA_ENVIRONMENT': JSON.stringify('qa')});
     });
   });
 });

@@ -159,8 +159,8 @@ module.exports = ({
     }
   });
 
-  if(process.env.TOGA_ENVIRONEMNT) {
-    environmentVariables['process.env.TOGA_ENVIRONEMNT'] = JSON.stringify(process.env.TOGA_ENVIRONEMNT);
+  if(process.env.TOGA_ENVIRONMENT) {
+    environmentVariables['process.env.TOGA_ENVIRONMENT'] = JSON.stringify(process.env.TOGA_ENVIRONMENT);
   }
 
   if(Object.keys(environmentVariables).length > 0 ) {
