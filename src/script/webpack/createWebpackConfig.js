@@ -21,11 +21,10 @@ const webpack_isomorphic_tools_plugin = new Webpack_isomorphic_tools_plugin(
   }
 );
 
-const environmentVariables = {};
-
 module.exports = ({
   entry, minify, rules = [], commonsChunkName, staticComponents, staticLocals
 }) => {
+  const environmentVariables = {};
   let config = {
     cache: true,
     devtool: 'source-map',
