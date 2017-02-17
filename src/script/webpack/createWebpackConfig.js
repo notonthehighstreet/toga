@@ -159,6 +159,10 @@ module.exports = ({
     }
   });
 
+  if(process.env.TOGA_ENVIRONMENT) {
+    environmentVariables['process.env.TOGA_ENVIRONMENT'] = JSON.stringify(process.env.TOGA_ENVIRONMENT);
+  }
+
   if(Object.keys(environmentVariables).length > 0 ) {
     config.plugins.push(new webpack.DefinePlugin(
       environmentVariables
