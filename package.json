@@ -67,6 +67,7 @@
     "breadboard": "^9.0.2",
     "bunyan": "^1.7.1",
     "compression": "^1.6.2",
+    "cors": "^2.8.1",
     "css-loader": "^0.26.1",
     "debug": "^2.6.1",
     "deep-assign": "^2.0.0",
