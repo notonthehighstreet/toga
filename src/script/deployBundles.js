@@ -29,7 +29,7 @@ uploader.on('error', function(err) {
   console.error('unable to upload:', err.stack); // eslint-disable-line no-console
 });
 uploader.on('progress', function() {
-  console.log('progress', uploader.progressMd5Amount, // eslint-disable-line no-console
+  console.log( `[ ${new Date().toUTCString()} ] progress`, uploader.progressMd5Amount, // eslint-disable-line no-console
         `${parseInt((uploader.progressAmount / uploader.progressTotal) * 100, 10)}%`);
 });
 uploader.on('end', function() {
