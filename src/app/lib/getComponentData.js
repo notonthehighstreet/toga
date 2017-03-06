@@ -18,7 +18,8 @@ module.exports = (deps) => {
     if (Component.needs) {
       try {
         const configureStore = require(`${componentPath}/store/configure-store.js`);
-        store = configureStore.default ? configureStore.default() : configureStore();
+        const initialState = undefined;//typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined;
+        store = configureStore.default ? configureStore.default(initialState) : configureStore(initialState);
       }
       catch (e) {
         throw new Error(`Store does not exist for component with needs : ${componentPath}/store/configure-store.js`);
