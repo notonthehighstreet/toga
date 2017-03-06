@@ -19,7 +19,6 @@ const jsonOpts = (method, data) => ({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    credentials: 'same-origin',
   },
   data: data && JSON.stringify(data)
 });
@@ -28,7 +27,9 @@ const fetchUrl = (endpoint, opts = {}) => {
   const url = endpoint.indexOf('//') > -1 ? endpoint : `${localUrl}${endpoint}`;
   return axios({ url, ...opts })
     .then(checkStatus)
-    .then((response) => response.data)
+    .then((response) => {
+      return response.data;
+    })
     .catch((error) => {
       log('request failed', error);
       throw new Error('request failed');

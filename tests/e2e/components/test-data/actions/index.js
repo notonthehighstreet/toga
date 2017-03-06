@@ -7,6 +7,6 @@ export function fetchSwapiData() {
   const cardId = randomRange(1, MAX, 1)[0];
   return {
     type: FETCH_SWAPI_DATA,
-    promise: json.get(`http://swapi.co/api/people/${cardId}/`)
+    payload: json.get(`http://swapi.co/api/people/${cardId}/`)
   };
 }

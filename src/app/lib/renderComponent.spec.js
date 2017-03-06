@@ -19,7 +19,7 @@ const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
 
 const fakeReact = chance.word();
 const reactStub = sandbox.stub().returns(fakeReact);
-const fakeGetComponentWithData = ({ Component, props, componentPath }) => ({ Component, initialState: {} });
+const fakeGetComponentWithData = sandbox.spy(({ Component, props, componentPath }) => ({ Component, initialState: {} }));
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
 let fakeComponentProps = {
@@ -69,15 +69,16 @@ describe('renderComponent', () => {
         componentName: fakeComponentName,
         props: fakeComponentProps
       });
-      sandbox.spy(fakeGetComponentWithData);
     });
 
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
-        expect(reactStub).to.be.calledWith(MockComponent);
-      });
-      it.skip('getComponentWithData is called with the correct args', () => {
-        expect(fakeGetComponentWithData).to.be.calledWith({ Component: MockComponent, props: fakeComponentProps, path: fakeComponentInfo[0].requirePath });
+        expect(fakeGetComponentWithData).to.be.called;
+        expect(fakeGetComponentWithData).to.be.calledWith({
+          Component: MockComponent,
+          componentPath: fakeComponentInfo[0].path,
+          props: fakeComponentProps
+        });
       });
     });
 
@@ -124,7 +125,11 @@ describe('when the component uses export default', () => {
   });
   it('renderReactStub is called with the correct args', () => {
     return actualSubjectReturnValue.then(()=> {
-      expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentProps);
+      expect(fakeGetComponentWithData).to.be.calledWith({
+        Component: MockComponent.default,
+        componentPath: fakeComponentInfo[0].path,
+        props: fakeComponentProps
+      });
     });
   });
 });

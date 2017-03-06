@@ -14,7 +14,7 @@ export function data(state = {}, action) {
       ...state,
       loading: false,
       errors: action.payload.errors,
-      swapi: action.payload.data,
+      swapi: action.payload,
       status: action.status
     };
   case `${actions.FETCH_SWAPI_DATA}_REJECTED`:

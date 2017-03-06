@@ -2,7 +2,6 @@ module.exports = (deps) => {
   return function renderComponent({ componentName, props }) {
     const {
       'react-dom/server' : ReactDOMServer,
-      'react' : React,
       '/lib/getComponentInfo': getComponentInfo,
       '/lib/getComponentData': getComponentWithData,
       '/lib/utils/errors': { InternalServerError },
@@ -26,13 +25,11 @@ module.exports = (deps) => {
         return getComponentWithData({
           Component: component.default || component,
           props,
-          componentPath: componentInfo.requirePath
+          componentPath: componentInfo.path
         });
       })
-      .then((args) => {
-        const componentDOM = ReactDOMServer.renderToString(
-          React.createElement(args.Component, props)
-        );
+      .then(({ Component }) => {
+        const componentDOM = ReactDOMServer.renderToString(Component);
         return { componentDOM, componentName, props };
       });
   };
