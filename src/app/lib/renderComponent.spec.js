@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const expect = require('chai').expect;
 const mockery = require('mockery');
 const sinon = require('sinon');
@@ -18,7 +19,7 @@ const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
 
 const fakeReact = chance.word();
 const reactStub = sandbox.stub().returns(fakeReact);
-const fakeGetComponentWithData = (component) => ({ Component: component, initialState: {} });
+const fakeGetComponentWithData = ({ Component, props, componentPath }) => ({ Component, initialState: {} });
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
 let fakeComponentProps = {

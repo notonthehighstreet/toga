@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-const Markup = (store, props) => (
+const Markup = ({ store, props }) => (
   <Provider store={store}>
     <Component {...props } />
   </Provider>
@@ -21,14 +21,13 @@ async function getData({ Component, props, componentPath}) {
     await Promise.all(needs);
     return {
       initialState : store.getState(),
-      Component : Markup(store, props)
+      Component : Markup({ store, props })
     };
   }
   return { Component };
 }
 
 function getComponentWithData({ Component, props, componentPath}) {
-
   return getData({ Component, props, componentPath})
     .catch((err) => {
       throw Error(err);
