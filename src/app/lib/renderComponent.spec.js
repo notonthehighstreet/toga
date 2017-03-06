@@ -18,6 +18,7 @@ const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
 
 const fakeReact = chance.word();
 const reactStub = sandbox.stub().returns(fakeReact);
+const fakeGetComponentWithData = (component) => ({ Component: component, initialState: {} });
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
 let fakeComponentProps = {
@@ -37,6 +38,7 @@ const deps = {
     NotFoundError: fakeNotFoundError,
     InternalServerError: fakeInternalServerError
   },
+  '/lib/getComponentData': fakeGetComponentWithData,
   '/lib/getComponentInfo': fakeGetComponentInfo,
   debug: fakeDebug
 };
@@ -66,11 +68,15 @@ describe('renderComponent', () => {
         componentName: fakeComponentName,
         props: fakeComponentProps
       });
+      sandbox.spy(fakeGetComponentWithData);
     });
 
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
-        expect(reactStub).to.be.calledWith(MockComponent, fakeComponentProps);
+        expect(reactStub).to.be.calledWith(MockComponent);
+      });
+      it.skip('getComponentWithData is called with the correct args', () => {
+        expect(fakeGetComponentWithData).to.be.calledWith({ Component: MockComponent, props: fakeComponentProps, path: fakeComponentInfo[0].requirePath });
       });
     });
 

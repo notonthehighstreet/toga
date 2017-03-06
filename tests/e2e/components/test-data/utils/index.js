@@ -1,3 +1,4 @@
+/* global window */
 export { fetch, json } from './fetch';
 export { randomRange } from './randomRange';
 

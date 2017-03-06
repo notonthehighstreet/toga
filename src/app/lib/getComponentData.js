@@ -1,43 +1,38 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { Provider } from 'react-redux';
-import debug from 'debug';
 
-const log = debug('toga:getComponentData');
+const Markup = (store, props) => (
+  <Provider store={store}>
+    <Component {...props } />
+  </Provider>
+);
 
-export function fetchComponentData(dispatch, component, params) {
-  const componentsWithNeeds = [];
-  const wrapper = component.WrappedComponent;
-  if (component.needs) {
-    componentsWithNeeds.push(wrapper ? wrapper.name : component.name);
+async function getData({ Component, props, componentPath}) {
+  const needs = [];
+  if (Component.needs) {
+    const configureStore = require(`${componentPath}/store/configure-store.js`);
+    const store = configureStore();
+
+    Component.needs.forEach((need) => {
+      const result = need(props);
+      needs.push(store.dispatch(result));
+    });
+    await Promise.all(needs);
+    return {
+      initialState : store.getState(),
+      Component : Markup(store, props)
+    };
   }
-  log('componentsWithNeeds', componentsWithNeeds);
-  const promises = needs.map((need) => dispatch(need(params)));
-  return Promise.all(promises);
+  return { Component };
 }
 
+function getComponentWithData({ Component, props, componentPath}) {
 
-export default ({ Component, props, componentPath}) => {
-
-  console.log(componentPath)
-  const configureStore = require(`${componentPath}/store/configure-store.js`);
-  const store = configureStore();
-
-  const Markup = (
-    <Provider store={store}>
-      <Component {...props } />
-    </Provider>
-  );
-
-  const setContext = () => ({
-    initialState : store.getState(),
-    Markup : Markup
-  });
-
-  return fetchComponentData(store.dispatch, Component)
-    .then(setContext)
+  return getData({ Component, props, componentPath})
     .catch((err) => {
-      // todo: render error
       throw Error(err);
     });
-};
+}
+
+export default getComponentWithData;

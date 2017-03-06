@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const Chance = require('chance');
 import proxyquire from 'proxyquire';
 
 const chance = new Chance();
@@ -8,7 +9,6 @@ let axiosStub;
 let axiosStubArguments;
 let fetchLib;
 let fetch;
-let json;
 
 describe('fetch', ()=>{
 
@@ -21,7 +21,6 @@ describe('fetch', ()=>{
       'axios': axiosStub
     });
     fetch = fetchLib.fetch;
-    json = fetchLib.json;
   });
 
   afterEach(()=>{
@@ -33,25 +32,23 @@ describe('fetch', ()=>{
       const endpoint = chance.word();
       fetch.url(endpoint).then(() => {
         expect(axiosStubArguments).to.deep.equal({
-          headers: {},
           url: `http://localhost:undefined${endpoint}`
-        })
-        done()
+        });
+        done();
       }).catch((e) => {
-        done(e)
-      })
+        done(e);
+      });
     });
     it('should return given url if it contains double-slash', (done) => {
       const endpoint = `//${chance.word()}`;
       fetch.url(endpoint).then(() => {
         expect(axiosStubArguments).to.deep.equal({
-          headers: {},
           url: endpoint
         });
-        done()
+        done();
       }).catch((e) => {
-        done(e)
-      })
+        done(e);
+      });
     });
 
     it('should return request options with data', (done) => {
@@ -59,10 +56,10 @@ describe('fetch', ()=>{
       const data = chance.sentence();
       fetch.url(endpoint, { data }).then(()=>{
         expect(axiosStubArguments.data).to.equal(data);
-        done()
+        done();
       }).catch((e)=>{
-        done(e)
-      })
+        done(e);
+      });
     });
 
     it('should return request options with params', (done) => {
@@ -70,10 +67,10 @@ describe('fetch', ()=>{
       const params = chance.sentence();
       fetch.url(endpoint, { params }).then(()=>{
         expect(axiosStubArguments.params).to.equal(params);
-        done()
+        done();
       }).catch((e)=>{
-        done(e)
-      })
+        done(e);
+      });
     });
 
   });

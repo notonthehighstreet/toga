@@ -18,8 +18,8 @@ const Item = ({ value }) => {
   );
 };
 
-const Data = ({ answer, data }) => (
-  <dl className={`answer-option`}>
+const Data = ({ data }) => (
+  <dl className={'answer-option'}>
     {Object.keys(data).map((info) => (
       <span className="answer-option__item" key={info}>
         <dt className="answer-option__title">{info}</dt>
@@ -30,7 +30,7 @@ const Data = ({ answer, data }) => (
 );
 
 export default ({ data, ...props }) => (
-    <section className={`answer`} { ...props }>
+    <section className={'answer'} { ...props }>
       <Data data={data}/>
     </section>
 );

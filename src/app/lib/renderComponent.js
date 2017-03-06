@@ -4,7 +4,7 @@ module.exports = (deps) => {
       'react-dom/server' : ReactDOMServer,
       'react' : React,
       '/lib/getComponentInfo': getComponentInfo,
-      '/lib/getComponentData': getComponentData,
+      // '/lib/getComponentData': getComponentWithData,
       '/lib/utils/errors': { InternalServerError },
       debug
     } = deps;
@@ -22,16 +22,18 @@ module.exports = (deps) => {
 
     return Promise.resolve(componentInfo.requirePath)
       .then(requireComponent)
-      .then((component) => getComponentData({
-        Component: component.default || component,
-        props,
-        componentPath: componentInfo.requirePath
-      }))
-      .then(({ Component, initialState }) => {
+      .then((component) => {
+        // return getComponentWithData({
+        //   Component: component.default || component,
+        //   props,
+        //   componentPath: componentInfo.requirePath
+        // });
+      // })
+      // .then(({ Component, initialState }) => {
         const componentDOM = ReactDOMServer.renderToString(
-          React.createElement(Component)
+          React.createElement(component.default || component, props)
         );
-        return { componentDOM, componentName, props, initialState };
+        return { componentDOM, componentName, props };
       });
   };
 };

@@ -1,20 +1,20 @@
-import { expect } from '../../../tests/config/test.helper';
+import { expect } from 'chai';
 import { randomRange } from './randomRange';
 
 describe('randomRange', ()=>{
   it('should return an array', () => {
-    expect(Array.isArray(randomRange(0,0,0))).to.equal(true, 'is not an array')
+    expect(Array.isArray(randomRange(0, 0, 0))).to.equal(true, 'is not an array');
   });
 
   it('should return an array length matching the 3rd argument', () => {
     const arrLength = 1;
-    expect(randomRange(0,0, arrLength).length).to.equal(arrLength);
+    expect(randomRange(0, 0, arrLength).length).to.equal(arrLength);
   });
 
   it('should return a known value when from and to args match', () => {
     const arrLength = 1;
     const fromTo = 1;
-    expect(randomRange(fromTo, fromTo, arrLength)[0]).to.equal(fromTo)
+    expect(randomRange(fromTo, fromTo, arrLength)[0]).to.equal(fromTo);
   });
 
   it('returns all values when range matches length', () => {
