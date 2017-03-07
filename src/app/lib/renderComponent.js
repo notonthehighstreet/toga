@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return function renderComponent({ componentName, props }) {
+  return function renderComponent({ url, componentName, props }) {
     const {
       'react-dom/server' : ReactDOMServer,
       '/lib/getComponentInfo': getComponentInfo,
@@ -23,14 +23,15 @@ module.exports = (deps) => {
       .then(requireComponent)
       .then((component) => {
         return getComponentWithData({
+          url,
           Component: component.default || component,
           props,
           componentPath: componentInfo.path
         });
       })
-      .then(({ Component }) => {
+      .then(({ Component, initialState }) => {
         const componentDOM = ReactDOMServer.renderToString(Component);
-        return { componentDOM, componentName, props };
+        return { componentDOM, componentName, props, initialState };
       });
   };
 };

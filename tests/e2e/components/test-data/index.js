@@ -1,76 +1,29 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
+import StaticRouter from 'react-router-dom/StaticRouter';
 import debug from 'debug';
-import { connect } from 'react-redux';
 
-import Data from './components/Data/Data';
-import { fetchSwapiData } from './actions';
+import Swapi from './containers/Swapi/Swapi';
+import configureStore from './store/configure-store';
+import { makeRoutes } from './routes';
 
-debug('toga:Data');
+debug('base:Root');
+export const Router = typeof window !== 'undefined' ? BrowserRouter : StaticRouter;
 
-const Error = ({ error }) => <div>
-  <p>Error Loading !</p>
-  <p>{ error.message }</p>
-</div>;
+export default class Root extends React.Component {
 
-const Loading = () => <p>Loading ....</p>;
-
-class App extends React.Component {
-
-  static needs = [fetchSwapiData];
-
-  static propTypes = {
-    data: React.PropTypes.object
-  };
-
-  static defaultProps = {
-    data: { }
-  };
-
-  constructor(props) {
-    super(props);
-    this.fetch = this.fetch.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.props.data) {
-      return;
-    }
-    this.fetch();
-  }
-
-  fetch() {
-    this.props.fetchSwapiData();
-  }
+  static childrenWtihNeeds = Swapi;
 
   render() {
-    const { errors = [], loading, data = {} } = this.props;
-
+    const store = configureStore(typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined); // eslint-disable-line
+    console.log(store.getState())
     return (
-      <div id="data">
-        <banner className="header">
-          <h1>SSR Data Test</h1>
-          <p>
-            Collecting data on the server + the client.
-          </p>
-        </banner>
-        <button onClick={() => this.fetch()}>Fetch more data</button>
-        {errors.map((error, i) => <Error key={`error-${i}`} error={error} />)}
-        {loading && <Loading /> }
-        {!loading && <Data data={ data } /> }
-      </div>
+      <Provider store={ store }>
+        <Router {...this.props} >
+          {makeRoutes()}
+        </Router>
+      </Provider>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    errors: state.data.errors,
-    loading: state.data.loading,
-    data: state.data.swapi,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  { fetchSwapiData }
-)(App);

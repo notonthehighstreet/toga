@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer as routing } from 'react-router-redux';
 
 import * as actions from '../actions';
 
@@ -30,5 +31,6 @@ export function data(state = {}, action) {
 }
 
 export default combineReducers({
-  data
+  data,
+  routing
 });
