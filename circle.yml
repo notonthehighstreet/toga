@@ -4,7 +4,9 @@ machine:
   timezone:
     Europe/London
   node:
-    version: v6.3
+    version: v6.10
+  java:
+    version: openjdk8
 general:
   artifacts:
     - tests/reports

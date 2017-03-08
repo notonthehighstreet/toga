@@ -6,7 +6,10 @@
   },
   "selenium" : {
     "start_process" : true,
-    "server_path" : "node_modules/selenium-standalone/.selenium/selenium-server/2.53.1-server.jar"
+    "server_path" : "node_modules/selenium-standalone/.selenium/selenium-server/3.0.1-server.jar",
+    "cli_args" : {
+      "webdriver.chrome.driver" : "node_modules/selenium-standalone/.selenium/chromedriver/2.27-x64-chromedriver"
+    }
   },
   "custom_commands_path" : "./tests/config/nightwatch",
 
@@ -23,7 +26,7 @@
       "desiredCapabilities": {
         "project": "Toga",
         "build": "build ",
-        "browserName": "phantomjs",
+        "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.local" : false,
