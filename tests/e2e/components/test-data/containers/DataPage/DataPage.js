@@ -1,11 +1,8 @@
 import React from 'react';
-import debug from 'debug';
 import { connect } from 'react-redux';
 
 import Data from '../../components/Data/Data';
 import { fetchSwapiData } from '../../actions';
-
-debug('toga:Data');
 
 const Error = ({ error }) => <div>
   <p>Error Loading !</p>

@@ -1,26 +1,25 @@
+/* global window */
 import React from 'react';
 import { Provider } from 'react-redux';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 import StaticRouter from 'react-router-dom/StaticRouter';
-import debug from 'debug';
 
-import DataPage from './containers/DataPage/DataPage';
 import configureStore from './store/configure-store';
-import { makeRoutes } from './routes';
+import * as routes from './routes';
 
-debug('base:Root');
-export const Router = typeof window !== 'undefined' ? BrowserRouter : StaticRouter;
+const Router = typeof window !== 'undefined' ? BrowserRouter : StaticRouter;
+const store = configureStore(typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined);
 
 export default class Root extends React.Component {
 
-  static childrenWtihNeeds = DataPage;
+  static store = store;
+  static routes = routes;
 
   render() {
-    const store = configureStore(typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined); // eslint-disable-line
     return (
       <Provider store={ store }>
         <Router {...this.props} >
-          {makeRoutes()}
+          {routes.makeRoutes()}
         </Router>
       </Provider>
     );

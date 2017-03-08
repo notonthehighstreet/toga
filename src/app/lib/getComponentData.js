@@ -33,21 +33,11 @@ module.exports = (deps) => {
     </Provider>
   );
 
-  const renderComponentWithData = (url, componentPath) => {
+  const renderComponentWithData = (url, componentPath, Component) => {
     const context = {};
-    let store;
-    let makeRoutes;
-    let routesArray;
-    try {
-      const configureStore = require(`${componentPath}/store/configure-store`);
-      const routes = require(`${componentPath}/routes`);
-      makeRoutes = routes.makeRoutes;
-      routesArray = routes.getRoutesConfig();
-      store = configureStore.default ? configureStore.default() : configureStore();
-    }
-    catch (e) {
-      throw new Error(`Store does not exist for component with needs : ${componentPath}/store/configure-store.js`);
-    }
+    const store = Component.store;
+    const makeRoutes = Component.routes.makeRoutes;
+    const routesArray = Component.routes.getRoutesConfig();
 
     return getRouteData(routesArray, url, store.dispatch).then(() => {
       return ({
@@ -65,8 +55,8 @@ module.exports = (deps) => {
   };
 
   return function getComponentWithData({ url, Component, props, componentPath }) {
-    return (Component.childrenWtihNeeds)
-      ? renderComponentWithData(url, componentPath)
+    return (Component.store)
+      ? renderComponentWithData(url, componentPath, Component)
       : renderComponentWithProps(Component, props);
   };
 };
