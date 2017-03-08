@@ -14,7 +14,6 @@ export function getRoutesConfig() {
   ];
 }
 
-
 export function makeRoutes() {
   return (
     <div>

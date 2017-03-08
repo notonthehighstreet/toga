@@ -62,7 +62,6 @@ class App extends React.Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     errors: state.data.errors,

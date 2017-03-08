@@ -17,7 +17,6 @@ export default class Root extends React.Component {
 
   render() {
     const store = configureStore(typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined); // eslint-disable-line
-    console.log(store.getState())
     return (
       <Provider store={ store }>
         <Router {...this.props} >

@@ -26,6 +26,7 @@ let fakeComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
+const url = chance.url();
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
 const deps = {
@@ -66,6 +67,7 @@ describe('renderComponent', () => {
     beforeEach(() => {
       subject = builder(deps);
       actualSubjectReturnValue = subject({
+        url,
         componentName: fakeComponentName,
         props: fakeComponentProps
       });
@@ -77,7 +79,8 @@ describe('renderComponent', () => {
         expect(fakeGetComponentWithData).to.be.calledWith({
           Component: MockComponent,
           componentPath: fakeComponentInfo[0].path,
-          props: fakeComponentProps
+          props: fakeComponentProps,
+          url
         });
       });
     });
@@ -116,6 +119,7 @@ describe('when the component uses export default', () => {
   beforeEach(() => {
     subject = builder(deps);
     actualSubjectReturnValue = subject({
+      url,
       componentName: fakeComponentName,
       props: fakeComponentProps
     });
@@ -128,7 +132,8 @@ describe('when the component uses export default', () => {
       expect(fakeGetComponentWithData).to.be.calledWith({
         Component: MockComponent.default,
         componentPath: fakeComponentInfo[0].path,
-        props: fakeComponentProps
+        props: fakeComponentProps,
+        url
       });
     });
   });
