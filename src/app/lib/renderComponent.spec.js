@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const expect = require('chai').expect;
 const mockery = require('mockery');
 const sinon = require('sinon');
@@ -18,12 +19,14 @@ const fakeGetComponentInfo = sandbox.stub().returns(fakeComponentInfo);
 
 const fakeReact = chance.word();
 const reactStub = sandbox.stub().returns(fakeReact);
+const fakeGetComponentWithData = sandbox.spy(({ Component, props, componentPath }) => ({ Component, initialState: {} }));
 const renderReactStub = sandbox.stub().returns(fakeRenderedComponent);
 let subject;
 let fakeComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
+const url = chance.url();
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
 const deps = {
@@ -37,6 +40,7 @@ const deps = {
     NotFoundError: fakeNotFoundError,
     InternalServerError: fakeInternalServerError
   },
+  '/lib/getComponentData': fakeGetComponentWithData,
   '/lib/getComponentInfo': fakeGetComponentInfo,
   debug: fakeDebug
 };
@@ -63,6 +67,7 @@ describe('renderComponent', () => {
     beforeEach(() => {
       subject = builder(deps);
       actualSubjectReturnValue = subject({
+        url,
         componentName: fakeComponentName,
         props: fakeComponentProps
       });
@@ -70,7 +75,13 @@ describe('renderComponent', () => {
 
     context('when the component uses module.exports', ()=>{
       it('renderReactStub is called with the correct args', () => {
-        expect(reactStub).to.be.calledWith(MockComponent, fakeComponentProps);
+        expect(fakeGetComponentWithData).to.be.called;
+        expect(fakeGetComponentWithData).to.be.calledWith({
+          Component: MockComponent,
+          componentPath: fakeComponentInfo[0].path,
+          props: fakeComponentProps,
+          url
+        });
       });
     });
 
@@ -108,6 +119,7 @@ describe('when the component uses export default', () => {
   beforeEach(() => {
     subject = builder(deps);
     actualSubjectReturnValue = subject({
+      url,
       componentName: fakeComponentName,
       props: fakeComponentProps
     });
@@ -117,7 +129,12 @@ describe('when the component uses export default', () => {
   });
   it('renderReactStub is called with the correct args', () => {
     return actualSubjectReturnValue.then(()=> {
-      expect(reactStub).to.be.calledWith(MockComponent.default, fakeComponentProps);
+      expect(fakeGetComponentWithData).to.be.calledWith({
+        Component: MockComponent.default,
+        componentPath: fakeComponentInfo[0].path,
+        props: fakeComponentProps,
+        url
+      });
     });
   });
 });

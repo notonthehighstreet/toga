@@ -13,7 +13,7 @@ module.exports = (deps) => {
       return Promise.resolve();
     }
     const renderer = raw ? renderRawMarkup : renderTestMarkup;
-    return renderComponent({ componentName, props })
+    return renderComponent({ url: req.url, componentName, props })
       .then((opts) => {
         const html = renderer({ ...opts, bundles });
         res.set('Content-Type', 'text/html');

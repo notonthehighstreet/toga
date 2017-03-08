@@ -1,5 +1,5 @@
 module.exports = (deps) => {
-  return ({ componentDOM, componentName, props, bundles }) => {
+  return ({ componentDOM, componentName, props, bundles, initialState }) => {
     const encode = deps['entities'].encodeHTML;
     const bundle = bundles[componentName];
     const vendorBundle = bundles['vendor'];
@@ -19,6 +19,9 @@ module.exports = (deps) => {
     <link rel="stylesheet" type="text/css" href='${bundle.css}'>
     </head>
     <body>
+    <script>
+      window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+    </script>
     <div toga="${encode(componentName)}" props='${encode(JSON.stringify(props))}'>${componentDOM}</div>
     ${ vendorBundle ? `<script src='${vendorBundle.js}'></script>` : '' }
     <script src='${bundle.js}'></script>
