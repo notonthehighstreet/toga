@@ -2,25 +2,33 @@ import React from 'react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 
-import Swapi from './containers/Swapi/Swapi';
+import DataPage from './containers/DataPage/DataPage';
 
 export function getRoutesConfig() {
   return [
     {
-      name: 'swapi',
+      name: 'DataPage',
       path: '/',
-      Component: Swapi
+      Component: DataPage
     }
   ];
 }
+
+const renderRouteWithComponent = ((route) => (
+  <Route {...route}
+         key={route.name}
+         render={(matchProps) => (
+            <route.Component {...matchProps}/>
+          )
+         }
+  />
+));
 
 export function makeRoutes() {
   return (
     <div>
       <Switch>
-        {getRoutesConfig().map((route) => <Route {...route} render={(matchProps) => (
-          <route.Component {...matchProps}/>
-        )}/>)}
+        {getRoutesConfig().map(renderRouteWithComponent)}
       </Switch>
     </div>
   );

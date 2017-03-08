@@ -4,7 +4,7 @@ import BrowserRouter from 'react-router-dom/BrowserRouter';
 import StaticRouter from 'react-router-dom/StaticRouter';
 import debug from 'debug';
 
-import Swapi from './containers/Swapi/Swapi';
+import DataPage from './containers/DataPage/DataPage';
 import configureStore from './store/configure-store';
 import { makeRoutes } from './routes';
 
@@ -13,7 +13,7 @@ export const Router = typeof window !== 'undefined' ? BrowserRouter : StaticRout
 
 export default class Root extends React.Component {
 
-  static childrenWtihNeeds = Swapi;
+  static childrenWtihNeeds = DataPage;
 
   render() {
     const store = configureStore(typeof window !== 'undefined' ? window.__INITIAL_STATE__ : undefined); // eslint-disable-line

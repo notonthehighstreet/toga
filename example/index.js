@@ -6,6 +6,7 @@ var multiple = require('./routes/multiple-components');
 var nested = require('./routes/nested-components');
 var multipleNested = require('./routes/multiple-nested-components');
 var communication = require('./routes/communication-component');
+var data = require('./routes/data-component');
 var bootstrapApp = require('../src/index');
 
 const server = express();
@@ -19,6 +20,7 @@ server.get('/multiple', multiple);
 server.get('/multiple-nested', multipleNested);
 server.get('/nested', nested);
 server.get('/communication', communication);
+server.get('/data', data);
 
 const { getHtml } = require('./utils');
 

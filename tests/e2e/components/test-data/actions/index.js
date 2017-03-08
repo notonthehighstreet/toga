@@ -1,12 +1,22 @@
-import { randomRange, json } from '../utils';
-
+import Chance from 'chance';
 export const FETCH_SWAPI_DATA = 'FETCH_SWAPI_DATA';
-const MAX = 87;
+
+const chance = new Chance();
 
 export function fetchSwapiData() {
-  const cardId = randomRange(1, MAX, 1)[0];
   return {
     type: FETCH_SWAPI_DATA,
-    payload: json.get(`http://swapi.co/api/people/${cardId}/`)
+    payload: new Promise((resolve) => {
+      setTimeout(() => resolve({
+        'name': chance.name(),
+        'height': chance.integer({ min: 90, max: 300 }),
+        'eye_color': chance.color(),
+        'birth_year': chance.birthday().toString(),
+        'gender': chance.gender(),
+        'created': chance.date().toString(),
+        'edited': chance.date().toString(),
+        'url': chance.url()
+      }), 350);
+    })
   };
 }

@@ -1,23 +1,23 @@
-.answer-option {
+.data-list {
   width: 49%;
   float: left;
   margin-right: 1%;
   padding: 1%;
   border: 1px dashed grey;
 
-  &--answer {
+  &--item {
     border: 2px solid green;
   }
 }
 
-.answer-option__title {
+.data-list__title {
   font-weight: bold;
   display: inline-block;
   width: 40%;
   min-width: 100px;
 }
 
-.answer-option__value {
+.data-list__value {
   display: inline-block;
   width: 60%;
   margin: 0;

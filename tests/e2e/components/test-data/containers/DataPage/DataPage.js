@@ -12,7 +12,7 @@ const Error = ({ error }) => <div>
   <p>{ error.message }</p>
 </div>;
 
-const Loading = () => <p>Loading ....</p>;
+const Loading = () => <p className="loading">Loading ....</p>;
 
 class App extends React.Component {
 
@@ -29,13 +29,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.fetch = this.fetch.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.props.data) {
-      return;
-    }
-    this.fetch();
   }
 
   fetch() {
