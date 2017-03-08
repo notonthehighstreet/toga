@@ -23,7 +23,7 @@
       "desiredCapabilities": {
         "project": "Toga",
         "build": "build ",
-        "browserName": "chrome",
+        "browserName": "phantomjs",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.local" : false,
