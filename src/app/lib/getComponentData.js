@@ -56,8 +56,8 @@ module.exports = (deps) => {
       });
   };
 
-  return function getComponentWithData({ url, Component, props, componentPath }, raw) {
-    return (Component.store && raw)
+  return function getComponentWithData({ url, Component, props, componentPath }) {
+    return (Component.store)
       ? renderComponentWithData(url, componentPath, Component, props)
       : renderComponentWithProps(Component, props);
   };
