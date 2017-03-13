@@ -16,6 +16,7 @@
     "install:selenium": "selenium-standalone install --version=3.0.1",
     "build": "NODE_ENV=production babel src -d dist",
     "start": "DEBUG=toga,toga:* NODE_ENV=production node ./dist/script/start/index.js --config ./app/config/application.js",
+    "debug": "DEBUG=toga,toga:* NODE_ENV=production devtool ./dist/script/start/index.js --config ./app/config/application.js",
     "example": "TOGA_SERVER_PORT=3001 DEBUG=toga,toga:* node ./example --components=./tests/e2e",
     "heroku": "nodemon ./dist/script/start/index.js --config ./app/config/application.js --config ./app/config/herokuOverrides.js",
     "dev": "DEBUG=toga,toga:* TOGA_SOURCE=dev babel-node ./src/script/start/index.js --config ./app/config/application.js --config ./app/config/devOverrides.js",
