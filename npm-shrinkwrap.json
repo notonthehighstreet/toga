@@ -1,6 +1,6 @@
 {
   "name": "noths-toga",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "dependencies": {
     "abab": {
       "version": "1.0.3",
