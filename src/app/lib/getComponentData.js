@@ -9,7 +9,7 @@ module.exports = (deps) => {
   const { Provider } = redux;
   const StaticRouter = staticRouter.default || staticRouter;
 
-  function getRouteData(routesArray, url, dispatch) {
+  function getRouteData(routesArray, url, dispatch, props) {
     const needs = [];
     routesArray
       .filter((route) => route.Component.needs)
@@ -17,29 +17,31 @@ module.exports = (deps) => {
         const match = matchPath.default(url, { path: route.path, exact: route.exact, strict: false }); // exact should be true
         if (match) {
           route.Component.needs.forEach((need) => {
-            const result = need(match.params);
+            const params = Object.assign({}, match.params, props);
+            const result = need(params);
             needs.push(dispatch(result));
           });
         }
       });
+
     return Promise.all(needs);
   }
 
   const Markup = ({ url, store, context, makeRoutes }) => (
     <Provider store={store}>
-      <StaticRouter location={url} context={ context } >
+      <StaticRouter location={url} context={ context }>
         {makeRoutes()}
       </StaticRouter>
     </Provider>
   );
 
-  const renderComponentWithData = (url, componentPath, Component) => {
+  const renderComponentWithData = (url, componentPath, Component, props) => {
     const context = {};
     const store = Component.store;
     const makeRoutes = Component.routes.makeRoutes;
     const routesArray = Component.routes.getRoutesConfig();
 
-    return getRouteData(routesArray, url, store.dispatch).then(() => {
+    return getRouteData(routesArray, url, store.dispatch, props).then(() => {
       return ({
         initialState: store.getState(),
         Component: Markup({ url, store, context, makeRoutes })
@@ -56,7 +58,7 @@ module.exports = (deps) => {
 
   return function getComponentWithData({ url, Component, props, componentPath }) {
     return (Component.store)
-      ? renderComponentWithData(url, componentPath, Component)
+      ? renderComponentWithData(url, componentPath, Component, props)
       : renderComponentWithProps(Component, props);
   };
 };
