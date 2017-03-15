@@ -14,21 +14,16 @@ export function getRoutesConfig() {
   ];
 }
 
-const renderRouteWithComponent = ((route) => (
-  <Route {...route}
-         key={route.name}
-         render={(matchProps) => (
-            <route.Component {...matchProps}/>
-          )
-         }
-  />
-));
-
-export function makeRoutes() {
+export function makeRoutes(props) {
   return (
     <div>
       <Switch>
-        {getRoutesConfig().map(renderRouteWithComponent)}
+        {getRoutesConfig().map((route) => (
+          <Route {...route}
+                 key={route.name}
+                 render={() => <route.Component initialState={ props }/> }
+          />
+        ))}
       </Switch>
     </div>
   );

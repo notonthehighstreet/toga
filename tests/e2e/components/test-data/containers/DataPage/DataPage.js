@@ -29,12 +29,11 @@ class App extends React.Component {
   }
 
   fetch() {
-    this.props.fetchSwapiData();
+    this.props.fetchSwapiData(this.props.initialState);
   }
 
   render() {
     const { errors = [], loading, data = {} } = this.props;
-
     return (
       <div id="data">
         <banner className="header">

@@ -7,7 +7,8 @@ module.exports = function data(req, res) {
     .then(() => getAssets(['test-data']))
     .then(({ scripts, styles }) => {
       assets = { scripts, styles };
-      return getHtml(['test-data.raw.html']);
+      const props = req.query && req.query.props ? `props=${req.query.props}` : '';
+      return getHtml([`test-data.raw.html?${props}`]);
     })
     .then((htmlStrings) => {
       res.send(html({

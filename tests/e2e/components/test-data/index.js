@@ -18,8 +18,8 @@ export default class Root extends React.Component {
   render() {
     return (
       <Provider store={ store }>
-        <Router {...this.props} >
-          {routes.makeRoutes()}
+        <Router  >
+          {routes.makeRoutes(this.props)}
         </Router>
       </Provider>
     );

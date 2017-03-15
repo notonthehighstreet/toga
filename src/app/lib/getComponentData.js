@@ -17,7 +17,7 @@ module.exports = (deps) => {
         const match = matchPath.default(url, { path: route.path, exact: route.exact, strict: false }); // exact should be true
         if (match) {
           route.Component.needs.forEach((need) => {
-            const params = Object.keys(match.params) > 0 ? match.params : props.initialState;
+            const params = Object.assign({}, match.params, props);
             const result = need(params);
             needs.push(dispatch(result));
           });
