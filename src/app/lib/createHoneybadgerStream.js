@@ -31,7 +31,7 @@ module.exports = (deps) => {
         };
         d('Sending error to Honeybadger %o', bunyanMessage.err);
         hb.send(bunyanMessage.err, errorMeta);
-        hb.on('sent', next);
+        next();
       }
     });
   };
