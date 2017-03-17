@@ -8,7 +8,7 @@ module.exports = (deps) => {
   const config = getConfig();
 
   const hash = buildHash();
-  const returnHash = () => hash;
+  const returnHash = () => new Date().getTime() + hash;
 
   const etagRequest = (req, res, next) => {
     if(req.get('If-None-Match') === hash) {
