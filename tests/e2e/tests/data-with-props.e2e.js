@@ -22,4 +22,11 @@ module.exports = {
     browser.expect.element('.data-list__item--0 .data-list__value').text.to.equal(fakeProps);
   },
 
+  ['data should not carry state from previous render'](browser) {
+    browser.pageLoaded('/data');
+    browser.expect.element('.data-list__item--0').to.be.present;
+    browser.expect.element('.data-list__item--0 .data-list__title').text.not.to.equal('props');
+    browser.expect.element('.data-list__item--0 .data-list__value').text.not.to.equal(fakeProps);
+  },
+
 };

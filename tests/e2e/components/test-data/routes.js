@@ -14,14 +14,14 @@ export function getRoutesConfig() {
   ];
 }
 
-export function makeRoutes(props) {
+export function makeRoutes() {
   return (
     <div>
       <Switch>
         {getRoutesConfig().map((route) => (
           <Route {...route}
                  key={route.name}
-                 render={() => <route.Component initialState={ props }/> }
+                 render={() => <route.Component /> }
           />
         ))}
       </Switch>
