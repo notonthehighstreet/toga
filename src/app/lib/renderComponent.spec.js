@@ -26,6 +26,10 @@ let fakeComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
+let fakeComponentInitialState = {
+  [chance.word()]: chance.word(),
+  [chance.word()]: chance.word()
+};
 const url = chance.url();
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
@@ -69,7 +73,8 @@ describe('renderComponent', () => {
       actualSubjectReturnValue = subject({
         url,
         componentName: fakeComponentName,
-        props: fakeComponentProps
+        props: fakeComponentProps,
+        componentInitialState: fakeComponentInitialState
       });
     });
 
@@ -80,7 +85,8 @@ describe('renderComponent', () => {
           Component: MockComponent,
           componentPath: fakeComponentInfo[0].path,
           props: fakeComponentProps,
-          url
+          url,
+          componentInitialState: fakeComponentInitialState
         });
       });
     });
@@ -121,7 +127,8 @@ describe('when the component uses export default', () => {
     actualSubjectReturnValue = subject({
       url,
       componentName: fakeComponentName,
-      props: fakeComponentProps
+      props: fakeComponentProps,
+      componentInitialState: fakeComponentInitialState
     });
   });
   afterEach(() => {
@@ -133,7 +140,8 @@ describe('when the component uses export default', () => {
         Component: MockComponent.default,
         componentPath: fakeComponentInfo[0].path,
         props: fakeComponentProps,
-        url
+        url,
+        componentInitialState: fakeComponentInitialState
       });
     });
   });

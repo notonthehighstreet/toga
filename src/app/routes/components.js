@@ -2,13 +2,17 @@ module.exports = (deps) => {
   return function createComponentRouter() {
     const {
       'express': express,
+      'body-parser': bodyParser,
       '/middleware/setComponentProps': setComponentProps,
-      '/middleware/getComponentHtml': getComponentHtml
+      '/middleware/componentHtml': componentHtml,
     } = deps;
     const router = express.Router();
 
     router.use('/:componentName.(raw\.|preview\.)?html', setComponentProps.html);
-    router.get('/:componentName.(raw\.|preview\.)?html', getComponentHtml);
+    router.get('/:componentName.(raw\.|preview\.)?html', componentHtml.getRaw);
+
+    router.use(bodyParser.json());
+    router.post('/:componentName.raw.html', componentHtml.postRaw);
 
     // needed for dev
     router.use('/', express.static('dist/components/', { etag: false }));

@@ -4,8 +4,9 @@ module.exports = (deps) => {
     'react' : React,
     'react-redux': redux,
     'react-router-dom/matchPath': matchPath,
-    'react-router-dom/StaticRouter': staticRouter,
+    'react-router-dom/StaticRouter': staticRouter
   } = deps;
+
   const { Provider } = redux;
   const StaticRouter = staticRouter.default || staticRouter;
 
@@ -27,6 +28,23 @@ module.exports = (deps) => {
     return Promise.all(needs);
   }
 
+  function setRouteData(routesArray, url, dispatch, initialState) {
+    const needs = [];
+    routesArray
+      .filter((route) => route.Component.data)
+      .forEach((route) => {
+        const match = matchPath.default(url, { path: route.path, exact: route.exact, strict: false }); // exact should be true
+        if (match) {
+          route.Component.data.forEach((dataDispatch) => {
+            const result = dataDispatch(initialState);
+            needs.push(dispatch(result));
+          });
+        }
+      });
+
+    return Promise.all(needs);
+  }
+
   const Markup = ({ url, store, context, makeRoutes }) => (
     <Provider store={store}>
       <StaticRouter location={url} context={ context }>
@@ -35,13 +53,21 @@ module.exports = (deps) => {
     </Provider>
   );
 
-  const renderComponentWithData = (url, componentPath, Component, props) => {
+  const renderComponentWithData = (url, componentPath, Component, props, componentInitialState) => {
+    let initStore;
     const context = {};
     const store = Component.store;
     const makeRoutes = Component.routes.makeRoutes;
     const routesArray = Component.routes.getRoutesConfig();
 
-    return getRouteData(routesArray, url, store.dispatch, props).then(() => {
+    if (componentInitialState) {
+      initStore = setRouteData(routesArray, url, store.dispatch, componentInitialState);
+    }
+    else {
+      initStore = getRouteData(routesArray, url, store.dispatch, props);
+    }
+
+    return initStore.then(() => {
       return ({
         initialState: store.getState(),
         Component: Markup({ url, store, context, makeRoutes })
@@ -56,9 +82,9 @@ module.exports = (deps) => {
       });
   };
 
-  return function getComponentWithData({ url, Component, props, componentPath }) {
+  return function getComponentWithData({ url, Component, props, componentPath, componentInitialState }) {
     return (Component.store)
-      ? renderComponentWithData(url, componentPath, Component, props)
+      ? renderComponentWithData(url, componentPath, Component, props, componentInitialState)
       : renderComponentWithProps(Component, props);
   };
 };
