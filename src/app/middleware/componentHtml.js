@@ -8,14 +8,14 @@ module.exports = (deps) => {
   } = deps;
 
   return {
-    getRaw(req, res, next) {
+    componentProps(req, res, next) {
       const { props, raw, preview, componentName } = req;
       if (!raw && !preview) {
         next();
         return Promise.resolve();
       }
       const renderer = raw ? renderRawMarkup : renderTestMarkup;
-      return renderComponent({ url: req.url, componentName, props })
+      return renderComponent({ url: req.url, componentName, componentData: { props } })
         .then((opts) => {
           const html = renderer({ ...opts, bundles });
           res.set('Content-Type', 'text/html');
@@ -26,14 +26,13 @@ module.exports = (deps) => {
         });
     },
 
-    postRaw(req, res, next) {
-      const { props, raw, componentName } = req;
-
+    componentData(req, res, next) {
+      const { raw, componentName } = req;
       if (!raw) {
         next();
         return Promise.resolve();
       }
-      return renderComponent({ url: req.url, componentName, props, componentInitialState: req.body })
+      return renderComponent({ url: req.url, componentName, componentData: { data: req.body } })
         .then((opts) => {
           const html = renderRawMarkup({ ...opts, bundles });
           res.set('Content-Type', 'text/html');

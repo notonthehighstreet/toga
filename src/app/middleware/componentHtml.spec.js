@@ -38,18 +38,18 @@ describe('componentRawHtml middleware', () => {
     sandbox.reset();
   });
 
-  describe('getRaw', () =>{
+  describe('componentProps', () =>{
     it('passes props', () => {
       fakeReq.props = { [chance.word()]: chance.word() };
       fakeRes.set.returns(fakeRes);
       fakeReq.preview = true;
       fakeReq.url = chance.url();
-      const result = subject.getRaw(fakeReq, fakeRes, fakeNext);
+      const result = subject.componentProps(fakeReq, fakeRes, fakeNext);
       return result.then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
         expect(fakeRenderTestMarkup).to.have.been.calledWith({ ...fakeRenderOptions });
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props, url: fakeReq.url});
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: fakeReq.props }, url: fakeReq.url});
       });
     });
 
@@ -58,12 +58,12 @@ describe('componentRawHtml middleware', () => {
       fakeReq.preview = true;
       fakeRes.set.returns(fakeRes);
       fakeReq.url = chance.url();
-      const result = subject.getRaw(fakeReq, fakeRes, fakeNext);
+      const result = subject.componentProps(fakeReq, fakeRes, fakeNext);
       return result.then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
         expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined, url: fakeReq.url});
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: undefined }, url: fakeReq.url});
       });
     });
 
@@ -72,11 +72,11 @@ describe('componentRawHtml middleware', () => {
       fakeReq.raw = true;
       fakeRes.set.returns(fakeRes);
       fakeReq.url = chance.url();
-      return subject.getRaw(fakeReq, fakeRes, fakeNext).then(()=> {
+      return subject.componentProps(fakeReq, fakeRes, fakeNext).then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
         expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined, url: fakeReq.url });
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: undefined }, url: fakeReq.url });
       });
     });
 
@@ -84,40 +84,38 @@ describe('componentRawHtml middleware', () => {
       delete fakeReq.props;
       fakeReq.preview = false;
       fakeReq.raw = false;
-      const result = subject.getRaw(fakeReq, fakeRes, fakeNext);
+      const result = subject.componentProps(fakeReq, fakeRes, fakeNext);
       return result.then(()=> {
         expect(fakeNext).to.have.been.calledOnce;
       });
     });
   });
 
-  describe('postRaw', () =>{
+  describe('componentData', () =>{
     it('passes body', () => {
-      delete fakeReq.props;
       fakeReq.body = { [chance.word()]: chance.word() };
       fakeRes.set.returns(fakeRes);
       fakeReq.raw = true;
       fakeReq.url = chance.url();
-      const result = subject.postRaw(fakeReq, fakeRes, fakeNext);
+      const result = subject.componentData(fakeReq, fakeRes, fakeNext);
       return result.then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props, url: fakeReq.url, componentInitialState: fakeReq.body});
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url, componentData:{ data: fakeReq.body } });
         expect(fakeRenderRawMarkup).to.have.been.calledWith({ ...fakeRenderOptions });
       });
     });
 
     it('responds with the rendered raw component', () => {
-      delete fakeReq.props;
       delete fakeReq.body;
       fakeReq.raw = true;
       fakeRes.set.returns(fakeRes);
       fakeReq.url = chance.url();
-      return subject.postRaw(fakeReq, fakeRes, fakeNext).then(()=> {
+      return subject.componentData(fakeReq, fakeRes, fakeNext).then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
         expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined, url: fakeReq.url, componentInitialState: undefined });
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url, componentData:{ data: undefined } });
       });
     });
 
@@ -125,7 +123,7 @@ describe('componentRawHtml middleware', () => {
       delete fakeReq.props;
       fakeReq.preview = false;
       fakeReq.raw = false;
-      const result = subject.postRaw(fakeReq, fakeRes, fakeNext);
+      const result = subject.componentData(fakeReq, fakeRes, fakeNext);
       return result.then(()=> {
         expect(fakeNext).to.have.been.calledOnce;
       });

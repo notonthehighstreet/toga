@@ -1,48 +1,49 @@
 /* eslint-disable no-param-reassign */
 module.exports = (deps) => {
   const {
-    'react' : React,
+    'react': React,
     'react-redux': redux,
     'react-router-dom/matchPath': matchPath,
     'react-router-dom/StaticRouter': staticRouter
   } = deps;
 
+  const ACTION_REQUIRED_WITH_PROPS = 'needs';
+  const ACTION_REQUIRED_WITH_DATA = 'data';
+
   const { Provider } = redux;
   const StaticRouter = staticRouter.default || staticRouter;
 
-  function getRouteData(routesArray, url, dispatch, props) {
-    const needs = [];
+  function routerActionDispatcher(routesArray, url, actionsVariableName, actionDispatcherPerRoute) {
+    const actionsToDispatch = [];
     routesArray
-      .filter((route) => route.Component.needs)
+      .filter((route) => route.Component[actionsVariableName])
       .forEach((route) => {
         const match = matchPath.default(url, { path: route.path, exact: route.exact, strict: false }); // exact should be true
         if (match) {
-          route.Component.needs.forEach((need) => {
-            const params = Object.assign({}, match.params, props);
-            const result = need(params);
-            needs.push(dispatch(result));
-          });
+          route.Component[actionsVariableName].forEach(actionDispatcherPerRoute(actionsToDispatch, match));
         }
       });
 
-    return Promise.all(needs);
+    return Promise.all(actionsToDispatch);
   }
 
-  function setRouteData(routesArray, url, dispatch, initialState) {
-    const needs = [];
-    routesArray
-      .filter((route) => route.Component.data)
-      .forEach((route) => {
-        const match = matchPath.default(url, { path: route.path, exact: route.exact, strict: false }); // exact should be true
-        if (match) {
-          route.Component.data.forEach((dataDispatch) => {
-            const result = dataDispatch(initialState);
-            needs.push(dispatch(result));
-          });
-        }
-      });
+  function getRouteData(routesArray, url, dispatch, props) {
+    return routerActionDispatcher(routesArray, url, ACTION_REQUIRED_WITH_PROPS, (actionsToDispatch, match) => {
+      return (actionToDispatch) => {
+        const params = Object.assign({}, match.params, props);
+        const result = actionToDispatch(params);
+        actionsToDispatch.push(dispatch(result));
+      };
+    });
+  }
 
-    return Promise.all(needs);
+  function setRouteData(routesArray, url, dispatch, data) {
+    return routerActionDispatcher(routesArray, url, ACTION_REQUIRED_WITH_DATA, (actionsToDispatch) => {
+      return (dataDispatch) => {
+        const result = dataDispatch(data);
+        actionsToDispatch.push(dispatch(result));
+      };
+    });
   }
 
   const Markup = ({ url, store, context, makeRoutes }) => (
@@ -53,18 +54,18 @@ module.exports = (deps) => {
     </Provider>
   );
 
-  const renderComponentWithData = (url, componentPath, Component, props, componentInitialState) => {
+  const renderComponentWithData = (url, componentPath, Component, componentData) => {
     let initStore;
     const context = {};
     const store = Component.store;
     const makeRoutes = Component.routes.makeRoutes;
     const routesArray = Component.routes.getRoutesConfig();
 
-    if (componentInitialState) {
-      initStore = setRouteData(routesArray, url, store.dispatch, componentInitialState);
+    if (componentData.data) {
+      initStore = setRouteData(routesArray, url, store.dispatch, componentData.data);
     }
     else {
-      initStore = getRouteData(routesArray, url, store.dispatch, props);
+      initStore = getRouteData(routesArray, url, store.dispatch, componentData.props);
     }
 
     return initStore.then(() => {
@@ -82,9 +83,9 @@ module.exports = (deps) => {
       });
   };
 
-  return function getComponentWithData({ url, Component, props, componentPath, componentInitialState }) {
+  return function getComponentWithData({ url, Component, componentData, componentPath }) {
     return (Component.store)
-      ? renderComponentWithData(url, componentPath, Component, props, componentInitialState)
-      : renderComponentWithProps(Component, props);
+      ? renderComponentWithData(url, componentPath, Component, componentData)
+      : renderComponentWithProps(Component, componentData.props);
   };
 };

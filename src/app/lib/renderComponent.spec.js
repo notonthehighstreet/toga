@@ -30,6 +30,10 @@ let fakeComponentInitialState = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
+let fakeComponentData = {
+  props: fakeComponentProps,
+  initialState: fakeComponentInitialState
+};
 const url = chance.url();
 const fakeNotFoundError = sandbox.stub().throws();
 const fakeInternalServerError = sandbox.stub().throws();
@@ -73,8 +77,7 @@ describe('renderComponent', () => {
       actualSubjectReturnValue = subject({
         url,
         componentName: fakeComponentName,
-        props: fakeComponentProps,
-        componentInitialState: fakeComponentInitialState
+        componentData: fakeComponentData
       });
     });
 
@@ -84,9 +87,8 @@ describe('renderComponent', () => {
         expect(fakeGetComponentWithData).to.be.calledWith({
           Component: MockComponent,
           componentPath: fakeComponentInfo[0].path,
-          props: fakeComponentProps,
-          url,
-          componentInitialState: fakeComponentInitialState
+          componentData: fakeComponentData,
+          url
         });
       });
     });
@@ -105,7 +107,7 @@ describe('renderComponent', () => {
 
     it('the component\'s props', () => {
       return actualSubjectReturnValue.then((callbackArguments) => {
-        expect(callbackArguments.props).to.deep.eq(fakeComponentProps);
+        expect(callbackArguments.props).to.deep.eq(fakeComponentData.props);
       });
     });
   });
@@ -127,8 +129,7 @@ describe('when the component uses export default', () => {
     actualSubjectReturnValue = subject({
       url,
       componentName: fakeComponentName,
-      props: fakeComponentProps,
-      componentInitialState: fakeComponentInitialState
+      componentData: fakeComponentData
     });
   });
   afterEach(() => {
@@ -139,9 +140,8 @@ describe('when the component uses export default', () => {
       expect(fakeGetComponentWithData).to.be.calledWith({
         Component: MockComponent.default,
         componentPath: fakeComponentInfo[0].path,
-        props: fakeComponentProps,
-        url,
-        componentInitialState: fakeComponentInitialState
+        componentData: fakeComponentData,
+        url
       });
     });
   });
