@@ -7,168 +7,124 @@ const chance = new Chance();
 
 let sandbox = sinon.sandbox.create();
 
-const fakeReact = chance.word();
-const reactStub = sandbox.stub();
+const url = chance.url();
+const mockReact = chance.word();
+const mockMarkup = sandbox.stub();
+const mockReactStub = sandbox.stub();
 
-const fakeMatchPath = { default: sandbox.stub().returns(true) };
-const fakeProvider = 'asfasdfsa';
-const fakeStaticRouter = sandbox.stub();
-
-const deps = {
-  'react': { createElement: reactStub },
-  'react-redux': ( ) => ({ Provider: fakeProvider}),
-  'react-router-dom/matchPath': fakeMatchPath,
-  'react-router-dom/StaticRouter': fakeStaticRouter
+const mockRouteOperations ={
+  getData: sandbox.stub().returns(Promise.resolve())
 };
 
-let fakeComponentProps = {
+const mockComponentProps = {
   [chance.word()]: chance.word(),
   [chance.word()]: chance.word()
 };
 
-const fakeComponentStore = {
+const mockStore = {
   dispatch: sandbox.stub(),
-  getState: sandbox.stub().returns(fakeComponentProps)
+  getState: sandbox.stub().returns(mockComponentProps)
 };
 
-const fakeComponentRoute ={
-  Component:{
-    needs: [],
-    data: []
-  }
-};
-
-const fakeComponentRoutes = {
-  getRoutesConfig: sandbox.stub().returns([fakeComponentRoute]),
+const mockComponentRoute = { Component:{ needs: [], data: [] } };
+const mockRoutes = {
+  getRoutesConfig: sandbox.stub().returns([mockComponentRoute]),
   makeRoutes: sandbox.stub()
 };
 
-const subect = builder(deps);
+describe('getComponentData', function()  {
+  let subect;
+  let returnedValue;
 
-const url = chance.url();
+  const deps = {
+    'react': { createElement: mockReactStub },
+    '/lib/components/markup': mockMarkup,
+    '/lib/components/route': mockRouteOperations
+  };
 
-describe('getComponentData', () => {
-  beforeEach(()=>{
-    reactStub.returns(fakeReact);
+  beforeEach(function() {
+    mockReactStub.returns(mockReact);
+    subect = builder(deps);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sandbox.reset();
   });
 
-  describe('renderComponentWithProps', () => {
+  describe('renderComponentWithProps', function() {
     const MockComponent = () => {};
 
-    it('react component render', () => {
-      const returnedValue = subect({ 
-        url, 
+    beforeEach(function() {
+      returnedValue = subect({
+        url,
         Component: MockComponent,
-        componentData: { props: fakeComponentProps }
+        props: mockComponentProps
       });
+    });
 
+    it('react component render', function() {
       return returnedValue.then((callbackArguments)=>{
-        expect(callbackArguments.Component).to.eq(fakeReact);
-        expect(reactStub).to.have.been.calledWith(MockComponent, fakeComponentProps);
+        expect(callbackArguments.Component).to.eq(mockReact);
+        expect(mockReactStub).to.have.been.calledWith(MockComponent, mockComponentProps);
       });
     });
   });
 
-  describe('renderComponentWithData', () => {
-    let returnedValue;
+  describe('renderComponentWithData', function() {
     const mockComponent = {
-      store: fakeComponentStore,
-      routes: fakeComponentRoutes
+      store: mockStore,
+      routes: mockRoutes
     };
 
-    describe('with data (getRouteData)', () =>  {
-      beforeEach(() => {
-        returnedValue = subect({
-          url,
-          Component: mockComponent,
-          componentData: { props: fakeComponentProps }
-        });
-      });
-
-      it('with empty routes', () => {
-        return returnedValue.then((callbackArguments)=>{
-          expect(callbackArguments.Component).to.eq(fakeReact);
-          expect(callbackArguments.initialState).to.eq(fakeComponentProps);
-
-          expect(fakeComponentStore.getState).to.have.been.calledOnce;
-          expect(fakeComponentRoutes.getRoutesConfig).to.have.been.calledOnce;
-          expect(fakeComponentRoutes.makeRoutes).to.have.been.calledOnce;
-
-          expect(fakeMatchPath.default).to.have.been.calledWith(url, { path: undefined, exact: undefined, strict: false });
-          expect(reactStub).to.have.been.calledTwice;
-        });
-      });
-
-      describe('with a props action', () => {
-        let needAction;
-        let needActionResult;
-
-        before(() => {
-          needActionResult = chance.word();
-          needAction = sandbox.stub().returns(needActionResult);
-
-          fakeComponentRoute.Component.needs = [needAction];
-        });
-
-        it('should be called setRouteData actionsDispatcher', () => {
-          return returnedValue.then(()=>{
-            expect(needAction).to.have.been.calledOnce;
-            expect(needAction).to.have.been.calledWithExactly(fakeComponentProps);
-
-            expect(fakeComponentStore.dispatch).to.have.been.calledOnce;
-            expect(fakeComponentStore.dispatch).to.have.been.calledWithExactly(needActionResult);
-          });
-        });
+    beforeEach(function() {
+      mockMarkup.returns(mockComponent);
+      returnedValue = subect({
+        url,
+        Component: mockComponent,
+        props: mockComponentProps
       });
     });
 
-    describe('with props (setRouteData)', () =>  {
-      beforeEach(() => {
-        returnedValue = subect({
+    it('should have called getState', function() {
+      return returnedValue.then(()=>{
+        expect(mockStore.getState).to.have.been.calledOnce;
+      });
+    });
+
+    it('should call upon RouteOperations.getData', function() {
+      return returnedValue.then(function() {
+        expect(mockRouteOperations.getData).to.have.been.calledOnce;
+        expect(mockRouteOperations.getData).to.have.been.calledWith(
+          [mockComponentRoute],
           url,
-          Component: mockComponent,
-          componentData: { data: fakeComponentProps }
-        });
+          mockComponent.store.dispatch,
+          mockComponentProps
+        );
       });
+    });
 
-      it('with empty routes', () => {
-        return returnedValue.then((callbackArguments)=>{
-          expect(callbackArguments.Component).to.eq(fakeReact);
-          expect(callbackArguments.initialState).to.eq(fakeComponentProps);
-          
-          expect(fakeComponentStore.getState).to.have.been.calledOnce;
-          expect(fakeComponentRoutes.getRoutesConfig).to.have.been.calledOnce;
-          expect(fakeComponentRoutes.makeRoutes).to.have.been.calledOnce;
-  
-          expect(fakeMatchPath.default).to.have.been.calledWith(url, { path: undefined, exact: undefined, strict: false });
-          expect(reactStub).to.have.been.calledTwice;
-        });
+    it('should call upon route.component.getRoutesConfig', function() {
+      return returnedValue.then(function() {
+        expect(mockRoutes.getRoutesConfig).to.have.been.calledOnce;
       });
+    });
 
-      describe('with a data action', () => {
-        let dataAction;
-        let dataActionResult;
+    it('should call upon Markup', function() {
+      return returnedValue.then(function() {
+        expect(mockMarkup).to.have.been.calledOnce;
+        expect(mockMarkup).to.have.been.calledWith({url, store: mockStore, context:{}, makeRoutes: mockRoutes.makeRoutes});
+      });
+    });
 
-        before(() => {
-          dataActionResult = chance.word();
-          dataAction = sandbox.stub().returns(dataActionResult);
+    it('should return Component', function() {
+      return returnedValue.then((callbackArguments)=>{
+        expect(callbackArguments.Component).to.eq(mockComponent);
+      });
+    });
 
-          fakeComponentRoute.Component.data = [dataAction];
-        });
-
-        it('should be called setRouteData actionsDispatcher', () => {
-          return returnedValue.then(()=>{
-            expect(dataAction).to.have.been.calledOnce;
-            expect(dataAction).to.have.been.calledWithExactly(fakeComponentProps);
-
-            expect(fakeComponentStore.dispatch).to.have.been.calledOnce;
-            expect(fakeComponentStore.dispatch).to.have.been.calledWithExactly(dataActionResult);
-          });
-        });
+    it('should return initialState', function() {
+      return returnedValue.then((callbackArguments)=>{
+        expect(callbackArguments.initialState).to.eq(mockComponentProps);
       });
     });
   });

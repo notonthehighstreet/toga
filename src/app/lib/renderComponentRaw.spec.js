@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const chance = new require('chance')();
-const builder = require('./renderComponent');
+const builder = require('./renderComponentRaw');
 
 const sandbox = sinon.sandbox.create();
 
@@ -20,12 +20,12 @@ describe('renderComponent', function() {
   };
 
   const mockRequireComponent = sandbox.stub();
-  const mockGetComponentData = sandbox.stub();
+  const mockSetComponentData = sandbox.stub();
 
   const deps = {
     'react-dom/server': { renderToString: sandbox.stub().returns(mockDOM) },
-    '/lib/getComponentData': mockGetComponentData,
-    '/lib/components/require': mockRequireComponent
+    '/lib/components/require': mockRequireComponent,
+    '/lib/setComponentData': mockSetComponentData,
   };
 
   afterEach(function() {
@@ -34,7 +34,7 @@ describe('renderComponent', function() {
 
   beforeEach(function() {
     mockRequireComponent.returns(Promise.resolve({ component: mockComponent.mock, path: mockComponent.path}));
-    mockGetComponentData.returns({ Component: {}, initialState: {}});
+    mockSetComponentData.returns({ Component: {}, initialState: {}});
   });
 
   describe('returns', function() {
@@ -49,11 +49,10 @@ describe('renderComponent', function() {
 
     it('renderReactStub is called with the correct args', function() {
       return subjectReturnValue.then(function() {
-        expect(mockGetComponentData).to.be.called;
-        expect(mockGetComponentData).to.be.calledWith({
+        expect(mockSetComponentData).to.be.called;
+        expect(mockSetComponentData).to.be.calledWith({
           url: mockUrl,
           Component: mockComponent.mock,
-          componentPath: mockComponent.path,
           props: mockComponent.props
         });
       });
@@ -73,7 +72,7 @@ describe('renderComponent', function() {
 
     it('the component\'s props', function() {
       return subjectReturnValue.then((callbackArguments) => {
-        expect(callbackArguments.props).to.deep.eq(mockComponent.props);
+        expect(callbackArguments.props).to.deep.eq({});
       });
     });
   });

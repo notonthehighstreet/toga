@@ -29,6 +29,7 @@ describe('componentRawHtml middleware', () => {
   const NotFoundError = sandbox.stub();
   const subject = builder({
     '/lib/renderComponent': renderComponentStub,
+    '/lib/renderComponentRaw': renderComponentStub,
     '/views/component-raw': fakeRenderRawMarkup,
     '/views/component-test': fakeRenderTestMarkup,
     '/lib/utils/errors': { NotFoundError }
@@ -49,7 +50,7 @@ describe('componentRawHtml middleware', () => {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
         expect(fakeRenderTestMarkup).to.have.been.calledWith({ ...fakeRenderOptions });
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: fakeReq.props }, url: fakeReq.url});
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: fakeReq.props, url: fakeReq.url});
       });
     });
 
@@ -63,7 +64,7 @@ describe('componentRawHtml middleware', () => {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(testRenderResposne);
         expect(fakeRenderTestMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: undefined }, url: fakeReq.url});
+        expect(renderComponentStub).to.have.been.calledWith({ componentName,  props: undefined, url: fakeReq.url});
       });
     });
 
@@ -76,7 +77,7 @@ describe('componentRawHtml middleware', () => {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
         expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, componentData: { props: undefined }, url: fakeReq.url });
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, props: undefined, url: fakeReq.url });
       });
     });
 
@@ -101,7 +102,7 @@ describe('componentRawHtml middleware', () => {
       return result.then(()=> {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url, componentData:{ data: fakeReq.body } });
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url,  props: fakeReq.body });
         expect(fakeRenderRawMarkup).to.have.been.calledWith({ ...fakeRenderOptions });
       });
     });
@@ -115,7 +116,7 @@ describe('componentRawHtml middleware', () => {
         expect(fakeRes.set).to.have.been.calledWith('Content-Type', 'text/html');
         expect(fakeRes.send).to.have.been.calledWith(rawRenderResposne);
         expect(fakeRenderRawMarkup).to.have.been.calledWith({...fakeRenderOptions});
-        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url, componentData:{ data: undefined } });
+        expect(renderComponentStub).to.have.been.calledWith({ componentName, url: fakeReq.url,  props: undefined });
       });
     });
 

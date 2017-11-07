@@ -1,37 +1,23 @@
 module.exports = (deps) => {
-  return function renderComponent({ url, componentName, componentData }) {
+  return function renderComponent({ url, componentName, props }) {
     const {
       'react-dom/server' : ReactDOMServer,
-      '/lib/getComponentInfo': getComponentInfo,
+      '/lib/components/require': requireComponent,
       '/lib/getComponentData': getComponentWithData,
-      '/lib/utils/errors': { InternalServerError },
-      debug
     } = deps;
-    const log = debug('toga:renderComponent');
-    const componentInfo = getComponentInfo(componentName)[0];
-    function requireComponent(componentPath) {
-      try {
-        return require(componentPath);
-      }
-      catch(e) {
-        log(e);
-        throw new InternalServerError(`${componentPath} require/Parsing error`);
-      }
-    }
 
-    return Promise.resolve(componentInfo.requirePath)
-      .then(requireComponent)
-      .then((component) => {
+    return requireComponent(componentName)
+      .then(({ component, path }) => {
         return getComponentWithData({
           url,
           Component: component.default || component,
-          componentData,
-          componentPath: componentInfo.path
+          props,
+          componentPath: path
         });
       })
       .then(({ Component, initialState }) => {
         const componentDOM = ReactDOMServer.renderToString(Component);
-        return { componentDOM, componentName, props: (componentData.props || {}), initialState };
+        return { componentDOM, componentName, props, initialState };
       });
   };
 };
