@@ -82,10 +82,15 @@ The vendor bundle file name can also be found at the `asset-bundles` end-point.
 
 You can pass props to components, just like you would any React component.
 
-One Toga is running and you can hit the component endpoint, user the query `?props={"prop-name":"prop-value"}` in the address bar (props must be valid JSON).  For example:
+### GET
+
+One Toga is running, you can hit the component endpoint, using the query `?props={"prop-name":"prop-value"}` in the address bar (props must be valid JSON).  For example:
 
 `http://localhost:8080/HelloWorld.html?props={"world":"waynes"}`
 
+### POST
+
+One Toga is running and you can hit the component endpoint, using a `POST` with a body containing your props. 
 
 ## Analysing your build
 
