@@ -37,6 +37,7 @@ module.exports = () => (root, opts = {}) => {
   log(JSON.stringify(cachedConfig, null, 2));
   log('NODE_ENV', process.env.NODE_ENV);
   log('TOGA_ENVIRONMENT', process.env.TOGA_ENVIRONMENT);
+  log('TOGA_FLUENTD_ENABLED', process.env.TOGA_FLUENTD_ENABLED);
 
   return cachedConfig;
 };
