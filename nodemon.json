@@ -1,6 +1,7 @@
 {
   "verbose": true,
-  "ignore": ["logs/", "*.json"],
-  "watch": ["app/", "components/"],
-  "ext": "svg js json scss"
+  "ignore": ["**/*.spec.js"],
+  "watch": ["src"],
+  "exec": "babel-node",
+  "ext": "js json html"
 }
