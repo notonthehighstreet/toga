@@ -9,7 +9,10 @@ module.exports = function bootstrap(initialState, options = {}) {
     : prodConfig(initialState);
 
   // Replace original logger by a custom one.
-  if (typeof options.logger === 'object' && typeof options.logger.log === 'function') {
+  if (typeof options.logger === 'object'
+      && typeof options.logger.info === 'function'
+      && typeof options.logger.warn === 'function'
+      && typeof options.logger.error === 'function') {
     const getLogger = () => options.logger;
 
     breadboardOptions = {
