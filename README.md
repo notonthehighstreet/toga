@@ -90,7 +90,7 @@ One Toga is running, you can hit the component endpoint, using the query `?props
 
 ### POST
 
-One Toga is running and you can hit the component endpoint, using a `POST` with a body containing your props. 
+One Toga is running and you can hit the component endpoint, using a `POST` with a body containing your props.
 
 ## Analysing your build
 
@@ -98,6 +98,22 @@ Once you have created your bundle (`npm run bundle -- --components=./components-
 This allows you to see if a small library is accidentally bloating your package.
 
 it will be generated in : `/dist/webpack-components-stats.html`
+
+## Logger
+
+By default, the logger used is based on `banyun` library. It writes to a file (default: `./toga.logstash.log`) and also sends information to `honeybadger`. However, you can pass a custom logger instance, when booting the `toga` server.
+```js
+let options = {
+  logger: loggerInstance
+};
+
+Toga(initialState, options).then(() => console.log('Server up and running'));
+```
+
+The new logger instance must have the following methods:
+- info
+- error
+- warn
 
 ## Contributing
 
