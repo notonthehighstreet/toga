@@ -2,9 +2,7 @@
 const argv = require('yargs')
   .usage('Usage: $0 --target=[string]')
   .argv;
-require('babel-core/register')({
-  only: [/app/, /tests/, /components/]
-});
+require('babel-core/register');
 // require("babel-polyfill");
 const hook = require('node-hook').hook;
 hook('.scss', (source, filename) => `console.log("${filename}");`);
