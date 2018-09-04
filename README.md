@@ -1,3 +1,5 @@
+[ THIS PACKAGE IS DEPRECATED ]
+
 # TOGA
 
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
