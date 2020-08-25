@@ -31,14 +31,6 @@
     "test-e2e": "TOGA_SERVER_PORT=3001 npm run nightwatch -- --components=./tests/e2e",
     "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
-  "pre-commit": [
-    "lint",
-    "test-cli",
-    "test"
-  ],
-  "pre-push": [
-    "test-e2e"
-  ],
   "nyc": {
     "include": [
       "src/app/**/*.js",

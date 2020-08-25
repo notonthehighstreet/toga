@@ -1,0 +1,19 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:6-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install node modules
+          command: npm install
+      - run:
+          name: Test CLI
+          command: npm run test-cli
+      - run:
+          name: Run unit tests
+          command: npm run test-unit
+      - run:
+          name: Run e2e tests
+          command: npm run test-e2e
