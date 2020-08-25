@@ -2,6 +2,10 @@
 
 # TOGA
 
+[![Depfu](https://badges.depfu.com/badges/c12253433559ecf4a9e4f0ea68a510b8/overview.svg)](https://depfu.com/github/notonthehighstreet/toga?project_id=15336)
+[![Depfu](https://badges.depfu.com/badges/c12253433559ecf4a9e4f0ea68a510b8/count.svg)](https://depfu.com/github/notonthehighstreet/toga?project_id=15336)
+
+
 [![Test Coverage](https://codeclimate.com/repos/56d6f79a4304122460007970/badges/70c559a8e7dbfc647eb1/coverage.svg)](https://codeclimate.com/repos/56d6f79a4304122460007970/coverage)
 [![CircleCI](https://circleci.com/gh/notonthehighstreet/toga/tree/master.svg?style=svg&circle-token=fad4a71fbda4e23fb196f5e4c63384bf7db66b6c)](https://circleci.com/gh/notonthehighstreet/toga/tree/master)
 
