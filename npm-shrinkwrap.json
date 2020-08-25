@@ -4,36 +4,6 @@
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
-    "@newrelic/koa": {
-      "version": "1.0.5",
-      "resolved": "https://registry.npmjs.org/@newrelic/koa/-/koa-1.0.5.tgz",
-      "integrity": "sha512-1zTojq9gW2mi0YblGrS86gCyL56+gbCn6o2+1UJJL3pFmBgp8IAMzZ93PkHHtdrbL3BnVMBrD2Q2WR32FbhIAg==",
-      "requires": {
-        "methods": "^1.1.2"
-      }
-    },
-    "@newrelic/native-metrics": {
-      "version": "2.4.0",
-      "resolved": "https://registry.npmjs.org/@newrelic/native-metrics/-/native-metrics-2.4.0.tgz",
-      "integrity": "sha512-6Pv2Z9vkinr0MTnH1BORBs/SFOdKei43tQo2z30h9NtTc1pmWb/n5VWjgp7ReZ7FwzTI2oIhjbgnk2gZzpl6bw==",
-      "optional": true,
-      "requires": {
-        "nan": "^2.8.0"
-      },
-      "dependencies": {
-        "nan": {
-          "version": "2.10.0",
-          "resolved": "https://registry.npmjs.org/nan/-/nan-2.10.0.tgz",
-          "integrity": "sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==",
-          "optional": true
-        }
-      }
-    },
-    "@tyriar/fibonacci-heap": {
-      "version": "2.0.7",
-      "resolved": "https://registry.npmjs.org/@tyriar/fibonacci-heap/-/fibonacci-heap-2.0.7.tgz",
-      "integrity": "sha512-DANf9u0VN5oWrRk31B+xCy9mMNx1H9YhWUaTzCzU0uBruj/zg8u9JSw5qpArntvfJxaW/gWGWbQtzpAkYO6VBg=="
-    },
     "abab": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/abab/-/abab-1.0.3.tgz",
@@ -3406,14 +3376,6 @@
       "version": "4.1.0",
       "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-4.1.0.tgz",
       "integrity": "sha1-3aA8qPn4m8WX5omEKSnee6jOvfA="
-    },
-    "es6-promisify": {
-      "version": "5.0.0",
-      "resolved": "https://registry.npmjs.org/es6-promisify/-/es6-promisify-5.0.0.tgz",
-      "integrity": "sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=",
-      "requires": {
-        "es6-promise": "^4.0.3"
-      }
     },
     "es6-set": {
       "version": "0.1.4",
@@ -7559,67 +7521,6 @@
       "resolved": "https://registry.npmjs.org/netmask/-/netmask-1.0.6.tgz",
       "integrity": "sha1-ICl+idhvb2QA8lDZ9Pa0wZRfzTU=",
       "dev": true
-    },
-    "newrelic": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/newrelic/-/newrelic-4.1.2.tgz",
-      "integrity": "sha1-hMFujk6ddj26WLxd+iXKohx3v3I=",
-      "requires": {
-        "@newrelic/koa": "^1.0.0",
-        "@newrelic/native-metrics": "^2.1.0",
-        "@tyriar/fibonacci-heap": "^2.0.7",
-        "async": "^2.1.4",
-        "concat-stream": "^1.5.0",
-        "https-proxy-agent": "^2.2.1",
-        "json-stringify-safe": "^5.0.0",
-        "readable-stream": "^2.1.4",
-        "semver": "^5.3.0"
-      },
-      "dependencies": {
-        "agent-base": {
-          "version": "4.2.0",
-          "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-4.2.0.tgz",
-          "integrity": "sha512-c+R/U5X+2zz2+UCrCFv6odQzJdoqI+YecuhnAJLa1zYaMc13zPfwMwZrr91Pd1DYNo/yPRbiM4WVf9whgwFsIg==",
-          "requires": {
-            "es6-promisify": "^5.0.0"
-          }
-        },
-        "async": {
-          "version": "2.6.1",
-          "resolved": "https://registry.npmjs.org/async/-/async-2.6.1.tgz",
-          "integrity": "sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==",
-          "requires": {
-            "lodash": "^4.17.10"
-          }
-        },
-        "debug": {
-          "version": "3.1.0",
-          "resolved": "https://registry.npmjs.org/debug/-/debug-3.1.0.tgz",
-          "integrity": "sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==",
-          "requires": {
-            "ms": "2.0.0"
-          }
-        },
-        "https-proxy-agent": {
-          "version": "2.2.1",
-          "resolved": "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-2.2.1.tgz",
-          "integrity": "sha512-HPCTS1LW51bcyMYbxUIOO4HEOlQ1/1qRaFWcyxvwaqUS9TY88aoEuHUY33kuAh1YhVVaDQhLZsnPd+XNARWZlQ==",
-          "requires": {
-            "agent-base": "^4.1.0",
-            "debug": "^3.1.0"
-          }
-        },
-        "lodash": {
-          "version": "4.17.10",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.10.tgz",
-          "integrity": "sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg=="
-        },
-        "ms": {
-          "version": "2.0.0",
-          "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
-          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
-        }
-      }
     },
     "nightwatch": {
       "version": "0.9.13",

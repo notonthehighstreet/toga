@@ -3,7 +3,6 @@ module.exports = function breadboardConfig(initialState) {
     entry: '/index',
     containerRoot: 'dist/app',
     initialState: initialState,
-    blacklist: ['newrelic'],
     substitutes: {
       'package.json': require('../package.json')
     }
