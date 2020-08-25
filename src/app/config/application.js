@@ -10,7 +10,6 @@ module.exports = {
     "host": process.env.TOGA_ASSETS_HOST,
     "prefix": 'toga-assets'
   },
-  "newRelicEnabled": process.env.TOGA_NEWRELIC_ENABLED,
   "logFile": process.env.TOGA_LOGFILE,
   "honeybadger": {
     "environment": process.env.TOGA_ENVIRONMENT,
