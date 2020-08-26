@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "repository": "https://github.com/notonthehighstreet/toga",
   "engines": {
-    "node": "^6.2.2",
-    "npm": "^3.10.3"
+    "node": "^12",
+    "npm": "^6"
   },
   "scripts": {
     "preexample": "TOGA_ASSETS_URL=localhost:3001 npm run bundle -- --components=./tests/e2e",
