@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:6.2
+FROM mhart/alpine-node:12
 
 RUN node -v
 RUN npm -v
