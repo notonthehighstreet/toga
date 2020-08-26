@@ -29,11 +29,7 @@
     "test-cli": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts 'bin/**/*.spec.js'",
     "test-unit": "NODE_ENV=production NODE_PATH=. _mocha --require ./tests/spec/specSetup.js --opts ./tests/config/mocha.opts '{src,tests/e2e,components}/**/*.spec.js'",
     "test-e2e": "TOGA_SERVER_PORT=3001 npm run nightwatch -- --components=./tests/e2e",
-    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js",
-    "preinstall": "npx npm-force-resolutions"
-  },
-  "resolutions": {
-    "graceful-fs": "^4.2.4"
+    "nightwatch": "nightwatch -o ./tests/e2e/tests_output -c ./tests/config/nightwatch.conf.js"
   },
   "nyc": {
     "include": [
@@ -75,6 +71,7 @@
     "express-domain-middleware": "0.1.0",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "~0.10.0",
+    "graceful-fs": "^4.2.4",
     "hash-files": "~1.1.1",
     "honeybadger": "0.9.1",
     "json-loader": "~0.5.4",
