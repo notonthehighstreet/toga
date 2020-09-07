@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const s3 = require('s3');
+const s3 = require('@auth0/s3');
 const { aws, assets } = require('../app/config/application');
 
 const client = s3.createClient({
