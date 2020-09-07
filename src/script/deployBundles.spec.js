@@ -18,7 +18,7 @@ describe('deployBundle', () => {
 
   beforeEach(() => {
     proxyquire('./deployBundles',  {
-      's3': fakeS3,
+      '@auth0/s3': fakeS3,
       '../app/config/application': fakeConfig
     });
   });
