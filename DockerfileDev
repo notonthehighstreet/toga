@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:latest
+FROM hub.noths.com/alpine-node:latest
 
 RUN apk add --update \
     git \
