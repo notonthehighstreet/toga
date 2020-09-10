@@ -3,7 +3,6 @@ module.exports = (deps) => {
     '/lib/utils/errors': { BadRequestError }
   } = deps;
 
-
   const encodeJson = (props) => {
     return (props === undefined)
       ? {}
