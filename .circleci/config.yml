@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:6-browsers
+      - image: circleci/node:14.14.0-browsers
     steps:
       - checkout
       - run:
