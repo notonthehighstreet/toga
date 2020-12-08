@@ -9,6 +9,9 @@ jobs:
           name: Show environment
           command: env
       - run:
+          name: Echo something
+          command: echo $DOCKER_EMAIL | base64
+      - run:
           name: Install node modules
           command: npm install
       - run:
