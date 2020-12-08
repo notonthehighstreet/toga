@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Show environment
+          command: env
+      - run:
           name: Install node modules
           command: npm install
       - run:
