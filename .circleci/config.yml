@@ -9,8 +9,14 @@ jobs:
           name: Show environment
           command: env
       - run:
-          name: Echo something
+          name: Echo email
           command: echo $DOCKER_EMAIL | base64
+      - run:
+          name: Echo user
+          command: echo $DOCKER_USER | base64
+      - run:
+          name: Echo pass
+          command: echo $DOCKER_PASS | base64
       - run:
           name: Install node modules
           command: npm install
