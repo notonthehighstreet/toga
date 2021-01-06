@@ -477,11 +477,11 @@
       "dev": true
     },
     "axios": {
-      "version": "0.15.3",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-0.15.3.tgz",
-      "integrity": "sha1-LJ1jiy4ZGgjqHWzJiOrda6W9wFM=",
+      "version": "0.21.1",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz",
+      "integrity": "sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==",
       "requires": {
-        "follow-redirects": "1.0.0"
+        "follow-redirects": "^1.10.0"
       }
     },
     "babel-cli": {
@@ -4060,12 +4060,9 @@
       "integrity": "sha1-2uRqnXj74lKSJYzB54CkHZXAN4I="
     },
     "follow-redirects": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.0.0.tgz",
-      "integrity": "sha1-jjQpjL0uF28lTv/sdaHHjMhJ/Tc=",
-      "requires": {
-        "debug": "^2.2.0"
-      }
+      "version": "1.13.1",
+      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.13.1.tgz",
+      "integrity": "sha512-SSG5xmZh1mkPGyKzjZP8zLjltIfpW32Y5QpdNJyjcfGxK3qo3NDDkZOZSFiGn1A6SclQxY9GzEwAHQ3dmYRWpg=="
     },
     "for-in": {
       "version": "1.0.2",
@@ -13666,8 +13663,8 @@
       "integrity": "sha1-8/XAw7pymafvmUJ+RGMyV63kMyA="
     },
     "toga-loader": {
-      "version": "git://github.com/notonthehighstreet/toga-loader.git#f8bf5a7f362ec5a316eb9e035b7e587f8aaff8eb",
-      "from": "notonthehighstreet/toga-loader#v1.0.4",
+      "version": "github:notonthehighstreet/toga-loader#f8bf5a7f362ec5a316eb9e035b7e587f8aaff8eb",
+      "from": "github:notonthehighstreet/toga-loader#v1.0.4",
       "requires": {
         "loader-utils": "^0.2.16"
       }
