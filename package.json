@@ -46,7 +46,7 @@
   "dependencies": {
     "@auth0/s3": "^1.0.0",
     "assets-webpack-plugin": "~3.5.1",
-    "async": "~1.5.0",
+    "async": "~3.2.2",
     "autoprefixer": "~6.7.2",
     "axios": "~0.15.1",
     "babel-cli": "6.24.0",
