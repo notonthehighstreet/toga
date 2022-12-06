@@ -68,7 +68,7 @@
     "deep-assign": "~2.0.0",
     "entities": "~1.1.1",
     "es6-promise": "4.1.0",
-    "express": "4.15.2",
+    "express": "4.18.2",
     "express-domain-middleware": "0.1.0",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "~0.10.0",
