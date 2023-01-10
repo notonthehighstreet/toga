@@ -64,7 +64,7 @@
     "compression": "~1.6.2",
     "cors": "~2.8.1",
     "css-loader": "~0.27.3",
-    "debug": "~2.6.1",
+    "debug": "~4.3.4",
     "deep-assign": "~2.0.0",
     "entities": "~1.1.1",
     "es6-promise": "4.1.0",
