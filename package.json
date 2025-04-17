@@ -102,7 +102,7 @@
     "svg-inline-loader": "~0.7.1",
     "toga-loader": "github:notonthehighstreet/toga-loader#v1.0.4",
     "url-loader": "~0.5.7",
-    "webpack": "~2.2.0",
+    "webpack": "~5.99.5",
     "webpack-isomorphic-tools": "~2.6.6",
     "webpack-visualizer-plugin": "~0.1.10",
     "yargs": "~6.6.0"
